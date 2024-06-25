@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import SidebarLinkGroup from './SidebarLinkGroup';
 import { Link } from '@inertiajs/react';
+import { Map, MapFill, PersonArmsUp } from 'react-bootstrap-icons';
 
 interface SidebarProps {
   sidebarOpen: boolean;
@@ -241,7 +242,16 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                 }}
               </SidebarLinkGroup>
               {/* <!-- Menu Item Blotter --> */}
+            </ul>
+          </div>
 
+          {/* <!-- Others Group --> */}
+          <div>
+            <h3 className="mb-4 ml-4 text-sm font-semibold text-bodydark2">
+              OTHERS
+            </h3>
+
+            <ul className="mb-6 flex flex-col gap-1.5">
               {/* <!-- Menu Item Profile --> */}
               <li>
                 <Link
@@ -270,17 +280,42 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                 </Link>
               </li>
               {/* <!-- Menu Item Profile --> */}
+
+              {/* <!-- Menu Item Profile --> */}
+              <li>
+                <Link
+                  href="/profile"
+                  className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 ${pathname.includes('profile') && 'bg-graydark dark:bg-meta-4'
+                    }`}
+                >
+                  <PersonArmsUp />
+                  Officials
+                </Link>
+              </li>
+              {/* <!-- Menu Item Officials --> */}
+
+              {/* <!-- Menu Item Map --> */}
+              <li>
+                <Link
+                  href="/profile"
+                  className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 ${pathname.includes('profile') && 'bg-graydark dark:bg-meta-4'
+                    }`}
+                >
+                  <Map />
+                  Brgy Map
+                </Link>
+              </li>
             </ul>
           </div>
+          {/* <!-- Menu Item Map --> */}
 
-          {/* <!-- Others Group --> */}
+          {/** Settings group */}
           <div>
             <h3 className="mb-4 ml-4 text-sm font-semibold text-bodydark2">
-              OTHERS
+              ACCOUNT
             </h3>
-
+            {/* <!-- Menu Item Settings --> */}
             <ul className="mb-6 flex flex-col gap-1.5">
-              {/* <!-- Menu Item Settings --> */}
               <li>
                 <Link
                   href="/settings"

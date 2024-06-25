@@ -54,7 +54,6 @@ const DropdownUser = () => {
     setTimeout(() => setIsLoading(false), 10000);
   }
 
-  console.log(user);
   return (
     <div className="relative">
       <button
@@ -67,7 +66,7 @@ const DropdownUser = () => {
           <span className="block text-sm font-medium text-black dark:text-white">
             {user?.name}
           </span>
-          <span className="block text-xs">Admin</span>
+          <span className="block text-xs">Brgy. Admin</span>
         </span>
 
         <span className="h-12 w-12 rounded-full">
