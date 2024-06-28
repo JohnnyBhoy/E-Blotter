@@ -16,7 +16,7 @@ class IsBarangay
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (Auth::user() &&  Auth::user()->user_role == 2) {
+        if (Auth::user() &&  Auth::user()->role == 2) {
             return $next($request);
         }
 

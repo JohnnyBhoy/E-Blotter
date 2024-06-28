@@ -18,14 +18,18 @@ return new class extends Migration
             $table->string('complainant_middle_name');
             $table->string('complainant_last_name');
             $table->string('complainant_qualifier');
-            $table->string('complainant_address_line_1');
+            $table->string('complainant_room');
+            $table->string('complainant_lot');
+            $table->string('complainant_block');
             $table->string('complainant_purok');
             $table->string('complainant_barangay');
             $table->string('complainant_city');
             $table->string('complainant_province');
             $table->string('complainant_region');
             $table->string('complainant_gender');
-            $table->tinyInteger('complainant_age');
+            $table->dateTime('complainant_birth_date');
+            $table->string('complainant_status');
+            $table->bigInteger('complainant_phone_number');
             $table->timestamps();
 
             $table->foreign('blotter_id')->references('id')->on('blotters');

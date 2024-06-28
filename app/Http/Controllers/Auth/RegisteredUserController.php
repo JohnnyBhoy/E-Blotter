@@ -42,6 +42,7 @@ class RegisteredUserController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|string|lowercase|email|max:255|unique:' . User::class,
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
+            'role' => 'required|integer',
             //'region_code' => 'required|integer|max:2',
             //'province_code' => 'required|integer|max:4',
             //'city_code' => 'required|integer|max:6',
@@ -52,6 +53,7 @@ class RegisteredUserController extends Controller
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
+            'role' => $request->role,
         ]);
 
         $userId = $this->userService->getByEmail($request->email);

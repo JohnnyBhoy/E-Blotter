@@ -28,6 +28,7 @@ const Register = () => {
         email: '',
         password: '',
         password_confirmation: '',
+        role: 2,
         region_code: 0,
         province_code: 0,
         city_code: 0,
@@ -373,7 +374,7 @@ const Register = () => {
                                                         Select region
                                                     </option>
                                                     {Object.entries(regions)?.map((region) => region[1])?.map((region: any) => (
-                                                        <option value={region?.region_code} className="text-body dark:text-bodydark" key={region.id}>
+                                                        <option value={parseInt(region?.region_code)} className="text-body dark:text-bodydark" key={region.id}>
                                                             {region?.region_name}
                                                         </option>
                                                     ))}
@@ -406,7 +407,7 @@ const Register = () => {
                                                     ?.filter((province) => parseInt(province.region_code) == data.region_code)
                                                     ?.map((province: any) => (
                                                         <option
-                                                            value={province?.province_code}
+                                                            value={parseInt(province?.province_code)}
                                                             className="text-body dark:text-bodydark"
                                                             key={province.id}>
                                                             {province?.province_name}
@@ -440,7 +441,7 @@ const Register = () => {
                                                     ?.filter((city) => parseInt(city.province_code) === data.province_code)
                                                     ?.map((city: any) => (
                                                         <option
-                                                            value={city?.city_code}
+                                                            value={parseInt(city?.city_code)}
                                                             className="text-body dark:text-bodydark"
                                                             key={city.id}>
                                                             {city?.city_name}
@@ -473,7 +474,7 @@ const Register = () => {
                                                 ?.filter((barangay) => parseInt(barangay.city_code) === data.city_code)
                                                 ?.map((barangay: any) => (
                                                     <option
-                                                        value={barangay?.brgy_code}
+                                                        value={parseInt(barangay?.brgy_code)}
                                                         className="text-body dark:text-bodydark"
                                                         key={barangay.id}>
                                                         {barangay?.brgy_name}

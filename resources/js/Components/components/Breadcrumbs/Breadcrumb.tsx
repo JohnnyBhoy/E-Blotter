@@ -1,4 +1,6 @@
-import { Link } from 'react-router-dom';
+import { Link } from "@inertiajs/react";
+import React from "react";
+
 interface BreadcrumbProps {
   pageName: string;
 }
@@ -12,8 +14,8 @@ const Breadcrumb = ({ pageName }: BreadcrumbProps) => {
       <nav>
         <ol className="flex items-center gap-2">
           <li>
-            <Link className="font-medium" to="/">
-              Dashboard /
+            <Link className="font-medium" href="/">
+              Blotter /
             </Link>
           </li>
           <li className="font-medium text-primary">{pageName}</li>
