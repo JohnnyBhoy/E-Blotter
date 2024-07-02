@@ -7,3 +7,5 @@ export const qualifiers = [
     { id: 6, qualifier: 'VI' },
     { id: 7, qualifier: 'VII' },
 ];
+
+export default qualifiers

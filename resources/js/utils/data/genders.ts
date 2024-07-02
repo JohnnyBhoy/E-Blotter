@@ -15,3 +15,5 @@ export const genders = [
     { id: 14, value: "Gender nonconforming" },
     { id: 15, value: "Neutrois" },
 ];
+
+export default genders

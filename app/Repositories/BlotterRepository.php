@@ -23,52 +23,84 @@ class BlotterRepository
     {
         // Create blotter
         $blotterAttribs = [
-            'user_id' => $request->get('user_id'),
-            'barangay_code' => $request->get('barangay_code'),
-            'blotter_number' => $request->get('blotter_number'),
-            'details' => $request->get('details'),
-            'encoder' => $request->get('encoder'),
+            'user_id',
+            'entry_number',
+            'barangay',
+            'date_reported',
+            'time_of_report',
+            'incident_type',
+            'narrative',
+            'remarks',
+            'complainant_signature',
+            'recorded_by',
+            'recorded_by_signature',
         ];
-        Blotter::create($blotterAttribs);
 
-        // Extract blotter id
-        $blotter = $this->getBlotterByNumber($request->get('blotter_number'));
+        $blotterCreatePairs = $this->createFilterHolder($blotterAttribs, $request);
+
+        Blotter::create($blotterCreatePairs);
+
+        //$blotter = $this->getBlotterByNumber($request->get('entry_number'));
 
         // Create complainants
         $complainantData = [
-            'blotter_id' => $blotter->id,
-            'complainant_first_name' => $request->get('complainant_first_name'),
-            'complainant_middle_name' => $request->get('complainant_middle_name'),
-            'complainant_last_name' => $request->get('complainant_last_name'),
-            'complainant_qualifier' => $request->get('complainant_qualifier'),
-            'complainant_address_line_1' => $request->get('complainant_address_line_1'),
-            'complainant_purok' => $request->get('complainant_purok'),
-            'complainant_barangay' => $request->get('complainant_barangay'),
-            'complainant_city' => $request->get('complainant_city'),
-            'complainant_province' => $request->get('complainant_province'),
-            'complainant_region' => $request->get('complainant_region'),
-            'complainant_gender' => $request->get('complainant_gender'),
-            'complainant_age' => $request->get('complainant_age'),
+            'blotter_id',
+            'complainant_family_name',
+            'complainant_first_name',
+            'complainant_middle_name',
+            'complainant_birth_date',
+            'complainant_place_of_birth',
+            'complainant_citizenship',
+            'complainant_gender',
+            'complainant_civil_status',
+            'complainant_occupation',
+            'complainant_education',
+            'complainant_email_address',
+            'complainant_street',
+            'complainant_village',
+            'complainant_barangay',
+            'complainant_city',
+            'complainant_province',
+            'complainant_region',
+            'complainant_work_street',
+            'complainant_work_village',
+            'complainant_work_barangay',
+            'complainant_work_city',
+            'complainant_work_province',
+            'complainant_work_region',
         ];
-        Complainant::create($complainantData);
+        $complainantCreatePairs = $this->createFilterHolder($complainantData, $request);
+        Complainant::create($complainantCreatePairs);
 
         // Create complainants
         $respondentData = [
-            'blotter_id' => $blotter->id,
-            'respondent_first_name' => $request->get('respondent_first_name'),
-            'respondent_middle_name' => $request->get('respondent_middle_name'),
-            'respondent_last_name' => $request->get('respondent_last_name'),
-            'respondent_qualifier' => $request->get('respondent_qualifier'),
-            'respondent_address_line_1' => $request->get('respondent_address_line_1'),
-            'respondent_purok' => $request->get('respondent_purok'),
-            'respondent_barangay' => $request->get('respondent_barangay'),
-            'respondent_city' => $request->get('respondent_city'),
-            'respondent_province' => $request->get('respondent_province'),
-            'respondent_region' => $request->get('respondent_region'),
-            'respondent_gender' => $request->get('respondent_gender'),
-            'respondent_age' => $request->get('respondent_age'),
+            'blotter_id',
+            'respondent_family_name',
+            'respondent_first_name',
+            'respondent_middle_name',
+            'respondent_birth_date',
+            'respondent_place_of_birth',
+            'respondent_citizenship',
+            'respondent_gender',
+            'respondent_civil_status',
+            'respondent_occupation',
+            'respondent_education',
+            'respondent_email_address',
+            'respondent_street',
+            'respondent_village',
+            'respondent_barangay',
+            'respondent_city',
+            'respondent_province',
+            'respondent_region',
+            'respondent_work_street',
+            'respondent_work_village',
+            'respondent_work_barangay',
+            'respondent_work_city',
+            'respondent_work_province',
+            'respondent_work_region',
         ];
-        return Respondent::create($respondentData);
+        $respondentCreatePairs = $this->createFilterHolder($respondentData, $request);
+        return Respondent::create($respondentCreatePairs);
     }
 
     /**
@@ -88,7 +120,7 @@ class BlotterRepository
      */
     public function getBlotterByNumber(int $blotter_number)
     {
-        return Blotter::where('blotter_number', $blotter_number)->pluck('id');
+        return Blotter::where('entry_number', $blotter_number)->pluck('id');
     }
 
     /**
@@ -122,5 +154,21 @@ class BlotterRepository
     {
         $blotter = Blotter::findOrFail($id);
         return $blotter->delete();
+    }
+
+    private function createFilterHolder(array $attribs, Request $request)
+    {
+        $filter = [];
+
+        foreach ($attribs as $attrib) {
+            if ($request->get($attrib)) {
+                $pair = [
+                    $attrib => $request->get($attrib)
+                ];
+                $filter[] = $pair;
+            }
+        }
+
+        return array_merge(...$filter);
     }
 }

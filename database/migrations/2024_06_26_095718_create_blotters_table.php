@@ -14,12 +14,16 @@ return new class extends Migration
         Schema::create('blotters', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id');
-            $table->integer('barangay_code');
-            $table->bigInteger('blotter_number');
-            $table->bigInteger('complainant_id');
-            $table->bigInteger('respondent_id');
-            $table->text('details');
-            $table->string('encoder');
+            $table->unsignedBigInteger('entry_number');
+            $table->string('barangay');
+            $table->string('date_reported');
+            $table->string('time_of_report');
+            $table->tinyInteger('incident_type');
+            $table->text('narrative');
+            $table->text('remarks');
+            $table->text('complainant_signature');
+            $table->string('recorded_by');
+            $table->text('recorded_by_signature');
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users');

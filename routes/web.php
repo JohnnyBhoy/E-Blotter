@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\BlotterController;
 use App\Http\Middleware\IsBarangay;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -30,6 +31,8 @@ Route::group(['middleware' => ['auth', 'verified', IsBarangay::class]], function
     Route::get($blotter, function () {
         return Inertia::render('Blotter/New');
     })->name('blotter.new');
+
+    Route::post($blotter, [BlotterController::class, 'create'])->name('blotter');
 });
 
 require __DIR__ . '/auth.php';

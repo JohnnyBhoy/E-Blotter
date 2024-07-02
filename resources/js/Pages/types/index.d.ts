@@ -1,12 +1,7 @@
 export interface User {
   id: number;
   name: string,
-  user_avatar: string,
-  first_name: string;
-  last_name: string;
-  account_type: string;
-  valid_email: string;
-  company_name: string;
+  role: number;
   email_verified_at: string;
   email: string;
   $inertia: string;

@@ -13,11 +13,15 @@ class Blotter extends Model
      */
     protected $fillable = [
         'user_id',
-        'barangay_code',
-        'blotter_number',
-        'complainant_id',
-        'respondent_id',
-        'details',
-        'encoder',
+        'entry_number',
+        'barangay',
+        'date_reported',
+        'time_of_report',
+        'incident_type',
+        'narrative',
+        'remarks',
+        'complainant_signature',
+        'recorded_by',
+        'recorded_by_signature',
     ];
 }

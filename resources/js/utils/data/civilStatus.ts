@@ -1,9 +1,11 @@
 export const civilStatus = [
-    { id: 1, status: 'Single' },
-    { id: 2, status: 'Married.' },
-    { id: 3, status: 'Divorced' },
-    { id: 4, status: 'Widowed' },
-    { id: 5, status: 'Separated' },
-    { id: 6, status: 'Civil Union' },
-    { id: 7, status: 'Domestic Partnership' },
+    { id: 1, value: 'Single' },
+    { id: 2, value: 'Married.' },
+    { id: 3, value: 'Divorced' },
+    { id: 4, value: 'Widowed' },
+    { id: 5, value: 'Separated' },
+    { id: 6, value: 'Civil Union' },
+    { id: 7, value: 'Domestic Partnership' },
 ];
+
+export default civilStatus
