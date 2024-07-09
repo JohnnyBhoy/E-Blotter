@@ -144,6 +144,8 @@ const ChartOne: React.FC = () => {
   };
   handleReset;
 
+  const date = new Date;
+
   return (
     <div className="col-span-12 rounded-sm border border-stroke bg-white px-5 pt-7.5 pb-5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:col-span-8">
       <div className="flex flex-wrap items-start justify-between gap-3 sm:flex-nowrap">
@@ -154,7 +156,9 @@ const ChartOne: React.FC = () => {
             </span>
             <div className="w-full">
               <p className="font-semibold text-primary">Total Blotter</p>
-              <p className="text-sm font-medium">12.04.2022 - 12.05.2022</p>
+              <p className="text-sm font-medium">
+                {date.getFullYear() - 1}.{date.getMonth() + 1}.{date.getDate()} - {date.getFullYear()}.{date.getMonth() + 1}.{date.getDate()}
+              </p>
             </div>
           </div>
           <div className="flex min-w-47.5">
@@ -163,7 +167,9 @@ const ChartOne: React.FC = () => {
             </span>
             <div className="w-full">
               <p className="font-semibold text-secondary">Total Crime</p>
-              <p className="text-sm font-medium">12.04.2022 - 12.05.2022</p>
+              <p className="text-sm font-medium">
+                {date.getFullYear() - 1}.{date.getMonth() + 1}.{date.getDate()} - {date.getFullYear()}.{date.getMonth() + 1}.{date.getDate()}
+              </p>
             </div>
           </div>
         </div>

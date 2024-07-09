@@ -24,7 +24,7 @@ return new class extends Migration
             $table->tinyInteger('complainant_civil_status');
             $table->tinyInteger('complainant_occupation');
             $table->tinyInteger('complainant_education');
-            $table->string('complainant_email_address')->default(null);
+            $table->string('complainant_email_address')->nullable();
             $table->string('complainant_street');
             $table->string('complainant_village');
             $table->integer('complainant_barangay');

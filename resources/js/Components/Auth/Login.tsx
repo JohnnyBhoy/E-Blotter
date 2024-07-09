@@ -1,8 +1,9 @@
-import { Link, useForm } from '@inertiajs/react';
+import { Link, router, useForm } from '@inertiajs/react';
 import React, { FormEvent, useEffect } from 'react';
 import { Hypnotize } from 'react-bootstrap-icons';
 import InputError from '../InputError';
 import { useLoginRegisterStore } from '@/utils/store/loginRegisterStore';
+import SweetAlert from '@/utils/functions/Sweetalert';
 
 type Data = {
     email: string;
@@ -15,6 +16,8 @@ const Login = () => {
         password: '',
         remember: false,
     });
+
+    const currentPage = window.location.pathname;
 
     // Global states
     const { setShowLogin, setShowRegister } = useLoginRegisterStore();
@@ -36,6 +39,17 @@ const Login = () => {
 
         post(route('login'));
     };
+
+
+    if (errors.email) {
+        SweetAlert('Failed to login',
+            'Incorrect email or password, Please try again.',
+            'error',
+            2000
+        );
+
+        errors.email = undefined;
+    }
 
     return (
         <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark mt-3">

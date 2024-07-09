@@ -5,6 +5,7 @@ namespace App\Repositories;
 use App\Models\User;
 use App\Models\UserAddress;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Facades\DB;
 
 /**
  * Class UserRepository.
@@ -18,7 +19,10 @@ class UserRepository
      */
     public function get(int $id)
     {
-        return User::findOrFail($id);
+        return DB::table('users as u')
+            ->leftJoin('user_addresses as a', 'u.id', '=', 'a.user_id')
+            ->where('u.id', $id)
+            ->first();
     }
 
     /**

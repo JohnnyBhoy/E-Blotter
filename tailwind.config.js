@@ -249,6 +249,29 @@ export default {
                     "0%, 100%": { transform: "rotate(360deg)" },
                     "50%": { transform: "rotate(0deg)" },
                 },
+                fadeIn: {
+					from: { opacity: 0 },
+					to: { opacity: 1 },
+				},
+                "fade-in-left": {
+                    "0%": {
+                        opacity: 0,
+                        transform: "translate3d(-100%, 0, 0)",
+                    },
+                    "100%": {
+                        opacity: 1,
+                        transform: "translate3d(0, 0, 0)",
+                    },
+                },
+                "slide-in-right": {
+                    "0%": {
+                        visibility: "visible",
+                        transform: "translate3d(100%, 0, 0)",
+                    },
+                    "100%": {
+                        transform: "translate3d(0, 0, 0)",
+                    },
+                },
             },
             animation: {
                 "ping-once": "ping 5s cubic-bezier(0, 0, 0.2, 1)",
@@ -256,6 +279,9 @@ export default {
                 "spin-1.5": "spin 1.5s linear infinite",
                 "spin-2": "spin 2s linear infinite",
                 "spin-3": "spin 3s linear infinite",
+                fade: 'fadeIn .5s ease-in-out',
+                fadeinleft: 'fade-in-left 1s ease-in-out 0.25s 1',
+                slideinright: 'slide-in-right 1s ease-in-out 0.25s 1',
             },
         },
     },

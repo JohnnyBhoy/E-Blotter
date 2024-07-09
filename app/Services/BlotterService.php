@@ -4,6 +4,8 @@ namespace App\Services;
 
 use Illuminate\Support\Collection;
 use App\Repositories\BlotterRepository;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use Illuminate\Http\Request;
 use PhpParser\Node\Expr\Cast\Object_;
 
 class BlotterService
@@ -19,15 +21,14 @@ class BlotterService
     }
 
     /**
-     * Method to create blotter data based on
-     * @param \Illuminate\Http\Request $request The HTTP request
+     * Method to get latest blotter data based on
+     * @param int $userId Barangay user ID
      * @return \App\Models\Blotter
      */
-    public function create($request)
+    public function getLatest(Int $userId)
     {
-        return $this->blotter->create($request);
+        return $this->blotter->getLatest($userId);
     }
-
 
     /**
      * Method to get blotter data based on
@@ -38,6 +39,19 @@ class BlotterService
     {
         return $this->blotter->get($id);
     }
+
+
+    /**
+     * Method to create blotter data based on
+     * @param \Illuminate\Http\Request $request The HTTP request
+     * @param int $userId User ID
+     * @return \App\Models\Blotter
+     */
+    public function create(Request $request, Int $userId)
+    {
+        return $this->blotter->create($request, $userId);
+    }
+
 
     /**
      * Method to update blotter data based on
@@ -58,5 +72,20 @@ class BlotterService
     public function delete(Int $id)
     {
         return $this->blotter->delete($id);
+    }
+
+
+    /**
+     * Method to get all blotter data based on
+     * @param int $perPage Data record display
+     * @param int $page Data page display
+     * @param int $userId ID of the barangay
+     * @param string $keyword  Filter
+     *
+     * @return LengthAwarePaginator
+     */
+    public function getAll(Int $perPage, Int $page, String $keyword, Int $userId)
+    {
+        return $this->blotter->getAll($perPage,  $page,  $keyword, $userId);
     }
 }

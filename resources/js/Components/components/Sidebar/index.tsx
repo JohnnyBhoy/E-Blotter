@@ -1,7 +1,8 @@
-import React, { useEffect, useRef, useState } from 'react';
-import SidebarLinkGroup from './SidebarLinkGroup';
+import { useLoginRegisterStore } from '@/utils/store/loginRegisterStore';
 import { Link } from '@inertiajs/react';
-import { Map, MapFill, PersonArmsUp } from 'react-bootstrap-icons';
+import React, { useEffect, useRef, useState } from 'react';
+import { Map, PersonArmsUp } from 'react-bootstrap-icons';
+import SidebarLinkGroup from './SidebarLinkGroup';
 
 interface SidebarProps {
   sidebarOpen: boolean;
@@ -9,11 +10,13 @@ interface SidebarProps {
 }
 
 const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
+  const { setShowLogout } = useLoginRegisterStore();
+
   const pathname = window.location.pathname;
 
   const trigger = useRef<any>(null);
   const sidebar = useRef<any>(null);
-  const Logo = './images/logo/e-blotter.ico';
+  const Logo = './images/logo/e-blotter.png';
 
   const storedSidebarExpanded = localStorage.getItem('sidebar-expanded');
   const [sidebarExpanded, setSidebarExpanded] = useState(
@@ -106,7 +109,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
               <li>
                 <Link
                   href="/dashboard"
-                  className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 ${pathname.includes('profile') && 'bg-graydark dark:bg-meta-4'
+                  className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 ${pathname.includes('dashboard') && 'bg-graydark dark:bg-meta-4'
                     }`}
                 >
                   <svg
@@ -152,8 +155,8 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                     <React.Fragment>
                       <Link
                         href="#"
-                        className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 ${(pathname === '/forms' ||
-                          pathname.includes('forms')) &&
+                        className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 ${(pathname === '/blotter' ||
+                          pathname.includes('blotter')) &&
                           'bg-graydark dark:bg-meta-4'
                           }`}
                         onClick={(e) => {
@@ -210,7 +213,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                           </li>
                           <li>
                             <Link
-                              href="/forms/form-layout"
+                              href="/blotter/blotters"
                               className='group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-bodydark2 duration-300 ease-in-out hover:text-white '
                             >
                               Blotter entries
@@ -266,8 +269,8 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
               {/* <!-- Menu Item Profile --> */}
               <li>
                 <Link
-                  href="/profile"
-                  className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 ${pathname.includes('profile') && 'bg-graydark dark:bg-meta-4'
+                  href="/officials"
+                  className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 ${pathname.includes('officials') && 'bg-graydark dark:bg-meta-4'
                     }`}
                 >
                   <PersonArmsUp />
@@ -279,8 +282,8 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
               {/* <!-- Menu Item Map --> */}
               <li>
                 <Link
-                  href="/profile"
-                  className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 ${pathname.includes('profile') && 'bg-graydark dark:bg-meta-4'
+                  href="/map"
+                  className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 ${pathname.includes('map') && 'bg-graydark dark:bg-meta-4'
                     }`}
                 >
                   <Map />
@@ -340,8 +343,8 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
               {/* <!-- Menu Item Settings --> */}
               {/* <!-- Logout --> */}
               <li>
-                <Link
-                  href="/chart"
+                <button
+                  onClick={() => setShowLogout(true)}
                   className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 ${pathname.includes('chart') && 'bg-graydark dark:bg-meta-4'
                     }`}
                 >
@@ -375,7 +378,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                     </defs>
                   </svg>
                   Log out
-                </Link>
+                </button>
               </li>
               {/* <!-- Logout --> */}
             </ul >

@@ -36,7 +36,7 @@ const DropdownHelp = () => {
 
   return (
     <li className="relative">
-      <Link
+      <a
         ref={trigger}
         onClick={() => {
           setNotifying(false);
@@ -53,7 +53,7 @@ const DropdownHelp = () => {
         </span>
 
         <QuestionCircle />
-      </Link>
+      </a>
 
       <div
         ref={dropdown}

@@ -9,9 +9,11 @@ import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { PageProps } from "@/Pages/types";
 import { Head } from "@inertiajs/react";
 import React from "react";
-import { Book, BookFill, File } from "react-bootstrap-icons";
+import { Book } from "react-bootstrap-icons";
 
-export default function Dashboard({ auth }: PageProps) {
+export default function Dashboard({ auth, data }: PageProps<{ data: number }>) {
+    console.log(data);
+
     return (
         <AuthenticatedLayout
             user={auth.user}
@@ -23,10 +25,10 @@ export default function Dashboard({ auth }: PageProps) {
         >
             <Head title="Dashboard" />
             <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6 xl:grid-cols-4 2xl:gap-7.5">
-                <CardDataStats title="Total Blotters" total="0" rate="0%" levelUp>
+                <CardDataStats title="Total Blotters" total={`${data}`} rate={`${data}`} levelUp>
                     <Book size={24} color="blue" />
                 </CardDataStats>
-                <CardDataStats title="Total Cases" total="0" rate="0%" levelUp>
+                <CardDataStats title="Total Cases" total={`${data}`} rate={`${data}`} levelUp>
                     <svg
                         className="fill-primary dark:fill-white"
                         width="20"
@@ -49,7 +51,7 @@ export default function Dashboard({ auth }: PageProps) {
                         />
                     </svg>
                 </CardDataStats>
-                <CardDataStats title="Total Crimes" total="0" rate="0%" levelUp>
+                <CardDataStats title="Total Crimes" total={`${data}`} rate={`${data}`} levelUp>
                     <svg
                         className="fill-primary dark:fill-white"
                         width="22"
@@ -68,7 +70,7 @@ export default function Dashboard({ auth }: PageProps) {
                         />
                     </svg>
                 </CardDataStats>
-                <CardDataStats title="Total Uploaded" total="0" rate="0%" levelDown>
+                <CardDataStats title="Total Uploaded" total={`${data}`} rate={`${data}`} levelDown>
                     <svg
                         className="fill-primary dark:fill-white"
                         width="22"
@@ -103,7 +105,7 @@ export default function Dashboard({ auth }: PageProps) {
                 </div>
                 <ChatCard />
             </div>
-        </AuthenticatedLayout>
+        </AuthenticatedLayout >
     );
 
 }

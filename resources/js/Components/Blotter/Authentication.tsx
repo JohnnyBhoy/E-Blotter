@@ -1,5 +1,4 @@
 import React from 'react';
-import FormInput from '../FormInput';
 
 type Data = {
     id: number;
@@ -17,33 +16,36 @@ const Authentication = ({ data, setData }: { data: any; setData: CallableFunctio
             </div>
             <div className="lg:flex lg:gap-5.5 p-2 w-full space-y-6 lg:space-y-0">
                 <div className="lg:w-1/2 w-full">
-                    <FormInput
-                        title="complainant_signature"
-                        data={data?.complainant_signature}
-                        setData={setData}
+                    <label className="text-xs bg-white dark:bg-transparent absolute ml-3 mt-[-.4rem]">
+                        Signature of Complainant/Reporting Person *
+                    </label>
+                    <input
+                        value={data?.complainant_signature}
                         type="file"
-                        placeholder=""
-                        label="Signature of Complainant/Reporting Person *"
+                        onChange={(e) => setData('complainant_signature', e.target.value)}
+                        className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent py-2 px-5 text-sm text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
                     />
                 </div>
                 <div className="lg:w-1/2 w-full">
-                    <FormInput
-                        title="recorded_by"
-                        data={data?.recorded_by}
-                        setData={setData}
+                    <label className="text-xs bg-white dark:bg-transparent absolute ml-3 mt-[-.4rem]">
+                        Recorded by (Full Name) *
+                    </label>
+                    <input
+                        value={data?.recorded_by}
                         type="text"
-                        placeholder=""
-                        label="Recorded by (Full Name) *"
+                        onChange={(e) => setData('recorded_by', e.target.value)}
+                        className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent py-2 px-5 text-sm text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
                     />
                 </div>
                 <div className="lg:w-1/2 w-full">
-                    <FormInput
-                        title="recorded_by_signature"
-                        data={data?.recorded_by_signature}
-                        setData={setData}
+                    <label className="text-xs bg-white dark:bg-transparent absolute ml-3 mt-[-.4rem]">
+                        Signature of Recorder
+                    </label>
+                    <input
+                        value={data?.recorded_by_signature}
                         type="file"
-                        placeholder=""
-                        label="Signature of Recorder"
+                        onChange={(e) => setData('recorded_by_signature', e.target.value)}
+                        className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent py-2 px-5 text-sm text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
                     />
                 </div>
                 {/** End work address */}

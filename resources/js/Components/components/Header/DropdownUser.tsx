@@ -11,14 +11,14 @@ const DropdownUser = () => {
 
   const trigger = useRef<any>(null);
   const dropdown = useRef<any>(null);
-  const UserOne = '/images/user/user-01.png';
+  const UserOne = '/images/user/admin.png';
 
 
   // Global state
-  const { setShowLogin, setShowRegister } = useLoginRegisterStore();
+  const { setShowLogin, setShowRegister, setShowLogout, showLogout } = useLoginRegisterStore();
 
   // Local state
-  const [confirmLogout, setConfirmLogout] = useState<boolean>(false);
+  // const [confirmLogout, setConfirmLogout] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   // close on click outside
@@ -51,7 +51,11 @@ const DropdownUser = () => {
   const handleLogout = () => {
     setShowLogin(false);
     setIsLoading(true);
-    setTimeout(() => setIsLoading(false), 10000);
+
+    setTimeout(() => {
+      setShowLogout(false);
+      setIsLoading(false);
+    }, 10000);
   }
 
   return (
@@ -172,7 +176,7 @@ const DropdownUser = () => {
           </li>
         </ul>
         <button
-          onClick={() => setConfirmLogout(true)}
+          onClick={() => setShowLogout(true)}
           type="button"
           className="flex items-center gap-3.5 px-6 py-4 text-sm font-medium duration-300 ease-in-out hover:text-primary lg:text-base">
           <svg
@@ -196,9 +200,9 @@ const DropdownUser = () => {
         </button>
         {/* Logout confirmation modal*/}
         <Modal
-          show={confirmLogout}
+          show={showLogout}
           maxWidth='md'
-          onClose={() => setConfirmLogout(false)}>
+          onClose={() => setShowLogout(false)}>
           <div className="p-10">
             <h1 className="font-bold text-xl">
               Are you sure you want to sign out?
@@ -206,7 +210,7 @@ const DropdownUser = () => {
             <div className="flex justify-between gap-10 pt-10">
               <button
                 type='button'
-                onClick={() => setConfirmLogout(false)}
+                onClick={() => setShowLogout(false)}
                 className="inline-flex items-center justify-center rounded-md bg-meta-2 py-4 px-10 text-center font-medium text-slate-500 hover:bg-opacity-90 lg:px-8 xl:px-10 w-full"
               >
                 Cancel

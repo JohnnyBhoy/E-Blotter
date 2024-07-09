@@ -20,7 +20,7 @@ const Narrative = ({ data, setData }: { data: any; setData: CallableFunction }) 
                         value={data.narrative}
                         onChange={(e) => setData('narrative', e.target.value)}
                         rows={5}
-                        className='w-full rounded border border-gray-400'
+                        className='w-full rounded  dark:bg-transparent dark:text-white border border-gray-400'
                         placeholder="(Detail the narrative of the incident or event, answering the WHO, WHAT, WHERE, WHY and HOW of reporting either in English or common dialect)"
                         required
                     />

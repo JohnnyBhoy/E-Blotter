@@ -35,7 +35,7 @@ const DropdownNotification = () => {
 
   return (
     <li className="relative">
-      <Link
+      <a
         ref={trigger}
         onClick={() => {
           setNotifying(false);
@@ -64,7 +64,7 @@ const DropdownNotification = () => {
             fill=""
           />
         </svg>
-      </Link>
+      </a>
 
       <div
         ref={dropdown}
