@@ -1,7 +1,7 @@
 const occupations = [
-    { id: 1, value: "Accountant" },
-    { id: 2, value: "Actor / Actress" },
-    { id: 3, value: "Architect" },
+    { id: 1, value: "Unemployed" },
+    { id: 2, value: "Private Employee" },
+    { id: 3, value: "Government Employee" },
     { id: 4, value: "Artist" },
     { id: 5, value: "Astronomer" },
     { id: 6, value: "Baker" },
@@ -60,8 +60,9 @@ const occupations = [
     { id: 59, value: "Writer / Author" },
     { id: 60, value: "Worker" },
     { id: 61, value: "Zoologist" },
-    { id: 62, value: "Private Employee" },
-    { id: 63, value: "Government Employee" },
+    { id: 62, value: "Accountant" },
+    { id: 63, value: "Actor / Actress" },
+    { id: 64, value: "Architect" },
 ];
 
 export default occupations

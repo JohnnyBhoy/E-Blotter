@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('barangay');
             $table->string('date_reported');
             $table->string('time_of_report');
-            $table->tinyInteger('incident_type');
+            $table->string('incident_type');
             $table->text('narrative');
             $table->text('remarks');
             $table->text('complainant_signature');

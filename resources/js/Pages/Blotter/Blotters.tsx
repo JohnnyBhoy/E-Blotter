@@ -1,15 +1,15 @@
 import { PageProps } from "@/Pages/types";
-import { Link, router, useForm } from "@inertiajs/react";
+import { router, useForm } from "@inertiajs/react";
 import React, { FormEvent } from "react";
 
 import Pagination from "@/Components/Pagination";
+import Breadcrumb from "@/Components/components/Breadcrumbs/Breadcrumb";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import incidentTypes from "@/utils/data/incidentTypes";
 import SweetAlert from "@/utils/functions/Sweetalert";
 import dateToString from "@/utils/functions/dataToString";
 import { Download, Eye, Trash } from "react-bootstrap-icons";
 import Swal from "sweetalert2";
-import Breadcrumb from "@/Components/components/Breadcrumbs/Breadcrumb";
 
 type BlotterProps = {
     id: number;
@@ -64,17 +64,36 @@ export default function Blotters({ auth, blotters, message }: PageProps<{ blotte
         e.preventDefault();
 
         Swal.fire({
-            title: 'You are about to delete entry.',
-            text: 'Deleting will removed this records to your database',
-            icon: 'warning',
+            title: "Are you sure?",
+            text: "You won't be able to revert this!",
+            icon: "warning",
             showCancelButton: true,
-            showConfirmButton: true,
-        }).then(function (res: any) {
-            if (res.isDismissed) {
-                return;
-            }
+            confirmButtonText: "Yes, delete it!",
+            cancelButtonText: "No, cancel!",
+            reverseButtons: true,
+            customClass: {
+                confirmButton: "btn btn-success",
+                cancelButton: "btn btn-danger"
+            },
+        }).then((result) => {
+            if (result.isConfirmed) {
+                handleDelete();
 
-            return handleDelete();
+                return Swal.fire({
+                    title: "Deleted!",
+                    text: "Your file has been deleted.",
+                    icon: "success"
+                });
+            } else if (
+                /* Read more about handling dismissals below */
+                result.dismiss === Swal.DismissReason.cancel
+            ) {
+                Swal.fire({
+                    title: "Cancelled",
+                    text: "Your blotter file is safe :)",
+                    icon: "error"
+                });
+            }
         });
     }
 

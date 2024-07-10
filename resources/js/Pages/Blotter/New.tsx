@@ -2,7 +2,7 @@ import { PageProps } from "@/Pages/types";
 import { Head, useForm, usePage } from "@inertiajs/react";
 import React, { FormEvent, ReactElement, useState } from "react";
 import { ArrowLeft, ArrowRight, CircleHalf, CloudUpload } from "react-bootstrap-icons";
-import { SweetAlertOptions } from 'sweetalert2';
+import Swal, { SweetAlertOptions } from 'sweetalert2';
 
 import Authentication from "@/Components/Blotter/Authentication";
 import BrfForm from "@/Components/Blotter/BrfForm";
@@ -64,7 +64,7 @@ export default function New({ auth, latestID }: PageProps<{ latestID: number }>)
         barangay: user?.name,
         date_reported: `${todayYear}-${todayMonth}-${todayDay}`,
         time_of_report: `${h}:${m}`,
-        incident_type: 0,
+        incident_type: "",
 
         complainant_data: [{
             complainant_family_name: "",
@@ -118,7 +118,7 @@ export default function New({ auth, latestID }: PageProps<{ latestID: number }>)
             respondent_work_region: 0,
         }],
 
-        narrative: "",
+        narrative: "(Detail the narrative of the incident or event, answering the WHO, WHAT, WHERE, WHY and HOW of reporting either in English or common dialect)",
         remarks: "",
         complainant_signature: "",
         recorded_by: "",
@@ -136,7 +136,7 @@ export default function New({ auth, latestID }: PageProps<{ latestID: number }>)
         if (data.barangay == "")
             return SweetAlert(`Barangay name is required!`, 'Unable to proceed, please provide barangay name.', 'error', 2500);
 
-        if (data.incident_type == 0)
+        if (data.incident_type == "")
             return SweetAlert(`Incident type is required!`, 'Unable to proceed, please provide incident type.', 'error', 2500);
 
         if ([data.complainant_data[0].complainant_family_name, data.complainant_data[0].complainant_first_name, data.complainant_data[0].complainant_middle_name].indexOf("") != -1)
@@ -163,6 +163,15 @@ export default function New({ auth, latestID }: PageProps<{ latestID: number }>)
         e.preventDefault();
 
         post(route("blotter"));
+
+        setTimeout(() => {
+            Swal.fire({
+                title: "Blotter Added",
+                text: "Entry saved to your database!",
+                icon: "success",
+                timer: 2500,
+            });
+        }, 2000);
     }
 
     console.log('data : ', data);

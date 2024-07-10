@@ -35,7 +35,7 @@ const DropdownHelp = () => {
   });
 
   return (
-    <li className="relative">
+    <li className="relative hidden lg:inline xl:inline 2xl:inline md:inline">
       <a
         ref={trigger}
         onClick={() => {

@@ -1,6 +1,7 @@
 import incidentTypes from "@/utils/data/incidentTypes";
 import React from 'react';
 import Select from 'react-select';
+import Swal from "sweetalert2";
 
 const BrfForm = ({ data, setData }: { data: any; setData: CallableFunction }) => {
     const handleIncidentChange = (selectedOption: any) => {
@@ -9,7 +10,20 @@ const BrfForm = ({ data, setData }: { data: any; setData: CallableFunction }) =>
         setData("incident_type", a.join(","));
     }
 
-    console.log(data.time_of_report);
+    const handleAddIncident = async () => {
+        const { value: incident } = await Swal.fire({
+            title: "Enter New Incident Type",
+            input: "text",
+            inputLabel: "Type of offense/incident",
+            inputPlaceholder: "Enter new incident"
+        });
+        if (incident) {
+            incidentTypes.push({ id: incident, value: incident, label: incident });
+            Swal.fire("Saved!", "", "success");;
+        }
+    }
+
+    console.log(data.incident_type);
 
     return (
         <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
@@ -69,9 +83,16 @@ const BrfForm = ({ data, setData }: { data: any; setData: CallableFunction }) =>
                 </div>
 
                 <div className="w-full z-50">
-                    <label className="text-xs bg-white dark:bg-transparent absolute ml-3 mt-[-.4rem] z-50">
-                        Incident Type *
-                    </label>
+                    <div className="flex justify-between w-full">
+                        <label className="text-xs bg-white dark:bg-transparent absolute ml-3 mt-[-.4rem] z-50">
+                            Incident Type *
+                        </label>
+
+                        <button onClick={handleAddIncident} className="text-xs bg-blue-500 hover:bg-blue-700 text-white px-2 py-1 rounded-3xl dark:bg-transparent  absolute text-end mt-[-.8rem] ml-[14rem] z-50">
+                            Other (Specify)
+                        </button>
+                    </div>
+
                     <Select
                         onChange={(e: any) => handleIncidentChange(e)}
                         isMulti
