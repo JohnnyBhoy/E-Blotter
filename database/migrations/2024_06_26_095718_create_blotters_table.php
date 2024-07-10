@@ -21,9 +21,9 @@ return new class extends Migration
             $table->string('incident_type');
             $table->text('narrative');
             $table->text('remarks');
-            $table->text('complainant_signature');
+            $table->text('complainant_signature')->nullable();
             $table->string('recorded_by');
-            $table->text('recorded_by_signature');
+            $table->text('recorded_by_signature')->nullable();
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users');

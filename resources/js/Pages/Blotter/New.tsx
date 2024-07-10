@@ -222,23 +222,27 @@ export default function New({ auth, latestID }: PageProps<{ latestID: number }>)
                         : null}
                     {/** End Narrative Report */}
 
-                    {/* <!- Case Disposition --> */}
-                    {person === 'Suspect/s'
-                        ? <CaseDisposition
-                            data={data}
-                            setData={setData}
-                        />
-                        : null}
-                    {/** End Case Disposition */}
 
-                    {/* <!- Authentication --> */}
-                    {person === 'Suspect/s'
-                        ? <Authentication
-                            data={data}
-                            setData={setData}
-                        />
-                        : null}
-                    {/** End Authentication */}
+                    <div className="flex lg:flex-row flex-col justify-between lg:gap-12">
+                        {/* <!- Case Disposition --> */}
+                        {person === 'Suspect/s'
+                            ? <CaseDisposition
+                                data={data}
+                                setData={setData}
+                            />
+                            : null}
+                        {/** End Case Disposition */}
+
+                        {/* <!- Authentication --> */}
+                        {person === 'Suspect/s'
+                            ? <Authentication
+                                data={data}
+                                setData={setData}
+                            />
+                            : null}
+                        {/** End Authentication */}
+                    </div>
+
 
 
                     {/* Next to respondent */}

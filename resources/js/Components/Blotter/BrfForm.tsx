@@ -19,7 +19,7 @@ const BrfForm = ({ data, setData }: { data: any; setData: CallableFunction }) =>
         });
         if (incident) {
             incidentTypes.push({ id: incident, value: incident, label: incident });
-            Swal.fire("Saved!", "", "success");;
+            Swal.fire("Saved!", "", "success");
         }
     }
 
