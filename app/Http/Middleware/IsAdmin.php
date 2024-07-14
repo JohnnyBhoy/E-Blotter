@@ -21,6 +21,6 @@ class IsAdmin
             return $next($request);
         }
 
-        return redirect('home')->with('error', 'You have not Super admin access');
+        return redirect('welcome')->with('error', 'You have not Super admin access');
     }
 }

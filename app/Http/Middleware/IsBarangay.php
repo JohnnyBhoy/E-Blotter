@@ -20,6 +20,6 @@ class IsBarangay
             return $next($request);
         }
 
-        return redirect('home')->with('error', 'You have not barangay admin access');
+        return redirect('welcome')->with('error', 'You have not barangay admin access');
     }
 }

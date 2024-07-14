@@ -1,3 +1,4 @@
+import { useBlotterStore } from '@/utils/store/blotterStore';
 import { ApexOptions } from 'apexcharts';
 import React, { useState } from 'react';
 import ReactApexChart from 'react-apexcharts';
@@ -21,7 +22,7 @@ const options: ApexOptions = {
   plotOptions: {
     pie: {
       donut: {
-        size: '65%',
+        size: '69%',
         background: 'transparent',
       },
     },
@@ -50,14 +51,23 @@ const options: ApexOptions = {
 };
 
 const ChartThree: React.FC = () => {
+  const { blotter, hearing, settled, pending } = useBlotterStore();
+  const hearingPercentage = Math.ceil(hearing * 100 / blotter);
+  const settledPercentage = Math.ceil(settled * 100 / blotter);
+  const pendingPercentage = Math.ceil(pending * 100 / blotter);
+  const others = Math.ceil((blotter - (hearing + settled + pending)) * 100 / blotter);
+
+
+  console.log(hearingPercentage, settledPercentage, pendingPercentage, others);
+
   const [state, setState] = useState<ChartThreeState>({
-    series: [65, 34, 12, 56],
+    series: [hearingPercentage, settledPercentage, pendingPercentage, others],
   });
 
   const handleReset = () => {
     setState((prevState) => ({
       ...prevState,
-      series: [65, 34, 12, 56],
+      series: [hearingPercentage, settledPercentage, pendingPercentage, others],
     }));
   };
   handleReset;
@@ -123,8 +133,8 @@ const ChartThree: React.FC = () => {
           <div className="flex w-full items-center">
             <span className="mr-2 block h-3 w-full max-w-3 rounded-full bg-primary"></span>
             <p className="flex w-full justify-between text-sm font-medium text-black dark:text-white">
-              <span> Crime 1 </span>
-              <span> 65% </span>
+              <span>For Hearing</span>
+              <span> {hearingPercentage}% </span>
             </p>
           </div>
         </div>
@@ -132,8 +142,8 @@ const ChartThree: React.FC = () => {
           <div className="flex w-full items-center">
             <span className="mr-2 block h-3 w-full max-w-3 rounded-full bg-[#6577F3]"></span>
             <p className="flex w-full justify-between text-sm font-medium text-black dark:text-white">
-              <span> Crime 2 </span>
-              <span> 34% </span>
+              <span> Amicably Settled </span>
+              <span> {settledPercentage}% </span>
             </p>
           </div>
         </div>
@@ -141,8 +151,8 @@ const ChartThree: React.FC = () => {
           <div className="flex w-full items-center">
             <span className="mr-2 block h-3 w-full max-w-3 rounded-full bg-[#8FD0EF]"></span>
             <p className="flex w-full justify-between text-sm font-medium text-black dark:text-white">
-              <span> Crime 3 </span>
-              <span> 45% </span>
+              <span> Pending </span>
+              <span> {pendingPercentage}% </span>
             </p>
           </div>
         </div>
@@ -150,8 +160,8 @@ const ChartThree: React.FC = () => {
           <div className="flex w-full items-center">
             <span className="mr-2 block h-3 w-full max-w-3 rounded-full bg-[#0FADCF]"></span>
             <p className="flex w-full justify-between text-sm font-medium text-black dark:text-white">
-              <span> Crime 4 </span>
-              <span> 12% </span>
+              <span> Others </span>
+              <span> {others}% </span>
             </p>
           </div>
         </div>

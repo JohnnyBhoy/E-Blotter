@@ -25,13 +25,6 @@ Route::get('/', function () {
 Route::group(['middleware' => ['auth', 'verified', IsBarangay::class]], function () {
     $blotter =  '/blotter';
 
-    // Route for Dashboard
-    //Route::get('/dashboard', function () {
-    //    $blotter = Blotter::all()->count();
-    //
-    //    return Inertia::render('Dashboard', ['data', $blotter]);
-    //})->name('dashboard');
-
     Route::get('/dashboard', [UserController::class, 'dashboard'])->name('dashboard');
 
     Route::get($blotter, [BlotterController::class, 'index'])->name('blotter.new');

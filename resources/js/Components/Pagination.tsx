@@ -1,7 +1,7 @@
-import React from "react";
+import React, { FormEventHandler } from "react";
 import { ChevronLeft, ChevronRight } from "react-bootstrap-icons";
 
-const Pagination = ({ links, setPage }: { links: any, setPage: CallableFunction }) => {
+const Pagination = ({ links, setData, handleChangePage }: { links: any, setData: CallableFunction, handleChangePage: FormEventHandler }) => {
 
     const getClassName = (active: any) => {
         if (active) {
@@ -25,30 +25,40 @@ const Pagination = ({ links, setPage }: { links: any, setPage: CallableFunction 
                 <div className="flex flex-wrap content-center mb-2">
                     {links?.map((link: any, i: number) => (
                         link.label === '&laquo; Previous' ?
-                            (<div
-                                className="mr-1 mb-1 px-3 py-1 text-sm leading-4  bg-success text-success  bg-opacity-10  rounded hover:primaryCyanHOver hover:text-white"
-                                key={i}
-                                onClick={() => setPage(getPage(link?.url))}
-                            >
-                                <ChevronLeft />
-                            </div>) :
+                            (
+                                <form onSubmit={handleChangePage} key={i}>
+                                    <button
+                                        className="mr-1 mb-1 px-3 py-1 text-sm leading-4  bg-success text-success  bg-opacity-10  rounded hover:primaryCyanHOver hover:text-white"
+                                        key={i}
+                                        onClick={() => setData('page', getPage(link?.url))}
+                                    >
+                                        <ChevronLeft />
+                                    </button>
+                                </form>
+                            ) :
                             link.label === 'Next &raquo;' ?
-                                <div key={i}
-                                    className="mr-1 mb-1 px-3 py-1 text-sm leading-4  bg-success text-success  bg-opacity-10  rounded hover:primaryCyanHOver hover:text-white"
-                                    onClick={() => setPage(getPage(link?.url))}
-                                >
-                                    <ChevronRight />
-                                </div>
+                                <form onSubmit={handleChangePage}>
+                                    <button key={i}
+                                        className="mr-1 mb-1 px-3 py-1 text-sm leading-4  bg-success text-success  bg-opacity-10  rounded hover:primaryCyanHOver hover:text-white"
+                                        onClick={() => setData('page', getPage(link?.url))}
+                                    >
+                                        <ChevronRight />
+                                    </button>
+                                </form>
                                 :
-                                (<div
-                                    className={getClassName(link.active)}
-                                    key={i}
-                                    onClick={() => setPage(i)}
-                                >{link?.label}
-                                </div>)
+                                (
+                                    <form onSubmit={handleChangePage} key={i}>
+                                        <button
+                                            className={getClassName(link.active)}
+                                            key={i}
+                                            onClick={() => setData('page', i)}
+                                        >{link?.label}
+                                        </button>
+                                    </form>
+                                )
                     ))}
                 </div>
-            </div>
+            </div >
         )
     );
 }

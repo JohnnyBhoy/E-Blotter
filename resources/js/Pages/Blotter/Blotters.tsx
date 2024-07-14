@@ -5,10 +5,11 @@ import React, { FormEvent } from "react";
 import Pagination from "@/Components/Pagination";
 import Breadcrumb from "@/Components/components/Breadcrumbs/Breadcrumb";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
+import disposition from "@/utils/data/disposition";
 import incidentTypes from "@/utils/data/incidentTypes";
 import SweetAlert from "@/utils/functions/Sweetalert";
 import dateToString from "@/utils/functions/dataToString";
-import { Download, Eye, Trash } from "react-bootstrap-icons";
+import { Download, Eye, Hypnotize, Search, Trash } from "react-bootstrap-icons";
 import Swal from "sweetalert2";
 
 type BlotterProps = {
@@ -25,7 +26,9 @@ type BlotterProps = {
     remarks: string;
 }
 
-export default function Blotters({ auth, blotters, message }: PageProps<{ blotters: any; message: string }>) {
+export default function Blotters({ auth, blotters, message, pageDisplay, pageNumber, keyword }:
+    PageProps<{ blotters: any; message: string; pageDisplay: string, pageNumber: string; keyword: string }>) {
+
     // Get incident type
     const getIncidentType = (type: number) => {
         const incident = incidentTypes?.filter((item: any) => item?.id == type)[0];
@@ -35,9 +38,9 @@ export default function Blotters({ auth, blotters, message }: PageProps<{ blotte
     // Form data
     const { data, setData, errors, processing, delete: destroy, get } = useForm({
         id: 0,
-        keyword: "",
-        per_page: 10,
-        page: 1,
+        keyword: keyword,
+        per_page: pageDisplay,
+        page: pageNumber,
     });
 
     const handleDelete = () => {
@@ -47,8 +50,12 @@ export default function Blotters({ auth, blotters, message }: PageProps<{ blotte
 
     const handleChangePerPage = (e: any) => {
         e.preventDefault();
-
         get(route("blotter.blotters"));
+    }
+
+    const handleFetchBlotters = (e: any) => {
+        e.preventDefault();
+        return get(route("blotter.blotters"));
     }
 
     const handleEdit = (id: number) => {
@@ -97,7 +104,12 @@ export default function Blotters({ auth, blotters, message }: PageProps<{ blotte
         });
     }
 
-    console.log(data.per_page)
+    const formatCaseDisposition = (remarks: string) => {
+        console.log(remarks);
+        const result = disposition?.filter((item: any) => item?.id == parseInt(remarks))
+
+        return result[0]?.value;
+    }
 
     return (
         <AuthenticatedLayout
@@ -114,29 +126,44 @@ export default function Blotters({ auth, blotters, message }: PageProps<{ blotte
             <div className="grid grid-cols-1 gap-9 sm:grid-cols-1 mt-[-.5rem]">
                 <div className="flex flex-col lg:gap-0 gap-4">
                     <div className="flex justify-between my-2">
-                        <div className="flex gap-2">
-                            <h6 className="m-1">Show</h6>
-                            <form onChange={handleChangePerPage}>
-                                <select name=""
-                                    onChange={(e) => setData('per_page', parseInt(e.target.value))}
-                                    id=""
-                                    className="rounded-lg py-1 px-4"
-                                >
-                                    <option value="10">10</option>
-                                    <option value="20">20</option>
-                                    <option value="50">50</option>
-                                    <option value="100">100</option>
-                                </select>
-                            </form>
+                        <div className="flex">
+                            <select
+                                value={data.per_page}
+                                name="perPage"
+                                onChange={(e) => setData('per_page', e.target.value)}
+                                className="rounded-l py-1 h-8 pr-7"
+                            >
+                                <option value="10">10 Entries</option>
+                                <option value="20">20 Entries</option>
+                                <option value="50">50 Entries</option>
+                                <option value="100">100 Entries</option>
+                            </select>
 
-                            <h6 className="m-1">Entries</h6>
+                            <form onSubmit={handleChangePerPage}>
+                                <button className="bg-blue-500 text-white rounded-r  py-1 px-2">
+                                    {processing
+                                        ? <p className="flex gap-1">Showing <Hypnotize className="animate-spin" size={24} /></p>
+                                        : 'Show'}
+                                </button>
+                            </form>
                         </div>
 
-                        <input
-                            type="text"
-                            placeholder="Search..."
-                            className="rounded-3xl py-1 px-2"
-                        />
+                        <div className="flex">
+                            <input
+                                value={data?.keyword}
+                                onChange={(e) => setData('keyword', e.target.value)}
+                                type="text"
+                                placeholder="Search keywords..."
+                                className="rounded-l py-1 px-2"
+                            />
+                            <form onSubmit={handleFetchBlotters} className="bg-blue-500 text-white px-2 rounded-r hover:bg-blue-700">
+                                <button className="mt-2">
+                                    <Search className="" />
+                                </button>
+                            </form>
+
+                        </div>
+
                     </div>
                     {/**Table */}
                     <div className="rounded-sm border border-stroke bg-white px-3 pt-3 pb-2.5 shadow-default dark:border-strokedark dark:bg-boxdark xl:pb-1 mt-2">
@@ -201,14 +228,14 @@ export default function Blotters({ auth, blotters, message }: PageProps<{ blotte
 
                                             <td className="border-b border-[#eee] py-1.5 px-2 dark:border-strokedark">
                                                 <p
-                                                    className={`inline-flex rounded-full bg-opacity-10 py-1 px-3 text-sm font-medium ${blotter?.remarks === 'Settled'
+                                                    className={`inline-flex rounded-full bg-opacity-10 py-1 px-3 text-sm font-medium ${blotter?.remarks === '1'
                                                         ? 'bg-success text-success'
-                                                        : blotter?.remarks === 'Pending'
+                                                        : blotter?.remarks === '2'
                                                             ? 'bg-danger text-danger'
                                                             : 'bg-warning text-warning'
                                                         }`}
                                                 >
-                                                    {blotter?.remarks}
+                                                    {formatCaseDisposition(blotter?.remarks)}
                                                 </p>
                                             </td>
                                             <td className="border-b border-[#eee] py-1.5 px-2 dark:border-strokedark">
@@ -238,14 +265,15 @@ export default function Blotters({ auth, blotters, message }: PageProps<{ blotte
 
 
                     <div className="flex justify-between">
-                        <h6 className="m-3">
-                            Showing <b>{(data.page - 1) * data.per_page + 1}</b> to <b>{data.per_page * data.page}</b> of <b>{blotters?.total}</b> entries
+                        <h6 className="my-3 mt-4">
+                            Showing <b>{(parseInt(data.page) - 1) * parseInt(data.per_page) + 1}</b> to <b>{parseInt(data.per_page) * parseInt(data.page)}</b> of <b>{blotters?.total}</b> entries
                         </h6>
 
                         {/** Pagination */}
                         <Pagination
-                            setPage={setData}
+                            setData={setData}
                             links={blotters?.links}
+                            handleChangePage={handleFetchBlotters}
                         />
                         {/** End Pagination */}
                     </div>

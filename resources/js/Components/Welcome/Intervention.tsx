@@ -14,10 +14,7 @@ const Intervention = () => {
                     crucial for fostering a cooperative relationship between the community and law enforcement
                 </p>
                 {/** List **/}
-                <ul
-                    role="list"
-                    className="pt-8 space-y-5 border-t border-gray-200 my-7 dark:border-gray-700"
-                >
+                <ul className="pt-8 space-y-5 border-t border-gray-200 my-7 dark:border-gray-700"  >
                     <li className="flex space-x-3">
                         {/** Icon **/}
                         <svg
@@ -81,7 +78,7 @@ const Intervention = () => {
             <img
                 className="hidden w-full mb-4 rounded-lg lg:mb-0 lg:flex h-[25rem]"
                 src="./images/homepage/trust_and_build_confidence.jpg"
-                alt="dashboard feature image"
+                alt="dashboard feature"
             />
         </div>
     )

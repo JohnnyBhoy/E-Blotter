@@ -1,11 +1,9 @@
 import Login from "@/Components/Auth/Login";
 import Register from "@/Components/Auth/Register";
-import Logo from "@/Components/Homepage/Logo";
 import Modal from "@/Components/Modal";
 import { useHeaderStore } from "@/utils/store/headerStore";
 import { useLoginRegisterStore } from "@/utils/store/loginRegisterStore";
 import React from "react";
-import { ChevronBarDown, ChevronDown } from "react-bootstrap-icons";
 
 export default function Guest({ children }: { children: any }) {
     const tabs = ["Overview", "About", "Contact Us", "Help"];

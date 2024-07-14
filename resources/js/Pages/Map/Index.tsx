@@ -10,8 +10,8 @@ const AnyReactComponent = ({ text }: { text: string }) => <div>{text}</div>;
 const Index = ({ auth }: PageProps) => {
     const defaultProps = {
         center: {
-            lat: 10.806809368567897,
-            lng: 123.21310895023348
+            lat: auth.user.lat,
+            lng: auth.user.lang,
         },
         zoom: 11
     };
@@ -33,11 +33,12 @@ const Index = ({ auth }: PageProps) => {
                     bootstrapURLKeys={{ key: "" }}
                     defaultCenter={defaultProps.center}
                     defaultZoom={defaultProps.zoom}
+
                 >
                     <AnyReactComponent
-                        lat={59.955413}
-                        lng={30.337844}
-                        text="My Marker"
+                        lat={auth.user.lat}
+                        lng={auth.user.lang}
+                        text={`Barangay ${auth.user.name}`}
                     />
                 </GoogleMapReact>
             </div>

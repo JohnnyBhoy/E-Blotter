@@ -74,11 +74,11 @@ const ChartTwo: React.FC = () => {
     series: [
       {
         name: 'Blotter',
-        data: [44, 55, 41, 67, 22, 43, 65],
+        data: [1, 0, 1, 0, 1, 0, 1],
       },
       {
         name: 'Crime',
-        data: [13, 23, 20, 8, 13, 27, 15],
+        data: [0, 1, 0, 1, 0, 1, 0],
       },
     ],
   });

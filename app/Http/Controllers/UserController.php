@@ -21,9 +21,27 @@ class UserController extends Controller
     /** Dashboard */
     public function dashboard()
     {
-        $blotter = Blotter::count();
+        $lastYear  = date('Y') - 1;
+        $currentYear  = date('Y');
 
-        return Inertia::render('Dashboard', ['data' =>  $blotter]);
+        $recordsLastYear = Blotter::whereBetween('created_at', ["{$lastYear}-01-01", "{$lastYear}-12-31"])->get();
+
+        $recordsThisYear = Blotter::whereBetween('created_at', ["{$currentYear}-01-01", "{$currentYear}-12-31"])->get();
+
+        $blotter = Blotter::count();
+        $hearing = Blotter::where('remarks', 1)->count();
+        $settled = Blotter::where('remarks', 2)->count();
+        $pending = Blotter::where('remarks', 3)->count();
+
+        return Inertia::render('Dashboard', [
+            'data' =>  [
+                $blotter,
+                $hearing,
+                $settled,
+                $pending
+            ], 'lastYearBlotter' => $recordsLastYear,
+            'thisYearBlotter' => $recordsThisYear,
+        ]);
     }
 
     /**

@@ -1,20 +1,19 @@
 
-import React, { useRef } from "react";
 import { useLoginRegisterStore } from "@/utils/store/loginRegisterStore";
+import React, { useEffect, useRef, useState } from "react";
 import { PageProps } from "./types";
-import { useEffect, useState } from "react";
 
-import GuestLayout from "@/Layouts/GuestLayout";
-import HeroHeader from "@/Components/Welcome/HeroHeader";
+import Footer from "@/Components/Footer";
+import Allocation from "@/Components/Welcome/Allocation";
+import Challenges from "@/Components/Welcome/Challenges";
 import CrimeDataAccuracy from "@/Components/Welcome/CrimeDataAccuracy";
 import CrimePrevention from "@/Components/Welcome/CrimePrevention";
-import TimelyResponse from "@/Components/Welcome/TimelyResponse";
 import Engaegement from "@/Components/Welcome/Engaegement";
-import Intervention from "@/Components/Welcome/Intervention";
-import Allocation from "@/Components/Welcome/Allocation";
 import Evidence from "@/Components/Welcome/Evidence";
-import Footer from "@/Components/Footer";
-import Challenges from "@/Components/Welcome/Challenges";
+import HeroHeader from "@/Components/Welcome/HeroHeader";
+import Intervention from "@/Components/Welcome/Intervention";
+import TimelyResponse from "@/Components/Welcome/TimelyResponse";
+import GuestLayout from "@/Layouts/GuestLayout";
 
 
 export default function Welcome({
@@ -124,11 +123,11 @@ export default function Welcome({
 }
 
 const useIsVisible = (ref: any) => {
-    const [isIntersecting, setIntersecting] = useState(false);
+    const [isIntersecting, setIsIntersecting] = useState(false);
 
     useEffect(() => {
         const observer = new IntersectionObserver(([entry]) => {
-            setIntersecting(entry.isIntersecting)
+            setIsIntersecting(entry.isIntersecting)
         }
         );
 

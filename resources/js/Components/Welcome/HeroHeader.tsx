@@ -40,9 +40,8 @@ const HeroHeader = () => {
                     </div>
                     <div className="hidden lg:mt-0 lg:col-span-5 lg:flex">
                         <img
-                            //src="./images/hero.png"
                             src="./images/homepage/homepage_image_1.png"
-                            alt="hero image"
+                            alt="hero banner"
                         />
                     </div>
                 </div>

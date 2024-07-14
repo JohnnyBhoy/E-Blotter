@@ -77,7 +77,10 @@ class BlotterController extends Controller
 
             return Inertia::render($this->blottersUrl, [
                 'blotters' => $blotters,
-                'message' => '',
+                'message' => 'successful retrieve',
+                'pageDisplay' => $perPage,
+                'pageNumber' => $page,
+                'keyword' => $keyword,
             ]);
         } catch (\Throwable $th) {
             return response()->json(['error' => $th], 500);

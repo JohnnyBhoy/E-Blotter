@@ -84,10 +84,6 @@ const options: ApexOptions = {
   xaxis: {
     type: 'category',
     categories: [
-      'Sep',
-      'Oct',
-      'Nov',
-      'Dec',
       'Jan',
       'Feb',
       'Mar',
@@ -96,6 +92,10 @@ const options: ApexOptions = {
       'Jun',
       'Jul',
       'Aug',
+      'Sep',
+      'Oct',
+      'Nov',
+      'Dec',
     ],
     axisBorder: {
       show: false,
@@ -122,17 +122,54 @@ interface ChartOneState {
   }[];
 }
 
-const ChartOne: React.FC = () => {
+const ChartOne = ({ lastYearBlotter, thisYearBlotter }: {
+  lastYearBlotter: any[];
+  thisYearBlotter: any[];
+}) => {
+
+  const date = new Date();
+  const currentYear = date.getFullYear();
+
+  //debugger;
+
+  // Get the last year blotter and store it in array
+  let lastYearBlotterData: number[] = [];
+  let currentMonthData;
+
+  for (let i = 1; i <= 12; i++) {
+    let currentMonth = i < 10 ? `0${i}` : i;
+    let currentData = `${currentYear - 1}-${currentMonth}`;
+
+    currentMonthData = lastYearBlotter?.filter((data: any) => data.created_at?.substring(0, 7) == currentData);
+
+    lastYearBlotterData.push(currentMonthData?.length);
+  }
+
+  // Get the current year blotter and store it in array
+  let thisYearBlotterData: number[] = [];
+
+  for (let i = 1; i <= 12; i++) {
+    let currentMonth = i < 10 ? `0${i}` : i;
+    let currentData = `${currentYear}-${currentMonth}`;
+
+    currentMonthData = thisYearBlotter?.filter((data: any) => data.created_at?.substring(0, 7) == currentData);
+
+    thisYearBlotterData.push(currentMonthData?.length);
+  }
+
+
+  console.log(thisYearBlotterData);
+
   const [state, setState] = useState<ChartOneState>({
     series: [
       {
-        name: 'Product One',
-        data: [23, 11, 22, 27, 13, 22, 37, 21, 44, 22, 30, 45],
+        name: `${currentYear - 1} Blotter`,
+        data: lastYearBlotterData,
       },
 
       {
-        name: 'Product Two',
-        data: [30, 25, 36, 30, 45, 35, 64, 52, 59, 36, 39, 51],
+        name: `${currentYear} Blotter`,
+        data: thisYearBlotterData,
       },
     ],
   });
@@ -142,9 +179,6 @@ const ChartOne: React.FC = () => {
       ...prevState,
     }));
   };
-  handleReset;
-
-  const date = new Date;
 
   return (
     <div className="col-span-12 rounded-sm border border-stroke bg-white px-5 pt-7.5 pb-5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:col-span-8">
@@ -155,9 +189,9 @@ const ChartOne: React.FC = () => {
               <span className="block h-2.5 w-full max-w-2.5 rounded-full bg-primary"></span>
             </span>
             <div className="w-full">
-              <p className="font-semibold text-primary">Total Blotter</p>
+              <p className="font-semibold text-primary">Total Blotter of {date.getFullYear()}</p>
               <p className="text-sm font-medium">
-                {date.getFullYear() - 1}.{date.getMonth() + 1}.{date.getDate()} - {date.getFullYear()}.{date.getMonth() + 1}.{date.getDate()}
+                January - December {date.getFullYear()}
               </p>
             </div>
           </div>
@@ -166,22 +200,22 @@ const ChartOne: React.FC = () => {
               <span className="block h-2.5 w-full max-w-2.5 rounded-full bg-secondary"></span>
             </span>
             <div className="w-full">
-              <p className="font-semibold text-secondary">Total Crime</p>
+              <p className="font-semibold text-secondary">Total Blotter of {date.getFullYear() - 1}</p>
               <p className="text-sm font-medium">
-                {date.getFullYear() - 1}.{date.getMonth() + 1}.{date.getDate()} - {date.getFullYear()}.{date.getMonth() + 1}.{date.getDate()}
+                January - December {date.getFullYear() - 1}
               </p>
             </div>
           </div>
         </div>
         <div className="flex w-full max-w-45 justify-end">
           <div className="inline-flex items-center rounded-md bg-whiter p-1.5 dark:bg-meta-4">
-            <button className="rounded bg-white py-1 px-3 text-xs font-medium text-black shadow-card hover:bg-white hover:shadow-card dark:bg-boxdark dark:text-white dark:hover:bg-boxdark">
+            <button className="rounded py-1 px-3 text-xs font-medium text-black hover:bg-white hover:shadow-card dark:text-white dark:hover:bg-boxdark">
               Day
             </button>
             <button className="rounded py-1 px-3 text-xs font-medium text-black hover:bg-white hover:shadow-card dark:text-white dark:hover:bg-boxdark">
               Week
             </button>
-            <button className="rounded py-1 px-3 text-xs font-medium text-black hover:bg-white hover:shadow-card dark:text-white dark:hover:bg-boxdark">
+            <button className="rounded bg-white py-1 px-3 text-xs font-medium text-black shadow-card hover:bg-white hover:shadow-card dark:bg-boxdark dark:text-white dark:hover:bg-boxdark">
               Month
             </button>
           </div>

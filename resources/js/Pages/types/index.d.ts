@@ -4,6 +4,8 @@ export interface User {
   role: number;
   email_verified_at: string;
   email: string;
+  lang: number;
+  lat: number;
   $inertia: string;
 }
 

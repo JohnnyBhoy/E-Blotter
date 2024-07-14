@@ -1,52 +1,37 @@
-import jsVectorMap from 'jsvectormap';
-import "../../../../css/jsvectormap.css"
-import React, { useEffect } from 'react';
-import '../../../js/us-aea-en';
+import { PageProps } from '@/Pages/types';
+import GoogleMapReact from 'google-map-react';
+import React from 'react';
 
-const MapOne = () => {
-  useEffect(() => {
-    const mapOne = new jsVectorMap({
-      selector: '#mapOne',
-      map: 'us_aea_en',
-      zoomButtons: true,
+const AnyReactComponent = ({ text }: { text: string }) => <div>{text}</div>;
 
-      regionStyle: {
-        initial: {
-          fill: '#C8D0D8',
-        },
-        hover: {
-          fillOpacity: 1,
-          fill: '#3056D3',
-        },
-      },
-      regionLabelStyle: {
-        initial: {
-          fontFamily: 'Satoshi',
-          fontWeight: 'semibold',
-          fill: '#fff',
-        },
-        hover: {
-          cursor: 'pointer',
-        },
-      },
+const MapOne = ({ auth }: PageProps) => {
 
-      labels: {
-        regions: {
-          render(code: string) {
-            return code.split('-')[1];
-          },
-        },
-      },
-    });
-    mapOne;
-  }, []);
+  const defaultProps = {
+    center: {
+      lat: auth.user.lat,
+      lng: auth.user.lang
+    },
+    zoom: 11
+  };
 
   return (
     <div className="col-span-12 rounded-sm border border-stroke bg-white py-6 px-7.5 shadow-default dark:border-strokedark dark:bg-boxdark xl:col-span-7">
       <h4 className="mb-2 text-xl font-semibold text-black dark:text-white">
-        Barangay labels
+        Barangay Map
       </h4>
-      <div id="mapOne" className="mapOne map-btn h-90"></div>
+      <div style={{ height: '50vh', width: '100%' }}>
+        <GoogleMapReact
+          bootstrapURLKeys={{ key: "" }}
+          defaultCenter={defaultProps.center}
+          defaultZoom={defaultProps.zoom}
+        >
+          <AnyReactComponent
+            lat={auth.user.lat}
+            lng={auth.user.lang}
+            text={`Barangay ${auth.user.name}`}
+          />
+        </GoogleMapReact>
+      </div>
     </div>
   );
 };
