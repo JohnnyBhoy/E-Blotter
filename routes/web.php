@@ -34,6 +34,7 @@ Route::group(['middleware' => ['auth', 'verified', IsBarangay::class]], function
     Route::delete($blotter, [BlotterController::class, 'delete'])->name('blotter.delete');
 
     Route::get('/profile', [UserController::class, 'index'])->name('profile.edit');
+    Route::post('/profile', [UserController::class, 'update'])->name('profile.update');
 
     // Route for Map
     Route::get('/map', function () {

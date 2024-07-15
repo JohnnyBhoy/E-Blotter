@@ -100,22 +100,12 @@ const DropdownMessage = () => {
           <li>
             <Link
               className="flex gap-4.5 border-t border-stroke px-4.5 py-3 hover:bg-gray-2 dark:border-strokedark dark:hover:bg-meta-4"
-              href="/messages"
+              href="#"
             >
-              <div className="h-12.5 w-12.5 rounded-full">
-                <img src={UserTwo} alt="User" />
-              </div>
-
-              <div>
-                <h6 className="text-sm font-medium text-black dark:text-white">
-                  Mariya Desoja
-                </h6>
-                <p className="text-sm">I like your confidence 💪</p>
-                <p className="text-xs">2min ago</p>
-              </div>
+              No New Messages
             </Link>
           </li>
-          <li>
+          {/*  <li>
             <Link
               className="flex gap-4.5 border-t border-stroke px-4.5 py-3 hover:bg-gray-2 dark:border-strokedark dark:hover:bg-meta-4"
               href="/messages"
@@ -186,7 +176,7 @@ const DropdownMessage = () => {
                 <p className="text-xs">2min ago</p>
               </div>
             </Link>
-          </li>
+          </li> */}
         </ul>
       </div>
       {/* <!-- Dropdown End --> */}

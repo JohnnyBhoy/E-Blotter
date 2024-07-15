@@ -6,6 +6,8 @@ export interface User {
   email: string;
   lang: number;
   lat: number;
+  banner: number;
+  avatar: number;
   $inertia: string;
 }
 

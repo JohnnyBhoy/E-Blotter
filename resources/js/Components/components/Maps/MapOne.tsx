@@ -19,7 +19,7 @@ const MapOne = ({ auth }: PageProps) => {
       <h4 className="mb-2 text-xl font-semibold text-black dark:text-white">
         Barangay Map
       </h4>
-      <div style={{ height: '50vh', width: '100%' }}>
+      <div style={{ height: '50vh', width: '100%' }} className='filter brightness-200'>
         <GoogleMapReact
           bootstrapURLKeys={{ key: "" }}
           defaultCenter={defaultProps.center}

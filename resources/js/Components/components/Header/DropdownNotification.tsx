@@ -84,6 +84,16 @@ const DropdownNotification = () => {
               href="#"
             >
               <p className="text-sm">
+                No New Notifications.
+              </p>
+            </Link>
+          </li>
+          {/**<li>
+            <Link
+              className="flex flex-col gap-2.5 border-t border-stroke px-4.5 py-3 hover:bg-gray-2 dark:border-strokedark dark:hover:bg-meta-4"
+              href="#"
+            >
+              <p className="text-sm">
                 <span className="text-black dark:text-white">
                   Edit your information in a swipe
                 </span>{' '}
@@ -140,7 +150,7 @@ const DropdownNotification = () => {
 
               <p className="text-xs">01 Dec, 2024</p>
             </Link>
-          </li>
+          </li> */}
         </ul>
       </div>
     </li>

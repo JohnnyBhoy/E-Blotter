@@ -28,7 +28,7 @@ const Index = ({ auth }: PageProps) => {
             <Head title="Barangay Blotter" />
             <Breadcrumb pageName="Map" />
 
-            <div style={{ height: '80vh', width: '100%' }}>
+            <div style={{ height: '80vh', width: '100%' }} className='filter brightness-200'>
                 <GoogleMapReact
                     bootstrapURLKeys={{ key: "" }}
                     defaultCenter={defaultProps.center}
