@@ -5,12 +5,14 @@ import DarkModeSwitcher from './DarkModeSwitcher';
 import React from 'react';
 import { Link } from '@inertiajs/react';
 import DropdownHelp from './DropdownHelp';
+import { useBlotterStore } from '@/utils/store/blotterStore';
 
 const Header = (props: {
   sidebarOpen: string | boolean | undefined;
   setSidebarOpen: (arg0: boolean) => void;
 }) => {
   const LogoIcon = '/images/logo/logo-icon.svg';
+  const { blotter } = useBlotterStore();
 
   return (
     <header className="sticky top-0 z-999 flex w-full bg-white drop-shadow-1 dark:bg-boxdark dark:drop-shadow-none">
@@ -89,7 +91,7 @@ const Header = (props: {
               <input
                 type="text"
                 placeholder="Type to search..."
-                className="w-full bg-transparent pl-9 pr-4 text-black focus:outline-none dark:text-white xl:w-125 rounded-full"
+                className="w-1/2 bg-transparent pl-9 pr-4 text-black focus:outline-none dark:text-white xl:w-full rounded-full"
               />
             </div>
           </form>
@@ -97,6 +99,15 @@ const Header = (props: {
 
         <div className="flex items-center gap-3 2xsm:gap-7">
           <ul className="flex items-center gap-2 2xsm:gap-4">
+
+            <div className="flex lg:inline hidden">
+              <button className='py-1 px-2 border-r border-solid border-slate-300 bg-slate-200 dark:bg-green-500 text-slate-600 rounded-l-3xl'>
+                Total
+              </button><button className='py-1 pr-3 pl-1 bg-slate-200 dark:bg-green-500 text-slate-600 rounded-r-3xl'>
+                {blotter.toLocaleString()} Entries
+              </button>
+            </div>
+
             {/* <!-- Dark Mode Toggler --> */}
             <DarkModeSwitcher />
             {/* <!-- Dark Mode Toggler --> */}

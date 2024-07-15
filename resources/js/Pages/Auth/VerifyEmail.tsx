@@ -1,10 +1,13 @@
 import GuestLayout from '@/Layouts/GuestLayout';
 import PrimaryButton from '@/Components/PrimaryButton';
 import { Head, Link, useForm } from '@inertiajs/react';
-import React, { FormEvent } from 'react';
+import React, { FormEvent, useEffect } from 'react';
 import { DashCircleDotted } from 'react-bootstrap-icons';
+import { useLoginRegisterStore } from '@/utils/store/loginRegisterStore';
 
 export default function VerifyEmail({ status }: { status: string }) {
+    const { setShowRegister } = useLoginRegisterStore();
+
     const { post, processing } = useForm({});
 
     const submit = (e: FormEvent) => {
@@ -13,13 +16,17 @@ export default function VerifyEmail({ status }: { status: string }) {
         post(route('verification.send'));
     };
 
+    useEffect(() => {
+        setShowRegister(false);
+    }, [])
+
     return (
         <GuestLayout>
             <Head title="Email Verification" />
             <div className="grid place-items-center p-40">
 
                 <div className="p-10 shadow-lg rounded w-1/2">
-                    <div className="mb-4 text-xl text-gray-600">
+                    <div className="mb-4 text-normal text-gray-600">
                         Thanks for signing up! Before getting started, could you verify your email address by clicking on the
                         link we just emailed to you? If you didn't receive the email, we will gladly send you another.
                     </div>
@@ -41,7 +48,7 @@ export default function VerifyEmail({ status }: { status: string }) {
                                 href={route('logout')}
                                 method="post"
                                 as="button"
-                                className="mt-6 w-full bg-slate-500 text-white rounded p-3"
+                                className="mt-6 w-full bg-slate-100 hover:bg-slate-200 text-slate-800 rounded-3xl p-3"
                             >
                                 Log Out
                             </Link>

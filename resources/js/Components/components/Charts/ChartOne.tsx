@@ -157,9 +157,6 @@ const ChartOne = ({ lastYearBlotter, thisYearBlotter }: {
     thisYearBlotterData.push(currentMonthData?.length);
   }
 
-
-  console.log(thisYearBlotterData);
-
   const [state, setState] = useState<ChartOneState>({
     series: [
       {

@@ -14,6 +14,7 @@ const occupations = [
     { id: 13, value: "Chemist" },
     { id: 14, value: "Civil Engineer" },
     { id: 15, value: "Cleaner" },
+    { id: 65, value: "Criminologist" },
     { id: 16, value: "Composer" },
     { id: 17, value: "Dancer" },
     { id: 18, value: "Dentist" },

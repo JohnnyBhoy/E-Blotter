@@ -10,6 +10,7 @@ import regions from '@/utils/data/regions';
 import React, { useState } from 'react';
 import { Globe } from 'react-bootstrap-icons';
 import FormInput from '../FormInput';
+import Swal from 'sweetalert2';
 
 type Data = {
     id: number;
@@ -69,6 +70,20 @@ const PersonInvolveData = ({ data, setData, person }: { data: any; setData: Call
         respondent_work_province: 0,
         respondent_work_region: 0,
     };
+
+    const handleAddOccupation = async () => {
+        const { value: occupation } = await Swal.fire({
+            title: "Enter New Occupation",
+            input: "text",
+            inputLabel: "Type of Job/Occupation",
+            inputPlaceholder: "Enter new occupation"
+        });
+        if (occupation) {
+            occupations.push({ id: occupation, value: occupation });
+            setData('occupation', occupation);
+            Swal.fire("Saved!", "", "success");
+        }
+    }
 
     const handleSetData = (e: any, index: number) => {
         const newData = person === 'Complainant'
@@ -282,9 +297,15 @@ const PersonInvolveData = ({ data, setData, person }: { data: any; setData: Call
                         </div>
 
                         <div className="w-full">
-                            <label className="text-xs dark:bg-transparent bg-white absolute ml-3 mt-[-.4rem]">
-                                Occupation *
-                            </label>
+                            <div className="flex justify-between w-full ">
+
+                                <label className="text-xs dark:bg-transparent bg-white absolute ml-3 mt-[-.4rem]">
+                                    Occupation *
+                                </label>
+                                <button onClick={handleAddOccupation} className="text-xs bg-blue-500 hover:bg-blue-700 text-white px-2 py-1 rounded-3xl dark:bg-transparent  absolute text-end mt-[-.8rem] ml-[8rem] z-50">
+                                    Other (Specify)
+                                </button>
+                            </div>
                             <select
                                 name={person === 'Complainant'
                                     ? "complainant_occupation"
