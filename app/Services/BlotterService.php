@@ -6,7 +6,6 @@ use Illuminate\Support\Collection;
 use App\Repositories\BlotterRepository;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Http\Request;
-use PhpParser\Node\Expr\Cast\Object_;
 
 class BlotterService
 {
@@ -45,7 +44,7 @@ class BlotterService
      * Method to create blotter data based on
      * @param \Illuminate\Http\Request $request The HTTP request
      * @param int $userId User ID
-     * @return \App\Models\Blotter
+     * @return bool
      */
     public function create(Request $request, Int $userId)
     {
@@ -87,5 +86,38 @@ class BlotterService
     public function getAll(Int $perPage, Int $page, String $keyword, Int $userId)
     {
         return $this->blotter->getAll($perPage,  $page,  $keyword, $userId);
+    }
+
+    /**
+     * Method to get blotter count and group into year
+     * @param int $userId unique ID of the user
+     * @return array
+     */
+    public function getYearlyBlotter(Int $userId)
+    {
+        return  $this->blotter->getYearlyBlotter($userId);
+    }
+
+    /**
+     * Method to get blotter count and group into month
+     * @param int $userId unique ID of the user
+     * @param int $year year to fetch
+     * @return array
+     */
+    public function getYearlyBlotterByMonth(Int $userId, Int $year)
+    {
+        return  $this->blotter->getYearlyBlotterByMonth($userId, $year);
+    }
+
+    /**
+     * Method to get monthly blotter
+     * @param int $userId unique ID of the user
+     * @param int $year year to fetch
+     * @param int $month month to fetch
+     * @return array
+     */
+    public function getDailyBlotterByMonth(Int $userId, Int $year, Int $month)
+    {
+        return  $this->blotter->getDailyBlotterByMonth($userId, $year, $month);
     }
 }

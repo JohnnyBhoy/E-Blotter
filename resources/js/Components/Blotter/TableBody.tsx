@@ -1,26 +1,23 @@
+import { BlotterProps } from '@/Pages/types/blotter';
 import disposition from '@/utils/data/disposition';
 import incidentTypes from '@/utils/data/incidentTypes';
 import dateToString from '@/utils/functions/dataToString';
 import { router } from '@inertiajs/react';
-import React, { FormEvent } from 'react';
+import React, { FormEvent, useState } from 'react';
 import { Download, Eye, Trash } from 'react-bootstrap-icons';
+import { usePDF } from 'react-to-pdf';
 import Swal from 'sweetalert2';
 
-type BlotterProps = {
-    id: number;
-    entry_number: number;
-    complainant_family_name: string;
-    complainant_first_name: string;
-    complainant_middle_name: string;
-    respondent_family_name: string;
-    respondent_first_name: string;
-    respondent_middle_name: string;
-    incident_type: number;
-    created_at: string;
-    remarks: string;
-}
-
 const TableBody = ({ blotters, setData, handleDelete }: { blotters: any; setData: CallableFunction; handleDelete: CallableFunction }) => {
+
+    const [showIncidentDescription, setShowIncidentDescription] = useState<boolean>(false);
+    const [activeHoverID, setActiveHoverId] = useState<number>(0);
+    const [selectedBlotter, setSelectedBlotter] = useState<object>({});
+
+    console.log(blotters);
+
+    // React to PDF
+    const { toPDF, targetRef } = usePDF({ filename: `Blotter_Copy.pdf` });
 
     const handleEdit = (id: number) => {
         router.visit('/blotter/edit', {
@@ -75,81 +72,119 @@ const TableBody = ({ blotters, setData, handleDelete }: { blotters: any; setData
     // Get incident type
     const getIncidentType = (type: number) => {
         const incident = incidentTypes?.filter((item: any) => item?.id == type)[0];
-        return incident?.value?.split(' - ')[0];
+        return incident?.value;
     };
 
     const formatCaseDisposition = (remarks: string) => {
+        if (remarks > '3') return 'Other';
+
         const result = disposition?.filter((item: any) => item?.id == parseInt(remarks))
 
         return result[0]?.value;
     }
 
+    const handleDownload = () => {
+        Swal.fire({
+            title: "Are you sure?",
+            text: "You will save PDF copy to your local computer!",
+            icon: "info",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, download it!"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                toPDF();
+                Swal.fire({
+                    title: "Downloaded!",
+                    text: "Your file has been downloaded.",
+                    icon: "success",
+                    timer: 2500,
+                });
+            }
+        });
+    }
 
     return (
-        <tbody>
-            {blotters?.map((blotter: BlotterProps, i: number) => (
-                <tr key={i} className="hover:bg-slate-100">
-                    <td className="border-b border-[#eee] py-1.5 px-2 pl-9 dark:border-strokedark xl:pl-11">
-                        <h5 className="font-medium text-black dark:text-white">
-                            {blotter?.entry_number}
-                        </h5>
-                    </td>
-                    <td className="border-b border-[#eee] py-1.5 px-2 dark:border-strokedark">
-                        <p className="text-black dark:text-white">
-                            {blotter?.complainant_family_name},  {blotter?.complainant_first_name}  {blotter?.complainant_middle_name?.charAt(0)}.
-                        </p>
-                    </td>
+        <>
+            <tbody>
+                {blotters?.map((blotter: BlotterProps, i: number) => (
+                    <tr key={i} className="hover:bg-slate-100 cursor-pointer z-20 bg-white dark:bg-meta-4">
+                        <td className="border-b border-[#eee] py-1.5 px-2 pl-9 dark:border-strokedark xl:pl-11">
+                            <h5 className="font-medium text-black dark:text-white">
+                                {blotter?.entry_number}
+                            </h5>
+                        </td>
+                        <td className="border-b border-[#eee] py-1.5 px-2 dark:border-strokedark ">
+                            <p className="text-black dark:text-white">
+                                {blotter?.complainant_family_name},  {blotter?.complainant_first_name}  {blotter?.complainant_middle_name?.charAt(0)}.
+                            </p>
+                        </td>
 
-                    <td className="border-b border-[#eee] py-1.5 px-2 dark:border-strokedark">
-                        <p className="text-black dark:text-white">
-                            {blotter?.respondent_family_name},  {blotter?.respondent_first_name}  {blotter?.complainant_middle_name?.charAt(0)}.
-                        </p>
-                    </td>
+                        <td className="border-b border-[#eee] py-1.5 px-2 dark:border-strokedark">
+                            <p className="text-black dark:text-white">
+                                {blotter?.respondent_family_name},  {blotter?.respondent_first_name}  {blotter?.complainant_middle_name?.charAt(0)}.
+                            </p>
+                        </td>
 
-                    <td className="border-b border-[#eee] py-1.5 px-2 dark:border-strokedark">
-                        <p className="text-black dark:text-white">
-                            {getIncidentType(blotter?.incident_type)}
-                        </p>
-                    </td>
-
-                    <td className="border-b border-[#eee] py-1.5 px-2 dark:border-strokedark">
-                        <p className="text-black dark:text-white">
-                            {dateToString(blotter?.created_at)}
-                        </p>
-                    </td>
-
-                    <td className="border-b border-[#eee] py-1.5 px-2 dark:border-strokedark">
-                        <p
-                            className={`inline-flex rounded-full bg-opacity-10 py-1 px-3 text-sm font-medium ${blotter?.remarks === '1'
-                                ? 'bg-success text-success'
-                                : blotter?.remarks === '2'
-                                    ? 'bg-danger text-danger'
-                                    : 'bg-warning text-warning'
-                                }`}
-                        >
-                            {formatCaseDisposition(blotter?.remarks)}
-                        </p>
-                    </td>
-                    <td className="border-b border-[#eee] py-1.5 px-2 dark:border-strokedark">
-                        <div className="flex items-center space-x-3.5">
-                            <button onClick={() => handleEdit(blotter.id)} className="hover:text-primary">
-                                <Eye size={16} />
-                            </button>
-                            <form onSubmit={handleConfirmDelete}>
-                                <button
-                                    className="hover:text-primary"
-                                    onClick={() => setData('id', blotter.id)} >
-                                    <Trash size={16} />
+                        <td className="border-b border-[#eee] py-1.5 px-2 dark:border-strokedark">
+                            <p className="text-black dark:text-white " onMouseEnter={() => {
+                                setShowIncidentDescription(true);
+                                setActiveHoverId(blotter.id);
+                            }} onMouseLeave={() => setShowIncidentDescription(false)}>
+                                {getIncidentType(blotter?.incident_type)?.split(" - ")[0]}
+                            </p>
+                            {showIncidentDescription && activeHoverID == blotter.id
+                                ? <button className='bg-green-500 text-white rounded py-0 px-2 absolute z-50 mt-[-3rem]'>
+                                    {getIncidentType(blotter?.incident_type)?.split(" - ")[1]}
                                 </button>
-                            </form>
-                            <button className="hover:text-primary">
-                                <Download size={16} />
-                            </button>
-                        </div>
-                    </td>
-                </tr>
-            ))}
-        </tbody>
+                                : null}
+                        </td>
+
+                        <td className="border-b border-[#eee] py-1.5 px-2 dark:border-strokedark">
+                            <p className="text-black dark:text-white">
+                                {dateToString(blotter?.created_at)}
+                            </p>
+                        </td>
+
+                        <td className="border-b border-[#eee] py-1.5 px-2 dark:border-strokedark">
+                            <p
+                                className={`inline-flex rounded-full bg-opacity-10 py-1 px-3 text-sm font-medium ${blotter?.remarks === '1'
+                                    ? 'bg-success text-success'
+                                    : blotter?.remarks === '2'
+                                        ? 'bg-danger text-danger'
+                                        : 'bg-warning text-warning'
+                                    }`}
+                            >
+                                {formatCaseDisposition(blotter?.remarks)}
+                            </p>
+                        </td>
+                        <td className="border-b border-[#eee] py-1.5 px-2 dark:border-strokedark">
+                            <div className="flex items-center space-x-3.5">
+                                <button onClick={() => handleEdit(blotter.id)} className="hover:text-primary">
+                                    <Eye size={16} />
+                                </button>
+                                <form onSubmit={handleConfirmDelete}>
+                                    <button
+                                        className="hover:text-primary"
+                                        onClick={() => setData('id', blotter.id)} >
+                                        <Trash size={16} />
+                                    </button>
+                                </form>
+                                <button className="hover:text-primary" onClick={() => { handleDownload; setSelectedBlotter(blotter) }}>
+                                    <Download size={16} />
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                ))}
+            </tbody>
+            {/**
+            * <div ref={targetRef} className='w-full absolute z-10 mt-[20rem]'>
+                <BlotterPdf data={selectedBlotter} />
+            </div> 
+            */}
+        </>
     )
 }
 

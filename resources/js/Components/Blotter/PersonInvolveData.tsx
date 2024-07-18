@@ -103,7 +103,44 @@ const PersonInvolveData = ({ data, setData, person }: { data: any; setData: Call
         )
     }
 
+    const handleSameHomeAddress = (i: number) => {
+        // debugger;
+
+        const workStreet = person === 'Complainant'
+            ? {
+                ...data.complainant_data[i],
+                'complainant_work_street': data.complainant_data[i].complainant_street,
+                'complainant_work_village': data.complainant_data[i].complainant_village,
+                'complainant_work_barangay': data.complainant_data[i].complainant_barangay,
+                'complainant_work_city': data.complainant_data[i].complainant_city,
+                'complainant_work_province': data.complainant_data[i].complainant_province,
+                'complainant_work_region': data.complainant_data[i].complainant_region,
+            }
+            : {
+                ...data.respondent_data[i],
+                'respondent_work_street': data.respondent_street,
+                'respondent_work_village': data.respondent_village,
+                'respondent_work_barangay': data.respondent_barangay,
+                'respondent_work_city': data.respondent_city,
+                'respondent_work_province': data.respondent_province,
+                'respondent_work_region': data.respondent_region,
+            }
+
+        return setData(person === 'Complainant'
+            ? 'complainant_data'
+            : 'respondent_data',
+            person === 'Complainant'
+                ? data.complainant_data?.map((item: any, index: number) =>
+                    index == i ? item = workStreet : item
+                )
+                : data.respondent_data?.map((item: any, index: number) =>
+                    index == i ? item = workStreet : item
+                )
+        )
+    }
+
     const [complainants, setComplainants] = useState<number[]>([1]);
+    const [respondents, setRespondents] = useState<number[]>([1]);
 
     return (
         <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark mt-4">
@@ -126,7 +163,11 @@ const PersonInvolveData = ({ data, setData, person }: { data: any; setData: Call
                                         className="font-medium text-black dark:text-white bg-white hover:bg-slate-300 text-xs rounded-3xl px-3 text-blue-700"
                                         onClick={() => {
                                             setComplainants([...complainants, count + 1]);
-                                            setData('complainant_data', [...data.complainant_data, complainant_info])
+                                            setData(person === 'Complainant' ? 'complainant_data' : 'respondent_data',
+                                                person === 'Complainant'
+                                                    ? [...data.complainant_data, complainant_info]
+                                                    : [...data.respondent_data, respondent_info]
+                                            )
                                         }}>
                                         + Add {person}
                                     </button>
@@ -553,9 +594,14 @@ const PersonInvolveData = ({ data, setData, person }: { data: any; setData: Call
 
                         {/**Work Address */}
                         <div className="border-b border-stroke py-2 px-6.5 dark:border-strokedark">
-                            <h3 className="font-medium text-black text-center dark:text-white">
-                                Work Address
-                            </h3>
+                            <div className="flex justify-center gap-2">
+                                <h3 className="font-medium text-black text-center dark:text-white">
+                                    Work Address
+                                </h3>
+                                <button onClick={handleSameHomeAddress(i)} className="text-xs bg-blue-500 hover:bg-blue-700 text-white px-2 py-1 rounded-3xl dark:bg-transparent">
+                                    Same with home address
+                                </button>
+                            </div>
                         </div>
                         <div className="lg:flex lg:gap-5.5 p-2 w-full space-y-6 lg:space-y-0">
                             <div className="lg:w-1/2 w-full">

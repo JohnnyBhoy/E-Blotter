@@ -3,12 +3,13 @@ import React, { useState } from 'react';
 import ReactApexChart from 'react-apexcharts';
 
 const options: ApexOptions = {
+
   legend: {
     show: false,
     position: 'top',
     horizontalAlign: 'left',
   },
-  colors: ['#3C50E0', '#80CAEE'],
+  colors: ['#80CAEE', '#3C50E0'],
   chart: {
     fontFamily: 'Satoshi, sans-serif',
     height: 335,
@@ -70,7 +71,7 @@ const options: ApexOptions = {
   markers: {
     size: 4,
     colors: '#fff',
-    strokeColors: ['#3056D3', '#80CAEE'],
+    strokeColors: ['#80CAEE', '#3056D3'],
     strokeWidth: 3,
     strokeOpacity: 0.9,
     strokeDashArray: 0,
@@ -111,7 +112,7 @@ const options: ApexOptions = {
       },
     },
     min: 0,
-    max: 100,
+    max: 1000,
   },
 };
 
@@ -129,8 +130,6 @@ const ChartOne = ({ lastYearBlotter, thisYearBlotter }: {
 
   const date = new Date();
   const currentYear = date.getFullYear();
-
-  //debugger;
 
   // Get the last year blotter and store it in array
   let lastYearBlotterData: number[] = [];

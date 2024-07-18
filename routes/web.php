@@ -27,21 +27,25 @@ Route::group(['middleware' => ['auth', 'verified', IsBarangay::class]], function
 
     Route::get('/dashboard', [UserController::class, 'dashboard'])->name('dashboard');
 
+    // Blotter
     Route::get($blotter, [BlotterController::class, 'index'])->name('blotter.new');
     Route::post($blotter, [BlotterController::class, 'create'])->name('blotter');
     Route::get('/blotter/blotters', [BlotterController::class, 'getAll'])->name('blotter.blotters');
     Route::get('/blotter/edit', [BlotterController::class, 'get'])->name('blotter.edit');
     Route::delete($blotter, [BlotterController::class, 'delete'])->name('blotter.delete');
+    Route::get('/blotter/monthly', [BlotterController::class, 'getYearlyBlotterByMonth'])->name('blotter.monthly');
+    Route::get('/blotter/daily', [BlotterController::class, 'getDailyBlotterByMonth'])->name('blotter.daily');
 
+    // Profile
     Route::get('/profile', [UserController::class, 'index'])->name('profile.edit');
     Route::post('/profile', [UserController::class, 'update'])->name('profile.update');
 
-    // Route for Map
+    // Map
     Route::get('/map', function () {
         return Inertia::render('Map/Index');
     })->name('map');
 
-    // Route for Officials
+    // Officials
     Route::get('/officials', function () {
         return Inertia::render('Officials/Index');
     })->name('officials');

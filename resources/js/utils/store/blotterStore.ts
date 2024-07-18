@@ -8,6 +8,7 @@ type BlotterStore = {
     settled: number,
     pending: number,
     referred: number,
+    yearlyBlotter: object[],
     setPage: (page: number) => void,
     setPerPage: (perPage: number) => void,
     setBlotter: (blotter: number) => void,
@@ -15,6 +16,7 @@ type BlotterStore = {
     setSettled: (settled: number) => void,
     setPending: (pending: number) => void,
     setReferred: (referred: number) => void,
+    setYearlyBlotter: (yearlyBlotter: object[]) => void,
 }
 
 export const useBlotterStore = create<BlotterStore>((set) => ({
@@ -25,6 +27,7 @@ export const useBlotterStore = create<BlotterStore>((set) => ({
     settled: 0,
     pending: 0,
     referred: 0,
+    yearlyBlotter: [],
     setPage: (page: number) => set(() => ({ page: page })),
     setPerPage: (perPage: number) => set(() => ({ perPage: perPage })),
     setBlotter: (blotter: number) => set(() => ({ blotter: blotter })),
@@ -32,4 +35,5 @@ export const useBlotterStore = create<BlotterStore>((set) => ({
     setSettled: (settled: number) => set(() => ({ settled: settled })),
     setPending: (pending: number) => set(() => ({ pending: pending })),
     setReferred: (referred: number) => set(() => ({ referred: referred })),
+    setYearlyBlotter: (yearlyBlotter: object[]) => set(() => ({ yearlyBlotter: yearlyBlotter })),
 }))

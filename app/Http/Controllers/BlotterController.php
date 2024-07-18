@@ -128,4 +128,48 @@ class BlotterController extends Controller
             return response()->json(['error' => $th], 500);
         }
     }
+
+    /**
+     * Method to get monthly blotter data based on
+     * @param \Illuminate\Http\Request $request The HTTP request
+     */
+    public function getYearlyBlotterByMonth(Request $request)
+    {
+        $userId = auth()->user()->id;
+        $year = $request->get('blotterYear');
+
+        try {
+            $monthlyBlotters = $this->blotterService->getYearlyBlotterByMonth($userId, $year);
+
+            return Inertia::render('Blotter/Monthly', [
+                'year' => $year,
+                'monthlyBlotters' => $monthlyBlotters,
+            ]);
+        } catch (\Throwable $th) {
+            return response()->json(['error' => $th], 500);
+        }
+    }
+
+    /**
+     * Method to get daily blotter data based on
+     * @param \Illuminate\Http\Request $request The HTTP request
+     */
+    public function getDailyBlotterByMonth(Request $request)
+    {
+        $userId = auth()->user()->id;
+        $year = $request->get('blotterYear');
+        $month = $request->get('blotterMonth');
+
+        try {
+            $dailyBlotters = $this->blotterService->getDailyBlotterByMonth($userId, $year, $month);
+
+            return Inertia::render('Blotter/Daily', [
+                'year' => $year,
+                'month' => $month,
+                'dailyBlotters' => $dailyBlotters,
+            ]);
+        } catch (\Throwable $th) {
+            return response()->json(['error' => $th], 500);
+        }
+    }
 }

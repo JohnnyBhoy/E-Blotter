@@ -38,41 +38,46 @@ class RegisteredUserController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|lowercase|email|max:255|unique:' . User::class,
-            'password' => ['required', 'confirmed', Rules\Password::defaults()],
-            'role' => 'required|integer',
-            //'region_code' => 'required|integer|max:2',
-            //'province_code' => 'required|integer|max:4',
-            //'city_code' => 'required|integer|max:6',
-            //'barangay_code' => 'required|integer|max:9',
-        ]);
 
-        $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-            'role' => $request->role,
-        ]);
+        try {
+            $request->validate([
+                'name' => 'required|string|max:255',
+                'email' => 'required|string|lowercase|email|max:255|unique:' . User::class,
+                'password' => ['required', 'confirmed', Rules\Password::defaults()],
+                'role' => 'required|integer',
+                //'region_code' => 'required|integer|max:2',
+                //'province_code' => 'required|integer|max:4',
+                //'city_code' => 'required|integer|max:6',
+                //'barangay_code' => 'required|integer|max:9',
+            ]);
 
-        $userId = $this->userService->getByEmail($request->email);
+            $user = User::create([
+                'name' => $request->name,
+                'email' => $request->email,
+                'password' => Hash::make($request->password),
+                'role' => $request->role,
+            ]);
 
-        $addressData = [
-            'user_id' => $userId->id,
-            'region_code' => $request->region_code,
-            'province_code' => $request->province_code,
-            'city_code' => $request->city_code,
-            'barangay_code' => $request->barangay_code,
-        ];
+            $userId = $this->userService->getByEmail($request->email);
 
-        // Create user address
-        $this->userService->create($addressData);
+            $addressData = [
+                'user_id' => $userId->id,
+                'region_code' => $request->region_code,
+                'province_code' => $request->province_code,
+                'city_code' => $request->city_code,
+                'barangay_code' => $request->barangay_code,
+            ];
 
-        event(new Registered($user));
+            // Create user address
+            $this->userService->create($addressData);
 
-        Auth::login($user);
+            event(new Registered($user));
 
-        return redirect(route('dashboard', absolute: false));
+            Auth::login($user);
+
+            return redirect(route('dashboard', absolute: false));
+        } catch (\Throwable $th) {
+            throw $th;
+        }
     }
 }

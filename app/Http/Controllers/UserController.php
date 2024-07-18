@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Blotter;
 use App\Models\User;
+use App\Services\BlotterService;
 use App\Services\UserService;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -12,12 +13,14 @@ use Inertia\Inertia;
 class UserController extends Controller
 {
     protected $userService;
+    protected $blotterService;
     protected $edit = 'Profile/Edit';
 
     /** Constructor */
-    public function __construct(UserService $userService)
+    public function __construct(UserService $userService, BlotterService $blotterService)
     {
         $this->userService = $userService;
+        $this->blotterService = $blotterService;
     }
 
     /** Dashboard */
@@ -26,6 +29,9 @@ class UserController extends Controller
         $userId = auth()->user()->id;
         $lastYear  = date('Y') - 1;
         $currentYear  = date('Y');
+
+        // Yearly blotter
+        $blotterPerYear = $this->blotterService->getYearlyBlotter($userId);
 
         $recordsLastYear = Blotter::where('user_id', $userId)
             ->whereBetween('created_at', ["{$lastYear}-01-01", "{$lastYear}-12-31"])
@@ -59,6 +65,7 @@ class UserController extends Controller
             ], 'lastYearBlotter' => $recordsLastYear,
             'thisYearBlotter' => $recordsThisYear,
             'thisWeekBlotter' => $recordsThisWeek,
+            'blotterPerYear' => $blotterPerYear,
         ]);
     }
 

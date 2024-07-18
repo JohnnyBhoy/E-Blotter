@@ -6,7 +6,7 @@ import { DashCircleDotted } from 'react-bootstrap-icons';
 import { useLoginRegisterStore } from '@/utils/store/loginRegisterStore';
 
 export default function VerifyEmail({ status }: { status: string }) {
-    const { setShowRegister } = useLoginRegisterStore();
+    const { setShowRegister, setShowLogin } = useLoginRegisterStore();
 
     const { post, processing } = useForm({});
 
@@ -18,17 +18,25 @@ export default function VerifyEmail({ status }: { status: string }) {
 
     useEffect(() => {
         setShowRegister(false);
+        setShowLogin(false);
     }, [])
 
     return (
         <GuestLayout>
             <Head title="Email Verification" />
-            <div className="grid place-items-center p-40">
+            <div className="grid place-items-center lg:p-40 mt-10 lg:mt-0">
 
-                <div className="p-10 shadow-lg rounded w-1/2">
+                <div className="p-10 shadow-lg rounded lg:w-1/2">
                     <div className="mb-4 text-normal text-gray-600">
-                        Thanks for signing up! Before getting started, could you verify your email address by clicking on the
-                        link we just emailed to you? If you didn't receive the email, we will gladly send you another.
+                        <h1 className='lg:text-4xl text-2xl text-center mb-6 text-slate-500'>
+                            Thanks for signing up to <br />
+                            <span className='text-slate-800 font-bold'>Barangay E-Blotter</span>
+                        </h1>
+                        <h6 className='text-slate-500'>
+                            Before getting started, could you verify your email address by clicking on the
+                            link we just emailed to you? If you didn't receive the email, we will gladly send you another
+                            one by clicking resend email verification button.
+                        </h6>
                     </div>
 
                     {status === 'verification-link-sent' && (
@@ -38,21 +46,21 @@ export default function VerifyEmail({ status }: { status: string }) {
                     )}
 
                     <form onSubmit={submit}>
-                        <div className="mt-8 flex items-center flex-col">
+                        <div className="mt-8 lg:flex items-center gap-12">
+                            <Link
+                                href={route('logout')}
+                                method="post"
+                                as="button"
+                                className="w-full bg-slate-100  lg:mb-0 mb-4  hover:bg-slate-200 text-slate-800 rounded-3xl p-3"
+                            >
+                                Log Out
+                            </Link>
+
                             <PrimaryButton disabled={false}>
                                 {processing ?
                                     <span className='flex gap-2 justify-center'>Sending verification email <DashCircleDotted size={24} className='animate-spin' /> </span>
                                     : 'Resend Verification Email'}
                             </PrimaryButton>
-                            <Link
-                                href={route('logout')}
-                                method="post"
-                                as="button"
-                                className="mt-6 w-full bg-slate-100 hover:bg-slate-200 text-slate-800 rounded-3xl p-3"
-                            >
-                                Log Out
-                            </Link>
-
                         </div>
                     </form>
                 </div>

@@ -9,6 +9,8 @@ import Breadcrumb from "@/Components/components/Breadcrumbs/Breadcrumb";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import SweetAlert from "@/utils/functions/Sweetalert";
 import { Hypnotize, Search } from "react-bootstrap-icons";
+import BlotterFolder from "@/Components/Dashboard/BlotterFolder";
+import { useBlotterStore } from "@/utils/store/blotterStore";
 
 type BlotterProps = {
     id: number;
@@ -27,12 +29,15 @@ type BlotterProps = {
 export default function Blotters({ auth, blotters, message, pageDisplay, pageNumber, keyword }:
     PageProps<{ blotters: any; message: string; pageDisplay: string, pageNumber: string; keyword: string }>) {
 
+    // Global state
+    const { yearlyBlotter } = useBlotterStore();
+
     // Form data
     const { data, setData, errors, processing, delete: destroy, get } = useForm({
         id: 0,
         keyword: keyword,
-        per_page: pageDisplay,
-        page: pageNumber,
+        per_page: pageDisplay ?? 10,
+        page: pageNumber ?? 0,
     });
 
     const handleDelete = () => {
@@ -63,6 +68,9 @@ export default function Blotters({ auth, blotters, message, pageDisplay, pageNum
             <Breadcrumb pageName="Entries" />
 
             <div className="grid grid-cols-1 gap-9 sm:grid-cols-1 mt-[-.5rem]">
+
+                <BlotterFolder blotterPerYear={yearlyBlotter} />
+
                 <div className="flex flex-col lg:gap-0 gap-4">
                     <div className="flex justify-between my-2">
                         <div className="flex">
@@ -70,7 +78,7 @@ export default function Blotters({ auth, blotters, message, pageDisplay, pageNum
                                 value={data.per_page}
                                 name="perPage"
                                 onChange={(e) => setData('per_page', e.target.value)}
-                                className="rounded-l py-1 h-8 pr-7"
+                                className="rounded-l py-1 h-8 pr-7 dark:bg-meta-4"
                             >
                                 <option value="10">10 Entries</option>
                                 <option value="20">20 Entries</option>
@@ -93,9 +101,9 @@ export default function Blotters({ auth, blotters, message, pageDisplay, pageNum
                                 onChange={(e) => setData('keyword', e.target.value)}
                                 type="text"
                                 placeholder="Search keywords..."
-                                className="rounded-l py-1 px-2"
+                                className="rounded-l py-1 px-2 dark:bg-meta-4"
                             />
-                            <form onSubmit={handleFetchBlotters} className="bg-blue-500 text-white px-2 rounded-r hover:bg-blue-700">
+                            <form onSubmit={handleFetchBlotters} className="dark:bg-meta-4 bg-blue-500 text-white px-2 rounded-r hover:bg-blue-700">
                                 <button className="mt-2">
                                     <Search className="" />
                                 </button>
@@ -107,7 +115,7 @@ export default function Blotters({ auth, blotters, message, pageDisplay, pageNum
                     {/**Table */}
                     <div className="rounded-sm border border-stroke bg-white px-3 pt-3 pb-2.5 shadow-default dark:border-strokedark dark:bg-boxdark xl:pb-1 mt-2">
                         <div className="max-w-full overflow-x-auto">
-                            <table className="w-full">
+                            <table className="w-full z-20">
                                 <TableHead />
                                 <TableBody blotters={blotters?.data} setData={setData} handleDelete={handleDelete} />
                             </table>

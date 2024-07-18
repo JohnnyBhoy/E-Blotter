@@ -14,7 +14,7 @@ const TableHead = () => {
                     Suspect/s
                 </th>
                 <th className="py-4 px-2 font-medium text-black dark:text-white">
-                    Type
+                    Incident Type
                 </th>
                 <th className="py-4 px-2 font-medium text-black dark:text-white">
                     Entry Date

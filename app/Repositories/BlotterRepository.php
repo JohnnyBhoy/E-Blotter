@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use PhpParser\Node\Expr\AssignOp\Concat;
 
 /**
  * Class BlotterRepository.
@@ -296,5 +297,60 @@ class BlotterRepository
         }
 
         return array_merge(...$filter);
+    }
+
+    /**
+     * Method to get blotter count and group into year
+     * @param int $userId unique ID of the user
+     * @return array
+     */
+    public function getYearlyBlotter(Int $userId)
+    {
+        return  DB::table('blotters')
+            ->select(DB::raw('YEAR(created_at) as year'), DB::raw('COUNT(*) as count'))
+            ->where('user_id', $userId)
+            ->groupBy(DB::raw('YEAR(created_at)'))
+            ->orderBy('year')
+            ->get()
+            ->toArray();
+    }
+
+    /**
+     * Method to get blotter count and group into month
+     * @param int $userId unique ID of the user
+     * @param int $year year to fetch
+     * @return array
+     */
+    public function getYearlyBlotterByMonth(Int $userId, Int $year)
+    {
+
+        return DB::table('blotters')
+            ->select(DB::raw('MONTH(created_at) as month'), DB::raw('COUNT(*) as count'))
+            ->whereYear('created_at', $year)
+            ->where('user_id', $userId)
+            ->groupBy(DB::raw('MONTH(created_at)'))
+            ->orderBy('month')
+            ->get()
+            ->toArray();
+    }
+
+    /**
+     * Method to get monthly blotter
+     * @param int $userId unique ID of the user
+     * @param int $year year to fetch
+     * @param int $month month to fetch
+     * @return array
+     */
+    public function getDailyBlotterByMonth(Int $userId, Int $year, Int $month)
+    {
+
+        return   DB::table('blotters as b')
+            ->leftJoin('complainants as c', 'b.id', '=', 'c.blotter_id')
+            ->leftJoin('respondents as r', 'b.id', '=', 'r.blotter_id')
+            ->where('b.user_id', $userId)
+            ->whereYear('b.created_at', $year)
+            ->whereMonth('b.created_at', $month)
+            ->get()
+            ->toArray();
     }
 }

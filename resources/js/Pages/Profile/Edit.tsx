@@ -1,5 +1,5 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout'
-import React from 'react'
+import React, { useEffect } from 'react'
 import { PageProps } from '../types';
 import Breadcrumb from '@/Components/components/Breadcrumbs/Breadcrumb';
 import { Link } from '@inertiajs/react';
@@ -8,21 +8,39 @@ import provinces from '@/utils/data/provinces';
 import regions from '@/utils/data/regions';
 import Banner from '@/Components/Profile/Banner';
 import Avatar from '@/Components/Profile/Avatar';
+import { useUserStore } from '@/utils/store/userStore';
+import barangays from '@/utils/data/barangays';
 
 const Edit = ({ auth, data }: PageProps<{ data: any }>) => {
     const userSix = './images/user/admin_2.png';
 
-    const city = Object.entries(cities)
+    const { barangay, setBarangay, city, setCity, province, setProvince, region, setRegion } = useUserStore();
+
+    const brgyName = Object.entries(barangays)
+        ?.map((barangay) => barangay[1])
+        ?.filter((barangay) => parseInt(barangay.brgy_code) == data.barangay_code);
+
+    const cityName = Object.entries(cities)
         ?.map((city) => city[1])
         ?.filter((city) => parseInt(city.city_code) == data.city_code);
 
-    const province = Object.entries(provinces)
+    const provinceName = Object.entries(provinces)
         ?.map((province) => province[1])
         ?.filter((province) => parseInt(province.province_code) == data.province_code);
 
-    const region = Object.entries(regions)
+    const regionName = Object.entries(regions)
         ?.map((region) => region[1])
         ?.filter((region) => parseInt(region.region_code) == data.region_code);
+
+    useEffect(() => {
+        setBarangay(brgyName[0].brgy_name);
+        setCity(cityName[0].city_name);
+        setProvince(provinceName[0].province_name);
+        setRegion(regionName[0].region_name);
+    }, []);
+
+
+    console.log(barangay, city, province, region);
 
     return (
         <AuthenticatedLayout
@@ -49,17 +67,17 @@ const Edit = ({ auth, data }: PageProps<{ data: any }>) => {
                         <div className="mx-auto mt-4.5 mb-5.5 grid max-w-1/2 grid-cols-3 rounded-md border border-stroke py-2.5 shadow-1 dark:border-strokedark dark:bg-[#37404F]">
                             <div className="flex flex-col items-center justify-center gap-1 border-r border-stroke px-4 dark:border-strokedark xsm:flex-row">
                                 <span className="font-semibold text-black dark:text-white w-full">
-                                    City / Municipality : {city[0].city_name}
+                                    City / Municipality : {city}
                                 </span>
                             </div>
                             <div className="flex flex-col items-center justify-center gap-1 border-r border-stroke px-4 dark:border-strokedark xsm:flex-row">
                                 <span className="font-semibold text-black dark:text-white">
-                                    Province : {province[0].province_name}
+                                    Province : {province}
                                 </span>
                             </div>
                             <div className="flex flex-col items-center justify-center gap-1 px-4 xsm:flex-row">
                                 <span className="font-semibold text-black dark:text-white">
-                                    Region : {region[0].region_name}
+                                    Region : {region}
                                 </span>
                             </div>
                         </div>
