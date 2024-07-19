@@ -598,7 +598,7 @@ const PersonInvolveData = ({ data, setData, person }: { data: any; setData: Call
                                 <h3 className="font-medium text-black text-center dark:text-white">
                                     Work Address
                                 </h3>
-                                <button onClick={handleSameHomeAddress(i)} className="text-xs bg-blue-500 hover:bg-blue-700 text-white px-2 py-1 rounded-3xl dark:bg-transparent">
+                                <button onClick={() => handleSameHomeAddress(i)} className="text-xs bg-blue-500 hover:bg-blue-700 text-white px-2 py-1 rounded-3xl dark:bg-transparent">
                                     Same with home address
                                 </button>
                             </div>
