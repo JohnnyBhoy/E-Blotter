@@ -13,15 +13,11 @@ const ChartTwo = ({ data }: { data: any }) => {
 
   // Local states
   const [week, setweek] = useState(1);
-  const weeklyDataCount = week === 1 ? data?.slice(7, 15)?.map((count: any) => count.count) : data?.slice(0, 7)?.map((count: any) => count.count);
-  const weeklyDataDay = week === 1 ? data?.slice(7, 15)?.map((day: any) => day.day) : data?.slice(0, 7)?.map((day: any) => day.day);
-
-  console.log(weeklyDataDay);
-  console.log(weeklyDataCount);
-  console.log(data);
+  const weeklyDataCount = week === 1 ? data?.slice(7, 15)?.map((count: any) => count?.count) : data?.slice(0, 7)?.map((count: any) => count?.count);
+  const weeklyDataDay = week === 1 ? data?.slice(7, 15)?.map((day: any) => day?.day) : data?.slice(0, 7)?.map((day: any) => day?.day);
 
   // Get the max count
-  let maxCount = data.reduce((max: number, obj: any) => obj.count > max ? obj.count : max, -Infinity);
+  let maxCount = data?.reduce((max: number, obj: any) => obj?.count > max ? obj?.count : max, -Infinity);
 
   const options: ApexOptions = {
     colors: ['#3C50E0', '#80CAEE'],
@@ -110,8 +106,6 @@ const ChartTwo = ({ data }: { data: any }) => {
     }));
   };
   handleReset;
-
-  console.log(data);
 
   return (
     <div className="col-span-12 rounded-sm border border-stroke bg-white p-7.5 shadow-default dark:border-strokedark dark:bg-boxdark xl:col-span-4">

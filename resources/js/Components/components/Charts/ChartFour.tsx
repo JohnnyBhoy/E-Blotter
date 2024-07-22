@@ -17,14 +17,14 @@ const ChartFour = ({ monthlyIncidents }: { monthlyIncidents: any }) => {
   const [show, setshow] = useState(false);
   const [showId, setshowId] = useState(0);
 
-  const monthlyIncidentCount = monthlyIncidents?.map((count: any) => count.count);
-  const monthlyIncidentType = monthlyIncidents?.map((incident: any) => incident.incident_type);
+  const monthlyIncidentCount = monthlyIncidents?.map((count: any) => count?.count);
+  const monthlyIncidentType = monthlyIncidents?.map((incident: any) => incident?.incident_type);
 
   // Get the total incidents this month
-  const totalIncidents = monthlyIncidents?.reduce((total: number, obj: any) => total + obj.count, 0);
+  const totalIncidents = monthlyIncidents?.reduce((total: number, obj: any) => total + obj?.count, 0);
 
   // Get the max count
-  let maxCount = monthlyIncidents.reduce((max: number, obj: any) => obj.count > max ? obj.count : max, -Infinity);
+  let maxCount = monthlyIncidents?.reduce((max: number, obj: any) => obj?.count > max ? obj?.count : max, -Infinity);
 
   const options: ApexOptions = {
     colors: ['#3C50E0'],
@@ -142,7 +142,7 @@ const ChartFour = ({ monthlyIncidents }: { monthlyIncidents: any }) => {
       <div className="border border-solid border-slate-300 p-2">
         <div className="flex flex-wrap space-x-6">
           {incidentTypes?.sort((a: any, b: any) => a.id - b.id)?.map((type) => (
-            <div key={type.id}>
+            <div key={type?.id}>
               <IncidentButtons
                 type={type}
                 show={show}
@@ -176,12 +176,12 @@ const IncidentButtons = ({ type, show, showId, setshow, setshowId }:
 
   return (
     <>
-      <button className={`z-20 mt-[-2rem] absolute bg-green-500 text-white px-2 rounded-3xl text-xs py-1 ${show && showId == type.id ? '' : 'hidden'}`}>
+      <button className={`z-20 mt-[-2rem] absolute bg-green-500 text-white px-2 rounded-3xl text-xs py-1 ${show && showId == type?.id ? '' : 'hidden'}`}>
         {type.value}
       </button>
       <button
         className="relative z-10 bg-slate-500 text-white rounded-full w-[1.5rem] text-xs p-1"
-        onMouseEnter={() => { setshow(true); setshowId(type.id) }}
+        onMouseEnter={() => { setshow(true); setshowId(type?.id) }}
         onMouseLeave={() => { setshow(false); setshowId(0) }}
       >
         {type.id}

@@ -176,8 +176,8 @@ const PersonInvolveData = ({ data, setData, person }: { data: any; setData: Call
                                         ? <button
                                             className="font-medium text-black dark:text-white bg-white  hover:bg-slate-300 text-xs rounded-3xl px-3 text-red-700"
                                             onClick={() => {
-                                                setComplainants(complainants.slice(0, -1));
-                                                setData('complainant_data', data.complainant_data.slice(0, -1));
+                                                setComplainants(complainants?.slice(0, -1));
+                                                setData('complainant_data', data.complainant_data?.slice(0, -1));
                                             }}>
                                             - Remove
                                         </button>

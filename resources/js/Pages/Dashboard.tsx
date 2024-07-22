@@ -16,7 +16,7 @@ import { JournalAlbum, JournalBookmark, JournalCheck, JournalRichtext } from "re
 
 export default function Dashboard({ auth, datas, lastYearBlotter, thisYearBlotter, thisWeekBlotter, blotterPerYear, monthlyIncidents }
     : PageProps<{
-        data: number[];
+        datas: number[];
         lastYearBlotter: any;
         thisYearBlotter: any;
         thisWeekBlotter: any;
@@ -36,8 +36,6 @@ export default function Dashboard({ auth, datas, lastYearBlotter, thisYearBlotte
         setReferred(datas[4]);
         setYearlyBlotter(blotterPerYear);
     }, [datas]);
-
-    //console.log(data, lastYearBlotter, thisYearBlotter, thisWeekBlotter, blotterPerYear);
 
     return (
         <AuthenticatedLayout

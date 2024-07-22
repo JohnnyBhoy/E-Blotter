@@ -16,8 +16,8 @@ const ChartOne = ({ lastYearBlotter, thisYearBlotter }: {
 
 
   // Using Array.reduce to find maximum count in one line
-  let maxCount = thisYearBlotter.reduce((max, obj) => obj.count > max ? obj.count : max, -Infinity);
-  let maxlastCount = lastYearBlotter.reduce((max, obj) => obj.count > max ? obj.count : max, -Infinity);
+  let maxCount = thisYearBlotter?.reduce((max, obj) => obj?.count > max ? obj?.count : max, -Infinity);
+  let maxlastCount = lastYearBlotter?.reduce((max, obj) => obj?.count > max ? obj?.count : max, -Infinity);
 
   const options: ApexOptions = {
 
