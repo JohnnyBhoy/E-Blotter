@@ -43,12 +43,11 @@ class BlotterService
     /**
      * Method to create blotter data based on
      * @param \Illuminate\Http\Request $request The HTTP request
-     * @param int $userId User ID
      * @return bool
      */
-    public function create(Request $request, Int $userId)
+    public function create(Request $request)
     {
-        return $this->blotter->create($request, $userId);
+        return $this->blotter->create($request);
     }
 
 
@@ -119,5 +118,30 @@ class BlotterService
     public function getDailyBlotterByMonth(Int $userId, Int $year, Int $month)
     {
         return  $this->blotter->getDailyBlotterByMonth($userId, $year, $month);
+    }
+
+    /**
+     * Method to get blotter count and group into year
+     * @param int $userId unique ID of the user
+     * @return array
+     */
+    public function getWeeklyBlotter(Int $userId)
+    {
+        return  $this->blotter->getWeeklyBlotter($userId);
+    }
+
+    /**
+     * Method to get all blotter data based on rema
+     * @param int $perPage Data record display
+     * @param int $page Data page display
+     * @param int $userId ID of the barangay
+     * @param string $keyword  Filter
+     * @param int $remark case remark
+     *
+     * @return LengthAwarePaginator
+     */
+    public function getBlotterByRemarks(Int $perPage, Int $page, String $keyword, Int $userId, Int $remark)
+    {
+        return $this->blotter->getBlotterByRemarks($perPage,  $page,  $keyword, $userId, $remark);
     }
 }

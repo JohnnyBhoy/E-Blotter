@@ -1,44 +1,43 @@
 import CardDataStats from "@/Components/CardDataStats";
+import ChartFour from "@/Components/components/Charts/ChartFour";
 import ChartOne from "@/Components/components/Charts/ChartOne";
 import ChartThree from "@/Components/components/Charts/ChartThree";
 import ChartTwo from "@/Components/components/Charts/ChartTwo";
 import ChatCard from "@/Components/components/Chat/ChatCard";
 import MapOne from "@/Components/components/Maps/MapOne";
 import TableOne from "@/Components/components/Tables/TableOne";
-import BlotterFolder from "@/Components/Dashboard/BlotterFolder";
-import SearchInBlotter from "@/Components/Dashboard/SearchInBlotter";
-import Sorts from "@/Components/Dashboard/Sorts";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
+
 import { PageProps } from "@/Pages/types";
 import { useBlotterStore } from "@/utils/store/blotterStore";
-import { Head } from "@inertiajs/react";
-import React, { useEffect } from "react";
+import { Head, Link, useForm } from "@inertiajs/react";
+import React, { useEffect, useState } from "react";
 import { JournalAlbum, JournalBookmark, JournalCheck, JournalRichtext } from "react-bootstrap-icons";
 
-export default function Dashboard({ auth, data, lastYearBlotter, thisYearBlotter, thisWeekBlotter, blotterPerYear }
+export default function Dashboard({ auth, datas, lastYearBlotter, thisYearBlotter, thisWeekBlotter, blotterPerYear, monthlyIncidents }
     : PageProps<{
         data: number[];
         lastYearBlotter: any;
         thisYearBlotter: any;
         thisWeekBlotter: any;
-        blotterPerYear: any
+        blotterPerYear: any;
+        monthlyIncidents: any;
     }>) {
-
-
-    console.log('blotterPerYear :', blotterPerYear);
 
     // Global state
     const { hearing, settled, pending, referred, yearlyBlotter,
         setBlotter, setHearing, setSettled, setPending, setReferred, setYearlyBlotter } = useBlotterStore();
 
     useEffect(() => {
-        setBlotter(data[0]);
-        setHearing(data[1]);
-        setSettled(data[2]);
-        setPending(data[3]);
-        setReferred(data[4]);
+        setBlotter(datas[0]);
+        setHearing(datas[1]);
+        setSettled(datas[2]);
+        setPending(datas[3]);
+        setReferred(datas[4]);
         setYearlyBlotter(blotterPerYear);
-    }, [data]);
+    }, [datas]);
+
+    //console.log(data, lastYearBlotter, thisYearBlotter, thisWeekBlotter, blotterPerYear);
 
     return (
         <AuthenticatedLayout
@@ -51,7 +50,8 @@ export default function Dashboard({ auth, data, lastYearBlotter, thisYearBlotter
         >
             <Head title="Dashboard" />
 
-            <div className="grid place-items-center mb-5">
+            {/**
+ * <div className="grid place-items-center mb-5">
                 <h2 className="text-2xl mb-6">
                     Welcome to Barangay E-Blotter
                 </h2>
@@ -63,20 +63,25 @@ export default function Dashboard({ auth, data, lastYearBlotter, thisYearBlotter
                 <BlotterFolder blotterPerYear={yearlyBlotter} />
             </div>
 
+    // Redirect to blotter by case disposition
+    const { data, setData, get } = useForm({
+        remark: 1,
+    });
+ */}
             <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6 xl:grid-cols-4 2xl:gap-7.5">
-                <CardDataStats title="For Hearing" total={`${hearing}`} rate={`${hearing}`} levelUp>
+                <CardDataStats title="For Hearing" total={`${hearing}`} rate={`${hearing}`} remark={1} routeTo="hearing" levelUp>
                     <JournalBookmark size={24} color="blue" />
                 </CardDataStats>
 
-                <CardDataStats title="Amicably Settled" total={`${settled}`} rate={`${settled}`} levelUp>
+                <CardDataStats title="Amicably Settled" total={`${settled}`} rate={`${settled}`} remark={2} routeTo="settled" levelUp>
                     <JournalCheck size={24} color="blue" />
                 </CardDataStats>
 
-                <CardDataStats title="Pending" total={`${pending}`} rate={`${pending}`} levelDown>
+                <CardDataStats title="Pending" total={`${pending}`} rate={`${pending}`} remark={3} routeTo="pending" levelDown>
                     <JournalRichtext size={24} color="blue" />
                 </CardDataStats>
 
-                <CardDataStats title="Referred to PNP" total={`${referred}`} rate={`${referred}`} levelUp>
+                <CardDataStats title="Referred to PNP" total={`${referred}`} rate={`${referred}`} remark={4} routeTo="referred" levelUp>
                     <JournalAlbum size={24} color="blue" />
                 </CardDataStats>
             </div>
@@ -89,6 +94,8 @@ export default function Dashboard({ auth, data, lastYearBlotter, thisYearBlotter
                 <ChartThree />
 
                 <MapOne auth={auth} />
+
+                <ChartFour monthlyIncidents={monthlyIncidents?.sort((a: any, b: any) => a.incident_type - b.incident_type)} />
 
                 <div className="col-span-12 xl:col-span-8 hidden">
                     <TableOne />

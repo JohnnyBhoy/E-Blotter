@@ -25,8 +25,6 @@ const DailyBlotters = ({ year, month, dailyBlotters }: { year: number; month: nu
         //get(route('blotter.monthly.all'));
     }
 
-    console.log(newBlotters);
-
     useEffect(() => {
         const newData = dailyBlotters?.filter((item: any) =>
             item?.entry_number == keyword

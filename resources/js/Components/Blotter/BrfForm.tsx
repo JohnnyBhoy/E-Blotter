@@ -23,8 +23,6 @@ const BrfForm = ({ data, setData }: { data: any; setData: CallableFunction }) =>
         }
     }
 
-    console.log(data.incident_type);
-
     return (
         <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
             <div className="border-b border-stroke py-2 px-6.5 dark:border-strokedark bg-amber">
@@ -94,6 +92,7 @@ const BrfForm = ({ data, setData }: { data: any; setData: CallableFunction }) =>
                     </div>
 
                     <Select
+                        defaultValue={incidentTypes?.filter((incident: any) => incident.id == data.incident_type)}
                         onChange={(e: any) => handleIncidentChange(e)}
                         isMulti
                         id="productServices"

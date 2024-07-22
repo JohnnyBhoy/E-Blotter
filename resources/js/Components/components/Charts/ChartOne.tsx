@@ -2,120 +2,6 @@ import { ApexOptions } from 'apexcharts';
 import React, { useState } from 'react';
 import ReactApexChart from 'react-apexcharts';
 
-const options: ApexOptions = {
-
-  legend: {
-    show: false,
-    position: 'top',
-    horizontalAlign: 'left',
-  },
-  colors: ['#80CAEE', '#3C50E0'],
-  chart: {
-    fontFamily: 'Satoshi, sans-serif',
-    height: 335,
-    type: 'area',
-    dropShadow: {
-      enabled: true,
-      color: '#623CEA14',
-      top: 10,
-      blur: 4,
-      left: 0,
-      opacity: 0.1,
-    },
-
-    toolbar: {
-      show: false,
-    },
-  },
-  responsive: [
-    {
-      breakpoint: 1024,
-      options: {
-        chart: {
-          height: 300,
-        },
-      },
-    },
-    {
-      breakpoint: 1366,
-      options: {
-        chart: {
-          height: 350,
-        },
-      },
-    },
-  ],
-  stroke: {
-    width: [2, 2],
-    curve: 'straight',
-  },
-  // labels: {
-  //   show: false,
-  //   position: "top",
-  // },
-  grid: {
-    xaxis: {
-      lines: {
-        show: true,
-      },
-    },
-    yaxis: {
-      lines: {
-        show: true,
-      },
-    },
-  },
-  dataLabels: {
-    enabled: false,
-  },
-  markers: {
-    size: 4,
-    colors: '#fff',
-    strokeColors: ['#80CAEE', '#3056D3'],
-    strokeWidth: 3,
-    strokeOpacity: 0.9,
-    strokeDashArray: 0,
-    fillOpacity: 1,
-    discrete: [],
-    hover: {
-      size: undefined,
-      sizeOffset: 5,
-    },
-  },
-  xaxis: {
-    type: 'category',
-    categories: [
-      'Jan',
-      'Feb',
-      'Mar',
-      'Apr',
-      'May',
-      'Jun',
-      'Jul',
-      'Aug',
-      'Sep',
-      'Oct',
-      'Nov',
-      'Dec',
-    ],
-    axisBorder: {
-      show: false,
-    },
-    axisTicks: {
-      show: false,
-    },
-  },
-  yaxis: {
-    title: {
-      style: {
-        fontSize: '0px',
-      },
-    },
-    min: 0,
-    max: 1000,
-  },
-};
-
 interface ChartOneState {
   series: {
     name: string;
@@ -128,44 +14,145 @@ const ChartOne = ({ lastYearBlotter, thisYearBlotter }: {
   thisYearBlotter: any[];
 }) => {
 
+
+  // Using Array.reduce to find maximum count in one line
+  let maxCount = thisYearBlotter.reduce((max, obj) => obj.count > max ? obj.count : max, -Infinity);
+  let maxlastCount = lastYearBlotter.reduce((max, obj) => obj.count > max ? obj.count : max, -Infinity);
+
+  const options: ApexOptions = {
+
+    legend: {
+      show: false,
+      position: 'top',
+      horizontalAlign: 'left',
+    },
+    colors: ['#80CAEE', '#3C50E0'],
+    chart: {
+      fontFamily: 'Satoshi, sans-serif',
+      height: 335,
+      type: 'area',
+      toolbar: {
+        show: true,
+      },
+      dropShadow: {
+        enabled: true,
+        color: '#623CEA14',
+        top: 10,
+        blur: 4,
+        left: 0,
+        opacity: 0.1,
+      },
+    },
+    responsive: [
+      {
+        breakpoint: 1024,
+        options: {
+          chart: {
+            height: 300,
+          },
+        },
+      },
+      {
+        breakpoint: 1366,
+        options: {
+          chart: {
+            height: 350,
+          },
+        },
+      },
+    ],
+    stroke: {
+      width: [2, 2],
+      curve: 'straight',
+    },
+    // labels: {
+    //   show: false,
+    //   position: "top",
+    // },
+    grid: {
+      xaxis: {
+        lines: {
+          show: true,
+        },
+      },
+      yaxis: {
+        lines: {
+          show: true,
+        },
+      },
+    },
+    dataLabels: {
+      enabled: false,
+    },
+    markers: {
+      size: 4,
+      colors: '#fff',
+      strokeColors: ['#80CAEE', '#3056D3'],
+      strokeWidth: 3,
+      strokeOpacity: 0.9,
+      strokeDashArray: 0,
+      fillOpacity: 1,
+      discrete: [],
+      hover: {
+        size: undefined,
+        sizeOffset: 5,
+      },
+    },
+    xaxis: {
+      type: 'category',
+      categories: [
+        'Jan',
+        'Feb',
+        'Mar',
+        'Apr',
+        'May',
+        'Jun',
+        'Jul',
+        'Aug',
+        'Sep',
+        'Oct',
+        'Nov',
+        'Dec',
+      ],
+      axisBorder: {
+        show: false,
+      },
+      axisTicks: {
+        show: false,
+      },
+    },
+    yaxis: {
+      title: {
+        style: {
+          fontSize: '0px',
+        },
+      },
+      min: 0,
+      max: maxCount > maxlastCount ? maxCount : maxlastCount,
+    },
+  };
+
+  // Initialize monthly data
+  let defaultMonthlyData = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+  let defaultLastMonthlyData = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+
   const date = new Date();
   const currentYear = date.getFullYear();
 
   // Get the last year blotter and store it in array
-  let lastYearBlotterData: number[] = [];
-  let currentMonthData;
-
-  for (let i = 1; i <= 12; i++) {
-    let currentMonth = i < 10 ? `0${i}` : i;
-    let currentData = `${currentYear - 1}-${currentMonth}`;
-
-    currentMonthData = lastYearBlotter?.filter((data: any) => data.created_at?.substring(0, 7) == currentData);
-
-    lastYearBlotterData.push(currentMonthData?.length);
-  }
-
-  // Get the current year blotter and store it in array
-  let thisYearBlotterData: number[] = [];
-
-  for (let i = 1; i <= 12; i++) {
-    let currentMonth = i < 10 ? `0${i}` : i;
-    let currentData = `${currentYear}-${currentMonth}`;
-
-    currentMonthData = thisYearBlotter?.filter((data: any) => data.created_at?.substring(0, 7) == currentData);
-
-    thisYearBlotterData.push(currentMonthData?.length);
-  }
+  thisYearBlotter?.map((item: any) => [...defaultMonthlyData, defaultMonthlyData[item.month - 1] = item.count]);
+  lastYearBlotter?.map((item: any) => [...defaultLastMonthlyData, defaultLastMonthlyData[item.month - 1] = item.count]);
 
   const [state, setState] = useState<ChartOneState>({
     series: [
       {
         name: `${currentYear - 1} Blotter`,
-        data: lastYearBlotterData,
+        data: defaultLastMonthlyData,
       },
 
       {
         name: `${currentYear} Blotter`,
-        data: thisYearBlotterData,
+        data: defaultMonthlyData,
       },
     ],
   });

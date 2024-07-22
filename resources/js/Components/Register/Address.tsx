@@ -34,8 +34,8 @@ const Address = ({ data, setData }: { data: any; setData: CallableFunction }) =>
                             <option value="" className="text-body dark:text-bodydark" key={1}>
                                 Select region
                             </option>
-                            {Object.entries(regions)?.map((region) => region[1])?.map((region: any) => (
-                                <option value={parseInt(region?.region_code)} className="text-body dark:text-bodydark" key={region.id}>
+                            {Object.entries(regions)?.map((region) => region[1])?.map((region: any, i) => (
+                                <option value={parseInt(region?.region_code)} className="text-body dark:text-bodydark" key={i}>
                                     {region?.region_name}
                                 </option>
                             ))}

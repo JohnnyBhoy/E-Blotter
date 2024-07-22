@@ -174,8 +174,6 @@ export default function New({ auth, latestID }: PageProps<{ latestID: number }>)
         }, 2000);
     }
 
-    console.log('data : ', data);
-
     return (
         <AuthenticatedLayout
             user={auth.user}

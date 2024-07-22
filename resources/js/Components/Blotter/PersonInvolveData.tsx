@@ -118,12 +118,12 @@ const PersonInvolveData = ({ data, setData, person }: { data: any; setData: Call
             }
             : {
                 ...data.respondent_data[i],
-                'respondent_work_street': data.respondent_street,
-                'respondent_work_village': data.respondent_village,
-                'respondent_work_barangay': data.respondent_barangay,
-                'respondent_work_city': data.respondent_city,
-                'respondent_work_province': data.respondent_province,
-                'respondent_work_region': data.respondent_region,
+                'respondent_work_street': data.respondent_data[i].respondent_street,
+                'respondent_work_village': data.respondent_data[i].respondent_village,
+                'respondent_work_barangay': data.respondent_data[i].respondent_barangay,
+                'respondent_work_city': data.respondent_data[i].respondent_city,
+                'respondent_work_province': data.respondent_data[i].respondent_province,
+                'respondent_work_region': data.respondent_data[i].respondent_region,
             }
 
         return setData(person === 'Complainant'

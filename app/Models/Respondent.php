@@ -13,6 +13,8 @@ class Respondent extends Model
      */
     protected $fillable = [
         'blotter_id',
+        'user_id',
+        'entry_number',
         'respondent_family_name',
         'respondent_first_name',
         'respondent_middle_name',

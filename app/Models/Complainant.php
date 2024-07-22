@@ -13,6 +13,8 @@ class Complainant extends Model
      */
     protected $fillable = [
         'blotter_id',
+        'user_id',
+        'entry_number',
         'complainant_family_name',
         'complainant_first_name',
         'complainant_middle_name',

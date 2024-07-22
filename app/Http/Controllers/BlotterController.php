@@ -46,7 +46,7 @@ class BlotterController extends Controller
         $userId = auth()->user()->id;
 
         try {
-            $this->blotterService->create($request, $userId);
+            $this->blotterService->create($request);
 
             $blotters = $this->blotterService->getAll(10, 1, "", $userId);
 
@@ -167,6 +167,33 @@ class BlotterController extends Controller
                 'year' => $year,
                 'month' => $month,
                 'dailyBlotters' => $dailyBlotters,
+            ]);
+        } catch (\Throwable $th) {
+            return response()->json(['error' => $th], 500);
+        }
+    }
+
+    /**
+     * Method to retrieve all blotter entries
+     * @param \Illuminate\Http\Request $request The HTTP request
+     */
+    public function getBlotterByRemarks(Request $request)
+    {
+        $userId = auth()->user()->id;
+        $perPage = $request->get('per_page') ?? 10;
+        $page = $request->get('page') ?? 1;
+        $keyword = $request->get('keyword') ?? "";
+        $remark = $request->get('remark') ?? "";
+
+        try {
+            $blotters = $this->blotterService->getBlotterByRemarks($perPage, $page, $keyword, $userId, $remark);
+
+            return Inertia::render('Hearing', [
+                'blotters' => $blotters,
+                'message' => 'successful retrieve',
+                'pageDisplay' => $perPage,
+                'pageNumber' => $page,
+                'keyword' => $keyword,
             ]);
         } catch (\Throwable $th) {
             return response()->json(['error' => $th], 500);

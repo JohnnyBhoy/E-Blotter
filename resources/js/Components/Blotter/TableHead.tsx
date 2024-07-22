@@ -17,10 +17,10 @@ const TableHead = () => {
                     Incident Type
                 </th>
                 <th className="py-4 px-2 font-medium text-black dark:text-white">
-                    Entry Date
+                    Report Date
                 </th>
                 <th className="py-4 px-2 font-medium text-black dark:text-white">
-                    Remarks
+                    Case Remarks
                 </th>
                 <th className="py-4 px-2 font-medium text-black dark:text-white">
                     Action

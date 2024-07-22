@@ -39,9 +39,6 @@ const Edit = ({ auth, data }: PageProps<{ data: any }>) => {
         setRegion(regionName[0].region_name);
     }, []);
 
-
-    console.log(barangay, city, province, region);
-
     return (
         <AuthenticatedLayout
             user={auth.user}

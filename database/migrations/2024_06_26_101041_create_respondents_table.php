@@ -14,6 +14,8 @@ return new class extends Migration
         Schema::create('respondents', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('blotter_id');
+            $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('entry_number');
             $table->string('respondent_family_name');
             $table->string('respondent_first_name');
             $table->string('respondent_middle_name')->nullable();
@@ -39,6 +41,7 @@ return new class extends Migration
             $table->integer('respondent_work_region');
             $table->timestamps();
 
+            $table->foreign('user_id')->references('user_id')->on('blotters');
             $table->foreign('blotter_id')->references('id')->on('blotters');
         });
     }

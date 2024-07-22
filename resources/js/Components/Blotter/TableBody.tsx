@@ -14,8 +14,6 @@ const TableBody = ({ blotters, setData, handleDelete }: { blotters: any; setData
     const [activeHoverID, setActiveHoverId] = useState<number>(0);
     const [selectedBlotter, setSelectedBlotter] = useState<object>({});
 
-    console.log(blotters);
-
     // React to PDF
     const { toPDF, targetRef } = usePDF({ filename: `Blotter_Copy.pdf` });
 
@@ -76,7 +74,7 @@ const TableBody = ({ blotters, setData, handleDelete }: { blotters: any; setData
     };
 
     const formatCaseDisposition = (remarks: string) => {
-        if (remarks > '3') return 'Other';
+        if (remarks > '4') return 'Other';
 
         const result = disposition?.filter((item: any) => item?.id == parseInt(remarks))
 
@@ -161,10 +159,10 @@ const TableBody = ({ blotters, setData, handleDelete }: { blotters: any; setData
                         </td>
                         <td className="border-b border-[#eee] py-1.5 px-2 dark:border-strokedark">
                             <div className="flex items-center space-x-3.5">
-                                <button onClick={() => handleEdit(blotter.id)} className="hover:text-primary">
-                                    <Eye size={16} />
+                                <button onClick={() => handleEdit(blotter.id)} className="bg-success text-white rounded-3xl px-5 flex text-xs py-1 gap-1">
+                                    View
                                 </button>
-                                <form onSubmit={handleConfirmDelete}>
+                                {/* <form onSubmit={handleConfirmDelete}>
                                     <button
                                         className="hover:text-primary"
                                         onClick={() => setData('id', blotter.id)} >
@@ -173,7 +171,7 @@ const TableBody = ({ blotters, setData, handleDelete }: { blotters: any; setData
                                 </form>
                                 <button className="hover:text-primary" onClick={() => { handleDownload; setSelectedBlotter(blotter) }}>
                                     <Download size={16} />
-                                </button>
+                                </button> */}
                             </div>
                         </td>
                     </tr>

@@ -16,7 +16,7 @@ class IsRegion
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (Auth::user() &&  Auth::user()->user_role == 4) {
+        if (Auth::user() &&  Auth::user()->role == 5) {
             return $next($request);
         }
 

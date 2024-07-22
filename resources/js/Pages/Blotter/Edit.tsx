@@ -119,7 +119,7 @@ export default function Edit({ auth, blotter }: PageProps<{ blotter: any }>) {
         }],
 
         narrative: blotter.narrative ?? "",
-        remarks: blotter.narrative ?? "",
+        remarks: blotter.remarks ?? "",
         complainant_signature: '',
         recorded_by: blotter.recorded_by ?? "",
         recorded_by_signature: '',
@@ -164,8 +164,6 @@ export default function Edit({ auth, blotter }: PageProps<{ blotter: any }>) {
 
         post(route("blotter"));
     }
-
-    console.log('data : ', blotter);
 
     return (
         <AuthenticatedLayout
@@ -213,24 +211,25 @@ export default function Edit({ auth, blotter }: PageProps<{ blotter: any }>) {
                         : null}
                     {/** End Narrative Report */}
 
-                    {/* <!- Case Disposition --> */}
-                    {person === 'Suspect/s'
-                        ? <CaseDisposition
-                            data={data}
-                            setData={setData}
-                        />
-                        : null}
-                    {/** End Case Disposition */}
+                    <div className="flex lg:flex-row flex-col justify-between lg:gap-12">
+                        {/* <!- Case Disposition --> */}
+                        {person === 'Suspect/s'
+                            ? <CaseDisposition
+                                data={data}
+                                setData={setData}
+                            />
+                            : null}
+                        {/** End Case Disposition */}
 
-                    {/* <!- Authentication --> */}
-                    {person === 'Suspect/s'
-                        ? <Authentication
-                            data={data}
-                            setData={setData}
-                        />
-                        : null}
-                    {/** End Authentication */}
-
+                        {/* <!- Authentication --> */}
+                        {person === 'Suspect/s'
+                            ? <Authentication
+                                data={data}
+                                setData={setData}
+                            />
+                            : null}
+                        {/** End Authentication */}
+                    </div>
 
                     {/* Next to respondent */}
                     <div className="flex justify-end gap-4 mt-4">

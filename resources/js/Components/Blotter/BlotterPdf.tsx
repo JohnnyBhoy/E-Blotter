@@ -8,8 +8,6 @@ const BlotterPdf = ({ data }: { data: any }) => {
     const user = usePage<PageProps>().props.auth.user;
     const { barangay, city, province, region } = useUserStore();
 
-    console.log(user);
-
     return (
         <div className='p-6'>
             <div className="grid place-items-center text-center">

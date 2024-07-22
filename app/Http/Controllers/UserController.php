@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Blotter;
 use App\Models\User;
 use App\Services\BlotterService;
+use App\Services\IncidentService;
 use App\Services\UserService;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -14,13 +15,15 @@ class UserController extends Controller
 {
     protected $userService;
     protected $blotterService;
+    protected $incidentService;
     protected $edit = 'Profile/Edit';
 
     /** Constructor */
-    public function __construct(UserService $userService, BlotterService $blotterService)
+    public function __construct(UserService $userService, BlotterService $blotterService, IncidentService $incidentService)
     {
         $this->userService = $userService;
         $this->blotterService = $blotterService;
+        $this->incidentService = $incidentService;
     }
 
     /** Dashboard */
@@ -30,20 +33,17 @@ class UserController extends Controller
         $lastYear  = date('Y') - 1;
         $currentYear  = date('Y');
 
+        // Get the monthly incident type and count
+        $monthlyIncidents = $this->incidentService->getMonthly($userId);
+
         // Yearly blotter
         $blotterPerYear = $this->blotterService->getYearlyBlotter($userId);
 
-        $recordsLastYear = Blotter::where('user_id', $userId)
-            ->whereBetween('created_at', ["{$lastYear}-01-01", "{$lastYear}-12-31"])
-            ->get();
+        $recordsLastYear = $this->blotterService->getYearlyBlotterByMonth($userId, $lastYear);
 
-        $recordsThisWeek = Blotter::where('user_id', $userId)
-            ->where('created_at', '>=', Carbon::now()->subDays(7))
-            ->get();
+        $recordsThisWeek = $this->blotterService->getWeeklyBlotter($userId);
 
-        $recordsThisYear = Blotter::where('user_id', $userId)
-            ->whereBetween('created_at', ["{$currentYear}-01-01", "{$currentYear}-12-31"])
-            ->get();
+        $recordsThisYear = $this->blotterService->getYearlyBlotterByMonth($userId, $currentYear);
 
         $blotter = Blotter::where('user_id', $userId)->count();
 
@@ -56,7 +56,7 @@ class UserController extends Controller
         $referred = Blotter::where('user_id', $userId)->where('remarks', 4)->count();
 
         return Inertia::render('Dashboard', [
-            'data' =>  [
+            'datas' =>  [
                 $blotter,
                 $hearing,
                 $settled,
@@ -66,6 +66,7 @@ class UserController extends Controller
             'thisYearBlotter' => $recordsThisYear,
             'thisWeekBlotter' => $recordsThisWeek,
             'blotterPerYear' => $blotterPerYear,
+            'monthlyIncidents' => $monthlyIncidents,
         ]);
     }
 

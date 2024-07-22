@@ -17,8 +17,6 @@ const Register = () => {
     // Local state
     const [page, setPage] = useState<number>(1);
 
-    console.log(Object.entries(regions)?.map((region) => region[1]));
-
     const { data, setData, post, processing, errors, reset } = useForm({
         name: '',
         email: '',

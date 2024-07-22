@@ -21,8 +21,8 @@ const BlotterFolder = ({ blotterPerYear }: { blotterPerYear: any }) => {
 
     return (
         <div className='flex flex-wrap gap-8 py-6 w-full justify-center shadow mt-6 rounded-sm border border-stroke bg-white py-6 px-7.5 shadow-default dark:border-strokedark dark:bg-boxdark'>
-            {blotterPerYear?.map((blotter: any, i: number) => (
-                <form onSubmit={Submit}>
+            <form onSubmit={Submit} className='flex gap-8'>
+                {blotterPerYear?.map((blotter: any, i: number) => (
                     <div
                         className="py-3 grid place-items-center px-6 bg-slate-100 dark:bg-slate-800 rounded-2xl hover:bg-slate-200 border border-solid border-slate-300"
                         key={i}
@@ -49,8 +49,8 @@ const BlotterFolder = ({ blotterPerYear }: { blotterPerYear: any }) => {
                             {blotter?.year}
                         </button>
                     </div>
-                </form>
-            ))}
+                ))}
+            </form>
         </div>
     )
 }

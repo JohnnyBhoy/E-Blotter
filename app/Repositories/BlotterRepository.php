@@ -5,6 +5,7 @@ namespace App\Repositories;
 use App\Models\Blotter;
 use App\Models\Complainant;
 use App\Models\Respondent;
+use Carbon\Carbon;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
@@ -35,10 +36,9 @@ class BlotterRepository
     /**
      * Method to create blotter data based on
      * @param \Illuminate\Http\Request $request The HTTP request
-     * @param int $userId User ID
      * @return boolean
      */
-    public function create(Request $request, Int $userId)
+    public function create(Request $request)
     {
         // Create blotter
         $blotterAttribs = [
@@ -59,8 +59,16 @@ class BlotterRepository
 
         Blotter::create($blotterCreatePairs);
 
-        $blotterId = $this->getBlotterByNumber($request->get('entry_number'), $userId);
-        $blotterID = ['blotter_id' => $blotterId];
+        // Get the latest blotter id
+        $latestBlotter = Blotter::where('user_id', $request->get('user_id'))
+            ->where('entry_number', $request->get('entry_number'))
+            ->first();
+
+        $entryNumber = [
+            'blotter_id' => $latestBlotter->id,
+            'user_id' => $request->get('user_id'),
+            'entry_number' => $request->get('entry_number')
+        ];
 
         // Create complainants
         $complainantData = [
@@ -90,9 +98,8 @@ class BlotterRepository
         ];
         foreach ($request->get('complainant_data') as $complainant) {
             $complainantCreatePairs = $this->createFilterHolder($complainantData, $complainant);
-            Complainant::create(array_merge($blotterID, $complainantCreatePairs));
+            Complainant::create(array_merge($entryNumber, $complainantCreatePairs));
         }
-
 
         // Create complainants
         $respondentData = [
@@ -123,7 +130,7 @@ class BlotterRepository
 
         foreach ($request->get('respondent_data') as $respondent) {
             $respondentCreatePairs = $this->createFilterHolder($respondentData, $respondent);
-            Respondent::create(array_merge($blotterID, $respondentCreatePairs));
+            Respondent::create(array_merge($entryNumber, $respondentCreatePairs));
         }
 
         return true;
@@ -144,19 +151,6 @@ class BlotterRepository
     }
 
     /**
-     * Method to get blotter data based on
-     * @param int $blotter_number unique number of the blotters
-     * @param int $userId User ID
-     * @return int
-     */
-    public function getBlotterByNumber(int $blotter_number, Int $userId)
-    {
-        $blotter =  Blotter::where('entry_number', $blotter_number)->where('user_id', $userId)->first();
-
-        return $blotter->id;
-    }
-
-    /**
      * Method to get all blotter data based on
      * @param int $perPage Data record display
      * @param int $page Data page display
@@ -172,6 +166,7 @@ class BlotterRepository
         $respondentTable = $this->respondent;
 
         return DB::table("{$blotterTable} as b")
+            ->where('b.user_id', $userId)
             ->leftJoin("{$complainantTable} as c", 'b.id', '=', 'c.blotter_id')
             ->leftJoin("{$respondentTable} as r", 'b.id', '=', 'r.blotter_id')
             ->select(
@@ -187,55 +182,53 @@ class BlotterRepository
                 'b.created_at',
                 'b.remarks',
             )
-            ->where('b.user_id', $userId)
-            ->where(function ($query) use ($keyword) {
-                $query->where('b.entry_number', 'like', '%' . $keyword . '%')
-                    ->orWhere('b.date_reported', 'like', '%' . $keyword . '%')
-                    ->orWhere('b.incident_type', 'like', '%' . $keyword . '%')
-                    ->orWhere('b.narrative', 'like', '%' . $keyword . '%')
-                    ->orWhere('b.remarks', 'like', '%' . $keyword . '%')
-                    ->orWhere('b.recorded_by', 'like', '%' . $keyword . '%')
-                    ->orWhere('c.complainant_family_name', 'like', '%' . $keyword . '%')
-                    ->orWhere('c.complainant_first_name', 'like', '%' . $keyword . '%')
-                    ->orWhere('c.complainant_middle_name', 'like', '%' . $keyword . '%')
-                    ->orWhere('c.complainant_place_of_birth', 'like', '%' . $keyword . '%')
-                    ->orWhere('c.complainant_citizenship', 'like', '%' . $keyword . '%')
-                    ->orWhere('c.complainant_civil_status', 'like', '%' . $keyword . '%')
-                    ->orWhere('c.complainant_occupation', 'like', '%' . $keyword . '%')
-                    ->orWhere('c.complainant_education', 'like', '%' . $keyword . '%')
-                    ->orWhere('c.complainant_street', 'like', '%' . $keyword . '%')
-                    ->orWhere('c.complainant_village', 'like', '%' . $keyword . '%')
-                    ->orWhere('c.complainant_barangay', 'like', '%' . $keyword . '%')
-                    ->orWhere('c.complainant_city', 'like', '%' . $keyword . '%')
-                    ->orWhere('c.complainant_province', 'like', '%' . $keyword . '%')
-                    ->orWhere('c.complainant_region', 'like', '%' . $keyword . '%')
-                    ->orWhere('c.complainant_work_street', 'like', '%' . $keyword . '%')
-                    ->orWhere('c.complainant_work_village', 'like', '%' . $keyword . '%')
-                    ->orWhere('c.complainant_work_barangay', 'like', '%' . $keyword . '%')
-                    ->orWhere('c.complainant_work_city', 'like', '%' . $keyword . '%')
-                    ->orWhere('c.complainant_work_province', 'like', '%' . $keyword . '%')
-                    ->orWhere('c.complainant_work_region', 'like', '%' . $keyword . '%')
-                    ->orWhere('r.respondent_family_name', 'like', '%' . $keyword . '%')
-                    ->orWhere('r.respondent_first_name', 'like', '%' . $keyword . '%')
-                    ->orWhere('r.respondent_middle_name', 'like', '%' . $keyword . '%')
-                    ->orWhere('r.respondent_place_of_birth', 'like', '%' . $keyword . '%')
-                    ->orWhere('r.respondent_citizenship', 'like', '%' . $keyword . '%')
-                    ->orWhere('r.respondent_civil_status', 'like', '%' . $keyword . '%')
-                    ->orWhere('r.respondent_occupation', 'like', '%' . $keyword . '%')
-                    ->orWhere('r.respondent_education', 'like', '%' . $keyword . '%')
-                    ->orWhere('r.respondent_street', 'like', '%' . $keyword . '%')
-                    ->orWhere('r.respondent_village', 'like', '%' . $keyword . '%')
-                    ->orWhere('r.respondent_barangay', 'like', '%' . $keyword . '%')
-                    ->orWhere('r.respondent_city', 'like', '%' . $keyword . '%')
-                    ->orWhere('r.respondent_province', 'like', '%' . $keyword . '%')
-                    ->orWhere('r.respondent_region', 'like', '%' . $keyword . '%')
-                    ->orWhere('r.respondent_work_street', 'like', '%' . $keyword . '%')
-                    ->orWhere('r.respondent_work_village', 'like', '%' . $keyword . '%')
-                    ->orWhere('r.respondent_work_barangay', 'like', '%' . $keyword . '%')
-                    ->orWhere('r.respondent_work_city', 'like', '%' . $keyword . '%')
-                    ->orWhere('r.respondent_work_province', 'like', '%' . $keyword . '%')
-                    ->orWhere('r.respondent_work_region', 'like', '%' . $keyword . '%');
-            })
+            ->whereAny([
+                'b.entry_number',
+                'b.date_reported',
+                'b.incident_type',
+                'b.narrative',
+                'b.remarks',
+                'b.recorded_by',
+                'c.complainant_family_name',
+                'c.complainant_first_name',
+                'c.complainant_middle_name',
+                'c.complainant_place_of_birth',
+                'c.complainant_citizenship',
+                'c.complainant_civil_status',
+                'c.complainant_occupation',
+                'c.complainant_education',
+                'c.complainant_street',
+                'c.complainant_village',
+                'c.complainant_barangay',
+                'c.complainant_city',
+                'c.complainant_province',
+                'c.complainant_region',
+                'c.complainant_work_street',
+                'c.complainant_work_village',
+                'c.complainant_work_barangay',
+                'c.complainant_work_city',
+                'c.complainant_work_province',
+                'c.complainant_work_region',
+                'r.respondent_family_name',
+                'r.respondent_first_name',
+                'r.respondent_middle_name',
+                'r.respondent_place_of_birth',
+                'r.respondent_citizenship',
+                'r.respondent_civil_status',
+                'r.respondent_occupation',
+                'r.respondent_education',
+                'r.respondent_street',
+                'r.respondent_village',
+                'r.respondent_barangay',
+                'r.respondent_city',
+                'r.respondent_province', 'r.respondent_region',
+                'r.respondent_work_street',
+                'r.respondent_work_village',
+                'r.respondent_work_barangay',
+                'r.respondent_work_city',
+                'r.respondent_work_province',
+                'r.respondent_work_region'
+            ], 'LIKE', '%' . $keyword . '%')
             ->orderBy('b.id', 'desc')
             ->paginate($perPage, ['*'], 'page', $page);
     }
@@ -260,8 +253,8 @@ class BlotterRepository
      */
     public function delete(Int $id)
     {
-        Complainant::where('blotter_id', $id)->delete();
-        Respondent::where('blotter_id', $id)->delete();
+        Complainant::where('entry_number', $id)->delete();
+        Respondent::where('entry_number', $id)->delete();
 
         $blotter = Blotter::findOrFail($id);
         return $blotter->delete();
@@ -307,7 +300,7 @@ class BlotterRepository
     public function getYearlyBlotter(Int $userId)
     {
         return  DB::table('blotters')
-            ->select(DB::raw('YEAR(created_at) as year'), DB::raw('COUNT(*) as count'))
+            ->select(DB::raw('YEAR(created_at) as year'), DB::raw('COUNT(id) as count'))
             ->where('user_id', $userId)
             ->groupBy(DB::raw('YEAR(created_at)'))
             ->orderBy('year')
@@ -325,7 +318,7 @@ class BlotterRepository
     {
 
         return DB::table('blotters')
-            ->select(DB::raw('MONTH(created_at) as month'), DB::raw('COUNT(*) as count'))
+            ->select(DB::raw('MONTH(created_at) as month'), DB::raw('COUNT(id) as count'))
             ->whereYear('created_at', $year)
             ->where('user_id', $userId)
             ->groupBy(DB::raw('MONTH(created_at)'))
@@ -345,12 +338,116 @@ class BlotterRepository
     {
 
         return   DB::table('blotters as b')
-            ->leftJoin('complainants as c', 'b.id', '=', 'c.blotter_id')
-            ->leftJoin('respondents as r', 'b.id', '=', 'r.blotter_id')
+            ->leftJoin('complainants as c', 'b.entry_number', '=', 'c.entry_number')
+            ->leftJoin('respondents as r', 'b.entry_number', '=', 'r.entry_number')
             ->where('b.user_id', $userId)
             ->whereYear('b.created_at', $year)
             ->whereMonth('b.created_at', $month)
             ->get()
             ->toArray();
+    }
+
+
+    /**
+     * Method to get weekly blotter count
+     * @param int $userId unique ID of the user
+     * @return array
+     */
+    public function getWeeklyBlotter(Int $userId)
+    {
+
+        return DB::table('blotters')
+            ->select(DB::raw('DAY(created_at) as day'), DB::raw('COUNT(id) as count'))
+            ->where('created_at', '>=', Carbon::now()->subDays(14))
+            ->where('user_id', $userId)
+            ->groupBy(DB::raw('DAY(created_at)'))
+            ->orderBy('day')
+            ->get()
+            ->toArray();
+    }
+
+    /**
+     * Method to get all blotter data based on
+     * @param int $perPage Data record display
+     * @param int $page Data page display
+     * @param string $keyword  Filters
+     * @param int $userId ID of the barangay
+     * @param int $remark ID of the barangay
+     *
+     * @return LengthAwarePaginator
+     */
+    public function getBlotterByRemarks(Int $perPage, Int $page, String $keyword, Int $userId, Int $remark)
+    {
+        $blotterTable = $this->blotter;
+        $complainantTable = $this->complainant;
+        $respondentTable = $this->respondent;
+
+        return DB::table("{$blotterTable} as b")
+            ->where('b.user_id', $userId)
+            ->leftJoin("{$complainantTable} as c", 'b.id', '=', 'c.blotter_id')
+            ->leftJoin("{$respondentTable} as r", 'b.id', '=', 'r.blotter_id')
+            ->select(
+                'b.id',
+                'b.entry_number',
+                'c.complainant_family_name',
+                'c.complainant_first_name',
+                'c.complainant_middle_name',
+                'r.respondent_family_name',
+                'r.respondent_first_name',
+                'r.respondent_middle_name',
+                'b.incident_type',
+                'b.created_at',
+                'b.remarks',
+            )
+            ->where('remarks', $remark)
+            ->whereAny([
+                'b.entry_number',
+                'b.date_reported',
+                'b.incident_type',
+                'b.narrative',
+                'b.remarks',
+                'b.recorded_by',
+                'c.complainant_family_name',
+                'c.complainant_first_name',
+                'c.complainant_middle_name',
+                'c.complainant_place_of_birth',
+                'c.complainant_citizenship',
+                'c.complainant_civil_status',
+                'c.complainant_occupation',
+                'c.complainant_education',
+                'c.complainant_street',
+                'c.complainant_village',
+                'c.complainant_barangay',
+                'c.complainant_city',
+                'c.complainant_province',
+                'c.complainant_region',
+                'c.complainant_work_street',
+                'c.complainant_work_village',
+                'c.complainant_work_barangay',
+                'c.complainant_work_city',
+                'c.complainant_work_province',
+                'c.complainant_work_region',
+                'r.respondent_family_name',
+                'r.respondent_first_name',
+                'r.respondent_middle_name',
+                'r.respondent_place_of_birth',
+                'r.respondent_citizenship',
+                'r.respondent_civil_status',
+                'r.respondent_occupation',
+                'r.respondent_education',
+                'r.respondent_street',
+                'r.respondent_village',
+                'r.respondent_barangay',
+                'r.respondent_city',
+                'r.respondent_province', 'r.respondent_region',
+                'r.respondent_work_street',
+                'r.respondent_work_village',
+                'r.respondent_work_barangay',
+                'r.respondent_work_city',
+                'r.respondent_work_province',
+                'r.respondent_work_region'
+            ], 'LIKE', '%' . $keyword . '%')
+            ->orderBy('b.id', 'desc')
+            ->paginate($perPage, ['*'], 'page', $page);
     }
 }
