@@ -20,6 +20,6 @@ class IsProvince
             return $next($request);
         }
 
-        return redirect('home')->with('error', 'You have not provincial admin access');
+        return redirect('/')->with('error', 'You have not provincial admin access');
     }
 }

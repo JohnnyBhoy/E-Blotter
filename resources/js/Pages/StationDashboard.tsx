@@ -10,11 +10,11 @@ import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 
 import { PageProps } from "@/Pages/types";
 import { useBlotterStore } from "@/utils/store/blotterStore";
-import { Head, Link, useForm } from "@inertiajs/react";
-import React, { useEffect, useState } from "react";
+import { Head } from "@inertiajs/react";
+import React, { useEffect } from "react";
 import { JournalAlbum, JournalBookmark, JournalCheck, JournalRichtext } from "react-bootstrap-icons";
 
-export default function Dashboard({ auth, datas, lastYearBlotter, thisYearBlotter, thisWeekBlotter, blotterPerYear, monthlyIncidents }
+export default function StationDashboard({ auth, datas, lastYearBlotter, thisYearBlotter, thisWeekBlotter, blotterPerYear, monthlyIncidents }
     : PageProps<{
         datas: number[];
         lastYearBlotter: any;
@@ -42,11 +42,30 @@ export default function Dashboard({ auth, datas, lastYearBlotter, thisYearBlotte
             user={auth.user}
             header={
                 <h2 className="font-semibold text-xl text-gray-800 leading-tight">
-                    Admin Dashboard
+                    Dashboard
                 </h2>
             }
         >
-            <Head title="Admin - Dashboard" />
+            <Head title="Dashboard" />
+
+            {/**
+ * <div className="grid place-items-center mb-5">
+                <h2 className="text-2xl mb-6">
+                    Welcome to Barangay E-Blotter
+                </h2>
+
+                <SearchInBlotter />
+
+                <Sorts />
+
+                <BlotterFolder blotterPerYear={yearlyBlotter} />
+            </div>
+
+    // Redirect to blotter by case disposition
+    const { data, setData, get } = useForm({
+        remark: 1,
+    });
+ */}
             <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6 xl:grid-cols-4 2xl:gap-7.5">
                 <CardDataStats title="For Hearing" total={`${hearing}`} rate={`${hearing}`} remark={1} routeTo="hearing" levelUp>
                     <JournalBookmark size={24} color="blue" />
@@ -65,15 +84,14 @@ export default function Dashboard({ auth, datas, lastYearBlotter, thisYearBlotte
                 </CardDataStats>
             </div>
 
-            {/**
-             <div className="mt-4 grid grid-cols-12 gap-4 md:mt-6 md:gap-6 2xl:mt-7.5 2xl:gap-7.5">
+            <div className="mt-4 grid grid-cols-12 gap-4 md:mt-6 md:gap-6 2xl:mt-7.5 2xl:gap-7.5">
                 <ChartOne lastYearBlotter={lastYearBlotter} thisYearBlotter={thisYearBlotter} />
 
                 <ChartTwo data={thisWeekBlotter} />
 
                 <ChartThree />
 
-                <MapOne auth={auth} level="Admin" />
+                <MapOne auth={auth} level="Municipal" />
 
                 <ChartFour monthlyIncidents={monthlyIncidents?.sort((a: any, b: any) => a.incident_type - b.incident_type)} />
 
@@ -81,10 +99,8 @@ export default function Dashboard({ auth, datas, lastYearBlotter, thisYearBlotte
                     <TableOne />
                 </div>
 
-                <ChatCard /> 
-                </div>
-            */}
-
+                <ChatCard />
+            </div>
         </AuthenticatedLayout >
     );
 

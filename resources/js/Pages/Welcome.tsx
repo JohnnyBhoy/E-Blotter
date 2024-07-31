@@ -1,6 +1,6 @@
 
 import { useLoginRegisterStore } from "@/utils/store/loginRegisterStore";
-import React, { useEffect, useRef, useState } from "react";
+import React, { LegacyRef, MutableRefObject, RefObject, useEffect, useRef, useState } from "react";
 import { PageProps } from "./types";
 
 import Footer from "@/Components/Footer";
@@ -14,6 +14,7 @@ import HeroHeader from "@/Components/Welcome/HeroHeader";
 import Intervention from "@/Components/Welcome/Intervention";
 import TimelyResponse from "@/Components/Welcome/TimelyResponse";
 import GuestLayout from "@/Layouts/GuestLayout";
+import { Head } from "@inertiajs/react";
 
 
 export default function Welcome({
@@ -29,32 +30,34 @@ export default function Welcome({
 }>) {
     const { setShowLogin, setShowRegister } = useLoginRegisterStore();
 
-    const ref1 = useRef();
+    const ref1: any = useRef();
     const isVisible1 = useIsVisible(ref1);
 
-    const ref2 = useRef();
+    const ref2: any = useRef();
     const isVisible2 = useIsVisible(ref2);
 
-    const ref3 = useRef();
+    const ref3: any = useRef();
     const isVisible3 = useIsVisible(ref3);
 
-    const ref4 = useRef();
+    const ref4: any = useRef();
     const isVisible4 = useIsVisible(ref4);
 
-    const ref5 = useRef();
+    const ref5: any = useRef();
     const isVisible5 = useIsVisible(ref5);
 
-    const ref6 = useRef();
+    const ref6: any = useRef();
     const isVisible6 = useIsVisible(ref6);
 
-    const ref7 = useRef();
+    const ref7: any = useRef();
     const isVisible7 = useIsVisible(ref7);
 
-    const ref8 = useRef();
+    const ref8: any = useRef();
     const isVisible8 = useIsVisible(ref8);
 
     return (
         <GuestLayout>
+            <Head title=" Welcome -Barangay E-Blotter" />
+
             {/** Start block **/}
             <div ref={ref1} className={`transition-opacity ease-in duration-300 ${isVisible1 ? "opacity-100" : "opacity-0"}`}>
                 <HeroHeader />

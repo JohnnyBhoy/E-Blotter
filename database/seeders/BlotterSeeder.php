@@ -25,7 +25,7 @@ class BlotterSeeder extends Seeder
         $faker = Faker::create();
 
 
-        for ($i = 0; $i <= count($brgyName) - 25; $i++) {
+        for ($i = 0; $i <= count($brgyName); $i++) {
             $sanitizeBrgyName = str_replace(" ", "", $brgyName[$i]);
 
             User::create([
@@ -46,7 +46,7 @@ class BlotterSeeder extends Seeder
                 'region_code'  => 6,
             ]);
 
-            for ($y = 1; $y <= 1200; $y++) {
+            for ($y = 1; $y <= 2400; $y++) {
                 Blotter::create([
                     'user_id' => $i + 1,
                     'entry_number' => $y,

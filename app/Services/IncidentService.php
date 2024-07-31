@@ -26,4 +26,14 @@ class IncidentService
     {
         return $this->incidentRepository->getMonthly($userId);
     }
+
+    /**
+     * Get Incidents Per Barangay
+     * @param array $userIds array of ID of the barangays
+     * @return array Array of incident type and its monthly count
+     */
+    public function getMonthlyBlotterByMunicipal(array $userIds)
+    {
+        return $this->incidentRepository->getMonthlyBlotterByMunicipal($userIds);
+    }
 }

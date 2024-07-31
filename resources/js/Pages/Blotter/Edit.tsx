@@ -49,20 +49,12 @@ export default function Edit({ auth, blotter }: PageProps<{ blotter: any }>) {
     const [person, setPerson] = useState<string>("Complainant");
     const user = usePage<PageProps>().props.auth.user;
 
-    // Dates
-    const date = new Date();
-    const todayYear = date.getFullYear();
-    const todayMonth = (date.getMonth() + 1) < 10 ? `0${date.getMonth() + 1}` : date.getMonth() + 1;
-    const todayDay = date.getDate() < 10 ? `0${date.getDate()}` : date.getDate();
-    const h = date.getHours() < 10 ? `0${date.getHours()}` : date.getHours();
-    const m = date.getMinutes() < 10 ? `0${date.getMinutes()}` : date.getMinutes();
-
     // Form data
     const { data, setData, post, processing, errors, reset } = useForm({
         user_id: user?.id,
         entry_number: blotter.entry_number,
         barangay: blotter.barangay,
-        date_reported: blotter.date_reported,
+        date_reported: blotter.date_reported?.substring(0, 10),
         time_of_report: blotter.time_of_report,
         incident_type: blotter.incident_type,
 
@@ -70,7 +62,7 @@ export default function Edit({ auth, blotter }: PageProps<{ blotter: any }>) {
             complainant_family_name: blotter.complainant_family_name ?? "",
             complainant_first_name: blotter.complainant_first_name ?? "",
             complainant_middle_name: blotter.complainant_middle_name ?? "",
-            complainant_birth_date: blotter.complainant_birth_date ?? "",
+            complainant_birth_date: blotter.complainant_birth_date?.substring(0, 10) ?? "",
             complainant_place_of_birth: blotter.complainant_place_of_birth ?? "",
             complainant_citizenship: blotter.complainant_citizenship ?? 1,
             complainant_gender: blotter.complainant_gender ?? 1,
@@ -96,7 +88,7 @@ export default function Edit({ auth, blotter }: PageProps<{ blotter: any }>) {
             respondent_family_name: blotter.respondent_family_name ?? "",
             respondent_first_name: blotter.respondent_first_name ?? "",
             respondent_middle_name: blotter.respondent_middle_name ?? "",
-            respondent_birth_date: blotter.respondent_birth_date ?? "",
+            respondent_birth_date: blotter.respondent_birth_date?.substring(0, 10) ?? "",
             respondent_place_of_birth: blotter.respondent_place_of_birth ?? "",
             respondent_citizenship: blotter.respondent_citizenship ?? 1,
             respondent_gender: blotter.respondent_gender ?? 1,
@@ -124,6 +116,8 @@ export default function Edit({ auth, blotter }: PageProps<{ blotter: any }>) {
         recorded_by: blotter.recorded_by ?? "",
         recorded_by_signature: '',
     });
+
+    console.log('date reported: ', data.date_reported);
 
 
     // Move to respondent handler

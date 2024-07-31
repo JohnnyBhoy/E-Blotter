@@ -2,23 +2,27 @@ import { BlotterProps } from '@/Pages/types/blotter';
 import disposition from '@/utils/data/disposition';
 import incidentTypes from '@/utils/data/incidentTypes';
 import dateToString from '@/utils/functions/dataToString';
+import getUserRole from '@/utils/functions/getUserRole';
 import { router } from '@inertiajs/react';
 import React, { FormEvent, useState } from 'react';
-import { Download, Eye, Trash } from 'react-bootstrap-icons';
 import { usePDF } from 'react-to-pdf';
 import Swal from 'sweetalert2';
 
 const TableBody = ({ blotters, setData, handleDelete }: { blotters: any; setData: CallableFunction; handleDelete: CallableFunction }) => {
 
     const [showIncidentDescription, setShowIncidentDescription] = useState<boolean>(false);
-    const [activeHoverID, setActiveHoverId] = useState<number>(0);
+    const [activeHoverId, setActiveHoverId] = useState<number>(0);
     const [selectedBlotter, setSelectedBlotter] = useState<object>({});
+
+    // User Role and redirect edit route
+    const userRole = getUserRole();
+    const editBlotterUrl = userRole == 2 ? '/blotter/edit' : userRole == 3 ? '/blotter/municipal-edit' : "dashboard";
 
     // React to PDF
     const { toPDF, targetRef } = usePDF({ filename: `Blotter_Copy.pdf` });
 
     const handleEdit = (id: number) => {
-        router.visit('/blotter/edit', {
+        router.visit(editBlotterUrl, {
             method: 'get',
             data: {
                 id: id,
@@ -108,44 +112,44 @@ const TableBody = ({ blotters, setData, handleDelete }: { blotters: any; setData
             <tbody>
                 {blotters?.map((blotter: BlotterProps, i: number) => (
                     <tr key={i} className="hover:bg-slate-100 cursor-pointer z-20 bg-white dark:bg-meta-4">
-                        <td className="border-b border-[#eee] py-1.5 px-2 pl-9 dark:border-strokedark xl:pl-11">
+                        <td className="border border-[#eee] dark:border-white py-1.5 px-2 pl-9 dark:border-strokedark xl:pl-11">
                             <h5 className="font-medium text-black dark:text-white">
                                 {blotter?.entry_number}
                             </h5>
                         </td>
-                        <td className="border-b border-[#eee] py-1.5 px-2 dark:border-strokedark ">
+                        <td className="border border-[#eee] dark:border-white py-1.5 px-2 dark:border-strokedark ">
                             <p className="text-black dark:text-white">
                                 {blotter?.complainant_family_name},  {blotter?.complainant_first_name}  {blotter?.complainant_middle_name?.charAt(0)}.
                             </p>
                         </td>
 
-                        <td className="border-b border-[#eee] py-1.5 px-2 dark:border-strokedark">
+                        <td className="border border-[#eee] dark:border-white py-1.5 px-2 dark:border-strokedark">
                             <p className="text-black dark:text-white">
                                 {blotter?.respondent_family_name},  {blotter?.respondent_first_name}  {blotter?.complainant_middle_name?.charAt(0)}.
                             </p>
                         </td>
 
-                        <td className="border-b border-[#eee] py-1.5 px-2 dark:border-strokedark">
+                        <td className="border border-[#eee] dark:border-white py-1.5 px-2 dark:border-strokedark">
                             <p className="text-black dark:text-white " onMouseEnter={() => {
                                 setShowIncidentDescription(true);
                                 setActiveHoverId(blotter.id);
                             }} onMouseLeave={() => setShowIncidentDescription(false)}>
                                 {getIncidentType(blotter?.incident_type)?.split(" - ")[0]}
                             </p>
-                            {showIncidentDescription && activeHoverID == blotter.id
+                            {showIncidentDescription && activeHoverId == blotter.id
                                 ? <button className='bg-green-500 text-white rounded py-0 px-2 absolute z-50 mt-[-3rem]'>
                                     {getIncidentType(blotter?.incident_type)?.split(" - ")[1]}
                                 </button>
                                 : null}
                         </td>
 
-                        <td className="border-b border-[#eee] py-1.5 px-2 dark:border-strokedark">
+                        <td className="border border-[#eee] dark:border-white py-1.5 px-2 dark:border-strokedark">
                             <p className="text-black dark:text-white">
                                 {dateToString(blotter?.created_at)}
                             </p>
                         </td>
 
-                        <td className="border-b border-[#eee] py-1.5 px-2 dark:border-strokedark">
+                        <td className="border border-[#eee] dark:border-white py-1.5 px-2 dark:border-strokedark">
                             <p
                                 className={`inline-flex rounded-full bg-opacity-10 py-1 px-3 text-sm font-medium ${blotter?.remarks === '1'
                                     ? 'bg-success text-success'
@@ -157,7 +161,7 @@ const TableBody = ({ blotters, setData, handleDelete }: { blotters: any; setData
                                 {formatCaseDisposition(blotter?.remarks)}
                             </p>
                         </td>
-                        <td className="border-b border-[#eee] py-1.5 px-2 dark:border-strokedark">
+                        <td className="border border-[#eee] dark:border-white py-1.5 px-2 dark:border-strokedark">
                             <div className="flex items-center space-x-3.5">
                                 <button onClick={() => handleEdit(blotter.id)} className="bg-success text-white rounded-3xl px-5 flex text-xs py-1 gap-1">
                                     View

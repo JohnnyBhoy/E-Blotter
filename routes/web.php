@@ -2,7 +2,6 @@
 
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\BlotterController;
-use App\Http\Controllers\DispositionController;
 use App\Http\Controllers\MunicipalController;
 use App\Http\Controllers\ProvinceController;
 use App\Http\Controllers\RegionController;
@@ -12,43 +11,38 @@ use App\Http\Middleware\IsBarangay;
 use App\Http\Middleware\IsProvince;
 use App\Http\Middleware\IsRegion;
 use App\Http\Middleware\IsStation;
-use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
 // Homepage route
 Route::get('/', function () {
-    $user = auth()->user();
+    $route =  Inertia::render('Welcome');
 
-    if ($user) {
+    if (auth()->check()) {
+        $user = auth()->user();
         if ($user->role == 1) {
-            Route::get('/admin-dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
+            $route =  redirect()->route('admin.dashboard');
         }
 
         if ($user->role == 2) {
-            Route::get('/dashboard', [UserController::class, 'dashboard'])->name('dashboard');
+            $route =  redirect()->route('dashboard');
         }
 
         if ($user->role == 3) {
-            Route::get('/municipal-dashboard', [AdminController::class, 'dashboard'])->name('municipal.dashboard');
+            $route =  redirect()->route('municipal.dashboard');
         }
 
         if ($user->role == 4) {
-            Route::get('/province-dashboard', [ProvinceController::class, 'dashboard'])->name('province.dashboard');
+            $route =  redirect()->route('province.dashboard');
         }
 
         if ($user->role == 5) {
-            Route::get('/region-dashboard', [RegionController::class, 'dashboard'])->name('region.dashboard');
+            $route =  redirect()->route('region.dashboard');
         }
     }
 
-    return Inertia::render('Welcome', [
-        'canLogin' => Route::has('login'),
-        'canRegister' => Route::has('register'),
-        'laravelVersion' => Application::VERSION,
-        'phpVersion' => PHP_VERSION,
-    ]);
-});
+    return  $route;
+})->name('home');
 
 /**
  * Route for Barangay User
@@ -100,6 +94,10 @@ Route::group(['middleware' => ['auth', 'verified', IsBarangay::class]], function
 Route::group(['middleware' => ['auth', 'verified', IsStation::class]], function () {
     // Dashboard
     Route::get('/municipal-dashboard', [MunicipalController::class, 'dashboard'])->name('municipal.dashboard');
+
+    // Blotters
+    Route::get('/blotter/municipal-blotters', [BlotterController::class, 'getAll'])->name('blotter.municipal.blotters');
+    Route::get('/blotter/municipal-edit', [BlotterController::class, 'get'])->name('blotter.municipal.edit');
 });
 
 /**

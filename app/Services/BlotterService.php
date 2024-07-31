@@ -79,12 +79,14 @@ class BlotterService
      * @param int $page Data page display
      * @param int $userId ID of the barangay
      * @param string $keyword  Filter
+     * @param int $remark case disposition / action
+     * @param int $incidentType case blotter type
      *
      * @return LengthAwarePaginator
      */
-    public function getAll(Int $perPage, Int $page, String $keyword, Int $userId)
+    public function getAll(Int $perPage, Int $page, String $keyword, Int $userId, Int $remark, Int $incidentType)
     {
-        return $this->blotter->getAll($perPage,  $page,  $keyword, $userId);
+        return $this->blotter->getAll($perPage,  $page,  $keyword, $userId, $remark, $incidentType);
     }
 
     /**
@@ -98,6 +100,16 @@ class BlotterService
     }
 
     /**
+     * Method to get blotter count and group into year per barangay
+     * @param array $userIds unique ID of the users
+     * @return array
+     */
+    public function getYearlyBlotterByMunicipal(array $userIds)
+    {
+        return  $this->blotter->getYearlyBlotterByMunipal($userIds);
+    }
+
+    /**
      * Method to get blotter count and group into month
      * @param int $userId unique ID of the user
      * @param int $year year to fetch
@@ -106,6 +118,17 @@ class BlotterService
     public function getYearlyBlotterByMonth(Int $userId, Int $year)
     {
         return  $this->blotter->getYearlyBlotterByMonth($userId, $year);
+    }
+
+    /**
+     * Method to get blotter count and group into month per barangay
+     * @param array $userIds unique ID of the users
+     * @param int $year year to fetch
+     * @return array
+     */
+    public function getYearlyBlotterByMonthByMunicipal(array $userIds, Int $year)
+    {
+        return  $this->blotter->getYearlyBlotterByMonthByMunicipal($userIds, $year);
     }
 
     /**
@@ -131,6 +154,16 @@ class BlotterService
     }
 
     /**
+     * Method to get blotter count and group into year per barangay
+     * @param array $userIds unique ID of the users
+     * @return array
+     */
+    public function getWeeklyBlotterByMunicipal(array $userIds)
+    {
+        return  $this->blotter->getWeeklyBlotterByMunicipal($userIds);
+    }
+
+    /**
      * Method to get all blotter data based on rema
      * @param int $perPage Data record display
      * @param int $page Data page display
@@ -143,5 +176,15 @@ class BlotterService
     public function getBlotterByRemarks(Int $perPage, Int $page, String $keyword, Int $userId, Int $remark)
     {
         return $this->blotter->getBlotterByRemarks($perPage,  $page,  $keyword, $userId, $remark);
+    }
+
+    /**
+     * Method to get top 10 barangay with most blotters
+     * @param int $userId ID of the municipal
+     * @return array collection of blotter count per barangay
+     */
+    public function getBarangayWithMostBlotter(Int $userId)
+    {
+        return $this->blotter->getBarangayWithMostBlotter($userId);
     }
 }

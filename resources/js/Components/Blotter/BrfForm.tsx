@@ -44,7 +44,7 @@ const BrfForm = ({ data, setData }: { data: any; setData: CallableFunction }) =>
                     />
                 </div>
 
-                <div className="lg:w-3/4 w-full">
+                <div className="lg:w-1/2 w-full">
                     <label className="text-xs bg-white dark:bg-transparent absolute ml-3 mt-[-.4rem]">
                         Barangay *
                     </label>

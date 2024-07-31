@@ -13,6 +13,7 @@ const ChartTwo = ({ data }: { data: any }) => {
 
   // Local states
   const [week, setweek] = useState(1);
+
   const weeklyDataCount = week === 1 ? data?.slice(7, 15)?.map((count: any) => count?.count) : data?.slice(0, 7)?.map((count: any) => count?.count);
   const weeklyDataDay = week === 1 ? data?.slice(7, 15)?.map((day: any) => day?.day) : data?.slice(0, 7)?.map((day: any) => day?.day);
 
@@ -20,7 +21,7 @@ const ChartTwo = ({ data }: { data: any }) => {
   let maxCount = data?.reduce((max: number, obj: any) => obj?.count > max ? obj?.count : max, -Infinity);
 
   const options: ApexOptions = {
-    colors: ['#3C50E0', '#80CAEE'],
+    colors: ['#FBD1A2'],
     chart: {
       fontFamily: 'Satoshi, sans-serif',
       type: 'bar',

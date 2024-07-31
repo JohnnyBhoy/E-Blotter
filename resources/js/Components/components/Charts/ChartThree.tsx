@@ -15,7 +15,7 @@ const options: ApexOptions = {
       show: true,
     },
   },
-  colors: ['#3C50E0', '#6577F3', '#8FD0EF', '#0FADCF'],
+  colors: ['#3C50E0', '#6577F3', '#8FD0EF', '#0FADCF', '#B6B6B7'],
   labels: ['For Hearing', 'Amicable Settled', 'Reffered to PNP', 'Pending', 'Others'],
   legend: {
     show: false,
@@ -148,7 +148,7 @@ const ChartThree: React.FC = () => {
         </div>
         <div className="sm:w-1/3 w-full px-8">
           <div className="flex w-full items-center">
-            <span className="mr-2 block h-3 w-full max-w-3 rounded-full bg-[#0FADCF]"></span>
+            <span className="mr-2 block h-3 w-full max-w-3 rounded-full bg-[#B6B6B7]"></span>
             <p className="flex w-full justify-between text-sm font-medium text-black dark:text-white">
               <span> Others </span>
               <span> {isNaN(others) ? 0 : others}% </span>

@@ -33,7 +33,23 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
 
-        return redirect()->intended(route('dashboard', absolute: false))->with(['status' => 'ok']);
+        $role = auth()->user()->role;
+
+        $route = redirect()->intended(route('home', absolute: false))->with(['status' => 'failed']);
+
+        if ($role == 1) {
+            $route =  redirect()->intended(route('admin.dashboard', absolute: false))->with(['status' => 'ok']);
+        }
+
+        if ($role == 2) {
+            $route =   redirect()->intended(route('dashboard', absolute: false))->with(['status' => 'ok']);
+        }
+
+        if ($role == 3) {
+            $route =   redirect()->intended(route('municipal.dashboard', absolute: false))->with(['status' => 'ok']);
+        }
+
+        return $route;
     }
 
     /**

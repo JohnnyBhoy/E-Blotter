@@ -5,6 +5,8 @@ namespace App\Repositories;
 use App\Models\Blotter;
 use App\Models\Complainant;
 use App\Models\Respondent;
+use App\Models\User;
+use App\Models\UserAddress;
 use Carbon\Carbon;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Collection;
@@ -21,6 +23,9 @@ class BlotterRepository
     protected $blotter = 'blotters';
     protected $complainant = 'complainants';
     protected $respondent = 'respondents';
+
+    protected $countID = 'COUNT(id) as count';
+
     /**
      * Method to get latest blotter
      * @param int $userId Barangay user ID
@@ -143,7 +148,9 @@ class BlotterRepository
      */
     public function get(int $id)
     {
-        return DB::table('blotters as b')
+        $blotters = $this->blotter;
+
+        return DB::table("{$blotters} as b")
             ->leftJoin('complainants as c', 'b.id', '=', 'c.blotter_id')
             ->leftJoin('respondents as r', 'b.id', '=', 'r.blotter_id')
             ->where('b.id', $id)
@@ -156,17 +163,21 @@ class BlotterRepository
      * @param int $page Data page display
      * @param string $keyword  Filter\
      * @param int $userId ID of the barangay
+     * @param int $remark case disposition / action
+     * @param int $incidentType case blotter type
      *
      * @return LengthAwarePaginator
      */
-    public function getAll(Int $perPage, Int $page, String $keyword, Int $userId)
+    public function getAll(Int $perPage, Int $page, String $keyword, Int $userId, Int $remark, Int $incidentType)
     {
+        // Check rule of user
+        $user = User::where('id', $userId)->first();
+
         $blotterTable = $this->blotter;
         $complainantTable = $this->complainant;
         $respondentTable = $this->respondent;
 
-        return DB::table("{$blotterTable} as b")
-            ->where('b.user_id', $userId)
+        $query =  DB::table("{$blotterTable} as b")
             ->leftJoin("{$complainantTable} as c", 'b.id', '=', 'c.blotter_id')
             ->leftJoin("{$respondentTable} as r", 'b.id', '=', 'r.blotter_id')
             ->select(
@@ -229,8 +240,28 @@ class BlotterRepository
                 'r.respondent_work_province',
                 'r.respondent_work_region'
             ], 'LIKE', '%' . $keyword . '%')
-            ->orderBy('b.id', 'desc')
-            ->paginate($perPage, ['*'], 'page', $page);
+            ->orderBy('b.id', 'desc');
+
+        if (is_numeric($remark) && $remark > 0) {
+            $query = $query->where('b.remarks', $remark);
+        }
+
+
+        if (is_numeric($incidentType) && $incidentType > 0) {
+            $query = $query->where('b.incident_type', $incidentType);
+        }
+
+        if ($user->role != 2) {
+            $cityCode = UserAddress::where('user_id', $userId)->pluck('city_code');
+            $barangays = UserAddress::where('city_code', $cityCode)->pluck('user_id');
+            $query = $query->whereIn('b.user_id', $barangays);
+        }
+
+        if ($user->role == 2) {
+            $query = $query->where('b.user_id', $userId);
+        }
+
+        return $query->paginate($perPage, ['*'], 'page', $page);
     }
 
     /**
@@ -299,9 +330,29 @@ class BlotterRepository
      */
     public function getYearlyBlotter(Int $userId)
     {
+        $count = $this->countID;
+
         return  DB::table('blotters')
-            ->select(DB::raw('YEAR(created_at) as year'), DB::raw('COUNT(id) as count'))
+            ->select(DB::raw('YEAR(created_at) as year'), DB::raw($count))
             ->where('user_id', $userId)
+            ->groupBy(DB::raw('YEAR(created_at)'))
+            ->orderBy('year')
+            ->get()
+            ->toArray();
+    }
+
+    /**
+     * Method to get blotter count and group into year per barangay
+     * @param array $userIds unique ID of the user
+     * @return array
+     */
+    public function getYearlyBlotterByMunipal(array $userIds)
+    {
+        $count = $this->countID;
+
+        return  DB::table('blotters')
+            ->select(DB::raw('YEAR(created_at) as year'), DB::raw($count))
+            ->whereIn('user_id', $userIds)
             ->groupBy(DB::raw('YEAR(created_at)'))
             ->orderBy('year')
             ->get()
@@ -316,11 +367,32 @@ class BlotterRepository
      */
     public function getYearlyBlotterByMonth(Int $userId, Int $year)
     {
+        $count = $this->countID;
 
         return DB::table('blotters')
-            ->select(DB::raw('MONTH(created_at) as month'), DB::raw('COUNT(id) as count'))
+            ->select(DB::raw('MONTH(created_at) as month'), DB::raw($count))
             ->whereYear('created_at', $year)
             ->where('user_id', $userId)
+            ->groupBy(DB::raw('MONTH(created_at)'))
+            ->orderBy('month')
+            ->get()
+            ->toArray();
+    }
+
+    /**
+     * Method to get blotter count and group into month per barangay
+     * @param array $userIds unique ID of the users
+     * @param int $year year to fetch
+     * @return array
+     */
+    public function getYearlyBlotterByMonthByMunicipal(array $userIds, Int $year)
+    {
+        $count = $this->countID;
+
+        return DB::table('blotters')
+            ->select(DB::raw('MONTH(created_at) as month'), DB::raw($count))
+            ->whereYear('created_at', $year)
+            ->whereIn('user_id', $userIds)
             ->groupBy(DB::raw('MONTH(created_at)'))
             ->orderBy('month')
             ->get()
@@ -336,8 +408,9 @@ class BlotterRepository
      */
     public function getDailyBlotterByMonth(Int $userId, Int $year, Int $month)
     {
+        $blotters = $this->blotter;
 
-        return   DB::table('blotters as b')
+        return   DB::table("{$blotters} as b")
             ->leftJoin('complainants as c', 'b.entry_number', '=', 'c.entry_number')
             ->leftJoin('respondents as r', 'b.entry_number', '=', 'r.entry_number')
             ->where('b.user_id', $userId)
@@ -355,11 +428,31 @@ class BlotterRepository
      */
     public function getWeeklyBlotter(Int $userId)
     {
+        $count = $this->countID;
 
         return DB::table('blotters')
-            ->select(DB::raw('DAY(created_at) as day'), DB::raw('COUNT(id) as count'))
+            ->select(DB::raw('DAY(created_at) as day'), DB::raw($count))
             ->where('created_at', '>=', Carbon::now()->subDays(14))
             ->where('user_id', $userId)
+            ->groupBy(DB::raw('DAY(created_at)'))
+            ->orderBy('day')
+            ->get()
+            ->toArray();
+    }
+
+    /**
+     * Method to get weekly blotter count per barangay
+     * @param array $userIds unique ID of the users
+     * @return array
+     */
+    public function getWeeklyBlotterByMunicipal(array $userIds)
+    {
+        $count = $this->countID;
+
+        return DB::table('blotters')
+            ->select(DB::raw('DAY(created_at) as day'), DB::raw($count))
+            ->where('created_at', '>=', Carbon::now()->subDays(14))
+            ->whereIn('user_id', $userIds)
             ->groupBy(DB::raw('DAY(created_at)'))
             ->orderBy('day')
             ->get()
@@ -449,5 +542,39 @@ class BlotterRepository
             ], 'LIKE', '%' . $keyword . '%')
             ->orderBy('b.id', 'desc')
             ->paginate($perPage, ['*'], 'page', $page);
+    }
+
+    /**
+     * Method to get top 10 barangay with most blotters
+     * @param int $userId IDs of the city
+     * @return array collection of blotter count per barangay
+     */
+    public function getBarangayWithMostBlotter(Int $userId)
+    {
+        $blotters = $this->blotter;
+        $cityCode = UserAddress::where('id', $userId)->pluck('city_code');
+
+        // Get the current year
+        $currentYear = Carbon::now()->year;
+        // Perform the query
+        return DB::table("{$blotters} as b")
+            ->leftJoin('user_addresses as ua', 'b.user_id', '=', 'ua.user_id')
+            ->leftJoin('users as u', 'b.user_id', '=', 'u.id')
+            ->select('u.id', 'u.name')
+            ->selectRaw('COUNT(b.id) as count')
+            ->whereYear('b.created_at', $currentYear)
+            ->where('ua.city_code', $cityCode)
+            ->groupBy('u.id', 'u.name')
+            ->orderBy('count', 'DESC')
+            ->limit(10)
+            ->get()
+            ->map(function ($item) {
+                return [
+                    'id' => $item->id,
+                    'name' => $item->name,
+                    'count' => $item->count,
+                ];
+            })
+            ->toArray();
     }
 }

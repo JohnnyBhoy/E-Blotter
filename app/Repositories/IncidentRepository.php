@@ -28,4 +28,23 @@ class IncidentRepository
             ->get()
             ->toArray();
     }
+
+    /** Get Monhtly incident and count
+     * @param array $userIds array ID of the barangays
+     * @return array Array of incident type and its monthly count
+     */
+    public function getMonthlyBlotterByMunicipal(array $userIds)
+    {
+        // Get the current month and year
+        $currentMonth = now()->month;
+        $currentYear = now()->year;
+
+        return Blotter::select('incident_type', DB::raw('COUNT(id) as count'))
+            ->whereMonth('created_at', $currentMonth)
+            ->whereYear('created_at', $currentYear)
+            ->whereIn('user_id', $userIds)
+            ->groupBy('incident_type')
+            ->get()
+            ->toArray();
+    }
 }

@@ -10,8 +10,8 @@ import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 
 import { PageProps } from "@/Pages/types";
 import { useBlotterStore } from "@/utils/store/blotterStore";
-import { Head, Link, useForm } from "@inertiajs/react";
-import React, { useEffect, useState } from "react";
+import { Head } from "@inertiajs/react";
+import React, { useEffect } from "react";
 import { JournalAlbum, JournalBookmark, JournalCheck, JournalRichtext } from "react-bootstrap-icons";
 
 export default function Dashboard({ auth, datas, lastYearBlotter, thisYearBlotter, thisWeekBlotter, blotterPerYear, monthlyIncidents }
@@ -48,24 +48,6 @@ export default function Dashboard({ auth, datas, lastYearBlotter, thisYearBlotte
         >
             <Head title="Dashboard" />
 
-            {/**
- * <div className="grid place-items-center mb-5">
-                <h2 className="text-2xl mb-6">
-                    Welcome to Barangay E-Blotter
-                </h2>
-
-                <SearchInBlotter />
-
-                <Sorts />
-
-                <BlotterFolder blotterPerYear={yearlyBlotter} />
-            </div>
-
-    // Redirect to blotter by case disposition
-    const { data, setData, get } = useForm({
-        remark: 1,
-    });
- */}
             <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6 xl:grid-cols-4 2xl:gap-7.5">
                 <CardDataStats title="For Hearing" total={`${hearing}`} rate={`${hearing}`} remark={1} routeTo="hearing" levelUp>
                     <JournalBookmark size={24} color="blue" />
@@ -91,7 +73,7 @@ export default function Dashboard({ auth, datas, lastYearBlotter, thisYearBlotte
 
                 <ChartThree />
 
-                <MapOne auth={auth} />
+                <MapOne auth={auth} level="Barangay " />
 
                 <ChartFour monthlyIncidents={monthlyIncidents?.sort((a: any, b: any) => a.incident_type - b.incident_type)} />
 

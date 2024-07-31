@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
+use App\Models\UserAddress;
 use App\Services\BlotterService;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -48,7 +50,7 @@ class BlotterController extends Controller
         try {
             $this->blotterService->create($request);
 
-            $blotters = $this->blotterService->getAll(10, 1, "", $userId);
+            $blotters = $this->blotterService->getAll(10, 1, "", $userId, 0, 0);
 
             return Inertia::render($this->blottersUrl, [
                 'blotters' => $blotters,
@@ -67,13 +69,34 @@ class BlotterController extends Controller
      */
     public function getAll(Request $request)
     {
-        $userId = auth()->user()->id;
+        // Set url redirection based on role
+        //$role = auth()->user()->role;
+        //$redirectUrl = $this->blottersUrl;
+        //if ($role == 3) {
+        //    $redirectUrl = 'Blotter/Blotters';
+        //}
+
+        $brgyCode = $request->get('brgy_code');
+        $remark = $request->get('remarks') ?? 0;
+        $incidentType = $request->get('incident_type') ?? 0;
+
+        $userId = 0;
+
+        if ($brgyCode > 0) {
+            $user = UserAddress::where('barangay_code', $brgyCode)->first();
+            $userId = $user->id;
+        } else {
+            $userId =  auth()->user()->id;
+        }
+
         $perPage = $request->get('per_page') ?? 10;
         $page = $request->get('page') ?? 1;
         $keyword = $request->get('keyword') ?? "";
 
+        $user = UserAddress::where('id', $userId)->first();
+
         try {
-            $blotters = $this->blotterService->getAll($perPage, $page, $keyword, $userId);
+            $blotters = $this->blotterService->getAll($perPage, $page, $keyword, $userId, $remark, $incidentType);
 
             return Inertia::render($this->blottersUrl, [
                 'blotters' => $blotters,
@@ -81,9 +104,13 @@ class BlotterController extends Controller
                 'pageDisplay' => $perPage,
                 'pageNumber' => $page,
                 'keyword' => $keyword,
+                'cityCode' => $user->city_code,
+                'brgyCode' => $brgyCode,
+                'remark' => intval($remark),
+                'incidentType' => intval($incidentType),
             ]);
         } catch (\Throwable $th) {
-            return response()->json(['error' => $th], 500);
+            throw $th;
         }
     }
 
@@ -99,7 +126,7 @@ class BlotterController extends Controller
         try {
             $this->blotterService->delete($id);
 
-            $blotters = $this->blotterService->getAll(10, 1, "", $userId);
+            $blotters = $this->blotterService->getAll(10, 1, "", $userId, 0, 0);
 
             return Inertia::render('Blotter/Blotters', [
                 'blotters' => $blotters,
