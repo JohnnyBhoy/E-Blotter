@@ -27,6 +27,15 @@ class BlotterRepository
     protected $countID = 'COUNT(id) as count';
 
     /**
+     * Count all Blotters entries
+     * @return int Count fo all blotters in database
+     */
+    public function getCount()
+    {
+        return Blotter::count();
+    }
+
+    /**
      * Method to get latest blotter
      * @param int $userId Barangay user ID
      * @return Model
@@ -251,7 +260,7 @@ class BlotterRepository
             $query = $query->where('b.incident_type', $incidentType);
         }
 
-        if ($user->role != 2) {
+        if ($user->role == 3) {
             $cityCode = UserAddress::where('user_id', $userId)->pluck('city_code');
             $barangays = UserAddress::where('city_code', $cityCode)->pluck('user_id');
             $query = $query->whereIn('b.user_id', $barangays);

@@ -6,6 +6,7 @@ use App\Models\User;
 use App\Models\UserAddress;
 use App\Services\BlotterService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
 
 class BlotterController extends Controller
@@ -69,12 +70,6 @@ class BlotterController extends Controller
      */
     public function getAll(Request $request)
     {
-        // Set url redirection based on role
-        //$role = auth()->user()->role;
-        //$redirectUrl = $this->blottersUrl;
-        //if ($role == 3) {
-        //    $redirectUrl = 'Blotter/Blotters';
-        //}
 
         $brgyCode = $request->get('brgy_code');
         $remark = $request->get('remarks') ?? 0;
@@ -82,9 +77,17 @@ class BlotterController extends Controller
 
         $userId = 0;
 
-        if ($brgyCode > 0) {
+        // Get Barangays with blotter records
+        $brgyWithRecords = DB::table("user_addresses as ua")
+            ->leftJoin("blotters as b", "ua.user_id", '=', 'b.user_id')
+            ->selectRaw('DISTINCT ua.barangay_code')
+            ->groupBy('ua.barangay_code')
+            ->get()
+            ->toArray();
+
+        if (intVal($brgyCode > 0)) {
             $user = UserAddress::where('barangay_code', $brgyCode)->first();
-            $userId = $user->id;
+            $userId = $user->id ?? auth()->user()->id;
         } else {
             $userId =  auth()->user()->id;
         }
@@ -96,7 +99,7 @@ class BlotterController extends Controller
         $user = UserAddress::where('id', $userId)->first();
 
         try {
-            $blotters = $this->blotterService->getAll($perPage, $page, $keyword, $userId, $remark, $incidentType);
+            $blotters = $this->blotterService->getAll(intVal($perPage), $page, $keyword, $userId, intVal($remark), intVal($incidentType));
 
             return Inertia::render($this->blottersUrl, [
                 'blotters' => $blotters,
@@ -104,10 +107,11 @@ class BlotterController extends Controller
                 'pageDisplay' => $perPage,
                 'pageNumber' => $page,
                 'keyword' => $keyword,
-                'cityCode' => $user->city_code,
+                'cityCode' => auth()->user()->role == 1 ? null : $user->city_code,
                 'brgyCode' => $brgyCode,
                 'remark' => intval($remark),
                 'incidentType' => intval($incidentType),
+                'brgyWithRecords' => $brgyWithRecords,
             ]);
         } catch (\Throwable $th) {
             throw $th;

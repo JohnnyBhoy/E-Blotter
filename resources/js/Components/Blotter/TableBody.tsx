@@ -16,7 +16,10 @@ const TableBody = ({ blotters, setData, handleDelete }: { blotters: any; setData
 
     // User Role and redirect edit route
     const userRole = getUserRole();
-    const editBlotterUrl = userRole == 2 ? '/blotter/edit' : userRole == 3 ? '/blotter/municipal-edit' : "dashboard";
+    const editBlotterUrl = userRole == 1 ? '/blotter/admin-edit'
+        : userRole == 2 ? '/blotter/edit'
+            : userRole == 3 ? '/blotter/municipal-edit'
+                : "dashboard";
 
     // React to PDF
     const { toPDF, targetRef } = usePDF({ filename: `Blotter_Copy.pdf` });

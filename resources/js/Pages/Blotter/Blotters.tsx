@@ -16,6 +16,7 @@ import getIncidentType from "@/utils/functions/getIncidentType";
 import getRemark from "@/utils/functions/getRemark";
 import { ChevronDown, Search } from "react-bootstrap-icons";
 import getUserRole from "@/utils/functions/getUserRole";
+import barangays from "@/utils/data/barangays";
 
 type BlotterProps = {
     id: number;
@@ -31,7 +32,7 @@ type BlotterProps = {
     remarks: string;
 }
 
-export default function Blotters({ auth, blotters, message, pageDisplay, pageNumber, keyword, cityCode, brgyCode, remark, incidentType }:
+export default function Blotters({ auth, blotters, message, pageDisplay, pageNumber, keyword, cityCode, brgyCode, remark, incidentType, brgyWithRecords }:
     PageProps<{
         blotters: any;
         message: string;
@@ -42,17 +43,30 @@ export default function Blotters({ auth, blotters, message, pageDisplay, pageNum
         brgyCode: number;
         remark: number;
         incidentType: number;
+        brgyWithRecords: object[];
     }>) {
 
     // User details
     const userRole = getUserRole();
 
+    // Get barangays with blotter records
+    const barangayWithBlotterRecords = brgyWithRecords?.map((item: any) => item?.barangay_code);
+
     // Route redirection based on user role
-    const redirectUrl = userRole === 2 ? "blotter.blotters" : userRole == 3 ? "blotter.municipal.blotters" : "";
+    const redirectUrl = userRole === 1 ? "blotter.admin.blotters"
+        : userRole === 2 ? "blotter.blotters"
+            : userRole == 3 ? "blotter.municipal.blotters" : "";
 
     // Dropdown entries
     const entries: number[] = [10, 20, 50, 100, blotters?.total];
-    const barangayOptions: object[] = getBarangayByCityCode(cityCode);
+
+    const barangayOptions: object[] = cityCode == null
+        ? barangays
+            ?.filter((item: any) => barangayWithBlotterRecords?.includes(parseInt(item?.brgy_code)))
+            ?.sort((a: any, b: any) => a.brgy_name.localeCompare(b.brgy_name))
+        : getBarangayByCityCode(cityCode);
+
+    console.log(barangayOptions);
 
     // Local state
     const [showEntries, setShowEntries] = useState<boolean>(false);
@@ -179,7 +193,11 @@ export default function Blotters({ auth, blotters, message, pageDisplay, pageNum
                         <div className="max-w-full overflow-x-auto">
                             <table className="w-full z-20 border border-[#eee]">
                                 <TableHead />
-                                <TableBody blotters={blotters?.data} setData={setData} handleDelete={handleDelete} />
+                                <TableBody
+                                    blotters={blotters?.data}
+                                    setData={setData}
+                                    handleDelete={handleDelete}
+                                />
                             </table>
                         </div>
                     </div>
@@ -270,24 +288,29 @@ const BarangayFilter = ({ entries, showEntries, setShowEntries, data, setData, h
                     <ChevronDown className="mt-1" />
                 </button>
 
+
                 {showEntries
-                    && entries
-                        ?.map((entry: any, i: number) => (
-                            <form onSubmit={handleFetchBlotters} key={i + 1}>
-                                <input
-                                    type="number"
-                                    value={data.user_id}
-                                    hidden
-                                />
+                    &&
+                    <div className="overflow-y-scroll h-[30rem]">
+                        {entries
+                            ?.map((entry: any, i: number) => (
+                                <form onSubmit={handleFetchBlotters} key={i + 1}>
+                                    <input
+                                        type="number"
+                                        value={data.user_id}
+                                        hidden
+                                    />
 
-                                <button
-                                    className="w-full text-start hover:bg-slate-200 px-2 border border-solid border-slate-300  gap-2"
-                                    onClick={() => setData('brgy_code', entry?.brgy_code)}>
-                                    {entry?.brgy_name}
-                                </button>
-                            </form>
+                                    <button
+                                        className="w-full text-start hover:bg-slate-200 px-2 border border-solid border-slate-300  gap-2"
+                                        onClick={() => setData('brgy_code', parseInt(entry?.brgy_code))}>
+                                        {entry?.brgy_name}
+                                    </button>
+                                </form>
 
-                        ))}
+                            ))}
+                    </div>
+                }
             </div>
         </div>
     </div>

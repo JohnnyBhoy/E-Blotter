@@ -19,6 +19,16 @@ class BlotterService
         $this->blotter = $blotter;
     }
 
+
+    /**
+     * Count all Blotters entries
+     * @return int Count fo all blotters in database
+     */
+    public function getCount()
+    {
+        return $this->blotter->getCount();
+    }
+
     /**
      * Method to get latest blotter data based on
      * @param int $userId Barangay user ID

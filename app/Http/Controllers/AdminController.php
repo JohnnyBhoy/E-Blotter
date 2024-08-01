@@ -2,69 +2,83 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Blotter;
+use App\Services\BarangayService;
 use App\Services\BlotterService;
-use App\Services\IncidentService;
-use App\Services\UserService;
+use App\Services\CityService;
+use App\Services\ProvinceService;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
+use Inertia\Response;
 
 class AdminController extends Controller
 {
-
-    protected $userService;
+    protected $provinceService;
+    protected $cityService;
+    protected $barangayService;
     protected $blotterService;
-    protected $incidentService;
-    protected $edit = 'Profile/Edit';
 
     /** Constructor */
-    public function __construct(UserService $userService, BlotterService $blotterService, IncidentService $incidentService)
-    {
-        $this->userService = $userService;
+    public function __construct(
+        ProvinceService $provinceService,
+        CityService $cityService,
+        BarangayService $barangayService,
+        BlotterService $blotterService,
+    ) {
+        $this->provinceService = $provinceService;
+        $this->cityService = $cityService;
+        $this->barangayService = $barangayService;
         $this->blotterService = $blotterService;
-        $this->incidentService = $incidentService;
     }
+
     /** Dashboard */
     public function dashboard()
     {
-        $userId = auth()->user()->id;
-        $lastYear  = date('Y') - 1;
-        $currentYear  = date('Y');
-
-        // Get the monthly incident type and count
-        $monthlyIncidents = $this->incidentService->getMonthly($userId);
-
-        // Yearly blotter
-        $blotterPerYear = $this->blotterService->getYearlyBlotter($userId);
-
-        $recordsLastYear = $this->blotterService->getYearlyBlotterByMonth($userId, $lastYear);
-
-        $recordsThisWeek = $this->blotterService->getWeeklyBlotter($userId);
-
-        $recordsThisYear = $this->blotterService->getYearlyBlotterByMonth($userId, $currentYear);
-
-        $blotter = Blotter::where('user_id', $userId)->count();
-
-        $hearing = Blotter::where('user_id', $userId)->where('remarks', 1)->count();
-
-        $settled = Blotter::where('user_id', $userId)->where('remarks', 2)->count();
-
-        $pending = Blotter::where('user_id', $userId)->where('remarks', 3)->count();
-
-        $referred = Blotter::where('user_id', $userId)->where('remarks', 4)->count();
+        $provinces = $this->provinceService->get();
+        $cities = $this->cityService->get();
+        $barangays = $this->barangayService->get();
+        $blotters = $this->blotterService->getCount();
 
         return Inertia::render('Admin/Dashboard', [
-            'datas' =>  [
-                $blotter,
-                $hearing,
-                $settled,
-                $pending,
-                $referred,
-            ], 'lastYearBlotter' => $recordsLastYear,
-            'thisYearBlotter' => $recordsThisYear,
-            'thisWeekBlotter' => $recordsThisWeek,
-            'blotterPerYear' => $blotterPerYear,
-            'monthlyIncidents' => $monthlyIncidents,
+            'provinces' => $provinces,
+            'cities' => $cities,
+            'barangays' => $barangays,
+            'blotters' => $blotters,
         ]);
+    }
+
+    /**
+     * Get Cities of Province
+     * @param \Illuminate\Http\Request $request The HTTP request
+     * @return Response  array of cities
+     */
+    public function getCities(Request $request)
+    {
+        $provinceId = $request->get('province_id');
+
+        try {
+            $citiesOfProvince = $this->cityService->getCities($provinceId);
+
+            return Inertia::render('Cities', ['cities' => $citiesOfProvince]);
+        } catch (\Throwable $th) {
+            throw $th;
+        }
+    }
+
+    /**
+     * Get Barangays of City
+     * @param \Illuminate\Http\Request $request The HTTP request
+     * @return Response  array of barangays
+     */
+    public function getBarangays(Request $request)
+    {
+        $cityId = $request->get('city_id');
+
+        try {
+            $barangaysOfCity = $this->barangayService->getBarangays($cityId);
+
+            return Inertia::render('Barangays', ['barangays' => $barangaysOfCity]);
+        } catch (\Throwable $th) {
+            throw $th;
+        }
     }
 }

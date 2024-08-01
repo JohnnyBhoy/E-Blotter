@@ -1,41 +1,25 @@
 import CardDataStats from "@/Components/CardDataStats";
-import ChartFour from "@/Components/components/Charts/ChartFour";
-import ChartOne from "@/Components/components/Charts/ChartOne";
-import ChartThree from "@/Components/components/Charts/ChartThree";
-import ChartTwo from "@/Components/components/Charts/ChartTwo";
-import ChatCard from "@/Components/components/Chat/ChatCard";
-import MapOne from "@/Components/components/Maps/MapOne";
-import TableOne from "@/Components/components/Tables/TableOne";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 
 import { PageProps } from "@/Pages/types";
-import { useBlotterStore } from "@/utils/store/blotterStore";
-import { Head, Link, useForm } from "@inertiajs/react";
-import React, { useEffect, useState } from "react";
-import { JournalAlbum, JournalBookmark, JournalCheck, JournalRichtext } from "react-bootstrap-icons";
+import getBarangayByBrgyCode from "@/utils/functions/getBarangayByBrgyCode";
+import getCity from "@/utils/functions/getCity";
+import getProvince from "@/utils/functions/getProvince";
+import { Head, router, useForm } from "@inertiajs/react";
+import React, { useState } from "react";
+import { ArrowDown, BookHalf, BuildingDash, BuildingFillGear, BuildingGear, Buildings, BuildingUp, BuildingX } from "react-bootstrap-icons";
 
-export default function Dashboard({ auth, datas, lastYearBlotter, thisYearBlotter, thisWeekBlotter, blotterPerYear, monthlyIncidents }
+export default function Dashboard({ auth, provinces, cities, barangays, blotters }
     : PageProps<{
-        datas: number[];
-        lastYearBlotter: any;
-        thisYearBlotter: any;
-        thisWeekBlotter: any;
-        blotterPerYear: any;
-        monthlyIncidents: any;
+        provinces: object[];
+        cities: { city_code: number; province_code: number }[];
+        barangays: object[];
+        blotters: number;
     }>) {
 
-    // Global state
-    const { hearing, settled, pending, referred, yearlyBlotter,
-        setBlotter, setHearing, setSettled, setPending, setReferred, setYearlyBlotter } = useBlotterStore();
-
-    useEffect(() => {
-        setBlotter(datas[0]);
-        setHearing(datas[1]);
-        setSettled(datas[2]);
-        setPending(datas[3]);
-        setReferred(datas[4]);
-        setYearlyBlotter(blotterPerYear);
-    }, [datas]);
+    // Local states
+    const [selectedCity, setSelectedCity] = useState<number>(cities[0].city_code);
+    const [selectedProvince, setSelectedProvince] = useState<number>(0);
 
     return (
         <AuthenticatedLayout
@@ -48,44 +32,184 @@ export default function Dashboard({ auth, datas, lastYearBlotter, thisYearBlotte
         >
             <Head title="Admin - Dashboard" />
             <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6 xl:grid-cols-4 2xl:gap-7.5">
-                <CardDataStats title="For Hearing" total={`${hearing}`} rate={`${hearing}`} remark={1} routeTo="hearing" levelUp>
-                    <JournalBookmark size={24} color="blue" />
+                <CardDataStats title="Provinces" total={`${provinces?.length}`} rate={`${provinces?.length}`} remark={1} routeTo="provinces" levelUp>
+                    <Buildings size={24} color="blue" />
                 </CardDataStats>
 
-                <CardDataStats title="Amicably Settled" total={`${settled}`} rate={`${settled}`} remark={2} routeTo="settled" levelUp>
-                    <JournalCheck size={24} color="blue" />
+                <CardDataStats title="Cities" total={`${cities?.length}`} rate={`${cities?.length}`} remark={2} routeTo="cities" levelUp>
+                    <BuildingUp size={24} color="blue" />
                 </CardDataStats>
 
-                <CardDataStats title="Pending" total={`${pending}`} rate={`${pending}`} remark={3} routeTo="pending" levelDown>
-                    <JournalRichtext size={24} color="blue" />
+                <CardDataStats title="Barangays" total={`${barangays?.length}`} rate={`${barangays?.length}`} remark={3} routeTo="barangays" levelDown>
+                    <BuildingFillGear size={24} color="blue" />
                 </CardDataStats>
 
-                <CardDataStats title="Referred to PNP" total={`${referred}`} rate={`${referred}`} remark={4} routeTo="referred" levelUp>
-                    <JournalAlbum size={24} color="blue" />
+                <CardDataStats title="Blotters" total={`${blotters}`} rate={`${blotters}`} remark={4} routeTo="blotters" levelUp>
+                    <BookHalf size={24} color="blue" />
                 </CardDataStats>
             </div>
 
-            {/**
-             <div className="mt-4 grid grid-cols-12 gap-4 md:mt-6 md:gap-6 2xl:mt-7.5 2xl:gap-7.5">
-                <ChartOne lastYearBlotter={lastYearBlotter} thisYearBlotter={thisYearBlotter} />
+            <Provinces provinces={provinces} />
 
-                <ChartTwo data={thisWeekBlotter} />
+            <Cities
+                cities={cities}
+                provinces={provinces}
+            />
 
-                <ChartThree />
-
-                <MapOne auth={auth} level="Admin" />
-
-                <ChartFour monthlyIncidents={monthlyIncidents?.sort((a: any, b: any) => a.incident_type - b.incident_type)} />
-
-                <div className="col-span-12 xl:col-span-8 hidden">
-                    <TableOne />
-                </div>
-
-                <ChatCard /> 
-                </div>
-            */}
-
+            <Barangays
+                barangays={barangays}
+                cities={cities}
+                setSelected={setSelectedCity}
+                selectedCity={selectedCity}
+            />
         </AuthenticatedLayout >
     );
 
+}
+
+const Provinces = ({ provinces }: { provinces: any }) => {
+
+    // Handle redirect to cities page by province Id
+    const redirectToCitiesOfProvince = (provinceID: number) => {
+        router.visit('/admin-cities', {
+            data: {
+                province_id: provinceID,
+            },
+        });
+    }
+
+    return (
+        <div className="shadow my-6">
+            {provinces?.map((province: any, key: number) => (
+                <>
+                    <div className="border border-solid border-slate-200 rounded-t">
+                        <div className="px-10 py-2 flex justify-between place-items-center">
+                            <h6 className="font-bold">{provinces?.length} Provinces</h6>
+                            <select className="py-1 rounded border-slate-400 ">
+                                <option value="">Region VI</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div className="border border-solid border-slate-200 rounded-b">
+                        <div className="px-10 py-2 flex justify-between place-items-center">
+                            <div className="flex gap-3">
+                                <Buildings color="blue" size={24} />
+                                <h6>Province of {getProvince(province.province_code)}</h6>
+                            </div>
+                            <button
+                                className="py-2 px-5 rounded-lg bg-primary hover:bg-blue-900 text-white"
+                                onClick={() => redirectToCitiesOfProvince(province.province_code)}>
+                                Manage
+                            </button>
+                        </div>
+                    </div>
+                </>
+            ))}
+        </div>
+    )
+}
+
+const Cities = ({ cities, provinces }: { cities: object[], provinces: any }) => {
+
+    // Handle redirect to barangay page by city code
+    const redirectToBarangaysOfCity = (cityId: number) => {
+        router.visit('/admin-barangays', {
+            data: {
+                city_id: cityId,
+            },
+        });
+    }
+
+    return (
+        <div className="shadow my-6">
+            <div className="border border-solid border-slate-200 rounded-t">
+                <div className="px-10 py-2 flex justify-between place-items-center">
+                    <h6 className="font-bold">{cities?.length} Cities</h6>
+                    <select className="py-1 rounded  border-slate-400 ">
+                        <option value="">Province of {getProvince(parseInt(provinces[0].province_code))}</option>
+                    </select>
+                </div>
+            </div>
+            {cities?.map((city: any, key: number) => (
+                <>
+                    <div className="border border-solid border-slate-200 rounded-b">
+                        <div className="px-10 py-2 flex justify-between place-items-center">
+                            <div className="flex gap-3">
+                                <BuildingUp color="blue" size={24} />
+                                <h6>Municipality of {getCity(city.city_code)}</h6>
+                            </div>
+                            <button
+                                className="py-2 px-5 rounded-lg bg-primary hover:bg-blue-900 text-white"
+                                onClick={() => redirectToBarangaysOfCity(city.city_code)}>
+                                Manage
+                            </button>
+                        </div>
+                    </div>
+                </>
+            ))}
+        </div>
+    )
+}
+
+
+const Barangays = ({ barangays, cities, selectedCity, setSelected }
+    : { barangays: object[]; cities: any, selectedCity: number, setSelected: CallableFunction }) => {
+    // Local states
+    const [limitBarangay, setLimitBarangay] = useState<number>(10);
+
+    // Handle redirect to blotters page by barangay code
+    const redirectToBlotters = (code: number) => {
+        router.visit('/blotter/admin-blotters', {
+            data: {
+                brgy_code: code,
+            },
+        });
+    }
+
+    return (
+        <div className="shadow my-6">
+            <div className="border border-solid border-slate-200 rounded-t">
+                <div className="px-10 py-2 flex justify-between place-items-center">
+                    <h6 className="font-bold">{barangays?.filter((item: any) => item?.city_code == selectedCity).length} Barangays</h6>
+                    <select
+                        className="py-1 rounded border-slate-400 shadow-sm"
+                        onChange={(e) => setSelected(e.target.value)}
+                    >
+                        {cities?.map((city: any, key: number) => (
+                            <option value={city.city_code}>Municipality of {getCity(parseInt(city.city_code))}</option>
+                        ))}
+                    </select>
+                </div>
+            </div>
+            {barangays
+                ?.filter((item: any) => item?.city_code == selectedCity)
+                ?.slice(0, limitBarangay)
+                ?.map((barangay: any, key: number) => (
+                    <>
+                        <div className="border border-solid border-slate-200 rounded-b" key={key}>
+                            <div className="px-10 py-2 flex justify-between place-items-center">
+                                <div className="flex gap-3">
+                                    <BuildingGear color="blue" size={24} />
+                                    <h6>Barangay {getBarangayByBrgyCode(parseInt(barangay.barangay_code))}</h6>
+                                </div>
+                                <button
+                                    className="py-2 px-5 rounded-lg bg-primary hover:bg-blue-900 text-white"
+                                    onClick={() => redirectToBlotters(barangay.barangay_code)}
+                                >
+                                    Manage
+                                </button>
+                            </div>
+                        </div>
+                    </>
+                ))}
+
+            <div className="border border-slate-300 p-3 flex justify-end gap-x-1">
+                <ArrowDown className="mt-1 animate-bounce" />
+
+                <button onClick={() => setLimitBarangay(limitBarangay + 10)}>
+                    See More
+                </button>
+            </div>
+        </div>
+    )
 }

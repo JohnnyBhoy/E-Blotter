@@ -122,6 +122,16 @@ Route::group(['middleware' => ['auth', 'verified', IsRegion::class]], function (
 Route::group(['middleware' => ['auth', 'verified', IsAdmin::class]], function () {
     // Dashboard
     Route::get('/admin-dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
+
+    // Cities
+    Route::get('/admin-cities', [AdminController::class, 'getCities'])->name('admin.cities');
+
+    // Barangays
+    Route::get('/admin-barangays', [AdminController::class, 'getbarangays'])->name('admin.barangays');
+
+    // Blotters
+    Route::get('/blotter/admin-blotters', [BlotterController::class, 'getAll'])->name('blotter.admin.blotters');
+    Route::get('/blotter/admin-edit', [BlotterController::class, 'get'])->name('blotter.admin.edit');
 });
 
 

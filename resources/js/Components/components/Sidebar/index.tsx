@@ -172,10 +172,13 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
 
                           <li>
                             <Link
-                              href={role == 2
-                                ? "/blotter/blotters"
-                                : role == 3 ? "/blotter/municipal-blotters"
-                                  : "/dashboard"}
+                              href={role == 1
+                                ? "/blotter/admin-blotters"
+                                : role == 2
+                                  ? "/blotter/blotters"
+                                  : role == 3
+                                    ? "/blotter/municipal-blotters"
+                                    : "/dashboard"}
                               className='group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-bodydark2 duration-300 ease-in-out hover:text-white '
                             >
                               Blotter entries
@@ -249,7 +252,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                     }`}
                 >
                   <Map />
-                  {role == 2 ? 'Brgy' : role == 3 ? 'Municipal' : 'Province'} Map
+                  {role == 1 ? 'Admin' : role == 2 ? 'Brgy' : role == 3 ? 'Municipal' : 'Province'} Map
                 </Link>
               </li>
             </ul>
