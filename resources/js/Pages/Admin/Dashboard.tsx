@@ -19,7 +19,7 @@ export default function Dashboard({ auth, provinces, cities, barangays, blotters
 
     // Local states
     const [selectedCity, setSelectedCity] = useState<number>(cities[0].city_code);
-    const [selectedProvince, setSelectedProvince] = useState<number>(0);
+    const [selectedProvince, setSelectedProvince] = useState<number>(cities[0].province_code);
 
     return (
         <AuthenticatedLayout
@@ -54,6 +54,8 @@ export default function Dashboard({ auth, provinces, cities, barangays, blotters
             <Cities
                 cities={cities}
                 provinces={provinces}
+                selectedProvince={selectedProvince}
+                setSelectedProvince={setSelectedProvince}
             />
 
             <Barangays
@@ -80,16 +82,16 @@ const Provinces = ({ provinces }: { provinces: any }) => {
 
     return (
         <div className="shadow my-6">
+            <div className="border border-solid border-slate-200 rounded-t">
+                <div className="px-10 py-2 flex justify-between place-items-center">
+                    <h6 className="font-bold">{provinces?.length} Provinces</h6>
+                    <select className="py-1 rounded border-slate-400 ">
+                        <option value="">Region VI</option>
+                    </select>
+                </div>
+            </div>
             {provinces?.map((province: any, key: number) => (
                 <>
-                    <div className="border border-solid border-slate-200 rounded-t">
-                        <div className="px-10 py-2 flex justify-between place-items-center">
-                            <h6 className="font-bold">{provinces?.length} Provinces</h6>
-                            <select className="py-1 rounded border-slate-400 ">
-                                <option value="">Region VI</option>
-                            </select>
-                        </div>
-                    </div>
                     <div className="border border-solid border-slate-200 rounded-b">
                         <div className="px-10 py-2 flex justify-between place-items-center">
                             <div className="flex gap-3">
@@ -109,7 +111,11 @@ const Provinces = ({ provinces }: { provinces: any }) => {
     )
 }
 
-const Cities = ({ cities, provinces }: { cities: object[], provinces: any }) => {
+const Cities = ({ cities, provinces, selectedProvince, setSelectedProvince }
+    : { cities: object[], provinces: any, selectedProvince: number, setSelectedProvince: CallableFunction }) => {
+
+    // Local states
+    const [limitCity, setLimitCity] = useState<number>(10);
 
     // Handle redirect to barangay page by city code
     const redirectToBarangaysOfCity = (cityId: number) => {
@@ -125,28 +131,44 @@ const Cities = ({ cities, provinces }: { cities: object[], provinces: any }) => 
             <div className="border border-solid border-slate-200 rounded-t">
                 <div className="px-10 py-2 flex justify-between place-items-center">
                     <h6 className="font-bold">{cities?.length} Cities</h6>
-                    <select className="py-1 rounded  border-slate-400 ">
-                        <option value="">Province of {getProvince(parseInt(provinces[0].province_code))}</option>
+                    <select
+                        className="py-1 rounded border-slate-400 shadow-sm"
+                        onChange={(e) => setSelectedProvince(e.target.value)}
+                    >
+                        {provinces?.map((province: any, key: number) => (
+                            <option value={province.province_code}>Province of {getProvince(parseInt(province.province_code))}</option>
+                        ))}
                     </select>
                 </div>
             </div>
-            {cities?.map((city: any, key: number) => (
-                <>
-                    <div className="border border-solid border-slate-200 rounded-b">
-                        <div className="px-10 py-2 flex justify-between place-items-center">
-                            <div className="flex gap-3">
-                                <BuildingUp color="blue" size={24} />
-                                <h6>Municipality of {getCity(city.city_code)}</h6>
+            {cities
+                ?.filter((item: any) => item?.province_code == selectedProvince)
+                ?.slice(0, limitCity)
+                .map((city: any, key: number) => (
+                    <>
+                        <div className="border border-solid border-slate-200 rounded-b">
+                            <div className="px-10 py-2 flex justify-between place-items-center">
+                                <div className="flex gap-3">
+                                    <BuildingUp color="blue" size={24} />
+                                    <h6>Municipality of {getCity(city.city_code)}</h6>
+                                </div>
+                                <button
+                                    className="py-2 px-5 rounded-lg bg-primary hover:bg-blue-900 text-white"
+                                    onClick={() => redirectToBarangaysOfCity(city.city_code)}>
+                                    Manage
+                                </button>
                             </div>
-                            <button
-                                className="py-2 px-5 rounded-lg bg-primary hover:bg-blue-900 text-white"
-                                onClick={() => redirectToBarangaysOfCity(city.city_code)}>
-                                Manage
-                            </button>
                         </div>
-                    </div>
-                </>
-            ))}
+                    </>
+                ))}
+
+            <div className="border border-slate-300 p-3 flex justify-end gap-x-1">
+                <ArrowDown className="mt-1 animate-bounce" />
+
+                <button onClick={() => setLimitCity(limitCity + 10)}>
+                    See More
+                </button>
+            </div>
         </div>
     )
 }
@@ -170,7 +192,9 @@ const Barangays = ({ barangays, cities, selectedCity, setSelected }
         <div className="shadow my-6">
             <div className="border border-solid border-slate-200 rounded-t">
                 <div className="px-10 py-2 flex justify-between place-items-center">
-                    <h6 className="font-bold">{barangays?.filter((item: any) => item?.city_code == selectedCity).length} Barangays</h6>
+                    <h6 className="font-bold">
+                        {barangays?.filter((item: any) => item?.city_code == selectedCity).length} Barangays
+                    </h6>
                     <select
                         className="py-1 rounded border-slate-400 shadow-sm"
                         onChange={(e) => setSelected(e.target.value)}
