@@ -12,15 +12,22 @@ class BarangayRepository
 {
     /**
      * Get all provinces
+     * @param int $cityCode ID of the City / Municipality
+     * @return array arrays of barangay in the city
      */
-    public function get()
+    public function get(Int $cityCode)
     {
         $remarks = [1, 2, 3, 4, 5];
 
-        return DB::table('user_addresses')
+        $query =  DB::table('user_addresses')
             ->leftJoin('blotters', 'user_addresses.user_id', '=', 'blotters.user_id')
-            ->select('user_addresses.user_id', 'user_addresses.barangay_code', 'user_addresses.city_code', 'blotters.remarks', DB::raw('count(blotters.id) as count'))
-            ->groupBy('user_addresses.user_id', 'user_addresses.barangay_code', 'user_addresses.city_code', 'blotters.remarks')
+            ->select('user_addresses.user_id', 'user_addresses.barangay_code', 'user_addresses.city_code', 'blotters.remarks', DB::raw('count(blotters.id) as count'));
+
+        if ($cityCode > 0) {
+            $query  = $query->where('user_addresses.city_code', $cityCode);
+        }
+
+        return $query->groupBy('user_addresses.user_id', 'user_addresses.barangay_code', 'user_addresses.city_code', 'blotters.remarks')
             ->get()
             ->groupBy('barangay_code')
             ->map(function ($barangayGroup)  use ($remarks) {

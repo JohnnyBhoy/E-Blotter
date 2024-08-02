@@ -41,11 +41,11 @@ const CardDataStats: React.FC<CardDataStatsProps> = ({
         </div>
 
         <div className="mt-4 flex items-end justify-between">
-          <div className='flex gap-2'>
-            <h4 className="text-title-md font-bold text-black dark:text-white">
+          <div className='flex flex-col gap-2'>
+            <h5 className="text-lg font-bold text-black dark:text-white">
               {total}
-            </h4>
-            <span className="text-sm font-medium mt-2">{title}</span>
+            </h5>
+            <span className="text-sm font-medium">{title}</span>
           </div>
 
           <span

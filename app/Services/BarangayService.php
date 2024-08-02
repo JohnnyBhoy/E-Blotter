@@ -15,10 +15,12 @@ class BarangayService
 
     /**
      * Get all Barangays
+     * @param int $cityCode Code of the city / Municipality
+     * @return array Arrays of the barangay and their blotters count
      */
-    public function get()
+    public function get(Int $cityCode)
     {
-        return $this->barangayRepository->get();
+        return $this->barangayRepository->get($cityCode);
     }
 
     /**

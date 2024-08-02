@@ -33,9 +33,10 @@ class AdminController extends Controller
     /** Dashboard */
     public function dashboard()
     {
+        $cityCode = 0;
         $provinces = $this->provinceService->get();
         $cities = $this->cityService->get();
-        $barangays = $this->barangayService->get();
+        $barangays = $this->barangayService->get($cityCode);
         $blotters = $this->blotterService->getCount();
 
         return Inertia::render('Admin/Dashboard', [
