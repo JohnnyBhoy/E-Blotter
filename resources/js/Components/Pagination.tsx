@@ -5,9 +5,9 @@ const Pagination = ({ links, setData, handleChangePage }: { links: any, setData:
 
     const getClassName = (active: any) => {
         if (active) {
-            return "cursor-pointer mr-1 mb-1 px-3 py-1 text-sm leading-4 bg-opacity-10 bg-warning text-warning rounded focus:border-primary focus:text-primary";
+            return "cursor-pointer h-6 grid place-items-center mx-1 w-6 text-sm leading-4 text-white bg-slate-700 text-warning rounded-full focus:border-primary focus:text-primary";
         } else {
-            return "cursor-pointer mr-1 mb-1 px-3 py-1 text-sm leading-4 bg-success text-success  bg-opacity-10 rounded hover:bg-slate-700 hover:text-white focus:border-primary focus:text-primary";
+            return "cursor-pointer grid place-items-center h-6 w-6  mx-1 text-sm leading-4 text-success  bg-opacity-10 rounded-full hover:bg-slate-700 hover:text-white focus:border-primary focus:text-primary";
         }
     }
 
@@ -28,21 +28,21 @@ const Pagination = ({ links, setData, handleChangePage }: { links: any, setData:
                             (
                                 <form onSubmit={handleChangePage} key={i}>
                                     <button
-                                        className="mr-1 mb-1 px-3 py-1 text-sm leading-4  bg-success text-success  bg-opacity-10  rounded hover:primaryCyanHOver hover:text-white"
+                                        className="mr-1 mb-1 flex gap-2 px-3 py-1 text-sm leading-4  bg-white text-success  bg-opacity-10  rounded hover:primaryCyanHOver hover:text-white"
                                         key={i}
                                         onClick={() => setData('page', getPage(link?.url))}
                                     >
-                                        <ChevronLeft />
+                                        <ChevronLeft /> Previous
                                     </button>
                                 </form>
                             ) :
                             link.label === 'Next &raquo;' ?
                                 <form onSubmit={handleChangePage}>
                                     <button key={i}
-                                        className="mr-1 mb-1 px-3 py-1 text-sm leading-4  bg-success text-success  bg-opacity-10  rounded hover:primaryCyanHOver hover:text-white"
+                                        className="mr-1 mb-1 px-3 flex gap-2 py-1 text-sm leading-4  text-success  bg-opacity-10  rounded hover:primaryCyanHOver hover:text-white"
                                         onClick={() => setData('page', getPage(link?.url))}
                                     >
-                                        <ChevronRight />
+                                        Next <ChevronRight />
                                     </button>
                                 </form>
                                 :

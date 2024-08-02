@@ -189,23 +189,23 @@ export default function Blotters({ auth, blotters, message, pageDisplay, pageNum
 
                     </div>
                     {/**Table */}
-                    <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark xl:pb-1 mt-2">
+                    <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark xl:pb-1 mt-6">
                         <div className="max-w-full overflow-x-auto">
                             <table className="w-full z-20 border border-[#eee]">
                                 <TableHead />
                                 <TableBody
                                     blotters={blotters?.data}
                                     setData={setData}
-                                    handleDelete={handleDelete}
-                                />
+                                    handleDelete={handleDelete} /
+                                >
                             </table>
                         </div>
                     </div>
                     {/** End Table */}
 
 
-                    <div className="flex justify-between">
-                        <h6 className="my-3 mt-4">
+                    <div className="flex justify-between mt-2">
+                        <h6 className="my-3">
                             Showing <b>{(parseInt(data.page) - 1) * parseInt(data.per_page) + 1}</b> to <b>{parseInt(data.per_page) * parseInt(data.page)}</b> of <b>{blotters?.total}</b> entries
                         </h6>
 

@@ -5,9 +5,9 @@ import { PageProps } from "@/Pages/types";
 import getBarangayByBrgyCode from "@/utils/functions/getBarangayByBrgyCode";
 import getCity from "@/utils/functions/getCity";
 import getProvince from "@/utils/functions/getProvince";
-import { Head, router, useForm } from "@inertiajs/react";
+import { Head, router } from "@inertiajs/react";
 import React, { useState } from "react";
-import { ArrowDown, BookHalf, BuildingDash, BuildingFillGear, BuildingGear, Buildings, BuildingUp, BuildingX } from "react-bootstrap-icons";
+import { BookHalf, BuildingFillGear, Buildings, BuildingUp, ChevronLeft, ChevronRight } from "react-bootstrap-icons";
 
 export default function Dashboard({ auth, provinces, cities, barangays, blotters }
     : PageProps<{
@@ -20,6 +20,8 @@ export default function Dashboard({ auth, provinces, cities, barangays, blotters
     // Local states
     const [selectedCity, setSelectedCity] = useState<number>(cities[0].city_code);
     const [selectedProvince, setSelectedProvince] = useState<number>(cities[0].province_code);
+
+    console.log(barangays);
 
     return (
         <AuthenticatedLayout
@@ -49,27 +51,26 @@ export default function Dashboard({ auth, provinces, cities, barangays, blotters
                 </CardDataStats>
             </div>
 
-            <Provinces provinces={provinces} />
-
-            <Cities
-                cities={cities}
+            <Provinces
                 provinces={provinces}
                 selectedProvince={selectedProvince}
                 setSelectedProvince={setSelectedProvince}
             />
 
-            <Barangays
-                barangays={barangays}
+            <Cities
                 cities={cities}
+                provinces={provinces}
+                selectedProvince={selectedProvince}
                 setSelected={setSelectedCity}
                 selectedCity={selectedCity}
+                barangays={barangays}
             />
         </AuthenticatedLayout >
     );
 
 }
 
-const Provinces = ({ provinces }: { provinces: any }) => {
+const Provinces = ({ provinces, selectedProvince, setSelectedProvince }: { provinces: any, selectedProvince: number, setSelectedProvince: CallableFunction }) => {
 
     // Handle redirect to cities page by province Id
     const redirectToCitiesOfProvince = (provinceID: number) => {
@@ -80,42 +81,80 @@ const Provinces = ({ provinces }: { provinces: any }) => {
         });
     }
 
+    const provincesData = [
+        {
+            id: 1,
+            name: "AKLAN",
+            code: 604,
+        },
+        {
+            id: 2,
+            name: "ANTIQUE",
+            code: 606,
+        },
+        {
+            id: 3,
+            name: "CAPIZ",
+            code: 619,
+        }, {
+            id: 4,
+            name: "GUIMARAS",
+            code: 679,
+        },
+        {
+            id: 5,
+            name: "ILOILO",
+            code: 630,
+        },
+        {
+            id: 6,
+            name: "NEGROS OCC.",
+            code: 645,
+        },
+        {
+            id: 7,
+            name: "BACOLOD CITY",
+            code: 645,
+        },
+        {
+            id: 8,
+            name: "ILOILO CITY",
+            code: 630,
+        }]
+
     return (
-        <div className="shadow my-6">
-            <div className="border border-solid border-slate-200 rounded-t">
-                <div className="px-10 py-2 flex justify-between place-items-center">
-                    <h6 className="font-bold">{provinces?.length} Provinces</h6>
-                    <select className="py-1 rounded border-slate-400 ">
-                        <option value="">Region VI</option>
-                    </select>
-                </div>
+        <div className="my-12">
+            <div className="grid grid-cols-4 gap-4 mt-5">
+                {provincesData?.map((province: any, key: number) => (
+                    <>
+                        <button
+                            className={`${selectedProvince == province?.code ? 'bg-blue-400 text-white' : 'bg-none text-slate-500 border border-solid border-slate-300'} w-full  text-lg rounded-lg shadow p-2 uppercase hover:bg-blue-400 hover:text-white font-bold`}
+                            onClick={() => setSelectedProvince(province?.code)}
+                        >
+                            {province?.name}
+                        </button >
+                    </>
+                ))}
             </div>
-            {provinces?.map((province: any, key: number) => (
-                <>
-                    <div className="border border-solid border-slate-200 rounded-b">
-                        <div className="px-10 py-2 flex justify-between place-items-center">
-                            <div className="flex gap-3">
-                                <Buildings color="blue" size={24} />
-                                <h6>Province of {getProvince(province.province_code)}</h6>
-                            </div>
-                            <button
-                                className="py-2 px-5 rounded-lg bg-primary hover:bg-blue-900 text-white"
-                                onClick={() => redirectToCitiesOfProvince(province.province_code)}>
-                                Manage
-                            </button>
-                        </div>
-                    </div>
-                </>
-            ))}
-        </div>
+        </div >
     )
 }
 
-const Cities = ({ cities, provinces, selectedProvince, setSelectedProvince }
-    : { cities: object[], provinces: any, selectedProvince: number, setSelectedProvince: CallableFunction }) => {
+const Cities = ({ cities, provinces, selectedProvince, selectedCity, setSelected, barangays }
+    : { cities: object[], provinces: any, selectedProvince: number, selectedCity: number, setSelected: CallableFunction, barangays: object[]; }) => {
 
     // Local states
-    const [limitCity, setLimitCity] = useState<number>(10);
+    const [activePage, setActivePage] = useState<number>(1);
+    const [limitBarangay, setLimitBarangay] = useState<number[]>([0, 10]);
+
+    // Handle redirect to blotters page by barangay code
+    const redirectToBlottersPerBarangayPage = (code: number) => {
+        router.visit('/blotter/admin-blotters', {
+            data: {
+                brgy_code: code,
+            },
+        });
+    }
 
     // Handle redirect to barangay page by city code
     const redirectToBarangaysOfCity = (cityId: number) => {
@@ -126,114 +165,150 @@ const Cities = ({ cities, provinces, selectedProvince, setSelectedProvince }
         });
     }
 
-    return (
-        <div className="shadow my-6">
-            <div className="border border-solid border-slate-200 rounded-t">
-                <div className="px-10 py-2 flex justify-between place-items-center">
-                    <h6 className="font-bold">{cities?.length} Cities</h6>
-                    <select
-                        className="py-1 rounded border-slate-400 shadow-sm"
-                        onChange={(e) => setSelectedProvince(e.target.value)}
-                    >
-                        {provinces?.map((province: any, key: number) => (
-                            <option value={province.province_code}>Province of {getProvince(parseInt(province.province_code))}</option>
-                        ))}
-                    </select>
-                </div>
-            </div>
-            {cities
-                ?.filter((item: any) => item?.province_code == selectedProvince)
-                ?.slice(0, limitCity)
-                .map((city: any, key: number) => (
-                    <>
-                        <div className="border border-solid border-slate-200 rounded-b">
-                            <div className="px-10 py-2 flex justify-between place-items-center">
-                                <div className="flex gap-3">
-                                    <BuildingUp color="blue" size={24} />
-                                    <h6>Municipality of {getCity(city.city_code)}</h6>
-                                </div>
-                                <button
-                                    className="py-2 px-5 rounded-lg bg-primary hover:bg-blue-900 text-white"
-                                    onClick={() => redirectToBarangaysOfCity(city.city_code)}>
-                                    Manage
-                                </button>
-                            </div>
-                        </div>
-                    </>
-                ))}
+    const tableHeaders = ['Barangay', 'Total Uploaded', 'Amicably Settled', 'Pending', 'For Hearing', 'Referred To PNP', 'Others', 'Action'];
 
-            <div className="border border-slate-300 p-3 flex justify-end gap-x-1">
-                <ArrowDown className="mt-1 animate-bounce" />
-
-                <button onClick={() => setLimitCity(limitCity + 10)}>
-                    See More
-                </button>
-            </div>
-        </div>
-    )
-}
-
-
-const Barangays = ({ barangays, cities, selectedCity, setSelected }
-    : { barangays: object[]; cities: any, selectedCity: number, setSelected: CallableFunction }) => {
-    // Local states
-    const [limitBarangay, setLimitBarangay] = useState<number>(10);
-
-    // Handle redirect to blotters page by barangay code
-    const redirectToBlotters = (code: number) => {
-        router.visit('/blotter/admin-blotters', {
-            data: {
-                brgy_code: code,
-            },
-        });
-    }
+    console.log(activePage);
 
     return (
         <div className="shadow my-6">
             <div className="border border-solid border-slate-200 rounded-t">
                 <div className="px-10 py-2 flex justify-between place-items-center">
-                    <h6 className="font-bold">
-                        {barangays?.filter((item: any) => item?.city_code == selectedCity).length} Barangays
-                    </h6>
+                    <div className="flex gap-10">
+                        <h6 className="">
+                            Province: <b>{getProvince(selectedProvince)}
+                            </b>
+                        </h6>
+
+                        <h6 className="">
+                            Municipality : <b>{cities
+                                ?.filter((item: any) => item?.province_code == selectedProvince)
+                                ?.length}
+                            </b>
+                        </h6>
+
+                        <h6 className="">
+                            Barangay : <b>{barangays
+                                ?.filter((item: any) => item?.city_code == selectedCity)
+                                ?.length}
+                            </b>
+                        </h6>
+                    </div>
+
                     <select
-                        className="py-1 rounded border-slate-400 shadow-sm"
+                        className="py-1 rounded border-slate-400 shadow-sm text-sm"
                         onChange={(e) => setSelected(e.target.value)}
                     >
-                        {cities?.map((city: any, key: number) => (
-                            <option value={city.city_code}>Municipality of {getCity(parseInt(city.city_code))}</option>
-                        ))}
+                        {cities
+                            ?.filter((item: any) => item?.province_code == selectedProvince)
+                            ?.map((city: any, key: number) => (
+                                <option value={city.city_code}>
+                                    {getCity(parseInt(city.city_code))}
+                                </option>
+                            ))}
                     </select>
                 </div>
             </div>
-            {barangays
-                ?.filter((item: any) => item?.city_code == selectedCity)
-                ?.slice(0, limitBarangay)
-                ?.map((barangay: any, key: number) => (
-                    <>
-                        <div className="border border-solid border-slate-200 rounded-b" key={key}>
-                            <div className="px-10 py-2 flex justify-between place-items-center">
-                                <div className="flex gap-3">
-                                    <BuildingGear color="blue" size={24} />
-                                    <h6>Barangay {getBarangayByBrgyCode(parseInt(barangay.barangay_code))}</h6>
-                                </div>
-                                <button
-                                    className="py-2 px-5 rounded-lg bg-primary hover:bg-blue-900 text-white"
-                                    onClick={() => redirectToBlotters(barangay.barangay_code)}
-                                >
-                                    Manage
-                                </button>
-                            </div>
-                        </div>
-                    </>
-                ))}
 
-            <div className="border border-slate-300 p-3 flex justify-end gap-x-1">
-                <ArrowDown className="mt-1 animate-bounce" />
+            {/** Barangay Table */}
+            <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark xl:pb-1">
+                <div className="max-w-full overflow-x-auto">
+                    <table className="w-full z-20 border border-[#eee]">
+                        <thead>
+                            <tr className="bg-gray-2 text-left dark:bg-meta-4 ">
+                                {tableHeaders.map((header, key) => (
+                                    <th className="border border-[#eee] min-w-[120px] py-3 px-2 font-medium text-xs text-black dark:text-white xl:pl-11" key={key}>
+                                        {header}
+                                    </th>
+                                ))}
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {barangays
+                                ?.filter((item: any) => item?.city_code == selectedCity)
+                                ?.slice(limitBarangay[0], limitBarangay[1])
+                                ?.map((barangay: any, key: number) => (
+                                    <tr key={key} className="hover:bg-slate-100 cursor-pointer z-20 bg-white dark:bg-meta-4">
+                                        <td className="border border-[#eee] dark:border-white py-1.5 px-2 pl-9 dark:border-strokedark xl:pl-11">
+                                            <h5 className="text-black dark:text-white text-xs">
+                                                {getBarangayByBrgyCode(barangay?.barangay_code)}
+                                            </h5>
+                                        </td>
 
-                <button onClick={() => setLimitBarangay(limitBarangay + 10)}>
-                    See More
-                </button>
+                                        <td className="border border-[#eee] dark:border-white py-1.5 px-2 pl-9 dark:border-strokedark xl:pl-11 text-xs">
+                                            {barangay?.total}
+                                        </td>
+
+                                        {barangay
+                                            ?.blotters
+                                            ?.map((remark: any, key: number) => (
+                                                <td
+                                                    className="border border-[#eee] dark:border-white py-1.5 px-2 pl-9 dark:border-strokedark xl:pl-11 text-xs"
+                                                    key={key}>
+                                                    {remark?.count}
+                                                </td>
+                                            ))}
+
+                                        <td className="border border-[#eee] dark:border-white py-1.5 px-4 pl-9 dark:border-strokedark xl:pl-5">
+                                            <button
+                                                className="bg-green-600 hover:bg-green-800 text-white px-4 py-0 rounded-3xl"
+                                                onClick={() => redirectToBlottersPerBarangayPage(barangay?.barangay_code)}
+                                            >
+                                                View
+                                            </button>
+                                        </td>
+                                    </tr>
+                                ))}
+                        </tbody>
+                    </table>
+
+                    <div className="flex gap-4 px-6  py-3 justify-end">
+                        <button
+                            className="flex"
+                            onClick={() => {
+                                setActivePage(activePage == 1 ? 1 : activePage - 1);
+                                setLimitBarangay([0, 10]);
+                            }}>
+                            <ChevronLeft className="mt-1 cursor-pointer" />
+                            Previous
+                        </button>
+
+                        <button
+                            className={activePage == 1 ? `bg-slate-700 rounded-full text-white w-6 h-6` : 'hover:font-bold'}
+                            onClick={() => {
+                                setLimitBarangay([0, 10]);
+                                setActivePage(1);
+                            }}>
+                            1
+                        </button>
+                        <button
+                            className={activePage == 2 ? `bg-slate-700 rounded-full text-white w-6 h-6` : 'hover:font-bold'}
+                            onClick={() => {
+                                setLimitBarangay([10, 20]);
+                                setActivePage(2);
+                            }}>
+                            2
+                        </button>
+                        <button
+                            className={activePage == 3 ? `bg-slate-700 rounded-full text-white w-6 h-6` : 'hover:font-bold'}
+                            onClick={() => {
+                                setLimitBarangay([20, 30]);
+                                setActivePage(3);
+                            }}>
+                            3
+                        </button>
+                        <button
+                            className="flex"
+                            onClick={() => {
+                                setActivePage(activePage == 3 ? activePage : activePage + 1);
+                                setLimitBarangay([20, 30]);
+                            }}>
+                            Next <ChevronRight className="mt-1 cursor-pointer" />
+                        </button>
+
+                    </div>
+                </div>
             </div>
-        </div>
+            {/** End Table */}
+        </div >
     )
 }

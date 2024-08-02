@@ -15,8 +15,48 @@ class BarangayRepository
      */
     public function get()
     {
-        return UserAddress::selectRaw('DISTINCT barangay_code,city_code')
+        $remarks = [1, 2, 3, 4, 5];
+
+        return DB::table('user_addresses')
+            ->leftJoin('blotters', 'user_addresses.user_id', '=', 'blotters.user_id')
+            ->select('user_addresses.user_id', 'user_addresses.barangay_code', 'user_addresses.city_code', 'blotters.remarks', DB::raw('count(blotters.id) as count'))
+            ->groupBy('user_addresses.user_id', 'user_addresses.barangay_code', 'user_addresses.city_code', 'blotters.remarks')
             ->get()
+            ->groupBy('barangay_code')
+            ->map(function ($barangayGroup)  use ($remarks) {
+                // Initialize the remarks counts with 0
+                $remarkCounts = array_fill_keys($remarks, 0);
+
+                // Aggregate counts for remarks greater than 5
+                $additionalCount = 0;
+
+                foreach ($barangayGroup as $item) {
+                    if ($item->remarks <= 5) {
+                        $remarkCounts[$item->remarks] = $item->count;
+                    } else {
+                        $additionalCount += $item->count;
+                    }
+                }
+
+                // Add the additional counts to remark 5
+                $remarkCounts[5] += $additionalCount;
+
+                // Calculate the total count for the barangay
+                $totalCount = $barangayGroup->sum('count');
+
+                return [
+                    'user_id' => $barangayGroup->first()->user_id,
+                    'barangay_code' => $barangayGroup->first()->barangay_code,
+                    'city_code' => $barangayGroup->first()->city_code,
+                    'total' => $totalCount,
+                    'blotters' => array_map(function ($remarks) use ($remarkCounts) {
+                        return [
+                            'remark' => $remarks,
+                            'count' => $remarkCounts[$remarks]
+                        ];
+                    }, $remarks)
+                ];
+            })->values()
             ->toArray();
     }
 

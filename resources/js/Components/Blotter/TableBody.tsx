@@ -116,24 +116,24 @@ const TableBody = ({ blotters, setData, handleDelete }: { blotters: any; setData
                 {blotters?.map((blotter: BlotterProps, i: number) => (
                     <tr key={i} className="hover:bg-slate-100 cursor-pointer z-20 bg-white dark:bg-meta-4">
                         <td className="border border-[#eee] dark:border-white py-1.5 px-2 pl-9 dark:border-strokedark xl:pl-11">
-                            <h5 className="font-medium text-black dark:text-white">
+                            <h5 className="font-medium text-black dark:text-white text-sm">
                                 {blotter?.entry_number}
                             </h5>
                         </td>
                         <td className="border border-[#eee] dark:border-white py-1.5 px-2 dark:border-strokedark ">
-                            <p className="text-black dark:text-white">
+                            <p className="text-black dark:text-white text-sm">
                                 {blotter?.complainant_family_name},  {blotter?.complainant_first_name}  {blotter?.complainant_middle_name?.charAt(0)}.
                             </p>
                         </td>
 
                         <td className="border border-[#eee] dark:border-white py-1.5 px-2 dark:border-strokedark">
-                            <p className="text-black dark:text-white">
+                            <p className="text-black dark:text-white text-sm">
                                 {blotter?.respondent_family_name},  {blotter?.respondent_first_name}  {blotter?.complainant_middle_name?.charAt(0)}.
                             </p>
                         </td>
 
                         <td className="border border-[#eee] dark:border-white py-1.5 px-2 dark:border-strokedark">
-                            <p className="text-black dark:text-white " onMouseEnter={() => {
+                            <p className="text-black dark:text-white  grid place-items-center  text-sm" onMouseEnter={() => {
                                 setShowIncidentDescription(true);
                                 setActiveHoverId(blotter.id);
                             }} onMouseLeave={() => setShowIncidentDescription(false)}>
@@ -147,14 +147,14 @@ const TableBody = ({ blotters, setData, handleDelete }: { blotters: any; setData
                         </td>
 
                         <td className="border border-[#eee] dark:border-white py-1.5 px-2 dark:border-strokedark">
-                            <p className="text-black dark:text-white">
+                            <p className="text-black dark:text-white text-sm  grid place-items-center ">
                                 {dateToString(blotter?.created_at)}
                             </p>
                         </td>
 
                         <td className="border border-[#eee] dark:border-white py-1.5 px-2 dark:border-strokedark">
                             <p
-                                className={`inline-flex rounded-full bg-opacity-10 py-1 px-3 text-sm font-medium ${blotter?.remarks === '1'
+                                className={`inline-flex rounded-full grid place-items-center bg-opacity-10 py-1 px-3 text-xs font-medium ${blotter?.remarks === '1'
                                     ? 'bg-success text-success'
                                     : blotter?.remarks === '2'
                                         ? 'bg-danger text-danger'
@@ -165,30 +165,17 @@ const TableBody = ({ blotters, setData, handleDelete }: { blotters: any; setData
                             </p>
                         </td>
                         <td className="border border-[#eee] dark:border-white py-1.5 px-2 dark:border-strokedark">
-                            <div className="flex items-center space-x-3.5">
-                                <button onClick={() => handleEdit(blotter.id)} className="bg-success text-white rounded-3xl px-5 flex text-xs py-1 gap-1">
+                            <div className="grid place-items-center space-x-3.5">
+                                <button
+                                    onClick={() => handleEdit(blotter.id)}
+                                    className="bg-success text-white rounded-3xl px-5 flex justify-center text-xs py-1 gap-1">
                                     View
                                 </button>
-                                {/* <form onSubmit={handleConfirmDelete}>
-                                    <button
-                                        className="hover:text-primary"
-                                        onClick={() => setData('id', blotter.id)} >
-                                        <Trash size={16} />
-                                    </button>
-                                </form>
-                                <button className="hover:text-primary" onClick={() => { handleDownload; setSelectedBlotter(blotter) }}>
-                                    <Download size={16} />
-                                </button> */}
                             </div>
                         </td>
                     </tr>
                 ))}
             </tbody>
-            {/**
-            * <div ref={targetRef} className='w-full absolute z-10 mt-[20rem]'>
-                <BlotterPdf data={selectedBlotter} />
-            </div> 
-            */}
         </>
     )
 }
