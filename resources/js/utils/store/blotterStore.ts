@@ -10,6 +10,7 @@ type BlotterStore = {
     referred: number,
     yearlyBlotter: object[],
     top10Cases: object[],
+    barangays: object[],
     setPage: (page: number) => void,
     setPerPage: (perPage: number) => void,
     setBlotter: (blotter: number) => void,
@@ -19,6 +20,7 @@ type BlotterStore = {
     setReferred: (referred: number) => void,
     setYearlyBlotter: (yearlyBlotter: object[]) => void,
     setTop10Cases: (top10Cases: object[]) => void,
+    setBarangays: (barangays: object[]) => void,
 }
 
 export const useBlotterStore = create<BlotterStore>((set) => ({
@@ -31,6 +33,7 @@ export const useBlotterStore = create<BlotterStore>((set) => ({
     referred: 0,
     yearlyBlotter: [],
     top10Cases: [],
+    barangays: [],
     setPage: (page: number) => set(() => ({ page: page })),
     setPerPage: (perPage: number) => set(() => ({ perPage: perPage })),
     setBlotter: (blotter: number) => set(() => ({ blotter: blotter })),
@@ -40,4 +43,5 @@ export const useBlotterStore = create<BlotterStore>((set) => ({
     setReferred: (referred: number) => set(() => ({ referred: referred })),
     setYearlyBlotter: (yearlyBlotter: object[]) => set(() => ({ yearlyBlotter: yearlyBlotter })),
     setTop10Cases: (top10Cases: object[]) => set(() => ({ top10Cases: top10Cases })),
+    setBarangays: (barangays: object[]) => set(() => ({ barangays: barangays })),
 }))

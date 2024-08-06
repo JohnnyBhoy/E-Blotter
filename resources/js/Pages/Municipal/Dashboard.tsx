@@ -6,6 +6,7 @@ import ChartTopBarangay from "@/Components/components/Charts/ChartTopBarangay";
 import ChartTwo from "@/Components/components/Charts/ChartTwo";
 import ChatCard from "@/Components/components/Chat/ChatCard";
 import MapOne from "@/Components/components/Maps/MapOne";
+import TableMunicipalDashboard from "@/Components/components/Tables/TableMunicipalDashboard";
 import TableOne from "@/Components/components/Tables/TableOne";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 
@@ -17,7 +18,7 @@ import { Head, router } from "@inertiajs/react";
 import React, { useEffect, useState } from "react";
 import { ChevronLeft, ChevronRight, JournalAlbum, JournalBookmark, JournalCheck, JournalRichtext } from "react-bootstrap-icons";
 
-export default function Dashboard({ auth, datas, lastYearBlotter, thisYearBlotter, thisWeekBlotter, blotterPerYear, monthlyIncidents, topBarangay, barangays }
+export default function Dashboard({ auth, datas, lastYearBlotter, thisYearBlotter, thisWeekBlotter, blotterPerYear, monthlyIncidents, topBarangay, barangays, top10Cases }
     : PageProps<{
         datas: number[];
         lastYearBlotter: any;
@@ -27,14 +28,11 @@ export default function Dashboard({ auth, datas, lastYearBlotter, thisYearBlotte
         monthlyIncidents: any;
         topBarangay: Object[];
         barangays: Object[];
+        top10Cases: Object[];
     }>) {
 
-
-    console.log(barangays);
-
     // Global state
-    const { hearing, settled, pending, referred, yearlyBlotter,
-        setBlotter, setHearing, setSettled, setPending, setReferred, setYearlyBlotter } = useBlotterStore();
+    const { setBlotter, setHearing, setSettled, setPending, setReferred, setYearlyBlotter, setTop10Cases, setBarangays } = useBlotterStore();
 
     useEffect(() => {
         setBlotter(datas[0]);
@@ -43,11 +41,9 @@ export default function Dashboard({ auth, datas, lastYearBlotter, thisYearBlotte
         setPending(datas[3]);
         setReferred(datas[4]);
         setYearlyBlotter(blotterPerYear);
+        setTop10Cases(top10Cases);
+        setBarangays(barangays);
     }, [datas]);
-
-    console.log(barangays
-        ?.filter((item: any) => parseInt(item?.city_code) == 60613)
-        ?.map((data: any) => data.brgy_name));
 
     const tableHeaders = ['Barangay', 'Total Uploaded', 'Amicably Settled', 'Pending', 'For Hearing', 'Referred To PNP', 'Others', 'Action'];
 
@@ -75,26 +71,12 @@ export default function Dashboard({ auth, datas, lastYearBlotter, thisYearBlotte
             }
         >
             <Head title="Municipal - Dashboard" />
-            <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6 xl:grid-cols-4 2xl:gap-7.5">
-                <CardDataStats title="For Hearing" total={`${hearing / 1000}k`} rate={`${hearing}`} remark={1} routeTo="hearing" levelUp>
-                    <JournalBookmark size={24} color="blue" />
-                </CardDataStats>
 
-                <CardDataStats title="Amicably Settled" total={`${settled}`} rate={`${settled}`} remark={2} routeTo="settled" levelUp>
-                    <JournalCheck size={24} color="blue" />
-                </CardDataStats>
-
-                <CardDataStats title="Pending" total={`${pending}`} rate={`${pending}`} remark={3} routeTo="pending" levelDown>
-                    <JournalRichtext size={24} color="blue" />
-                </CardDataStats>
-
-                <CardDataStats title="Referred to PNP" total={`${referred}`} rate={`${referred}`} remark={4} routeTo="referred" levelUp>
-                    <JournalAlbum size={24} color="blue" />
-                </CardDataStats>
+            <div className="col-span-12 xl:col-span-8">
+                <TableMunicipalDashboard />
             </div>
 
             <div className="mt-4 grid grid-cols-12 gap-4 md:mt-6 md:gap-6 2xl:mt-7.5 2xl:gap-7.5">
-
                 <ChartOne lastYearBlotter={lastYearBlotter} thisYearBlotter={thisYearBlotter} />
 
                 <ChartTwo data={thisWeekBlotter} />

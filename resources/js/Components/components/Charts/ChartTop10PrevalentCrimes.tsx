@@ -116,6 +116,7 @@ const ChartTop10PrevalentCrimes = () => {
   handleReset;
 
   const handleDownload = () => {
+    setView(2);
     const table = document.getElementById('content-to-download');
     const ws = XLSX.utils.table_to_sheet(table); // Convert table to worksheet
     const wb = XLSX.utils.book_new(); // Create a new workbook
@@ -135,7 +136,7 @@ const ChartTop10PrevalentCrimes = () => {
         </div>
         <div>
           <div className="relative  z-20 inline-block mr-6">
-            <div className="flex gap-2 cursor-pointer" onClick={handleDownload}>
+            <div className="flex gap-2 cursor-pointer hover:font-bold" onClick={handleDownload}>
               <Download className='mt-1' /> Download
             </div>
           </div>

@@ -8,6 +8,7 @@ use App\Services\BarangayService;
 use App\Services\BlotterService;
 use App\Services\IncidentService;
 use App\Services\UserService;
+use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
 
 class MunicipalController extends Controller
@@ -71,6 +72,20 @@ class MunicipalController extends Controller
         // Top 10 Brgy with most blotter incidents
         $topBarangayWithMostBlotterIncidents = $this->blotterService->getBarangayWithMostBlotter($userId);
 
+        // Get Top 10 Most Crime of the barangay
+        $top10Cases = Blotter::select('incident_type', DB::raw('COUNT(*) as count'))
+            ->groupBy('incident_type')
+            ->orderBy('count', 'desc')
+            ->limit(10)
+            ->get()
+            ->map(function ($item, $index) {
+                return [
+                    'rank' => $index + 1,
+                    'incident_type' => $item->incident_type,
+                    'count' => $item->count
+                ];
+            });
+
         return Inertia::render('Municipal/Dashboard', [
             'datas' =>  [
                 $blotter,
@@ -86,6 +101,7 @@ class MunicipalController extends Controller
             'monthlyIncidents' => $monthlyIncidents,
             'topBarangay' => $topBarangayWithMostBlotterIncidents,
             'barangays' => $barangays,
+            'top10Cases' => $top10Cases,
         ]);
     }
 }

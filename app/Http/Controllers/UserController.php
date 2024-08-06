@@ -56,8 +56,9 @@ class UserController extends Controller
 
         $referred = Blotter::where('user_id', $userId)->where('remarks', 4)->count();
 
-        // Get Top 10 Most Crime
+        // Get Top 10 Most Crime of the barangay
         $top10Cases = Blotter::select('incident_type', DB::raw('COUNT(*) as count'))
+            ->where('user_id', $userId)
             ->groupBy('incident_type')
             ->orderBy('count', 'desc')
             ->limit(10)
