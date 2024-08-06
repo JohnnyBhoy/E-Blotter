@@ -40,6 +40,7 @@
         "react-sweetalert2": "^0.6.0",
         "react-to-pdf": "^1.0.1",
         "sweetalert2": "^11.12.1",
+        "xlsx": "^0.18.5",
         "zustand": "^4.5.2"
     }
 }

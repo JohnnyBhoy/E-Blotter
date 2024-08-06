@@ -172,7 +172,7 @@ const ChartOne = ({ lastYearBlotter, thisYearBlotter }: {
               <span className="block h-2.5 w-full max-w-2.5 rounded-full bg-primary"></span>
             </span>
             <div className="w-full">
-              <p className="font-semibold text-primary">Total Blotter of {date.getFullYear()}</p>
+              <p className="font-semibold text-primary">Total Uploaded</p>
               <p className="text-sm font-medium">
                 January - December {date.getFullYear()}
               </p>
@@ -183,9 +183,9 @@ const ChartOne = ({ lastYearBlotter, thisYearBlotter }: {
               <span className="block h-2.5 w-full max-w-2.5 rounded-full bg-secondary"></span>
             </span>
             <div className="w-full">
-              <p className="font-semibold text-secondary">Total Blotter of {date.getFullYear() - 1}</p>
+              <p className="font-semibold text-secondary">Prevalent Crimes</p>
               <p className="text-sm font-medium">
-                January - December {date.getFullYear() - 1}
+                January - December {date.getFullYear()}
               </p>
             </div>
           </div>

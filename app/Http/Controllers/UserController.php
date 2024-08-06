@@ -9,6 +9,7 @@ use App\Services\IncidentService;
 use App\Services\UserService;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
 
 class UserController extends Controller
@@ -55,6 +56,20 @@ class UserController extends Controller
 
         $referred = Blotter::where('user_id', $userId)->where('remarks', 4)->count();
 
+        // Get Top 10 Most Crime
+        $top10Cases = Blotter::select('incident_type', DB::raw('COUNT(*) as count'))
+            ->groupBy('incident_type')
+            ->orderBy('count', 'desc')
+            ->limit(10)
+            ->get()
+            ->map(function ($item, $index) {
+                return [
+                    'rank' => $index + 1,
+                    'incident_type' => $item->incident_type,
+                    'count' => $item->count
+                ];
+            });
+
         return Inertia::render('Dashboard', [
             'datas' =>  [
                 $blotter,
@@ -67,6 +82,7 @@ class UserController extends Controller
             'thisWeekBlotter' => $recordsThisWeek,
             'blotterPerYear' => $blotterPerYear,
             'monthlyIncidents' => $monthlyIncidents,
+            'top10Cases' => $top10Cases,
         ]);
     }
 
