@@ -69,11 +69,15 @@ class MunicipalController extends Controller
 
         $barangays = $this->barangayService->get($municipalID->city_code);
 
+        // Get barangays codes in a city
+        $cityBarangays = UserAddress::where('city_code', $municipalID->city_code)->pluck('user_id');
+
         // Top 10 Brgy with most blotter incidents
         $topBarangayWithMostBlotterIncidents = $this->blotterService->getBarangayWithMostBlotter($userId);
 
         // Get Top 10 Most Crime of the barangay
         $top10Cases = Blotter::select('incident_type', DB::raw('COUNT(*) as count'))
+            ->whereIn('user_id', $cityBarangays)
             ->groupBy('incident_type')
             ->orderBy('count', 'desc')
             ->limit(10)
