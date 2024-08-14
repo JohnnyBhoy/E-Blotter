@@ -13,17 +13,17 @@ const Narrative = ({ data, setData }: { data: any; setData: CallableFunction }) 
     }
 
     return (
-        <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark mt-4">
+        <div className="animate-fadeinup rounded-lg border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark mt-4">
 
-            <div className="border-b border-stroke py-2  px-6.5 dark:border-strokedark bg-amber">
-                <h3 className="font-medium text-black dark:text-white text-center">
+            <div className="border-b border-stroke py-2 rounded-t-lg px-6.5 dark:border-strokedark bg-amber">
+                <h3 className="font-medium text-white dark:text-white">
                     Narrative of Incident
                 </h3>
             </div>
             <Editor
                 value={data.narrative}
                 onChange={onChange}
-                className='h-40'
+                className='h-28 text-sm'
                 containerProps={{ style: { resize: 'vertical', height: '20rem' } }} />
             {/** End complainant Address */}
         </div>

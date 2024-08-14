@@ -168,7 +168,7 @@ export default ChartTopBarangay;
 
 const TopBarangayTable = ({ datas }: { datas: any }) => {
   return (
-    <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
+    <div className="rounded-lg border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
 
       <div className="flex flex-col justify-between">
         <div className="grid grid-cols-5 rounded-sm bg-gray-2 dark:bg-meta-4 sm:grid-cols-5">

@@ -83,13 +83,13 @@ const Header = (props: {
         <div className="flex items-center gap-3 2xsm:gap-7">
           <ul className="flex items-center gap-2 2xsm:gap-4">
 
-            <div className="flex lg:inline hidden">
-              <button className='py-1 px-2 border-r border-solid border-slate-300 bg-stroke dark:bg-green-500 text-slate-600 rounded-l-3xl'>
-                Total
-              </button>
-              <button className='py-1 pr-3 pl-1 bg-stroke dark:bg-green-500 text-slate-600 rounded-r-3xl'>
-                {blotter.toLocaleString()} Entries
-              </button>
+            <div className="flex lg:inline hidden px-1">
+              <Link href="/blotter" className='py-1 px-3 border-r border-solid border-slate-300 hover:bg-slate-300 bg-stroke dark:bg-slate-700 dark:text-white text-slate-600 rounded-l-3xl'>
+                Add
+              </Link>
+              <Link href="/blotter/blotters" className='py-1 pr-3 pl-2   dark:bg-slate-700 dark:text-white  bg-stroke dark:bg-green-500  hover:bg-slate-300  text-slate-600 rounded-r-3xl'>
+                View
+              </Link>
             </div>
 
             {/* <!-- Dark Mode Toggler --> */}

@@ -2,12 +2,15 @@ import CardDataStats from "@/Components/CardDataStats";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 
 import { PageProps } from "@/Pages/types";
+import barangays from "@/utils/data/barangays";
+import cities from "@/utils/data/cities";
 import getBarangayByBrgyCode from "@/utils/functions/getBarangayByBrgyCode";
 import getCity from "@/utils/functions/getCity";
 import getProvince from "@/utils/functions/getProvince";
+import { useBlotterStore } from "@/utils/store/blotterStore";
 import { Head, router } from "@inertiajs/react";
-import React, { useState } from "react";
-import { BookHalf, BuildingFillGear, Buildings, BuildingUp, ChevronLeft, ChevronRight } from "react-bootstrap-icons";
+import React, { useEffect, useState } from "react";
+import { BookHalf, BookmarkCheck, BookmarkCheckFill, Bookshelf, BuildingFillGear, Buildings, BuildingUp, ChevronLeft, ChevronRight, Ear, EvStation, File, FileCheck, Folder2, FolderFill, LayoutSidebarInset, PersonFillCheck, Upload } from "react-bootstrap-icons";
 
 export default function Dashboard({ auth, provinces, cities, barangays, blotters }
     : PageProps<{
@@ -17,11 +20,16 @@ export default function Dashboard({ auth, provinces, cities, barangays, blotters
         blotters: number;
     }>) {
 
+    // Global states
+    const { setBlotter } = useBlotterStore();
+
     // Local states
     const [selectedCity, setSelectedCity] = useState<number>(cities[0].city_code);
     const [selectedProvince, setSelectedProvince] = useState<number>(cities[0].province_code);
 
-    console.log(barangays);
+    useEffect(() => {
+        setBlotter(blotters);
+    }, []);
 
     return (
         <AuthenticatedLayout
@@ -34,43 +42,87 @@ export default function Dashboard({ auth, provinces, cities, barangays, blotters
         >
             <Head title="Admin - Dashboard" />
             <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6 xl:grid-cols-4 2xl:gap-7.5">
-                <CardDataStats title="Provinces" total={`${provinces?.length}`} rate={`${provinces?.length}`} remark={1} routeTo="provinces" levelUp>
+                <CardDataStats
+                    title="Provinces"
+                    total={`${provinces?.length}`}
+                    rate={`${provinces?.length}`}
+                    remark={1}
+                    routeTo="provinces"
+                    levelUp
+                >
                     <Buildings size={24} color="blue" />
                 </CardDataStats>
 
-                <CardDataStats title="Cities" total={`${cities?.length}`} rate={`${cities?.length}`} remark={2} routeTo="cities" levelUp>
+                <CardDataStats
+                    title="Cities / Municipalities"
+                    total={`${cities?.length}`}
+                    rate={`${cities?.length}`}
+                    remark={2}
+                    routeTo="cities"
+                    levelUp
+                >
                     <BuildingUp size={24} color="blue" />
                 </CardDataStats>
 
-                <CardDataStats title="Barangays" total={`${barangays?.length}`} rate={`${barangays?.length}`} remark={3} routeTo="barangays" levelDown>
+                <CardDataStats
+                    title="Barangays"
+                    total={`${barangays?.length}`}
+                    rate={`${barangays?.length}`}
+                    remark={3}
+                    routeTo="barangays"
+                    levelDown
+                >
                     <BuildingFillGear size={24} color="blue" />
                 </CardDataStats>
 
-                <CardDataStats title="Blotters" total={`${blotters}`} rate={`${blotters}`} remark={4} routeTo="blotters" levelUp>
-                    <BookHalf size={24} color="blue" />
+                <CardDataStats
+                    title="Total Uploaded"
+                    total={`${blotters}`}
+                    rate={`${blotters}`}
+                    remark={4}
+                    routeTo="blotters"
+                    levelUp
+                >
+                    <Upload size={24} color="blue" />
                 </CardDataStats>
+
             </div>
 
-            <Provinces
-                provinces={provinces}
-                selectedProvince={selectedProvince}
-                setSelectedProvince={setSelectedProvince}
-            />
+            <div className="flex justify-between gap-6">
 
-            <Cities
-                cities={cities}
-                provinces={provinces}
-                selectedProvince={selectedProvince}
-                setSelected={setSelectedCity}
+                <div className="w-[40%] bg-white">
+                    <Provinces
+                        provinces={provinces}
+                        selectedProvince={selectedProvince}
+                        setSelectedProvince={setSelectedProvince}
+                    />
+                </div>
+
+                <div className="lg:w-[60%]">
+                    <Cities
+                        cities={cities}
+                        provinces={provinces}
+                        selectedProvince={selectedProvince}
+                        setSelected={setSelectedCity}
+                        selectedCity={selectedCity}
+                        barangays={barangays}
+                        setSelectedProvince={setSelectedProvince}
+                    />
+                </div>
+            </div>
+
+            <Barangays
                 selectedCity={selectedCity}
                 barangays={barangays}
             />
+
         </AuthenticatedLayout >
     );
 
 }
 
-const Provinces = ({ provinces, selectedProvince, setSelectedProvince }: { provinces: any, selectedProvince: number, setSelectedProvince: CallableFunction }) => {
+const Provinces = ({ provinces, selectedProvince, setSelectedProvince }
+    : { provinces: any, selectedProvince: number, setSelectedProvince: CallableFunction }) => {
 
     // Handle redirect to cities page by province Id
     const redirectToCitiesOfProvince = (provinceID: number) => {
@@ -84,13 +136,13 @@ const Provinces = ({ provinces, selectedProvince, setSelectedProvince }: { provi
     const provincesData = [
         {
             id: 1,
-            name: "AKLAN",
-            code: 604,
+            name: "ANTIQUE",
+            code: 606,
         },
         {
             id: 2,
-            name: "ANTIQUE",
-            code: 606,
+            name: "AKLAN",
+            code: 604,
         },
         {
             id: 3,
@@ -123,15 +175,23 @@ const Provinces = ({ provinces, selectedProvince, setSelectedProvince }: { provi
         }]
 
     return (
-        <div className="my-12">
-            <div className="grid grid-cols-4 gap-4 mt-5">
+        <div className="my-10 border border-solid border-slate-200 shadow rounded  shadow p-6 h-[21rem]">
+            <h2 className="font-bold text-slate-700">
+                {provincesData?.length - 2} Provinces and 2 Component Cities
+            </h2>
+
+            <div className="grid grid-cols-2 xl:grid-cols-4 gap-4 mt-5">
                 {provincesData?.map((province: any, key: number) => (
                     <>
                         <button
-                            className={`${selectedProvince == province?.code ? 'bg-blue-400 text-white' : 'bg-none text-slate-500 border border-solid border-slate-300'} w-full  text-lg rounded-lg shadow p-2 uppercase hover:bg-blue-400 hover:text-white font-bold`}
+                            className={`${selectedProvince == province?.code
+                                ? 'bg-blue-400 text-blue-400'
+                                : 'bg-none text-green-400'} 
+                                w-full bg-white text-sm place-items-center rounded-lg py-2 uppercase hover:text-blue-400 hover:text-white font-bold flex flex-col`}
                             onClick={() => setSelectedProvince(province?.code)}
                         >
-                            {province?.name}
+                            <FolderFill size={72} />
+                            <h6 className="text-slate-500">{province?.name}</h6>
                         </button >
                     </>
                 ))}
@@ -140,9 +200,52 @@ const Provinces = ({ provinces, selectedProvince, setSelectedProvince }: { provi
     )
 }
 
-const Cities = ({ cities, provinces, selectedProvince, selectedCity, setSelected, barangays }
-    : { cities: object[], provinces: any, selectedProvince: number, selectedCity: number, setSelected: CallableFunction, barangays: object[]; }) => {
+const Cities = ({ cities, provinces, selectedProvince, selectedCity, setSelected, barangays, setSelectedProvince }
+    : { cities: object[], provinces: any, selectedProvince: number, selectedCity: number, setSelected: CallableFunction, barangays: object[]; setSelectedProvince: CallableFunction }) => {
 
+    return (
+        <>
+            {/** City / Municipality Card */}
+            <div className="my-6 mt-10 border border-solid border-slate-200 shadow rounded p-6 h-[21rem] overflow-scroll  overflow-x-hidden">
+                <h2 className="font-bold text-slate-700">
+                    {cities?.filter((item: any) => item?.province_code == selectedProvince)?.length} City / Municipalities
+                </h2>
+
+                <div className="grid grid-cols-2 xl:grid-cols-6 gap-4 mt-6">
+                    {cities?.filter((item: any) => item?.province_code == selectedProvince)?.length > 0
+                        ? cities?.filter((item: any) => item?.province_code == selectedProvince)
+                            ?.map((city: any, key: number) => (
+                                <>
+                                    <button
+                                        className={`${selectedCity == city?.city_code
+                                            ? 'bg-blue-400 text-blue-400'
+                                            : 'text-green-400'} 
+                                w-full bg-white text place-items-center rounded-lg py-2 uppercase hover:text-blue-400 hover:text-blue-500 font-bold flex flex-col`}
+                                        onClick={() => setSelected(city?.city_code)}
+                                    >
+                                        <FolderFill size={72} />
+                                        <h6 className="text-slate-500 text-xs">
+                                            {getCity(city?.city_code)}
+                                        </h6>
+                                    </button >
+                                </>
+                            ))
+                        : <button className="bg-none text-green-400 w-full text place-items-center rounded-lg py-2 uppercase bg-white hover:text-blue-400 font-bold flex flex-col"
+                        >
+                            <FolderFill size={72} />
+                            <h6 className="text-slate-500 text-xs">
+                                No data found
+                            </h6>
+                        </button >}
+                </div>
+            </div >
+            {/** End City / Municipality Card */}
+        </>
+    )
+}
+
+const Barangays = ({ selectedCity, barangays }
+    : { selectedCity: number, barangays: object[] }) => {
     // Local states
     const [activePage, setActivePage] = useState<number>(1);
     const [limitBarangay, setLimitBarangay] = useState<number[]>([0, 10]);
@@ -166,49 +269,8 @@ const Cities = ({ cities, provinces, selectedProvince, selectedCity, setSelected
     }
 
     const tableHeaders = ['Barangay', 'Total Uploaded', 'Amicably Settled', 'Pending', 'For Hearing', 'Referred To PNP', 'Others', 'Action'];
-
-    console.log(activePage);
-
     return (
-        <div className="shadow my-6">
-            <div className="border border-solid border-slate-200 rounded-t">
-                <div className="px-10 py-2 flex justify-between place-items-center">
-                    <div className="flex gap-10">
-                        <h6 className="">
-                            Province: <b>{getProvince(selectedProvince)}
-                            </b>
-                        </h6>
-
-                        <h6 className="">
-                            Municipality : <b>{cities
-                                ?.filter((item: any) => item?.province_code == selectedProvince)
-                                ?.length}
-                            </b>
-                        </h6>
-
-                        <h6 className="">
-                            Barangay : <b>{barangays
-                                ?.filter((item: any) => item?.city_code == selectedCity)
-                                ?.length}
-                            </b>
-                        </h6>
-                    </div>
-
-                    <select
-                        className="py-1 rounded border-slate-400 shadow-sm text-sm"
-                        onChange={(e) => setSelected(e.target.value)}
-                    >
-                        {cities
-                            ?.filter((item: any) => item?.province_code == selectedProvince)
-                            ?.map((city: any, key: number) => (
-                                <option value={city.city_code}>
-                                    {getCity(parseInt(city.city_code))}
-                                </option>
-                            ))}
-                    </select>
-                </div>
-            </div>
-
+        <>
             {/** Barangay Table */}
             <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark xl:pb-1">
                 <div className="max-w-full overflow-x-auto">
@@ -309,6 +371,6 @@ const Cities = ({ cities, provinces, selectedProvince, selectedCity, setSelected
                 </div>
             </div>
             {/** End Table */}
-        </div >
+        </>
     )
 }

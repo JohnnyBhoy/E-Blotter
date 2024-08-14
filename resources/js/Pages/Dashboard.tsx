@@ -1,6 +1,8 @@
+import CardDataStats from "@/Components/CardDataStats";
 import ChartFour from "@/Components/components/Charts/ChartFour";
 import ChartOne from "@/Components/components/Charts/ChartOne";
 import ChartThree from "@/Components/components/Charts/ChartThree";
+import ChartTop10PrevalentCrimes from "@/Components/components/Charts/ChartTop10PrevalentCrimes";
 import ChartTwo from "@/Components/components/Charts/ChartTwo";
 import ChatCard from "@/Components/components/Chat/ChatCard";
 import MapOne from "@/Components/components/Maps/MapOne";
@@ -12,6 +14,7 @@ import { PageProps } from "@/Pages/types";
 import { useBlotterStore } from "@/utils/store/blotterStore";
 import { Head } from "@inertiajs/react";
 import React, { useEffect } from "react";
+import { BagCheck, BootstrapReboot, BuildingFillGear, Buildings, BuildingUp, CCircle, Ear, Fingerprint, Upload } from "react-bootstrap-icons";
 
 export default function Dashboard({ auth, datas, lastYearBlotter, thisYearBlotter, thisWeekBlotter, blotterPerYear, monthlyIncidents, top10Cases }
     : PageProps<{
@@ -27,7 +30,7 @@ export default function Dashboard({ auth, datas, lastYearBlotter, thisYearBlotte
     console.log(top10Cases);
 
     // Global state
-    const { setBlotter, setHearing, setSettled, setPending, setReferred, setYearlyBlotter, setTop10Cases } = useBlotterStore();
+    const { blotter, hearing, pending, settled, referred, setBlotter, setHearing, setSettled, setPending, setReferred, setYearlyBlotter, setTop10Cases } = useBlotterStore();
 
     useEffect(() => {
         setBlotter(datas[0]);
@@ -50,8 +53,72 @@ export default function Dashboard({ auth, datas, lastYearBlotter, thisYearBlotte
         >
             <Head title="Dashboard" />
 
-            <div className="col-span-12 xl:col-span-8">
-                <TableBarangayDashboard />
+            <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6 xl:grid-cols-6 2xl:gap-4 animate-fadeinbouncedown">
+                <CardDataStats
+                    title="Total Uploaded"
+                    total={`${blotter}`}
+                    rate={`${blotter}`}
+                    remark={1}
+                    routeTo="blotter.blotters"
+                    levelUp
+                >
+                    <Upload size={24} color="blue" />
+                </CardDataStats>
+
+                <CardDataStats
+                    title="Subject For Hearing"
+                    total={`${hearing}`}
+                    rate={`${hearing}`}
+                    remark={2}
+                    routeTo="cities"
+                    levelUp
+                >
+                    <Ear size={24} color="blue" />
+                </CardDataStats>
+
+                <CardDataStats
+                    title="Pending Incidents"
+                    total={`${pending}`}
+                    rate={`${pending}`}
+                    remark={3}
+                    routeTo="Pending"
+                    levelDown
+                >
+                    <BootstrapReboot size={24} color="blue" />
+                </CardDataStats>
+
+                <CardDataStats
+                    title="Referred to PNP"
+                    total={`${referred}`}
+                    rate={`${referred}`}
+                    remark={4}
+                    routeTo="Referred"
+                    levelUp
+                >
+                    <Fingerprint size={24} color="blue" />
+                </CardDataStats>
+
+                <CardDataStats
+                    title="Amicably Settled"
+                    total={`${referred}`}
+                    rate={`${referred}`}
+                    remark={4}
+                    routeTo="Referred"
+                    levelUp
+                >
+                    <BagCheck size={24} color="blue" />
+                </CardDataStats>
+
+                <CardDataStats
+                    title="Other Incidents"
+                    total={`${referred}`}
+                    rate={`${referred}`}
+                    remark={4}
+                    routeTo="Referred"
+                    levelUp
+                >
+                    <CCircle size={24} color="blue" />
+                </CardDataStats>
             </div>
 
 
@@ -59,6 +126,8 @@ export default function Dashboard({ auth, datas, lastYearBlotter, thisYearBlotte
                 <ChartOne lastYearBlotter={lastYearBlotter} thisYearBlotter={thisYearBlotter} />
 
                 <ChartTwo data={thisWeekBlotter} />
+
+                <ChartTop10PrevalentCrimes />
 
                 <ChartThree />
 

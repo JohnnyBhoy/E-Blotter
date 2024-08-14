@@ -2,6 +2,7 @@ import CardDataStats from "@/Components/CardDataStats";
 import ChartFour from "@/Components/components/Charts/ChartFour";
 import ChartOne from "@/Components/components/Charts/ChartOne";
 import ChartThree from "@/Components/components/Charts/ChartThree";
+import ChartTop10PrevalentCrimes from "@/Components/components/Charts/ChartTop10PrevalentCrimes";
 import ChartTopBarangay from "@/Components/components/Charts/ChartTopBarangay";
 import ChartTwo from "@/Components/components/Charts/ChartTwo";
 import ChatCard from "@/Components/components/Chat/ChatCard";
@@ -16,7 +17,7 @@ import getBarangayByBrgyCode from "@/utils/functions/getBarangayByBrgyCode";
 import { useBlotterStore } from "@/utils/store/blotterStore";
 import { Head, router } from "@inertiajs/react";
 import React, { useEffect, useState } from "react";
-import { ChevronLeft, ChevronRight, JournalAlbum, JournalBookmark, JournalCheck, JournalRichtext } from "react-bootstrap-icons";
+import { BagCheck, BootstrapReboot, Building, CCircle, ChevronLeft, ChevronRight, Ear, Fingerprint, JournalAlbum, JournalBookmark, JournalCheck, JournalRichtext, Upload } from "react-bootstrap-icons";
 
 export default function Dashboard({ auth, datas, lastYearBlotter, thisYearBlotter, thisWeekBlotter, blotterPerYear, monthlyIncidents, topBarangay, barangays, top10Cases }
     : PageProps<{
@@ -32,7 +33,7 @@ export default function Dashboard({ auth, datas, lastYearBlotter, thisYearBlotte
     }>) {
 
     // Global state
-    const { setBlotter, setHearing, setSettled, setPending, setReferred, setYearlyBlotter, setTop10Cases, setBarangays } = useBlotterStore();
+    const { blotter, hearing, pending, settled, referred, setBlotter, setHearing, setSettled, setPending, setReferred, setYearlyBlotter, setTop10Cases, setBarangays } = useBlotterStore();
 
     useEffect(() => {
         setBlotter(datas[0]);
@@ -43,6 +44,7 @@ export default function Dashboard({ auth, datas, lastYearBlotter, thisYearBlotte
         setYearlyBlotter(blotterPerYear);
         setTop10Cases(top10Cases);
         setBarangays(barangays);
+        setTop10Cases(top10Cases);
     }, [datas]);
 
     const tableHeaders = ['Barangay', 'Total Uploaded', 'Amicably Settled', 'Pending', 'For Hearing', 'Referred To PNP', 'Others', 'Action'];
@@ -72,8 +74,72 @@ export default function Dashboard({ auth, datas, lastYearBlotter, thisYearBlotte
         >
             <Head title="Municipal - Dashboard" />
 
-            <div className="col-span-12 xl:col-span-8">
-                <TableMunicipalDashboard />
+            <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6 xl:grid-cols-6 2xl:gap-2 animate-fadeindown">
+                <CardDataStats
+                    title="Total Barangays"
+                    total={`${barangays?.length}`}
+                    rate={`${barangays?.length}`}
+                    remark={1}
+                    routeTo="provinces"
+                    levelUp
+                >
+                    <Building size={24} color="blue" />
+                </CardDataStats>
+
+                <CardDataStats
+                    title="Subject For Hearing"
+                    total={`${hearing}`}
+                    rate={`${hearing}`}
+                    remark={2}
+                    routeTo="cities"
+                    levelUp
+                >
+                    <Ear size={24} color="blue" />
+                </CardDataStats>
+
+                <CardDataStats
+                    title="Pending Incidents"
+                    total={`${pending}`}
+                    rate={`${pending}`}
+                    remark={3}
+                    routeTo="Pending"
+                    levelDown
+                >
+                    <BootstrapReboot size={24} color="blue" />
+                </CardDataStats>
+
+                <CardDataStats
+                    title="Referred to PNP"
+                    total={`${referred}`}
+                    rate={`${referred}`}
+                    remark={4}
+                    routeTo="Referred"
+                    levelUp
+                >
+                    <Fingerprint size={24} color="blue" />
+                </CardDataStats>
+
+                <CardDataStats
+                    title="Amicably Settled"
+                    total={`${referred}`}
+                    rate={`${referred}`}
+                    remark={4}
+                    routeTo="Referred"
+                    levelUp
+                >
+                    <BagCheck size={24} color="blue" />
+                </CardDataStats>
+
+                <CardDataStats
+                    title="Other Incidents"
+                    total={`${referred}`}
+                    rate={`${referred}`}
+                    remark={4}
+                    routeTo="Referred"
+                    levelUp
+                >
+                    <CCircle size={24} color="blue" />
+                </CardDataStats>
             </div>
 
             <div className="mt-4 grid grid-cols-12 gap-4 md:mt-6 md:gap-6 2xl:mt-7.5 2xl:gap-7.5">
@@ -81,15 +147,17 @@ export default function Dashboard({ auth, datas, lastYearBlotter, thisYearBlotte
 
                 <ChartTwo data={thisWeekBlotter} />
 
+                <ChartTop10PrevalentCrimes />
+
                 {/** Barangay Table */}
                 <div className="col-span-12 rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark xl:col-span-12">
                     <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark xl:pb-1">
                         <div className="max-w-full overflow-x-auto">
                             <table className="w-full z-20 border border-[#eee]">
                                 <thead>
-                                    <tr className="bg-gray-2 text-left dark:bg-meta-4 ">
+                                    <tr className="bg-blue-500 text-white text-left dark:bg-meta-4 ">
                                         {tableHeaders.map((header, key) => (
-                                            <th className="border border-[#eee] min-w-[120px] py-3 px-2 font-medium text-sm text-black dark:text-white xl:pl-11" key={key}>
+                                            <th className="border border-[#eee] min-w-[120px] py-3 px-2 font-medium text-sm dark:text-white xl:pl-11" key={key}>
                                                 {header}
                                             </th>
                                         ))}
@@ -101,13 +169,13 @@ export default function Dashboard({ auth, datas, lastYearBlotter, thisYearBlotte
                                         ?.slice(limitBarangay[0], limitBarangay[1])
                                         ?.map((barangay: any, key: number) => (
                                             <tr key={key} className="hover:bg-slate-100 cursor-pointer z-20 bg-white dark:bg-meta-4">
-                                                <td className="border border-[#eee] dark:border-white py-1.5 px-2 pl-9 dark:border-strokedark xl:pl-11">
+                                                <td className="border border-slate-300 dark:border-white py-1.5 px-2 pl-9 dark:border-strokedark xl:pl-11">
                                                     <h5 className="font-bold text-black dark:text-white text-xs">
                                                         {getBarangayByBrgyCode(barangay?.barangay_code)}
                                                     </h5>
                                                 </td>
 
-                                                <td className="border border-[#eee] dark:border-white py-1.5 px-2 dark:border-strokedark text-xs text-center">
+                                                <td className="border border-slate-300 dark:border-white py-1.5 px-2 dark:border-strokedark text-xs text-center">
                                                     {barangay?.total}
                                                 </td>
 
@@ -115,13 +183,13 @@ export default function Dashboard({ auth, datas, lastYearBlotter, thisYearBlotte
                                                     ?.blotters
                                                     ?.map((remark: any, key: number) => (
                                                         <td
-                                                            className="border border-[#eee] dark:border-white py-1.5 px-2 dark:border-strokedark text-xs  text-center"
+                                                            className="border border-slate-300 dark:border-white py-1.5 px-2 dark:border-strokedark text-xs  text-center"
                                                             key={key}>
                                                             {remark?.count}
                                                         </td>
                                                     ))}
 
-                                                <td className="border border-[#eee] dark:border-white py-1.5 px-4 pl-9 dark:border-strokedark xl:pl-5">
+                                                <td className="border border-slate-300 dark:border-white py-1.5 px-4 pl-9 dark:border-strokedark xl:pl-5">
                                                     <button
                                                         className="bg-green-600 hover:bg-green-800 text-white px-4 py-0 rounded-3xl"
                                                         onClick={() => redirectToBlottersPerBarangayPage(barangay?.barangay_code)}

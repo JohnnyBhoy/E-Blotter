@@ -29,7 +29,7 @@ export default function Authenticated({
 
                     {/* <!-- ===== Main Content Start ===== --> */}
                     <main>
-                        <div className="mx-auto max-w-screen-2xl p-4 md:p-6 2xl:px-10">
+                        <div className="mx-auto max-w-screen-2xl p-4 md:p-6 2xl:px-10 bg-slate-100 dark:bg-slate-800">
                             {children}
                         </div>
                     </main>

@@ -23,9 +23,9 @@ const CaseDisposition = ({ data, setData }: { data: any; setData: CallableFuncti
     }
 
     return (
-        <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark mt-4 w-full">
+        <div className="animate-fadeinleft rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark mt-4 w-full">
             <div className="border-b border-stroke py-2  px-6.5 dark:border-strokedark bg-amber flex justify-between">
-                <h3 className="font-medium text-black dark:text-white text-center">
+                <h3 className="font-medium text-white dark:text-white text-center">
                     Case Disposition
                 </h3>
                 <button onClick={handleAddDisposition} className="text-xs bg-blue-500 hover:bg-blue-700 text-white px-2 py-1 rounded-3xl dark:bg-transparent text-end">

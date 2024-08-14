@@ -58,7 +58,6 @@ Route::group(['middleware' => ['auth', 'verified', IsBarangay::class]], function
     Route::post($blotter, [BlotterController::class, 'create'])->name('blotter');
     Route::get('/blotter/blotters', [BlotterController::class, 'getAll'])->name('blotter.blotters');
     Route::get('/blotter/edit', [BlotterController::class, 'get'])->name('blotter.edit');
-    Route::delete($blotter, [BlotterController::class, 'delete'])->name('blotter.delete');
     Route::get('/blotter/monthly', [BlotterController::class, 'getYearlyBlotterByMonth'])->name('blotter.monthly');
     Route::get('/blotter/daily', [BlotterController::class, 'getDailyBlotterByMonth'])->name('blotter.daily');
 
@@ -98,6 +97,7 @@ Route::group(['middleware' => ['auth', 'verified', IsStation::class]], function 
     // Blotters
     Route::get('/blotter/municipal-blotters', [BlotterController::class, 'getAll'])->name('blotter.municipal.blotters');
     Route::get('/blotter/municipal-edit', [BlotterController::class, 'get'])->name('blotter.municipal.edit');
+    Route::delete('/blotter/municipal-delete', [BlotterController::class, 'delete'])->name('blotter.delete');
 });
 
 /**
@@ -132,6 +132,7 @@ Route::group(['middleware' => ['auth', 'verified', IsAdmin::class]], function ()
     // Blotters
     Route::get('/blotter/admin-blotters', [BlotterController::class, 'getAll'])->name('blotter.admin.blotters');
     Route::get('/blotter/admin-edit', [BlotterController::class, 'get'])->name('blotter.admin.edit');
+    Route::delete('/blotter/admin-delete', [BlotterController::class, 'delete'])->name('blotter.admin.delete');
 });
 
 

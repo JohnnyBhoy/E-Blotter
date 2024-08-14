@@ -1,12 +1,13 @@
 import { PageProps } from "@/Pages/types";
-import { useForm } from "@inertiajs/react";
-import React, { FormEventHandler, useState } from "react";
+import { router, useForm } from "@inertiajs/react";
+import React, { FormEventHandler, useRef, useState } from "react";
 
 import TableBody from "@/Components/Blotter/TableBody";
 import TableHead from "@/Components/Blotter/TableHead";
 import Pagination from "@/Components/Pagination";
 import Breadcrumb from "@/Components/components/Breadcrumbs/Breadcrumb";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
+import barangays from "@/utils/data/barangays";
 import disposition from "@/utils/data/disposition";
 import incidentTypes from "@/utils/data/incidentTypes";
 import SweetAlert from "@/utils/functions/Sweetalert";
@@ -14,9 +15,12 @@ import getBarangayByBrgyCode from "@/utils/functions/getBarangayByBrgyCode";
 import getBarangayByCityCode from "@/utils/functions/getBarangayByCityCode";
 import getIncidentType from "@/utils/functions/getIncidentType";
 import getRemark from "@/utils/functions/getRemark";
-import { ChevronDown, Search } from "react-bootstrap-icons";
 import getUserRole from "@/utils/functions/getUserRole";
-import barangays from "@/utils/data/barangays";
+import { ChevronDown, FileEarmark, FileExcel, FileSpreadsheet, FiletypeCsv, FiletypePdf, Printer, Search } from "react-bootstrap-icons";
+
+import Swal from "sweetalert2";
+import { usePDF } from 'react-to-pdf';
+import * as XLSX from 'xlsx';
 
 type BlotterProps = {
     id: number;
@@ -49,6 +53,9 @@ export default function Blotters({ auth, blotters, message, pageDisplay, pageNum
     // User details
     const userRole = getUserRole();
 
+    // React to PDF
+    const { toPDF, targetRef } = usePDF({ filename: `Blotter_Copy.pdf` });
+
     // Get barangays with blotter records
     const barangayWithBlotterRecords = brgyWithRecords?.map((item: any) => item?.barangay_code);
 
@@ -65,8 +72,6 @@ export default function Blotters({ auth, blotters, message, pageDisplay, pageNum
             ?.filter((item: any) => barangayWithBlotterRecords?.includes(parseInt(item?.brgy_code)))
             ?.sort((a: any, b: any) => a.brgy_name.localeCompare(b.brgy_name))
         : getBarangayByCityCode(cityCode);
-
-    console.log(barangayOptions);
 
     // Local state
     const [showEntries, setShowEntries] = useState<boolean>(false);
@@ -85,15 +90,76 @@ export default function Blotters({ auth, blotters, message, pageDisplay, pageNum
         incident_type: incidentType,
     });
 
-    const handleDelete = () => {
-        destroy(route("blotter"));
-        SweetAlert('Blotter remove successfully.', 'Deleted blotter from database', 'success', 2500)
-    }
-
+    // Get the blotters
     const handleFetchBlotters = (e: any) => {
         e.preventDefault();
         setShowEntries(false);
         return get(route(redirectUrl));
+    }
+
+
+    // Download a PDF copy
+    const handleDownload = () => {
+        Swal.fire({
+            title: "Are you sure?",
+            text: "You will save PDF copy to your local computer!",
+            icon: "info",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, download it!"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                toPDF();
+                Swal.fire({
+                    title: "Downloaded!",
+                    text: "Your PDF file has been downloaded.",
+                    icon: "success",
+                    timer: 2500,
+                    showConfirmButton: false,
+                });
+            }
+        });
+    }
+
+    // Download excel copy
+    const handleDownloadExcel = () => {
+        Swal.fire({
+            title: "Are you sure?",
+            text: "You will save copy to your local computer!",
+            icon: "info",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, download it!"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                const table = document.getElementById('content-to-export');
+                const ws = XLSX.utils.table_to_sheet(table); // Convert table to worksheet
+                const wb = XLSX.utils.book_new(); // Create a new workbook
+                XLSX.utils.book_append_sheet(wb, ws, 'Sheet1'); // Append worksheet to workbook
+
+                // Generate a downloadable Excel file
+                XLSX.writeFile(wb, 'Blotter Reports.xlsx');
+
+                Swal.fire({
+                    title: "Downloaded!",
+                    text: "Your file has been downloaded.",
+                    icon: "success",
+                    timer: 2500,
+                    showConfirmButton: false,
+                });
+            }
+        });
+    };
+
+    const printDiv = (divId: any) => {
+        var printContents: any = document?.getElementById(divId)?.innerHTML;
+        var originalContents = document.body.innerHTML;
+
+        document.body.innerHTML = printContents;
+
+        return window.print();
     }
 
     return (
@@ -108,14 +174,13 @@ export default function Blotters({ auth, blotters, message, pageDisplay, pageNum
 
             <Breadcrumb pageName="Entries" />
 
+
             <div className="grid grid-cols-1 gap-9 sm:grid-cols-1 mt-[-.5rem]">
 
                 <div className="flex flex-col lg:gap-0 gap-4">
-                    <div className="flex justify-between my-2">
-
+                    <div className="flex justify-between my-2 animate-fadeindown">
                         <div className="flex gap-2">
                             <div className="flex">
-                                <h6 className="mt-1 mr-1">Show :</h6>
                                 <PerPage
                                     entries={entries}
                                     showEntries={showEntries}
@@ -127,8 +192,7 @@ export default function Blotters({ auth, blotters, message, pageDisplay, pageNum
                             </div>
 
                             {userRole != 2
-                                ? <div className="ml-12 flex">
-                                    <h6 className="mt-1 w-[10rem] ml-6 mr-1">Barangay : </h6>
+                                ? <div className="mr-[10rem] ml-[3.5rem] flex">
                                     <BarangayFilter
                                         entries={barangayOptions}
                                         showEntries={showBarangay}
@@ -141,8 +205,7 @@ export default function Blotters({ auth, blotters, message, pageDisplay, pageNum
                                 : null}
 
 
-                            <div className="ml-28 flex">
-                                <h6 className="mt-1 w-[8rem]">Remark : </h6>
+                            <div className="ml-11 flex">
                                 <RemarksFilter
                                     entries={disposition}
                                     showEntries={showRemarks}
@@ -153,8 +216,7 @@ export default function Blotters({ auth, blotters, message, pageDisplay, pageNum
                                 />
                             </div>
 
-                            <div className="ml-28 flex">
-                                <h6 className="mt-1 w-[8rem]">Type : </h6>
+                            <div className="ml-26 flex">
                                 <TypeFilter
                                     entries={incidentTypes}
                                     showEntries={showIncident}
@@ -169,7 +231,13 @@ export default function Blotters({ auth, blotters, message, pageDisplay, pageNum
 
 
 
-                        <div className="flex">
+                        <div className="flex ">
+                            <ActionButtons
+                                onDownload={handleDownload}
+                                onExportToExcel={handleDownloadExcel}
+                                onPrint={() => printDiv('content-to-export')}
+                            />
+
                             <input
                                 value={data?.keyword}
                                 onChange={(e) => setData('keyword', e.target.value)}
@@ -189,23 +257,22 @@ export default function Blotters({ auth, blotters, message, pageDisplay, pageNum
 
                     </div>
                     {/**Table */}
-                    <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark xl:pb-1 mt-6">
-                        <div className="max-w-full overflow-x-auto">
-                            <table className="w-full z-20 border border-[#eee]">
+                    <div className="rounded-sm border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark xl:pb-1 mt-2 animate-slideinright">
+                        <div className="max-w-full overflow-x-auto" id="content-to-export" ref={targetRef}>
+                            <table className="w-full z-20 rounded-lg border border-[#eee]">
                                 <TableHead />
                                 <TableBody
                                     blotters={blotters?.data}
                                     setData={setData}
-                                    handleDelete={handleDelete} /
-                                >
+                                />
                             </table>
                         </div>
                     </div>
                     {/** End Table */}
 
 
-                    <div className="flex justify-between mt-2">
-                        <h6 className="my-3">
+                    <div className="flex justify-between mt-2 animate-fadeinup">
+                        <h6 className="my-3 text-slate-600">
                             Showing <b>{(parseInt(data.page) - 1) * parseInt(data.per_page) + 1}</b> to <b>{parseInt(data.per_page) * parseInt(data.page)}</b> of <b>{blotters?.total}</b> entries
                         </h6>
 
@@ -234,11 +301,11 @@ const PerPage = ({ entries, showEntries, setShowEntries, data, setData, handleFe
         handleFetchBlotters: FormEventHandler,
     }
 ) => {
-    return <div className="flex relative">
+    return <div className="flex relative mr-[2rem]">
         <div className="absolute z-20 flex gap-2">
             <div className="flex flex-col bg-white shadow-sm">
                 <button
-                    className="w-ful px-3 py-1 border border-solid border-slate-300 flex gap-1"
+                    className="w-ful px-5 py-1 border border-solid border-slate-300 flex gap-1 rounded"
                     key={0}
                     onClick={() => setShowEntries(!showEntries)}>
                     {data?.per_page} <ChevronDown className="mt-1" />
@@ -255,7 +322,7 @@ const PerPage = ({ entries, showEntries, setShowEntries, data, setData, handleFe
                                 />
 
                                 <button
-                                    className="place-items-center w-full hover:bg-slate-200 px-2 border  border-solid border-slate-300  grid gap-2"
+                                    className="place-items-center border w-full hover:bg-slate-200 px-2 py-1   border-solid border-slate-300  grid gap-2"
                                     onClick={() => setData('per_page', entry)}>
                                     {entry}
                                 </button>
@@ -281,7 +348,7 @@ const BarangayFilter = ({ entries, showEntries, setShowEntries, data, setData, h
         <div className="absolute z-20 flex gap-2 w-full">
             <div className="bg-white shadow-sm">
                 <button
-                    className="w-[12rem] px-2 py-1 border border-solid border-slate-300 flex justify-between gap-1"
+                    className="w-[12rem] px-2 py-1 rounded border border-solid border-slate-300 flex justify-between gap-1"
                     key={0}
                     onClick={() => setShowEntries(!showEntries)}>
                     {data.brgy_code == null ? "Select Barangay" : getBarangayByBrgyCode(data.brgy_code)}
@@ -302,7 +369,7 @@ const BarangayFilter = ({ entries, showEntries, setShowEntries, data, setData, h
                                     />
 
                                     <button
-                                        className="w-full text-start hover:bg-slate-200 px-2 border border-solid border-slate-300  gap-2"
+                                        className="w-full text-start hover:bg-slate-200 px-2 py-1 border border-solid border-slate-300  gap-2"
                                         onClick={() => setData('brgy_code', parseInt(entry?.brgy_code))}>
                                         {entry?.brgy_name}
                                     </button>
@@ -329,11 +396,11 @@ const RemarksFilter = ({ entries, showEntries, setShowEntries, data, setData, ha
 ) => {
 
 
-    return <div className="flex relative w-full">
+    return <div className="flex relative w-full mr-[3.5rem]">
         <div className="absolute z-20 flex gap-2 w-full">
             <div className="bg-white shadow-sm">
                 <button
-                    className="w-[10rem] px-2 py-1 border border-solid border-slate-300 flex justify-between gap-1"
+                    className="w-[10rem] px-2 py-1 rounded border border-solid border-slate-300 flex justify-between gap-1"
                     key={0}
                     onClick={() => setShowEntries(!showEntries)}>
                     {data.remarks == 0 ? "Select Remark" : getRemark(parseInt(data.remarks))}
@@ -351,7 +418,7 @@ const RemarksFilter = ({ entries, showEntries, setShowEntries, data, setData, ha
                                 />
 
                                 <button
-                                    className="w-full text-start hover:bg-slate-200 px-2 border border-solid border-slate-300  gap-2"
+                                    className="w-full text-start hover:bg-slate-200 px-2 py-1 border border-solid border-slate-300 gap-2"
                                     onClick={() => setData('remarks', entry.id)}>
                                     {entry?.value}
                                 </button>
@@ -376,9 +443,9 @@ const TypeFilter = ({ entries, showEntries, setShowEntries, data, setData, handl
 
     return <div className="flex relative w-full">
         <div className="absolute z-20 flex gap-2 w-full">
-            <div className="bg-white">
+            <div className="bg-white ">
                 <button
-                    className="w-[9rem] px-2 py-1 border border-solid border-slate-300 flex justify-between gap-1"
+                    className="w-[9rem] px-2 py-1 rounded border border-solid border-slate-300 flex justify-between gap-1"
                     key={0}
                     onClick={() => setShowEntries(!showEntries)}>
                     {data.incident_type == null ? "Select Type" : getIncidentType(data.incident_type)?.split("-")[0]}
@@ -386,24 +453,62 @@ const TypeFilter = ({ entries, showEntries, setShowEntries, data, setData, handl
                 </button>
 
                 {showEntries
-                    && entries
-                        ?.map((entry: any, i: number) => (
-                            <form onSubmit={handleFetchBlotters} key={i + 1}>
-                                <input
-                                    type="number"
-                                    value={data.remark}
-                                    hidden
-                                />
+                    &&
+                    <div className="h-[33rem] overflow-y-scroll">
+                        {entries
+                            ?.map((entry: any, i: number) => (
+                                <form onSubmit={handleFetchBlotters} key={i + 1}>
+                                    <input
+                                        type="number"
+                                        value={data.remark}
+                                        hidden
+                                    />
 
-                                <button
-                                    className="w-full text-start hover:bg-slate-200 px-2 border border-solid border-slate-300  gap-2 text-xs"
-                                    onClick={() => setData('incident_type', parseInt(entry?.id))}>
-                                    {entry?.value?.split("-")[1]}
-                                </button>
-                            </form>
+                                    <button
+                                        className="place-items-center border w-full hover:bg-slate-200 px-2 py-1   border-solid border-slate-300  grid gap-2 text-xs"
+                                        onClick={() => setData('incident_type', parseInt(entry?.id))}>
+                                        {entry?.value?.split("-")[1]}
+                                    </button>
+                                </form>
 
-                        ))}
+                            ))}
+                    </div>
+                }
             </div>
         </div>
     </div>
+}
+
+const ActionButtons = ({ onDownload, onExportToExcel, onPrint }:
+    { onDownload: CallableFunction; onExportToExcel: CallableFunction; onPrint: CallableFunction }) => {
+    return (
+        <>
+            <button
+                className="p-2 border border-slate-400 px-2 py-1 flex gap-1 rounded-l text-slate-700 hover:bg-slate-200"
+                onClick={() => onExportToExcel()}
+            >
+                <FiletypeCsv className="mt-1" /> CSV
+            </button>
+
+            <button
+                className="p-2 border border-slate-400 px-2 py-1 flex gap-1 text-slate-700 hover:bg-slate-200"
+                onClick={() => onExportToExcel()}
+            >
+                <FileExcel className="mt-1" onClick={() => onDownload} /> Excel
+            </button>
+
+            <button
+                className="p-2 border border-slate-400 px-2 py-1 flex gap-1 text-slate-700 hover:bg-slate-200"
+                onClick={() => onDownload()}
+            >
+                <FiletypePdf className="mt-1" /> PDF
+            </button>
+            <button
+                className="p-2 rounded-r border border-slate-400 px-2 py-1 flex gap-1 mr-4 text-slate-700 hover:bg-slate-200"
+                onClick={() => onPrint()}
+            >
+                <Printer className="mt-1" /> Print
+            </button>
+        </>
+    )
 }

@@ -118,7 +118,7 @@ const ChartFour = ({ monthlyIncidents }: { monthlyIncidents: any }) => {
   handleReset;
 
   return (
-    <div className="col-span-12 rounded-sm border border-stroke bg-white p-7.5 shadow-default dark:border-strokedark dark:bg-boxdark w-full">
+    <div className="col-span-12 rounded-lg border border-stroke bg-white p-7.5 shadow-default dark:border-strokedark dark:bg-boxdark w-full">
       <div className="mb-4 justify-between gap-4 sm:flex">
         <div>
           <h4 className="text-xl font-semibold text-black dark:text-white">
@@ -222,7 +222,7 @@ const Table = ({ datas }: { datas: any }) => {
   const [limit, setLimit] = useState<number>(10);
 
   return (
-    <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
+    <div className="rounded-lg border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
 
       <div className="flex flex-col justify-between">
         <div className="flex justify-between rounded-sm bg-gray-2 dark:bg-meta-4">

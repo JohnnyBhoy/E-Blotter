@@ -230,4 +230,23 @@ class BlotterController extends Controller
             return response()->json(['error' => $th], 500);
         }
     }
+
+    /**
+     * Method to view blotter data based on
+     * @param \Illuminate\Http\Request $request The HTTP request
+     */
+    public function view(Request $request)
+    {
+        $id = $request->get('id');
+
+        try {
+            $blotter = $this->blotterService->get($id);
+
+            return Inertia::render('Blotter/View', [
+                'blotter' => $blotter
+            ]);
+        } catch (\Throwable $th) {
+            return response()->json(['error' => $th], 500);
+        }
+    }
 }

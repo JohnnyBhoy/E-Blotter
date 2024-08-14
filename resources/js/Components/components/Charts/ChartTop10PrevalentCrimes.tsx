@@ -127,7 +127,7 @@ const ChartTop10PrevalentCrimes = () => {
   };
 
   return (
-    <div className="col-span-12 rounded-sm border border-stroke bg-white p-7.5 shadow-default dark:border-strokedark dark:bg-boxdark xl:col-span-12">
+    <div className="col-span-12 rounded-lg border border-stroke bg-white p-7.5 shadow-default dark:border-strokedark dark:bg-boxdark xl:col-span-12">
       <div className="mb-4 justify-between gap-4 sm:flex">
         <div>
           <h4 className="text-xl font-semibold text-black dark:text-white">
@@ -148,8 +148,8 @@ const ChartTop10PrevalentCrimes = () => {
               onChange={(e) => setView(parseInt(e.target.value))}
               className="relative z-20 inline-flex appearance-none bg-transparent py-1 pl-3 pr-8 text-sm font-medium outline-none"
             >
-              <option value={2} className='dark:bg-boxdark'>Table</option>
               <option value={1} className='dark:bg-boxdark'>Chart</option>
+              <option value={2} className='dark:bg-boxdark'>Table</option>
             </select>
             <span className="absolute top-1/2 right-3 z-10 -translate-y-1/2" />
           </div>
@@ -184,19 +184,19 @@ type Datas = {
 
 const TopBarangayTable = ({ datas }: { datas: any }) => {
   return (
-    <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
-      <table className='border p-2' id="content-to-download" >
+    <div className="rounded-lg border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
+      <table className='border p-2 w-full rounded-lg' id="content-to-download" >
         <tr className=''>
-          <th className='p-2 bg-blue-500 text-white border border border-solid border-black'>Rank</th>
-          <th className='p-2 bg-blue-500 text-white border border border-solid border-black'>Case / Incident Type</th>
-          <th className='p-2 bg-blue-500 text-white border border border-solid border-black'>Total</th>
+          <th className='p-2 bg-blue-500 text-white border border border-solid border-slate-500'>Rank</th>
+          <th className='p-2 bg-blue-500 text-white border border border-solid border-slate-500'>Case / Incident Type</th>
+          <th className='p-2 bg-blue-500 text-white border border border-solid border-slate-500'>Total</th>
         </tr>
         <tbody>
           {datas?.map((item: Datas) => (
             <tr key={item?.rank}>
-              <td className='px-2 py-1 border'>{item?.rank}</td>
-              <td className='px-2 py-1 border'>{getIncidentType(item?.incident_type)}</td>
-              <td className='px-2 py-1 border'>{item?.count}</td>
+              <td className='px-2 py-1 border border-slate-300 text-center'>{item?.rank}</td>
+              <td className='px-2 py-1 border border-slate-300 lg:text-base text-xs'>{getIncidentType(item?.incident_type)}</td>
+              <td className='px-2 py-1 border border-slate-300 text-center'>{item?.count}</td>
             </tr>
           ))}
         </tbody>

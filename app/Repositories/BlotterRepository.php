@@ -202,6 +202,8 @@ class BlotterRepository
                 'b.created_at',
                 'b.remarks',
             )
+            ->where('c.complainant_family_name', '!=', null)
+            ->where('c.complainant_family_name', '!=', "")
             ->whereAny([
                 'b.entry_number',
                 'b.date_reported',
@@ -241,7 +243,8 @@ class BlotterRepository
                 'r.respondent_village',
                 'r.respondent_barangay',
                 'r.respondent_city',
-                'r.respondent_province', 'r.respondent_region',
+                'r.respondent_province',
+                'r.respondent_region',
                 'r.respondent_work_street',
                 'r.respondent_work_village',
                 'r.respondent_work_barangay',
@@ -249,7 +252,8 @@ class BlotterRepository
                 'r.respondent_work_province',
                 'r.respondent_work_region'
             ], 'LIKE', '%' . $keyword . '%')
-            ->orderBy('b.id', 'desc');
+            ->orderBy('b.id', 'desc')
+            ->distinct();
 
         if (is_numeric($remark) && $remark > 0) {
             $query = $query->where('b.remarks', $remark);
@@ -293,8 +297,8 @@ class BlotterRepository
      */
     public function delete(Int $id)
     {
-        Complainant::where('entry_number', $id)->delete();
-        Respondent::where('entry_number', $id)->delete();
+        Complainant::where('blotter_id', $id)->delete();
+        Respondent::where('blotter_id', $id)->delete();
 
         $blotter = Blotter::findOrFail($id);
         return $blotter->delete();
@@ -541,7 +545,8 @@ class BlotterRepository
                 'r.respondent_village',
                 'r.respondent_barangay',
                 'r.respondent_city',
-                'r.respondent_province', 'r.respondent_region',
+                'r.respondent_province',
+                'r.respondent_region',
                 'r.respondent_work_street',
                 'r.respondent_work_village',
                 'r.respondent_work_barangay',

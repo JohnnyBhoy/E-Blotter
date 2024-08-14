@@ -16,15 +16,10 @@ const TableBarangayDashboard = () => {
   return (
     <div className="rounded-sm border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark mt-2">
       <div className="flex flex-col">
-        <div className="grid grid-cols-7 rounded-sm bg-orange-600 dark:bg-meta-4 sm:grid-cols-7">
+        <div className="grid grid-cols-6 rounded-sm bg-orange-600 dark:bg-meta-4 sm:grid-cols-6">
           <div className="grid place-items-center px-2 py-3 border border-1 border-solid-slate-700">
             <h5 className="text-sm font-medium uppercase xsm:text-base text-white">
               Total Uploaded
-            </h5>
-          </div>
-          <div className="grid place-items-center px-2 py-3 border border-1 border-solid-slate-700">
-            <h5 className="text-sm font-medium uppercase xsm:text-base text-white">
-              Prevalent Crimes
             </h5>
           </div>
           <div className="grid place-items-center px-2 py-3 border border-1 border-solid-slate-700">
@@ -55,16 +50,10 @@ const TableBarangayDashboard = () => {
         </div>
 
         <div
-          className="grid grid-cols-7 sm:grid-cols-7 border-b border-stroke dark:border-strokedark">
+          className="grid grid-cols-6 sm:grid-cols-6 border-b border-stroke dark:border-strokedark">
           <div className="flex items-center justify-center p-2.5 xl:p-3 border border-1 border-solid border-slate-700">
             <p className="text-black dark:text-white">
               {blotter < 1000 ? blotter : `${(blotter / 1000)?.toFixed(1)}K`}
-            </p>
-          </div>
-
-          <div className="flex items-center justify-center p-2.5 xl:p-3 border border-1 border-solid border-slate-700">
-            <p className="text-black dark:text-white cursor-pointer" onClick={() => setShowTop10(true)}>
-              Top 10
             </p>
           </div>
 

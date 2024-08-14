@@ -143,13 +143,13 @@ const PersonInvolveData = ({ data, setData, person }: { data: any; setData: Call
     const [respondents, setRespondents] = useState<number[]>([1]);
 
     return (
-        <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark mt-4">
+        <div className="animate-fadeinleft rounded-lg border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark mt-4">
 
             {complainants?.map((count, i) => (
                 <>
-                    <div className="border-b border-stroke py-2  px-6.5 dark:border-strokedark bg-amber flex justify-between"
+                    <div className="mb-3 py-2 px-6.5 dark:border-strokedark bg-amber rounded-t-lg flex justify-between"
                         key={i}>
-                        <h3 className="font-medium text-black dark:text-white">
+                        <h3 className="font-medium text-white dark:text-white">
                             {person === 'Complainant'
                                 ? `A - Reporting Person (Victim's Data No. ${count})`
                                 : `B - Person Complain of/ Suspect Data No. ${count}`
@@ -261,7 +261,7 @@ const PersonInvolveData = ({ data, setData, person }: { data: any; setData: Call
                         </div>
                     </div>
 
-                    <div className="lg:flex lg:gap-5.5 p-2 w-full space-y-6 lg:space-y-0">
+                    <div className="lg:flex lg:gap-5.5 p-2 mb-6 w-full space-y-6 lg:space-y-0">
                         <div className="lg:w-1/2 w-full">
                             <label className="text-xs bg-white dark:bg-transparent  absolute ml-3 mt-[-.4rem]">
                                 Citizenship *
@@ -411,10 +411,10 @@ const PersonInvolveData = ({ data, setData, person }: { data: any; setData: Call
                     </div>
 
                     {/* <!-- Complainant Address --> */}
-                    <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
+                    <div className="rounded-lg bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
                         {/** Home Address */}
-                        <div className="border-b border-stroke py-2 px-6.5 dark:border-strokedark">
-                            <h3 className="font-medium text-black text-center dark:text-white">
+                        <div className="border-b border-stroke py-2 px-6.5 dark:border-strokedark bg-amber">
+                            <h3 className="font-medium text-white dark:text-white">
                                 Home Address
                             </h3>
                         </div>
@@ -593,17 +593,17 @@ const PersonInvolveData = ({ data, setData, person }: { data: any; setData: Call
                         {/** End Home Address */}
 
                         {/**Work Address */}
-                        <div className="border-b border-stroke py-2 px-6.5 dark:border-strokedark">
-                            <div className="flex justify-center gap-2">
-                                <h3 className="font-medium text-black text-center dark:text-white">
+                        <div className="border-b rounded-b-lg border-stroke py-2 px-6.5 dark:border-strokedark bg-amber">
+                            <div className="flex justify-between gap-2">
+                                <h3 className="font-medium text-white text-center dark:text-white">
                                     Work Address
                                 </h3>
-                                <button onClick={() => handleSameHomeAddress(i)} className="text-xs bg-blue-500 hover:bg-blue-700 text-white px-2 py-1 rounded-3xl dark:bg-transparent">
+                                <button onClick={() => handleSameHomeAddress(i)} className="text-xs bg-white hover:bg-slate-100 text-slate-700 px-2 py-1 rounded-3xl dark:bg-transparent">
                                     Same with home address
                                 </button>
                             </div>
                         </div>
-                        <div className="lg:flex lg:gap-5.5 p-2 w-full space-y-6 lg:space-y-0">
+                        <div className="lg:flex lg:gap-5.5 p-2 w-full space-y-6 lg:space-y-0 rounded-b-lg">
                             <div className="lg:w-1/2 w-full">
                                 <FormInput
                                     label="House no./Street"

@@ -4,25 +4,23 @@ import incidentTypes from '@/utils/data/incidentTypes';
 import dateToString from '@/utils/functions/dataToString';
 import getUserRole from '@/utils/functions/getUserRole';
 import { router } from '@inertiajs/react';
-import React, { FormEvent, useState } from 'react';
-import { usePDF } from 'react-to-pdf';
+import React from 'react';
+import { PencilSquare, Trash } from 'react-bootstrap-icons';
 import Swal from 'sweetalert2';
 
-const TableBody = ({ blotters, setData, handleDelete }: { blotters: any; setData: CallableFunction; handleDelete: CallableFunction }) => {
-
-    const [showIncidentDescription, setShowIncidentDescription] = useState<boolean>(false);
-    const [activeHoverId, setActiveHoverId] = useState<number>(0);
-    const [selectedBlotter, setSelectedBlotter] = useState<object>({});
+const TableBody = ({ blotters, setData }: { blotters: any; setData: CallableFunction }) => {
 
     // User Role and redirect edit route
     const userRole = getUserRole();
+
+    // Delete url based on role
+    const deleteBlotterUrl = userRole == 1 ? '/blotter/admin-delete' : userRole == 3 ? '/blotter/municipal-delete' : 'blotter/delete';
+
+    // Edit blotter url
     const editBlotterUrl = userRole == 1 ? '/blotter/admin-edit'
         : userRole == 2 ? '/blotter/edit'
             : userRole == 3 ? '/blotter/municipal-edit'
                 : "dashboard";
-
-    // React to PDF
-    const { toPDF, targetRef } = usePDF({ filename: `Blotter_Copy.pdf` });
 
     const handleEdit = (id: number) => {
         router.visit(editBlotterUrl, {
@@ -33,7 +31,7 @@ const TableBody = ({ blotters, setData, handleDelete }: { blotters: any; setData
         })
     }
 
-    const handleConfirmDelete = (e: FormEvent) => {
+    const handleConfirmDelete = (e: any, id: number) => {
         e.preventDefault();
 
         Swal.fire({
@@ -50,15 +48,29 @@ const TableBody = ({ blotters, setData, handleDelete }: { blotters: any; setData
             },
         }).then((result) => {
             if (result.isConfirmed) {
-                handleDelete();
+                if (userRole == 2) {
+                    return Swal.fire({
+                        title: "Action Forbidden!",
+                        text: "Unable to remove blotter, Please contact your Municipal Admin.",
+                        icon: "error",
+                        showConfirmButton: false,
+                        timer: 3000,
+                    });
+                } else {
 
-                return Swal.fire({
-                    title: "Deleted!",
-                    text: "Your file has been deleted.",
-                    icon: "success",
-                    showConfirmButton: false,
-                    timer: 2500,
-                });
+                    router.delete(deleteBlotterUrl, {
+                        data: { id: id },
+                    });
+
+                    return Swal.fire({
+                        title: "Deleted!",
+                        text: "Your file has been deleted.",
+                        icon: "success",
+                        showConfirmButton: false,
+                        timer: 2500,
+                    });
+                }
+
             } else if (
                 /* Read more about handling dismissals below */
                 result.dismiss === Swal.DismissReason.cancel
@@ -88,73 +100,43 @@ const TableBody = ({ blotters, setData, handleDelete }: { blotters: any; setData
         return result[0]?.value;
     }
 
-    const handleDownload = () => {
-        Swal.fire({
-            title: "Are you sure?",
-            text: "You will save PDF copy to your local computer!",
-            icon: "info",
-            showCancelButton: true,
-            confirmButtonColor: "#3085d6",
-            cancelButtonColor: "#d33",
-            confirmButtonText: "Yes, download it!"
-        }).then((result) => {
-            if (result.isConfirmed) {
-                toPDF();
-                Swal.fire({
-                    title: "Downloaded!",
-                    text: "Your file has been downloaded.",
-                    icon: "success",
-                    timer: 2500,
-                });
-            }
-        });
-    }
-
     return (
         <>
             <tbody>
                 {blotters?.map((blotter: BlotterProps, i: number) => (
-                    <tr key={i} className="hover:bg-slate-100 cursor-pointer z-20 bg-white dark:bg-meta-4">
-                        <td className="border border-[#eee] dark:border-white py-1.5 px-2 pl-9 dark:border-strokedark xl:pl-11">
-                            <h5 className="font-medium text-black dark:text-white text-sm">
+                    <tr key={i} className={`hover:bg-slate-100 cursor-pointer z-20 ${(i % 2) == 1 ? 'bg-white' : 'bg-slate-100'} dark:bg-meta-4`}>
+                        <td className="border border-slate-300 dark:border-white py-2 px-2 pl-9 dark:border-strokedark xl:pl-11">
+                            <h5 className="font-medium text-black dark:text-white text-xs">
                                 {blotter?.entry_number}
                             </h5>
                         </td>
-                        <td className="border border-[#eee] dark:border-white py-1.5 px-2 dark:border-strokedark ">
-                            <p className="text-black dark:text-white text-sm">
+                        <td className="border border-slate-300 dark:border-white py-2 px-2 dark:border-strokedark ">
+                            <p className="text-black dark:text-white text-xs">
                                 {blotter?.complainant_family_name},  {blotter?.complainant_first_name}  {blotter?.complainant_middle_name?.charAt(0)}.
                             </p>
                         </td>
 
-                        <td className="border border-[#eee] dark:border-white py-1.5 px-2 dark:border-strokedark">
-                            <p className="text-black dark:text-white text-sm">
+                        <td className="border border-slate-300 dark:border-white py-2 px-2 dark:border-strokedark">
+                            <p className="text-black dark:text-white text-xs">
                                 {blotter?.respondent_family_name},  {blotter?.respondent_first_name}  {blotter?.complainant_middle_name?.charAt(0)}.
                             </p>
                         </td>
 
-                        <td className="border border-[#eee] dark:border-white py-1.5 px-2 dark:border-strokedark">
-                            <p className="text-black dark:text-white  grid place-items-center  text-sm" onMouseEnter={() => {
-                                setShowIncidentDescription(true);
-                                setActiveHoverId(blotter.id);
-                            }} onMouseLeave={() => setShowIncidentDescription(false)}>
-                                {getIncidentType(blotter?.incident_type)?.split(" - ")[0]}
+                        <td className="border border-slate-300 dark:border-white py-2 px-2 dark:border-strokedark">
+                            <p className="text-black dark:text-white  grid place-items-start  text-xs" >
+                                {getIncidentType(blotter?.incident_type)?.split(" - ")[1]?.substring(0, 50)}
                             </p>
-                            {showIncidentDescription && activeHoverId == blotter.id
-                                ? <button className='bg-green-500 text-white rounded py-0 px-2 absolute z-50 mt-[-3rem]'>
-                                    {getIncidentType(blotter?.incident_type)?.split(" - ")[1]}
-                                </button>
-                                : null}
                         </td>
 
-                        <td className="border border-[#eee] dark:border-white py-1.5 px-2 dark:border-strokedark">
-                            <p className="text-black dark:text-white text-sm  grid place-items-center ">
+                        <td className="border border-slate-300 dark:border-white py-2 px-2 dark:border-strokedark">
+                            <p className="text-black dark:text-white text-xs  grid place-items-center ">
                                 {dateToString(blotter?.created_at)}
                             </p>
                         </td>
 
-                        <td className="border border-[#eee] dark:border-white py-1.5 px-2 dark:border-strokedark">
+                        <td className="border border-slate-300 dark:border-white py-2 px-2 dark:border-strokedark">
                             <p
-                                className={`inline-flex rounded-full grid place-items-center bg-opacity-10 py-1 px-3 text-xs font-medium ${blotter?.remarks === '1'
+                                className={`inline-flex rounded-full grid place-items-center bg-opacity-10 py-1 px-1 text-xs font-medium ${blotter?.remarks === '1'
                                     ? 'bg-success text-success'
                                     : blotter?.remarks === '2'
                                         ? 'bg-danger text-danger'
@@ -164,12 +146,18 @@ const TableBody = ({ blotters, setData, handleDelete }: { blotters: any; setData
                                 {formatCaseDisposition(blotter?.remarks)}
                             </p>
                         </td>
-                        <td className="border border-[#eee] dark:border-white py-1.5 px-2 dark:border-strokedark">
-                            <div className="grid place-items-center space-x-3.5">
+                        <td className="border border-slate-300 dark:border-white py-2 px-2 dark:border-strokedark">
+                            <div className="flex justify-center space-x-3.5">
                                 <button
                                     onClick={() => handleEdit(blotter.id)}
-                                    className="bg-success text-white rounded-3xl px-5 flex justify-center text-xs py-1 gap-1">
-                                    View
+                                    className="bg-primary text-white rounded p-2 flex justify-center text-xs py-1 gap-1">
+                                    <PencilSquare size={16} />
+                                </button>
+
+                                <button
+                                    onClick={(e) => handleConfirmDelete(e, blotter.id)}
+                                    className="bg-danger text-white rounded p-2 flex justify-center text-xs py-1 gap-1">
+                                    <Trash size={16} />
                                 </button>
                             </div>
                         </td>
