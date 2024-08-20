@@ -25,7 +25,7 @@ const BrfForm = ({ data, setData }: { data: any; setData: CallableFunction }) =>
 
     return (
         <div className="animate-slideinright rounded-lg border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
-            <div className="border-b rounded-t-lg border-stroke py-2 px-6.5 dark:border-strokedark">
+            <div className="border-b rounded-t-lg border-stroke py-2 px-6.5 dark:border-strokedark dark:bg-boxdark bg-amber text-white">
                 <h3 className="font-medium dark:text-white">
                     Barangay e-Record Form (BRF)
                 </h3>
@@ -86,7 +86,7 @@ const BrfForm = ({ data, setData }: { data: any; setData: CallableFunction }) =>
                             Incident Type *
                         </label>
 
-                        <button onClick={handleAddIncident} className="text-xs bg-blue-500 hover:bg-blue-700 text-white px-2 py-1 rounded-3xl dark:bg-transparent  absolute text-end mt-[-.8rem] ml-[14rem] z-50">
+                        <button onClick={handleAddIncident} className="text-xs bg-blue-500 hover:bg-blue-700 border text-white px-2 py-1 rounded-3xl dark:bg-boxdark  absolute text-end mt-[-.8rem] ml-[14rem] z-50">
                             Other (Specify)
                         </button>
                     </div>

@@ -143,11 +143,11 @@ const PersonInvolveData = ({ data, setData, person }: { data: any; setData: Call
     const [respondents, setRespondents] = useState<number[]>([1]);
 
     return (
-        <div className="animate-fadeinleft rounded-lg border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark mt-4">
+        <div className="animate-fadeinleft rounded-lg border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark mt-4 ">
 
             {complainants?.map((count, i) => (
                 <>
-                    <div className="mb-3 py-2 px-6.5 dark:border-strokedark bg-amber rounded-t-lg flex justify-between"
+                    <div className="mb-3 py-2 px-6.5 dark:border-strokedark  dark:bg-boxdark bg-amber text-white rounded-t-lg flex justify-between"
                         key={i}>
                         <h3 className="font-medium text-white dark:text-white">
                             {person === 'Complainant'
@@ -160,7 +160,7 @@ const PersonInvolveData = ({ data, setData, person }: { data: any; setData: Call
                             {count === complainants?.length
                                 ? <>
                                     <button
-                                        className="font-medium text-black dark:text-white bg-white hover:bg-slate-300 text-xs rounded-3xl px-3 text-blue-700"
+                                        className="font-medium text-black dark:text-white bg-white dark:bg-boxdark border hover:bg-slate-300 text-xs rounded-3xl px-3 text-blue-700"
                                         onClick={() => {
                                             setComplainants([...complainants, count + 1]);
                                             setData(person === 'Complainant' ? 'complainant_data' : 'respondent_data',
@@ -343,7 +343,7 @@ const PersonInvolveData = ({ data, setData, person }: { data: any; setData: Call
                                 <label className="text-xs dark:bg-transparent bg-white absolute ml-3 mt-[-.4rem]">
                                     Occupation *
                                 </label>
-                                <button onClick={handleAddOccupation} className="text-xs bg-blue-500 hover:bg-blue-700 text-white px-2 py-1 rounded-3xl dark:bg-transparent  absolute text-end mt-[-.8rem] ml-[8rem] z-50">
+                                <button onClick={handleAddOccupation} className="text-xs border bg-blue-500 hover:bg-blue-700 text-white px-2 py-1 rounded-3xl dark:bg-boxdark  absolute text-end mt-[-.8rem] ml-[8rem] z-50">
                                     Other (Specify)
                                 </button>
                             </div>
@@ -413,7 +413,7 @@ const PersonInvolveData = ({ data, setData, person }: { data: any; setData: Call
                     {/* <!-- Complainant Address --> */}
                     <div className="rounded-lg bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
                         {/** Home Address */}
-                        <div className="border-b border-stroke py-2 px-6.5 dark:border-strokedark bg-amber">
+                        <div className="border-b border-stroke py-2 px-6.5 dark:border-strokedark  dark:bg-boxdark bg-amber text-white">
                             <h3 className="font-medium text-white dark:text-white">
                                 Home Address
                             </h3>
@@ -593,12 +593,12 @@ const PersonInvolveData = ({ data, setData, person }: { data: any; setData: Call
                         {/** End Home Address */}
 
                         {/**Work Address */}
-                        <div className="border-b rounded-b-lg border-stroke py-2 px-6.5 dark:border-strokedark bg-amber">
+                        <div className="border-b rounded-b-lg border-stroke py-2 px-6.5 dark:border-strokedark  dark:bg-boxdark bg-amber text-white">
                             <div className="flex justify-between gap-2">
                                 <h3 className="font-medium text-white text-center dark:text-white">
                                     Work Address
                                 </h3>
-                                <button onClick={() => handleSameHomeAddress(i)} className="text-xs bg-white hover:bg-slate-100 text-slate-700 px-2 py-1 rounded-3xl dark:bg-transparent">
+                                <button onClick={() => handleSameHomeAddress(i)} className="text-xs bg-white hover:bg-slate-100 text-slate-700 px-2 py-1 rounded-3xl dark:bg-boxdark border dark:text-white">
                                     Same with home address
                                 </button>
                             </div>

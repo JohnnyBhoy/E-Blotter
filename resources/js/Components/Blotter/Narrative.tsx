@@ -15,7 +15,7 @@ const Narrative = ({ data, setData }: { data: any; setData: CallableFunction }) 
     return (
         <div className="animate-fadeinup rounded-lg border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark mt-4">
 
-            <div className="border-b border-stroke py-2 rounded-t-lg px-6.5 dark:border-strokedark bg-amber">
+            <div className="border-b border-stroke py-2 rounded-t-lg px-6.5 dark:border-strokedark  dark:bg-boxdark bg-amber text-white">
                 <h3 className="font-medium text-white dark:text-white">
                     Narrative of Incident
                 </h3>
