@@ -11,7 +11,7 @@ const Homepage1 = () => {
         <div className="lg:flex lg:p-10 p-3 lg:mt-6 w-auto">
             <div className="lg:p-10">
                 <h1 className="lg:text-6xl text-3xl font-semibold text-slate-800 mt-10 text-center lg:text-start">
-                    Harmonization of Barangay Crime Incidents via Barangay
+                    Harmonization of Barangay Incidents via Barangay
                     e-Blotter
                 </h1>
                 <h5 className="mt-6 text-lg text-slate-600">

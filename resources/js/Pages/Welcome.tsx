@@ -66,9 +66,8 @@ export default function Welcome({
 
             {/** Start block **/}
             <section className="bg-gray-50 dark:bg-gray-800">
-                <div className="mb-4 text-xl font-bold tracking-tight text-slate-700 dark:text-white text-center">
-                    Harmonizing barangay crime incident records between the <br />Philippine National Police (PNP)  and the
-                    Barangay through community  <br /> collaboration holds significant importance for several reasons:
+                <div className="lg:text-xl text-lg font-bold tracking-tight text-slate-500 dark:text-white lg:px-36 px-6 text-center">
+                    Harmonizing barangay incident records across government frontline agencies, including the PNP, BFP, PCG, rescue groups, and Barangays, streamlines the process of implementing effective intervention and preventive measures in collaboration with the community.
                 </div>
 
 

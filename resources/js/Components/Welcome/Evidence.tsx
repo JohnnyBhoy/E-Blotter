@@ -8,15 +8,10 @@ const Evidence = () => {
                     7. Evidence-Based Policy Making
                 </h2>
                 <p className="mb-8 font-light lg:text-xl">
-                    Harmonized crime records serve as a valuable resource for policymakers and stakeholders involved in developing
-                    crime prevention strategies and policies at the barangay, municipal, and city council levels. By analyzing trends and patterns in
-                    crime data, decision-makers can make evidence-based decisions that address the root causes of crime and improve
-                    community safety. This data-driven approach ensures that policies are effective, relevant, and responsive to the actual needs
-                    of the community.
+                    Harmonized incident records serve as a valuable resource for policymakers and stakeholders involved in developing strategies and policies at the barangay, municipal, and city council levels. By analyzing trends and patterns in data, decision-makers can make evidence-based decisions that address the root causes of incidents and improve community safety. This data-driven approach ensures that policies are:
                 </p>
                 {/** List **/}
                 <ul
-                    role="list"
                     className="pt-8 space-y-5 border-t border-gray-200 my-7 dark:border-gray-700"
                 >
                     <li className="flex space-x-3">
@@ -34,7 +29,7 @@ const Evidence = () => {
                             ></path>
                         </svg>
                         <span className="text-base font-medium leading-tight text-gray-900 dark:text-white">
-                            Prevent crime thru solid evidence
+                            Effective
                         </span>
                     </li>
                     <li className="flex space-x-3">
@@ -52,7 +47,7 @@ const Evidence = () => {
                             ></path>
                         </svg>
                         <span className="text-base font-medium leading-tight text-gray-900 dark:text-white">
-                            Clear submission of evidence
+                            Relevant
                         </span>
                     </li>
                     <li className="flex space-x-3">
@@ -70,19 +65,18 @@ const Evidence = () => {
                             ></path>
                         </svg>
                         <span className="text-base font-medium leading-tight text-gray-900 dark:text-white">
-                            Database records and convenience incident solutions.
+                            Responsive to the actual needs of the community
                         </span>
                     </li>
                 </ul>
                 <p className="mb-8 font-light lg:text-xl">
-                    Your submitted blotter entries and report will
-                    help PNP for the crime prevention and data consistency.
+                    Support evidence-based decision-making and improve incident management by submitting clear and accurate data via the e-Blotter system..
                 </p>
             </div>
             <img
                 className="hidden w-full mb-4 rounded-lg lg:mb-0 lg:flex h-[25rem]"
                 src="./images/homepage/evidence.jpg"
-                alt="dashboard feature image"
+                alt="dashboard feature"
             />
         </div>
     )

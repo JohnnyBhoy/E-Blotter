@@ -1,148 +1,156 @@
 {
-  "_AuthenticatedLayout-B0Xcq8be.js": {
-    "file": "assets/AuthenticatedLayout-B0Xcq8be.js",
+  "_AuthenticatedLayout-DESLO1ZT.js": {
+    "file": "assets/AuthenticatedLayout-DESLO1ZT.js",
     "name": "AuthenticatedLayout",
     "imports": [
       "resources/js/app.jsx",
-      "_hypnotize-DUc44FLm.js"
+      "_hypnotize-BtYE3x_E.js"
     ]
   },
-  "_Breadcrumb-BbZx0X-X.js": {
-    "file": "assets/Breadcrumb-BbZx0X-X.js",
+  "_Breadcrumb-CzeQ00IQ.js": {
+    "file": "assets/Breadcrumb-CzeQ00IQ.js",
     "name": "Breadcrumb",
     "imports": [
       "resources/js/app.jsx"
     ]
   },
-  "_CardDataStats-QgoUlsMx.js": {
-    "file": "assets/CardDataStats-QgoUlsMx.js",
+  "_CardDataStats-DwdNWfqL.js": {
+    "file": "assets/CardDataStats-DwdNWfqL.js",
     "name": "CardDataStats",
     "imports": [
       "resources/js/app.jsx"
     ]
   },
-  "_ChartTop10PrevalentCrimes-CvYa8ERA.js": {
-    "file": "assets/ChartTop10PrevalentCrimes-CvYa8ERA.js",
+  "_ChartTop10PrevalentCrimes-C4RCgwGG.js": {
+    "file": "assets/ChartTop10PrevalentCrimes-C4RCgwGG.js",
     "name": "ChartTop10PrevalentCrimes",
     "imports": [
       "resources/js/app.jsx",
-      "_hypnotize-DUc44FLm.js",
+      "_hypnotize-BtYE3x_E.js",
       "_getIncidentType-BepFRHIc.js",
-      "_AuthenticatedLayout-B0Xcq8be.js",
-      "_TableOne-Cvxzbazn.js",
+      "_AuthenticatedLayout-DESLO1ZT.js",
+      "_TableOne-BKQuPJiJ.js",
       "_xlsx-DjuO7_Ju.js"
     ]
   },
-  "_GuestLayout-3WWCfb4g.js": {
-    "file": "assets/GuestLayout-3WWCfb4g.js",
+  "_GuestLayout-JlwOKb8d.js": {
+    "file": "assets/GuestLayout-JlwOKb8d.js",
     "name": "GuestLayout",
     "imports": [
       "resources/js/app.jsx",
-      "_hypnotize-DUc44FLm.js",
-      "_Sweetalert-CmJYu8VD.js",
+      "_hypnotize-BtYE3x_E.js",
+      "_Sweetalert-CrhCicX4.js",
       "_barangays-BUexNXTH.js",
       "_cities-Dk3YxOCT.js",
       "_provinces-CG9EXWDr.js",
       "_regions-CMQGmSf-.js",
-      "_globe-DYWZFvNC.js"
+      "_globe-CqR5rJy1.js"
     ]
   },
-  "_InputLabel-E3tzsmcQ.js": {
-    "file": "assets/InputLabel-E3tzsmcQ.js",
+  "_InputLabel-L7k_lM4J.js": {
+    "file": "assets/InputLabel-L7k_lM4J.js",
     "name": "InputLabel",
     "imports": [
       "resources/js/app.jsx"
     ]
   },
-  "_Pagination-DyA78pox.js": {
-    "file": "assets/Pagination-DyA78pox.js",
+  "_Pagination-mIg_uj1_.js": {
+    "file": "assets/Pagination-mIg_uj1_.js",
     "name": "Pagination",
     "imports": [
       "resources/js/app.jsx",
-      "_chevron-right-qRoWtU-p.js"
+      "_chevron-right-C9FBgEzw.js"
     ]
   },
-  "_PersonInvolveData-CLlCuYV8.js": {
-    "file": "assets/PersonInvolveData-CLlCuYV8.js",
+  "_PersonInvolveData-XjynlONv.js": {
+    "file": "assets/PersonInvolveData-XjynlONv.js",
     "name": "PersonInvolveData",
     "imports": [
       "resources/js/app.jsx",
-      "_hypnotize-DUc44FLm.js",
+      "_hypnotize-BtYE3x_E.js",
       "_incidentTypes-C3QOZvj7.js",
       "_defineProperty-DJACW-dl.js",
       "_typeof-QjJsDpFa.js",
-      "_sweetalert2.all-BHpPcTmW.js",
+      "_sweetalert2.all-D_n3x7Dr.js",
       "_disposition-UoRJwCQq.js",
       "_barangays-BUexNXTH.js",
       "_cities-Dk3YxOCT.js",
       "_provinces-CG9EXWDr.js",
       "_regions-CMQGmSf-.js",
-      "_globe-DYWZFvNC.js"
+      "_globe-CqR5rJy1.js"
     ]
   },
-  "_PrimaryButton-lzbDQwT5.js": {
-    "file": "assets/PrimaryButton-lzbDQwT5.js",
+  "_PrimaryButton-ByNyJ7Dc.js": {
+    "file": "assets/PrimaryButton-ByNyJ7Dc.js",
     "name": "PrimaryButton",
     "imports": [
       "resources/js/app.jsx"
     ]
   },
-  "_Sweetalert-CmJYu8VD.js": {
-    "file": "assets/Sweetalert-CmJYu8VD.js",
+  "_Sweetalert-CrhCicX4.js": {
+    "file": "assets/Sweetalert-CrhCicX4.js",
     "name": "Sweetalert",
     "imports": [
-      "_sweetalert2.all-BHpPcTmW.js"
+      "_sweetalert2.all-D_n3x7Dr.js"
     ]
   },
-  "_TableHead-BHjSbJTj.js": {
-    "file": "assets/TableHead-BHjSbJTj.js",
+  "_TableHead-BmQH2IOQ.js": {
+    "file": "assets/TableHead-BmQH2IOQ.js",
     "name": "TableHead",
     "imports": [
       "resources/js/app.jsx",
       "_disposition-UoRJwCQq.js",
       "_incidentTypes-C3QOZvj7.js",
-      "_AuthenticatedLayout-B0Xcq8be.js",
-      "_sweetalert2.all-BHpPcTmW.js",
-      "_hypnotize-DUc44FLm.js"
+      "_AuthenticatedLayout-DESLO1ZT.js",
+      "_sweetalert2.all-D_n3x7Dr.js",
+      "_hypnotize-BtYE3x_E.js"
     ]
   },
-  "_TableOne-Cvxzbazn.js": {
-    "file": "assets/TableOne-Cvxzbazn.js",
+  "_TableOne-BKQuPJiJ.js": {
+    "file": "assets/TableOne-BKQuPJiJ.js",
     "name": "TableOne",
     "imports": [
       "resources/js/app.jsx",
       "_incidentTypes-C3QOZvj7.js",
       "_getIncidentType-BepFRHIc.js",
-      "_AuthenticatedLayout-B0Xcq8be.js",
-      "_hypnotize-DUc44FLm.js",
-      "_index.modern-3v9N352n.js"
+      "_AuthenticatedLayout-DESLO1ZT.js",
+      "_hypnotize-BtYE3x_E.js",
+      "_index.modern-Cl-qMuRc.js"
     ]
   },
-  "_TextInput-BW_xBBWK.js": {
-    "file": "assets/TextInput-BW_xBBWK.js",
+  "_TextInput-Cdfltb7s.js": {
+    "file": "assets/TextInput-Cdfltb7s.js",
     "name": "TextInput",
     "imports": [
       "resources/js/app.jsx"
     ]
   },
-  "_arrow-left-DlVabUPY.js": {
-    "file": "assets/arrow-left-DlVabUPY.js",
+  "_arrow-down-D1UJwZCV.js": {
+    "file": "assets/arrow-down-D1UJwZCV.js",
+    "name": "arrow-down",
+    "imports": [
+      "resources/js/app.jsx",
+      "_hypnotize-BtYE3x_E.js"
+    ]
+  },
+  "_arrow-left-BEpEHjcu.js": {
+    "file": "assets/arrow-left-BEpEHjcu.js",
     "name": "arrow-left",
     "imports": [
       "resources/js/app.jsx",
-      "_hypnotize-DUc44FLm.js"
+      "_hypnotize-BtYE3x_E.js"
     ]
   },
   "_barangays-BUexNXTH.js": {
     "file": "assets/barangays-BUexNXTH.js",
     "name": "barangays"
   },
-  "_chevron-right-qRoWtU-p.js": {
-    "file": "assets/chevron-right-qRoWtU-p.js",
+  "_chevron-right-C9FBgEzw.js": {
+    "file": "assets/chevron-right-C9FBgEzw.js",
     "name": "chevron-right",
     "imports": [
       "resources/js/app.jsx",
-      "_hypnotize-DUc44FLm.js"
+      "_hypnotize-BtYE3x_E.js"
     ]
   },
   "_cities-Dk3YxOCT.js": {
@@ -160,12 +168,12 @@
     "file": "assets/disposition-UoRJwCQq.js",
     "name": "disposition"
   },
-  "_folder-fill-BwOjuGZP.js": {
-    "file": "assets/folder-fill-BwOjuGZP.js",
+  "_folder-fill-CS0TV4iZ.js": {
+    "file": "assets/folder-fill-CS0TV4iZ.js",
     "name": "folder-fill",
     "imports": [
       "resources/js/app.jsx",
-      "_hypnotize-DUc44FLm.js"
+      "_hypnotize-BtYE3x_E.js"
     ]
   },
   "_getBarangayByBrgyCode-Bo2fPq7D.js": {
@@ -196,16 +204,16 @@
       "_provinces-CG9EXWDr.js"
     ]
   },
-  "_globe-DYWZFvNC.js": {
-    "file": "assets/globe-DYWZFvNC.js",
+  "_globe-CqR5rJy1.js": {
+    "file": "assets/globe-CqR5rJy1.js",
     "name": "globe",
     "imports": [
       "resources/js/app.jsx",
-      "_hypnotize-DUc44FLm.js"
+      "_hypnotize-BtYE3x_E.js"
     ]
   },
-  "_hypnotize-DUc44FLm.js": {
-    "file": "assets/hypnotize-DUc44FLm.js",
+  "_hypnotize-BtYE3x_E.js": {
+    "file": "assets/hypnotize-BtYE3x_E.js",
     "name": "hypnotize",
     "imports": [
       "resources/js/app.jsx"
@@ -215,12 +223,12 @@
     "file": "assets/incidentTypes-C3QOZvj7.js",
     "name": "incidentTypes"
   },
-  "_index.modern-3v9N352n.js": {
-    "file": "assets/index.modern-3v9N352n.js",
+  "_index.modern-Cl-qMuRc.js": {
+    "file": "assets/index.modern-Cl-qMuRc.js",
     "name": "index.modern",
     "imports": [
       "resources/js/app.jsx",
-      "_hypnotize-DUc44FLm.js"
+      "_hypnotize-BtYE3x_E.js"
     ]
   },
   "_provinces-CG9EXWDr.js": {
@@ -231,8 +239,8 @@
     "file": "assets/regions-CMQGmSf-.js",
     "name": "regions"
   },
-  "_sweetalert2.all-BHpPcTmW.js": {
-    "file": "assets/sweetalert2.all-BHpPcTmW.js",
+  "_sweetalert2.all-D_n3x7Dr.js": {
+    "file": "assets/sweetalert2.all-D_n3x7Dr.js",
     "name": "sweetalert2.all",
     "imports": [
       "resources/js/app.jsx"
@@ -242,12 +250,12 @@
     "file": "assets/typeof-QjJsDpFa.js",
     "name": "typeof"
   },
-  "_upload-I59YpOgf.js": {
-    "file": "assets/upload-I59YpOgf.js",
+  "_upload-fD0S26MT.js": {
+    "file": "assets/upload-fD0S26MT.js",
     "name": "upload",
     "imports": [
       "resources/js/app.jsx",
-      "_hypnotize-DUc44FLm.js"
+      "_hypnotize-BtYE3x_E.js"
     ]
   },
   "_xlsx-DjuO7_Ju.js": {
@@ -255,7 +263,7 @@
     "name": "xlsx"
   },
   "node_modules/canvg/lib/index.es.js": {
-    "file": "assets/index.es-D65b6sHZ.js",
+    "file": "assets/index.es-BY2wzbPa.js",
     "name": "index.es",
     "src": "node_modules/canvg/lib/index.es.js",
     "isDynamicEntry": true,
@@ -272,165 +280,166 @@
     "isDynamicEntry": true
   },
   "resources/js/Pages/Admin/Dashboard.tsx": {
-    "file": "assets/Dashboard-BMKKBmN4.js",
+    "file": "assets/Dashboard-B5ljNWKl.js",
     "name": "Dashboard",
     "src": "resources/js/Pages/Admin/Dashboard.tsx",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.jsx",
-      "_CardDataStats-QgoUlsMx.js",
-      "_AuthenticatedLayout-B0Xcq8be.js",
+      "_CardDataStats-DwdNWfqL.js",
+      "_AuthenticatedLayout-DESLO1ZT.js",
       "_getBarangayByBrgyCode-Bo2fPq7D.js",
       "_getCity-LFUjhBW8.js",
-      "_hypnotize-DUc44FLm.js",
-      "_upload-I59YpOgf.js",
-      "_folder-fill-BwOjuGZP.js",
-      "_chevron-right-qRoWtU-p.js",
+      "_hypnotize-BtYE3x_E.js",
+      "_upload-fD0S26MT.js",
+      "_folder-fill-CS0TV4iZ.js",
+      "_chevron-right-C9FBgEzw.js",
       "_barangays-BUexNXTH.js",
       "_cities-Dk3YxOCT.js"
     ]
   },
   "resources/js/Pages/Auth/ConfirmPassword.tsx": {
-    "file": "assets/ConfirmPassword-8ERoWwKF.js",
+    "file": "assets/ConfirmPassword-Bxc3C36i.js",
     "name": "ConfirmPassword",
     "src": "resources/js/Pages/Auth/ConfirmPassword.tsx",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.jsx",
-      "_GuestLayout-3WWCfb4g.js",
-      "_InputLabel-E3tzsmcQ.js",
-      "_PrimaryButton-lzbDQwT5.js",
-      "_TextInput-BW_xBBWK.js",
-      "_hypnotize-DUc44FLm.js",
-      "_Sweetalert-CmJYu8VD.js",
-      "_sweetalert2.all-BHpPcTmW.js",
+      "_GuestLayout-JlwOKb8d.js",
+      "_InputLabel-L7k_lM4J.js",
+      "_PrimaryButton-ByNyJ7Dc.js",
+      "_TextInput-Cdfltb7s.js",
+      "_hypnotize-BtYE3x_E.js",
+      "_Sweetalert-CrhCicX4.js",
+      "_sweetalert2.all-D_n3x7Dr.js",
       "_barangays-BUexNXTH.js",
       "_cities-Dk3YxOCT.js",
       "_provinces-CG9EXWDr.js",
       "_regions-CMQGmSf-.js",
-      "_globe-DYWZFvNC.js"
+      "_globe-CqR5rJy1.js"
     ]
   },
   "resources/js/Pages/Auth/ForgotPassword.tsx": {
-    "file": "assets/ForgotPassword-CS42-lCf.js",
+    "file": "assets/ForgotPassword-qAYGuw-P.js",
     "name": "ForgotPassword",
     "src": "resources/js/Pages/Auth/ForgotPassword.tsx",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.jsx",
-      "_GuestLayout-3WWCfb4g.js",
-      "_PrimaryButton-lzbDQwT5.js",
-      "_TextInput-BW_xBBWK.js",
-      "_hypnotize-DUc44FLm.js",
-      "_Sweetalert-CmJYu8VD.js",
-      "_sweetalert2.all-BHpPcTmW.js",
+      "_GuestLayout-JlwOKb8d.js",
+      "_PrimaryButton-ByNyJ7Dc.js",
+      "_TextInput-Cdfltb7s.js",
+      "_hypnotize-BtYE3x_E.js",
+      "_Sweetalert-CrhCicX4.js",
+      "_sweetalert2.all-D_n3x7Dr.js",
       "_barangays-BUexNXTH.js",
       "_cities-Dk3YxOCT.js",
       "_provinces-CG9EXWDr.js",
       "_regions-CMQGmSf-.js",
-      "_globe-DYWZFvNC.js"
+      "_globe-CqR5rJy1.js"
     ]
   },
   "resources/js/Pages/Auth/Register.tsx": {
-    "file": "assets/Register-BuPjKzPL.js",
+    "file": "assets/Register-BP-iRYM_.js",
     "name": "Register",
     "src": "resources/js/Pages/Auth/Register.tsx",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.jsx",
-      "_GuestLayout-3WWCfb4g.js",
-      "_InputLabel-E3tzsmcQ.js",
-      "_PrimaryButton-lzbDQwT5.js",
-      "_TextInput-BW_xBBWK.js",
-      "_hypnotize-DUc44FLm.js",
-      "_Sweetalert-CmJYu8VD.js",
-      "_sweetalert2.all-BHpPcTmW.js",
+      "_GuestLayout-JlwOKb8d.js",
+      "_InputLabel-L7k_lM4J.js",
+      "_PrimaryButton-ByNyJ7Dc.js",
+      "_TextInput-Cdfltb7s.js",
+      "_hypnotize-BtYE3x_E.js",
+      "_Sweetalert-CrhCicX4.js",
+      "_sweetalert2.all-D_n3x7Dr.js",
       "_barangays-BUexNXTH.js",
       "_cities-Dk3YxOCT.js",
       "_provinces-CG9EXWDr.js",
       "_regions-CMQGmSf-.js",
-      "_globe-DYWZFvNC.js"
+      "_globe-CqR5rJy1.js"
     ]
   },
   "resources/js/Pages/Auth/ResetPassword.tsx": {
-    "file": "assets/ResetPassword-CwP5lZ35.js",
+    "file": "assets/ResetPassword-BQu4CP4u.js",
     "name": "ResetPassword",
     "src": "resources/js/Pages/Auth/ResetPassword.tsx",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.jsx",
-      "_GuestLayout-3WWCfb4g.js",
-      "_InputLabel-E3tzsmcQ.js",
-      "_PrimaryButton-lzbDQwT5.js",
-      "_TextInput-BW_xBBWK.js",
-      "_hypnotize-DUc44FLm.js",
-      "_Sweetalert-CmJYu8VD.js",
-      "_sweetalert2.all-BHpPcTmW.js",
+      "_GuestLayout-JlwOKb8d.js",
+      "_InputLabel-L7k_lM4J.js",
+      "_PrimaryButton-ByNyJ7Dc.js",
+      "_TextInput-Cdfltb7s.js",
+      "_hypnotize-BtYE3x_E.js",
+      "_Sweetalert-CrhCicX4.js",
+      "_sweetalert2.all-D_n3x7Dr.js",
       "_barangays-BUexNXTH.js",
       "_cities-Dk3YxOCT.js",
       "_provinces-CG9EXWDr.js",
       "_regions-CMQGmSf-.js",
-      "_globe-DYWZFvNC.js"
+      "_globe-CqR5rJy1.js"
     ]
   },
   "resources/js/Pages/Auth/VerifyEmail.tsx": {
-    "file": "assets/VerifyEmail-BqW5SjYC.js",
+    "file": "assets/VerifyEmail-CSmk0px0.js",
     "name": "VerifyEmail",
     "src": "resources/js/Pages/Auth/VerifyEmail.tsx",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.jsx",
-      "_GuestLayout-3WWCfb4g.js",
-      "_PrimaryButton-lzbDQwT5.js",
-      "_hypnotize-DUc44FLm.js",
-      "_Sweetalert-CmJYu8VD.js",
-      "_sweetalert2.all-BHpPcTmW.js",
+      "_GuestLayout-JlwOKb8d.js",
+      "_PrimaryButton-ByNyJ7Dc.js",
+      "_hypnotize-BtYE3x_E.js",
+      "_Sweetalert-CrhCicX4.js",
+      "_sweetalert2.all-D_n3x7Dr.js",
       "_barangays-BUexNXTH.js",
       "_cities-Dk3YxOCT.js",
       "_provinces-CG9EXWDr.js",
       "_regions-CMQGmSf-.js",
-      "_globe-DYWZFvNC.js"
+      "_globe-CqR5rJy1.js"
     ]
   },
   "resources/js/Pages/Barangays.tsx": {
-    "file": "assets/Barangays-DzxKL2yQ.js",
+    "file": "assets/Barangays-CALUp-qq.js",
     "name": "Barangays",
     "src": "resources/js/Pages/Barangays.tsx",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.jsx",
-      "_AuthenticatedLayout-B0Xcq8be.js",
+      "_AuthenticatedLayout-DESLO1ZT.js",
       "_getProvince-Cq3fKLDB.js",
       "_getCity-LFUjhBW8.js",
       "_getBarangayByBrgyCode-Bo2fPq7D.js",
-      "_arrow-left-DlVabUPY.js",
-      "_hypnotize-DUc44FLm.js",
+      "_arrow-left-BEpEHjcu.js",
+      "_arrow-down-D1UJwZCV.js",
+      "_hypnotize-BtYE3x_E.js",
       "_provinces-CG9EXWDr.js",
       "_cities-Dk3YxOCT.js",
       "_barangays-BUexNXTH.js"
     ]
   },
   "resources/js/Pages/Blotter/Blotters.tsx": {
-    "file": "assets/Blotters-BPxxjZkm.js",
+    "file": "assets/Blotters-D7o8dmRz.js",
     "name": "Blotters",
     "src": "resources/js/Pages/Blotter/Blotters.tsx",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.jsx",
-      "_TableHead-BHjSbJTj.js",
-      "_Pagination-DyA78pox.js",
-      "_Breadcrumb-BbZx0X-X.js",
-      "_AuthenticatedLayout-B0Xcq8be.js",
+      "_TableHead-BmQH2IOQ.js",
+      "_Pagination-mIg_uj1_.js",
+      "_Breadcrumb-CzeQ00IQ.js",
+      "_AuthenticatedLayout-DESLO1ZT.js",
       "_barangays-BUexNXTH.js",
       "_disposition-UoRJwCQq.js",
       "_incidentTypes-C3QOZvj7.js",
       "_getBarangayByBrgyCode-Bo2fPq7D.js",
       "_getIncidentType-BepFRHIc.js",
-      "_sweetalert2.all-BHpPcTmW.js",
+      "_sweetalert2.all-D_n3x7Dr.js",
       "_typeof-QjJsDpFa.js",
       "_xlsx-DjuO7_Ju.js",
-      "_hypnotize-DUc44FLm.js",
-      "_chevron-right-qRoWtU-p.js"
+      "_hypnotize-BtYE3x_E.js",
+      "_chevron-right-C9FBgEzw.js"
     ],
     "dynamicImports": [
       "node_modules/dompurify/dist/purify.es.js",
@@ -438,73 +447,73 @@
     ]
   },
   "resources/js/Pages/Blotter/Daily.tsx": {
-    "file": "assets/Daily-wm010xfs.js",
+    "file": "assets/Daily-BzGm07SQ.js",
     "name": "Daily",
     "src": "resources/js/Pages/Blotter/Daily.tsx",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.jsx",
-      "_Breadcrumb-BbZx0X-X.js",
-      "_AuthenticatedLayout-B0Xcq8be.js",
-      "_TableHead-BHjSbJTj.js",
-      "_hypnotize-DUc44FLm.js",
+      "_Breadcrumb-CzeQ00IQ.js",
+      "_AuthenticatedLayout-DESLO1ZT.js",
+      "_TableHead-BmQH2IOQ.js",
+      "_hypnotize-BtYE3x_E.js",
       "_disposition-UoRJwCQq.js",
       "_incidentTypes-C3QOZvj7.js",
-      "_sweetalert2.all-BHpPcTmW.js"
+      "_sweetalert2.all-D_n3x7Dr.js"
     ]
   },
   "resources/js/Pages/Blotter/Edit.tsx": {
-    "file": "assets/Edit-e19fLQc7.js",
+    "file": "assets/Edit-C7zUBX8y.js",
     "name": "Edit",
     "src": "resources/js/Pages/Blotter/Edit.tsx",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.jsx",
-      "_PersonInvolveData-CLlCuYV8.js",
-      "_Breadcrumb-BbZx0X-X.js",
-      "_AuthenticatedLayout-B0Xcq8be.js",
-      "_Sweetalert-CmJYu8VD.js",
-      "_arrow-left-DlVabUPY.js",
-      "_hypnotize-DUc44FLm.js",
+      "_PersonInvolveData-XjynlONv.js",
+      "_Breadcrumb-CzeQ00IQ.js",
+      "_AuthenticatedLayout-DESLO1ZT.js",
+      "_Sweetalert-CrhCicX4.js",
+      "_arrow-left-BEpEHjcu.js",
+      "_hypnotize-BtYE3x_E.js",
       "_incidentTypes-C3QOZvj7.js",
       "_defineProperty-DJACW-dl.js",
       "_typeof-QjJsDpFa.js",
-      "_sweetalert2.all-BHpPcTmW.js",
+      "_sweetalert2.all-D_n3x7Dr.js",
       "_disposition-UoRJwCQq.js",
       "_barangays-BUexNXTH.js",
       "_cities-Dk3YxOCT.js",
       "_provinces-CG9EXWDr.js",
       "_regions-CMQGmSf-.js",
-      "_globe-DYWZFvNC.js"
+      "_globe-CqR5rJy1.js"
     ]
   },
   "resources/js/Pages/Blotter/Monthly.tsx": {
-    "file": "assets/Monthly-Cm4NIle8.js",
+    "file": "assets/Monthly-B9ocTJA6.js",
     "name": "Monthly",
     "src": "resources/js/Pages/Blotter/Monthly.tsx",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.jsx",
-      "_Breadcrumb-BbZx0X-X.js",
-      "_AuthenticatedLayout-B0Xcq8be.js",
-      "_folder-fill-BwOjuGZP.js",
-      "_hypnotize-DUc44FLm.js"
+      "_Breadcrumb-CzeQ00IQ.js",
+      "_AuthenticatedLayout-DESLO1ZT.js",
+      "_folder-fill-CS0TV4iZ.js",
+      "_hypnotize-BtYE3x_E.js"
     ]
   },
   "resources/js/Pages/Blotter/New.tsx": {
-    "file": "assets/New-C_-4alLJ.js",
+    "file": "assets/New-DMdOqKQO.js",
     "name": "New",
     "src": "resources/js/Pages/Blotter/New.tsx",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.jsx",
-      "_sweetalert2.all-BHpPcTmW.js",
-      "_PersonInvolveData-CLlCuYV8.js",
-      "_Breadcrumb-BbZx0X-X.js",
-      "_AuthenticatedLayout-B0Xcq8be.js",
-      "_Sweetalert-CmJYu8VD.js",
-      "_arrow-left-DlVabUPY.js",
-      "_hypnotize-DUc44FLm.js",
+      "_sweetalert2.all-D_n3x7Dr.js",
+      "_PersonInvolveData-XjynlONv.js",
+      "_Breadcrumb-CzeQ00IQ.js",
+      "_AuthenticatedLayout-DESLO1ZT.js",
+      "_Sweetalert-CrhCicX4.js",
+      "_arrow-left-BEpEHjcu.js",
+      "_hypnotize-BtYE3x_E.js",
       "_incidentTypes-C3QOZvj7.js",
       "_defineProperty-DJACW-dl.js",
       "_typeof-QjJsDpFa.js",
@@ -513,128 +522,128 @@
       "_cities-Dk3YxOCT.js",
       "_provinces-CG9EXWDr.js",
       "_regions-CMQGmSf-.js",
-      "_globe-DYWZFvNC.js"
+      "_globe-CqR5rJy1.js"
     ]
   },
   "resources/js/Pages/Cities.tsx": {
-    "file": "assets/Cities-Cy-zhuDG.js",
+    "file": "assets/Cities-CAf0Mi3O.js",
     "name": "Cities",
     "src": "resources/js/Pages/Cities.tsx",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.jsx",
-      "_AuthenticatedLayout-B0Xcq8be.js",
+      "_AuthenticatedLayout-DESLO1ZT.js",
       "_getCity-LFUjhBW8.js",
       "_getProvince-Cq3fKLDB.js",
-      "_arrow-left-DlVabUPY.js",
-      "_hypnotize-DUc44FLm.js",
+      "_arrow-left-BEpEHjcu.js",
+      "_hypnotize-BtYE3x_E.js",
       "_cities-Dk3YxOCT.js",
       "_provinces-CG9EXWDr.js"
     ]
   },
   "resources/js/Pages/Dashboard.tsx": {
-    "file": "assets/Dashboard-BvLwo-ga.js",
+    "file": "assets/Dashboard-DJeBD8z1.js",
     "name": "Dashboard",
     "src": "resources/js/Pages/Dashboard.tsx",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.jsx",
-      "_CardDataStats-QgoUlsMx.js",
-      "_TableOne-Cvxzbazn.js",
-      "_ChartTop10PrevalentCrimes-CvYa8ERA.js",
-      "_AuthenticatedLayout-B0Xcq8be.js",
-      "_upload-I59YpOgf.js",
+      "_CardDataStats-DwdNWfqL.js",
+      "_TableOne-BKQuPJiJ.js",
+      "_ChartTop10PrevalentCrimes-C4RCgwGG.js",
+      "_AuthenticatedLayout-DESLO1ZT.js",
+      "_upload-fD0S26MT.js",
       "_incidentTypes-C3QOZvj7.js",
       "_getIncidentType-BepFRHIc.js",
-      "_hypnotize-DUc44FLm.js",
-      "_index.modern-3v9N352n.js",
+      "_hypnotize-BtYE3x_E.js",
+      "_index.modern-Cl-qMuRc.js",
       "_xlsx-DjuO7_Ju.js"
     ]
   },
   "resources/js/Pages/Hearing.tsx": {
-    "file": "assets/Hearing-C-gANjSW.js",
+    "file": "assets/Hearing-B4EaJ_0V.js",
     "name": "Hearing",
     "src": "resources/js/Pages/Hearing.tsx",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.jsx",
-      "_TableHead-BHjSbJTj.js",
-      "_Pagination-DyA78pox.js",
-      "_Breadcrumb-BbZx0X-X.js",
-      "_AuthenticatedLayout-B0Xcq8be.js",
-      "_Sweetalert-CmJYu8VD.js",
-      "_hypnotize-DUc44FLm.js",
+      "_TableHead-BmQH2IOQ.js",
+      "_Pagination-mIg_uj1_.js",
+      "_Breadcrumb-CzeQ00IQ.js",
+      "_AuthenticatedLayout-DESLO1ZT.js",
+      "_Sweetalert-CrhCicX4.js",
+      "_hypnotize-BtYE3x_E.js",
       "_disposition-UoRJwCQq.js",
       "_incidentTypes-C3QOZvj7.js",
-      "_sweetalert2.all-BHpPcTmW.js",
-      "_chevron-right-qRoWtU-p.js"
+      "_sweetalert2.all-D_n3x7Dr.js",
+      "_chevron-right-C9FBgEzw.js"
     ]
   },
   "resources/js/Pages/Map/Index.tsx": {
-    "file": "assets/Index-CjnjHCty.js",
+    "file": "assets/Index-CPYEEKY6.js",
     "name": "Index",
     "src": "resources/js/Pages/Map/Index.tsx",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.jsx",
-      "_Breadcrumb-BbZx0X-X.js",
-      "_AuthenticatedLayout-B0Xcq8be.js",
-      "_index.modern-3v9N352n.js",
-      "_hypnotize-DUc44FLm.js"
+      "_Breadcrumb-CzeQ00IQ.js",
+      "_AuthenticatedLayout-DESLO1ZT.js",
+      "_index.modern-Cl-qMuRc.js",
+      "_hypnotize-BtYE3x_E.js"
     ]
   },
   "resources/js/Pages/Municipal/Dashboard.tsx": {
-    "file": "assets/Dashboard-VL3LTvAy.js",
+    "file": "assets/Dashboard-rMZkO3ee.js",
     "name": "Dashboard",
     "src": "resources/js/Pages/Municipal/Dashboard.tsx",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.jsx",
-      "_CardDataStats-QgoUlsMx.js",
-      "_TableOne-Cvxzbazn.js",
-      "_ChartTop10PrevalentCrimes-CvYa8ERA.js",
-      "_AuthenticatedLayout-B0Xcq8be.js",
+      "_CardDataStats-DwdNWfqL.js",
+      "_TableOne-BKQuPJiJ.js",
+      "_ChartTop10PrevalentCrimes-C4RCgwGG.js",
+      "_AuthenticatedLayout-DESLO1ZT.js",
       "_getBarangayByBrgyCode-Bo2fPq7D.js",
-      "_hypnotize-DUc44FLm.js",
-      "_chevron-right-qRoWtU-p.js",
+      "_hypnotize-BtYE3x_E.js",
+      "_chevron-right-C9FBgEzw.js",
       "_incidentTypes-C3QOZvj7.js",
       "_getIncidentType-BepFRHIc.js",
-      "_index.modern-3v9N352n.js",
+      "_index.modern-Cl-qMuRc.js",
       "_xlsx-DjuO7_Ju.js",
       "_barangays-BUexNXTH.js"
     ]
   },
   "resources/js/Pages/Officials/Index.tsx": {
-    "file": "assets/Index-CJ5oTOuL.js",
+    "file": "assets/Index-DIDUxtrW.js",
     "name": "Index",
     "src": "resources/js/Pages/Officials/Index.tsx",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.jsx",
-      "_Breadcrumb-BbZx0X-X.js",
-      "_AuthenticatedLayout-B0Xcq8be.js",
-      "_hypnotize-DUc44FLm.js"
+      "_Breadcrumb-CzeQ00IQ.js",
+      "_AuthenticatedLayout-DESLO1ZT.js",
+      "_hypnotize-BtYE3x_E.js"
     ]
   },
   "resources/js/Pages/Profile/Edit.tsx": {
-    "file": "assets/Edit-BtRFpEJF.js",
+    "file": "assets/Edit-CByXQGWR.js",
     "name": "Edit",
     "src": "resources/js/Pages/Profile/Edit.tsx",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.jsx",
-      "_AuthenticatedLayout-B0Xcq8be.js",
-      "_Breadcrumb-BbZx0X-X.js",
+      "_AuthenticatedLayout-DESLO1ZT.js",
+      "_Breadcrumb-CzeQ00IQ.js",
       "_cities-Dk3YxOCT.js",
       "_provinces-CG9EXWDr.js",
       "_regions-CMQGmSf-.js",
-      "_sweetalert2.all-BHpPcTmW.js",
-      "_hypnotize-DUc44FLm.js",
+      "_sweetalert2.all-D_n3x7Dr.js",
+      "_hypnotize-BtYE3x_E.js",
       "_barangays-BUexNXTH.js"
     ]
   },
   "resources/js/Pages/Province/Dashboard.tsx": {
-    "file": "assets/Dashboard-CZV3e8Nc.js",
+    "file": "assets/Dashboard-D4rTaPRm.js",
     "name": "Dashboard",
     "src": "resources/js/Pages/Province/Dashboard.tsx",
     "isDynamicEntry": true,
@@ -643,7 +652,7 @@
     ]
   },
   "resources/js/Pages/Region/Dashboard.tsx": {
-    "file": "assets/Dashboard-DD5OThF5.js",
+    "file": "assets/Dashboard-D2TqahEy.js",
     "name": "Dashboard",
     "src": "resources/js/Pages/Region/Dashboard.tsx",
     "isDynamicEntry": true,
@@ -652,53 +661,54 @@
     ]
   },
   "resources/js/Pages/Settings/Index.tsx": {
-    "file": "assets/Index-BZQ3aKfg.js",
+    "file": "assets/Index-CGNn9nkU.js",
     "name": "Index",
     "src": "resources/js/Pages/Settings/Index.tsx",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.jsx",
-      "_Breadcrumb-BbZx0X-X.js",
-      "_AuthenticatedLayout-B0Xcq8be.js",
-      "_hypnotize-DUc44FLm.js"
+      "_Breadcrumb-CzeQ00IQ.js",
+      "_AuthenticatedLayout-DESLO1ZT.js",
+      "_hypnotize-BtYE3x_E.js"
     ]
   },
   "resources/js/Pages/StationDashboard.tsx": {
-    "file": "assets/StationDashboard-DpylQ7ch.js",
+    "file": "assets/StationDashboard-CfIgEAT7.js",
     "name": "StationDashboard",
     "src": "resources/js/Pages/StationDashboard.tsx",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.jsx",
-      "_CardDataStats-QgoUlsMx.js",
-      "_TableOne-Cvxzbazn.js",
-      "_AuthenticatedLayout-B0Xcq8be.js",
-      "_hypnotize-DUc44FLm.js",
+      "_CardDataStats-DwdNWfqL.js",
+      "_TableOne-BKQuPJiJ.js",
+      "_AuthenticatedLayout-DESLO1ZT.js",
+      "_hypnotize-BtYE3x_E.js",
       "_incidentTypes-C3QOZvj7.js",
       "_getIncidentType-BepFRHIc.js",
-      "_index.modern-3v9N352n.js"
+      "_index.modern-Cl-qMuRc.js"
     ]
   },
   "resources/js/Pages/Welcome.tsx": {
-    "file": "assets/Welcome-BmwkH_lB.js",
+    "file": "assets/Welcome-BQ5rSFR-.js",
     "name": "Welcome",
     "src": "resources/js/Pages/Welcome.tsx",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.jsx",
-      "_hypnotize-DUc44FLm.js",
-      "_GuestLayout-3WWCfb4g.js",
-      "_Sweetalert-CmJYu8VD.js",
-      "_sweetalert2.all-BHpPcTmW.js",
+      "_hypnotize-BtYE3x_E.js",
+      "_arrow-down-D1UJwZCV.js",
+      "_GuestLayout-JlwOKb8d.js",
+      "_Sweetalert-CrhCicX4.js",
+      "_sweetalert2.all-D_n3x7Dr.js",
       "_barangays-BUexNXTH.js",
       "_cities-Dk3YxOCT.js",
       "_provinces-CG9EXWDr.js",
       "_regions-CMQGmSf-.js",
-      "_globe-DYWZFvNC.js"
+      "_globe-CqR5rJy1.js"
     ]
   },
   "resources/js/app.jsx": {
-    "file": "assets/app-TB1I_PnD.js",
+    "file": "assets/app-BCSAzGIr.js",
     "name": "app",
     "src": "resources/js/app.jsx",
     "isEntry": true,
@@ -729,7 +739,7 @@
       "resources/js/Pages/Welcome.tsx"
     ],
     "css": [
-      "assets/app-dThxkvtO.css"
+      "assets/app-BbVWCicF.css"
     ]
   }
 }

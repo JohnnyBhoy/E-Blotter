@@ -1,21 +1,28 @@
+import { challenges } from '@/utils/data/challenges'
 import React from 'react'
+import { CheckSquareFill } from 'react-bootstrap-icons'
 
 const Challenges = () => {
+
     return (
         <div className="items-center max-w-screen-xl px-4 py-8 mx-auto lg:grid lg:grid-cols-4 lg:gap-16 xl:gap-24 lg:py-24 lg:px-6">
             <div className="col-span-2 mb-8">
                 <p className="text-lg font-medium text-purple-600 dark:text-purple-500">
                     Challenges in Barangays
-
                 </p>
                 <h2 className="mt-3 mb-4 text-3xl font-extrabold tracking-tight text-gray-900 md:text-3xl dark:text-white">
                     Regarding Crime Incidents and Peace and Order
                 </h2>
-                <p className="font-light text-gray-500 sm:text-xl dark:text-gray-400">
-                    Resource Limitations, Inadequate Training, Poor Communication, Inconsistent Documentation,Socioeconomic Factors, Escalation of Minor Incidents, Lack of Community Trust,
-                    Insufficient Technology,  Fragmented Coordination Efforts, Legal and Procedural Barriers,
-                    Limited Preventive Measures, Community Engagement Challenges.
-                </p>
+                <ul className="font-light text-gray-500 sm:text-xl dark:text-gray-400">
+                    {challenges.map((item: string, i: number) => (
+                        <li key={i}>
+                            <p className="font-light text-gray-500 dark:text-gray-400 text-base flex hover:font-bold cursor-pointer">
+                                <CheckSquareFill className='text-green-500 mr-3' size={20} />
+                                {item}
+                            </p>
+                        </li>
+                    ))}
+                </ul>
                 <div className="pt-6 mt-6 space-y-4 border-t border-gray-200 dark:border-gray-700">
                     <div>
                         <a

@@ -8,10 +8,7 @@ const Intervention = () => {
                     5. Trust and Confidence Building
                 </h2>
                 <p className="mb-8 font-light lg:text-xl">
-                    Harmonizing barangay crime records with the PNP promotes transparency and accountability within the criminal
-                    justice system. When community members witness effective collaboration between barangay officials and law enforcement
-                    agencies, it builds trust and confidence in the ability of authorities to address crime and maintain public safety. This trust is
-                    crucial for fostering a cooperative relationship between the community and law enforcement
+                    The system builds trust and confidence in incident management by promoting effective collaboration between barangay officials, law enforcement, disaster response agencies, and the community. Using web and mobile platforms, transparency and accountability are enhanced. When community members witness this collaboration;
                 </p>
                 {/** List **/}
                 <ul className="pt-8 space-y-5 border-t border-gray-200 my-7 dark:border-gray-700"  >
@@ -30,7 +27,7 @@ const Intervention = () => {
                             ></path>
                         </svg>
                         <span className="text-base font-medium leading-tight text-gray-900 dark:text-white">
-                            Challenges of Barangay Crime Incidents
+                            It strengthens their trust in the ability of authorities to address incidents and maintain public safety.
                         </span>
                     </li>
                     <li className="flex space-x-3">
@@ -48,7 +45,7 @@ const Intervention = () => {
                             ></path>
                         </svg>
                         <span className="text-base font-medium leading-tight text-gray-900 dark:text-white">
-                            Alignment to PNP e-Projects
+                            Fostering a cooperative relationship between the community and government agencies.
                         </span>
                     </li>
                     <li className="flex space-x-3">
@@ -71,8 +68,8 @@ const Intervention = () => {
                     </li>
                 </ul>
                 <p className="mb-8 font-light lg:text-xl">
-                    Your submitted blotter entries and report will
-                    help PNP for the crime prevention and data consistency.
+                    Your submitted blotter entries and reports contribute to building
+                    trust and ensuring data consistency in incident management.
                 </p>
             </div>
             <img
