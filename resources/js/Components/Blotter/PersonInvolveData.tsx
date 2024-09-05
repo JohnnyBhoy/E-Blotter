@@ -104,8 +104,6 @@ const PersonInvolveData = ({ data, setData, person }: { data: any; setData: Call
     }
 
     const handleSameHomeAddress = (i: number) => {
-        // debugger;
-
         const workStreet = person === 'Complainant'
             ? {
                 ...data.complainant_data[i],

@@ -101,70 +101,68 @@ const TableBody = ({ blotters, setData }: { blotters: any; setData: CallableFunc
     }
 
     return (
-        <>
-            <tbody>
-                {blotters?.map((blotter: BlotterProps, i: number) => (
-                    <tr key={i} className={`hover:bg-slate-100 cursor-pointer z-20 ${(i % 2) == 1 ? 'bg-white' : 'bg-slate-100'} dark:bg-meta-4`}>
-                        <td className="border border-slate-300 dark:border-white py-2 px-2 pl-9 dark:border-strokedark xl:pl-11">
-                            <h5 className="font-medium text-black dark:text-white text-xs">
-                                {blotter?.entry_number}
-                            </h5>
-                        </td>
-                        <td className="border border-slate-300 dark:border-white py-2 px-2 dark:border-strokedark ">
-                            <p className="text-black dark:text-white text-xs">
-                                {blotter?.complainant_family_name},  {blotter?.complainant_first_name}  {blotter?.complainant_middle_name?.charAt(0)}.
-                            </p>
-                        </td>
+        <tbody>
+            {blotters?.map((blotter: BlotterProps, i: number) => (
+                <tr key={i} className={`hover:bg-slate-100 cursor-pointer z-20 ${(i % 2) == 1 ? 'bg-white' : 'bg-slate-100'} dark:bg-meta-4`}>
+                    <td className="border border-slate-300 dark:border-white py-2 px-2 pl-9 dark:border-strokedark xl:pl-11">
+                        <h5 className="font-medium text-black dark:text-white text-xs">
+                            {blotter?.entry_number}
+                        </h5>
+                    </td>
+                    <td className="border border-slate-300 dark:border-white py-2 px-2 dark:border-strokedark ">
+                        <p className="text-black dark:text-white text-xs">
+                            {blotter?.complainant_family_name},  {blotter?.complainant_first_name}  {blotter?.complainant_middle_name?.charAt(0)}.
+                        </p>
+                    </td>
 
-                        <td className="border border-slate-300 dark:border-white py-2 px-2 dark:border-strokedark">
-                            <p className="text-black dark:text-white text-xs">
-                                {blotter?.respondent_family_name},  {blotter?.respondent_first_name}  {blotter?.complainant_middle_name?.charAt(0)}.
-                            </p>
-                        </td>
+                    <td className="border border-slate-300 dark:border-white py-2 px-2 dark:border-strokedark">
+                        <p className="text-black dark:text-white text-xs">
+                            {blotter?.respondent_family_name},  {blotter?.respondent_first_name}  {blotter?.complainant_middle_name?.charAt(0)}.
+                        </p>
+                    </td>
 
-                        <td className="border border-slate-300 dark:border-white py-2 px-2 dark:border-strokedark">
-                            <p className="text-black dark:text-white  grid place-items-start  text-xs" >
-                                {getIncidentType(blotter?.incident_type)?.split(" - ")[1]?.substring(0, 50)}
-                            </p>
-                        </td>
+                    <td className="border border-slate-300 dark:border-white py-2 px-2 dark:border-strokedark">
+                        <p className="text-black dark:text-white  grid place-items-start  text-xs" >
+                            {getIncidentType(blotter?.incident_type)?.split(" - ")[1]?.substring(0, 50)}
+                        </p>
+                    </td>
 
-                        <td className="border border-slate-300 dark:border-white py-2 px-2 dark:border-strokedark">
-                            <p className="text-black dark:text-white text-xs  grid place-items-center ">
-                                {dateToString(blotter?.created_at)}
-                            </p>
-                        </td>
+                    <td className="border border-slate-300 dark:border-white py-2 px-2 dark:border-strokedark">
+                        <p className="text-black dark:text-white text-xs  grid place-items-center ">
+                            {dateToString(blotter?.created_at)}
+                        </p>
+                    </td>
 
-                        <td className="border border-slate-300 dark:border-white py-2 px-2 dark:border-strokedark">
-                            <p
-                                className={`inline-flex rounded-full grid place-items-center bg-opacity-10 py-1 px-1 text-xs font-medium ${blotter?.remarks === '1'
-                                    ? 'bg-success text-success'
-                                    : blotter?.remarks === '2'
-                                        ? 'bg-danger text-danger'
-                                        : 'bg-warning text-warning'
-                                    }`}
-                            >
-                                {formatCaseDisposition(blotter?.remarks)}
-                            </p>
-                        </td>
-                        <td className="border border-slate-300 dark:border-white py-2 px-2 dark:border-strokedark">
-                            <div className="flex justify-center space-x-3.5">
-                                <button
-                                    onClick={() => handleEdit(blotter.id)}
-                                    className="bg-primary text-white rounded p-2 flex justify-center text-xs py-1 gap-1">
-                                    <PencilSquare size={16} />
-                                </button>
+                    <td className="border border-slate-300 dark:border-white py-2 px-2 dark:border-strokedark">
+                        <p
+                            className={`inline-flex rounded-full grid place-items-center bg-opacity-10 py-1 px-1 text-xs font-medium ${blotter?.remarks === '1'
+                                ? 'bg-success text-success'
+                                : blotter?.remarks === '2'
+                                    ? 'bg-danger text-danger'
+                                    : 'bg-warning text-warning'
+                                }`}
+                        >
+                            {formatCaseDisposition(blotter?.remarks)}
+                        </p>
+                    </td>
+                    <td className="border border-slate-300 dark:border-white py-2 px-2 dark:border-strokedark">
+                        <div className="flex justify-center space-x-3.5">
+                            <button
+                                onClick={() => handleEdit(blotter.id)}
+                                className="bg-primary text-white rounded p-2 flex justify-center text-xs py-1 gap-1">
+                                <PencilSquare size={16} />
+                            </button>
 
-                                <button
-                                    onClick={(e) => handleConfirmDelete(e, blotter.id)}
-                                    className="bg-danger text-white rounded p-2 flex justify-center text-xs py-1 gap-1">
-                                    <Trash size={16} />
-                                </button>
-                            </div>
-                        </td>
-                    </tr>
-                ))}
-            </tbody>
-        </>
+                            <button
+                                onClick={(e) => handleConfirmDelete(e, blotter.id)}
+                                className="bg-danger text-white rounded p-2 flex justify-center text-xs py-1 gap-1">
+                                <Trash size={16} />
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            ))}
+        </tbody>
     )
 }
 

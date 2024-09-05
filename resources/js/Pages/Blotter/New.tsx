@@ -190,7 +190,6 @@ export default function New({ auth, latestID }: PageProps<{ latestID: number }>)
 
                 <div className="flex flex-col lg:gap-0 gap-4">
 
-
                     {/** */}
 
                     {/* <!- BRF FORM --> */}

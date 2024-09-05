@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\BlotterController;
+use App\Http\Controllers\IncidentController;
 use App\Http\Controllers\MunicipalController;
 use App\Http\Controllers\ProvinceController;
 use App\Http\Controllers\RegionController;
@@ -43,6 +44,10 @@ Route::get('/', function () {
 
     return  $route;
 })->name('home');
+
+// Walk-in Incident Report
+Route::post('/online-incident-report', [IncidentController::class, 'createIncidentReport'])
+    ->name('incident.report');
 
 /**
  * Route for Barangay User

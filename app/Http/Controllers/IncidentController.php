@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Incident;
 use App\Services\IncidentService;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -32,6 +34,24 @@ class IncidentController extends Controller
             ]);
         } catch (\Throwable $th) {
             return $th;
+        }
+    }
+
+    /**
+     * Create Incident Report
+     * @param \Illuminate\Http\Request $request The HTTP request
+     * @return RedirectResponse
+     */
+    public function createIncidentReport(Request $request)
+    {
+        $data = $request->get('data');
+
+        try {
+            Incident::create($data);
+
+            return to_route('home');
+        } catch (\Throwable $th) {
+            throw $th;
         }
     }
 }
