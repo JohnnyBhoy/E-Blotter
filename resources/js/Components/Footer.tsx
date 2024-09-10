@@ -153,7 +153,7 @@ const Footer = () => {
                         © 2023-2024 E-Blotter™. All Rights Reserved. Developed
                         by {" "}
                         <b>JOHNNY P. ANTIOJO JR</b>   <br />
-                        under the supervision of <b>PLTCOL ROBERT R MANSUETO</b>.
+                        Project managed by <b>PLTCOL ROBERT R MANSUETO</b>.
                         .
                     </span>
                     <ul className="flex justify-center mt-5 space-x-5">

@@ -119,6 +119,7 @@ export default function New({ auth, latestID }: PageProps<{ latestID: number }>)
         }],
 
         narrative: "(Detail the narrative of the incident or event, answering the WHO, WHAT, WHERE, WHY and HOW of reporting either in English or common dialect)",
+        uploaded_file: "",
         remarks: "",
         complainant_signature: "",
         recorded_by: "",
@@ -129,7 +130,7 @@ export default function New({ auth, latestID }: PageProps<{ latestID: number }>)
     // Move to respondent handler
     const handleNext = () => {
 
-        // Check for the unanswered require input
+        {/* Check for the unanswered require input
         if (data.entry_number == 0 || data.entry_number == latestID - 1)
             return SweetAlert(`Entry number  is required!`, 'Unable to proceed, please answer entry number.', 'error', 2500);
 
@@ -152,7 +153,7 @@ export default function New({ auth, latestID }: PageProps<{ latestID: number }>)
             return SweetAlert(`Complainant address is required!`, 'Unable to proceed, please provide Complainant address.', 'error', 2500);
 
         if (data.narrative == "")
-            return SweetAlert(`Narrative report is required!`, 'Unable to proceed, please provide narrative report .', 'error', 2500);
+            return SweetAlert(`Narrative report is required!`, 'Unable to proceed, please provide narrative report .', 'error', 2500); */}
 
         return person != 'Complainant' ? setPerson('Complainant') : setPerson('Suspect/s');
     }

@@ -49,6 +49,14 @@ Route::get('/', function () {
 Route::post('/online-incident-report', [IncidentController::class, 'createIncidentReport'])
     ->name('incident.report');
 
+// Contact us
+Route::get('/contact-us', function () {
+    return Inertia::render('ContactUs');
+})->name('contact.us');
+
+Route::post('/contact-us', [UserController::class, 'sendMessageFromContactUs'])
+    ->name('sendMessageFromContactUs');
+
 /**
  * Route for Barangay User
  */

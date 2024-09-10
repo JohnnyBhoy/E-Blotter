@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Blotter;
+use App\Models\ContactUs;
 use App\Models\User;
 use App\Services\BlotterService;
 use App\Services\IncidentService;
@@ -11,6 +12,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
+use Inertia\Response;
 
 class UserController extends Controller
 {
@@ -78,7 +80,8 @@ class UserController extends Controller
                 $settled,
                 $pending,
                 $referred,
-            ], 'lastYearBlotter' => $recordsLastYear,
+            ],
+            'lastYearBlotter' => $recordsLastYear,
             'thisYearBlotter' => $recordsThisYear,
             'thisWeekBlotter' => $recordsThisWeek,
             'blotterPerYear' => $blotterPerYear,
@@ -163,6 +166,25 @@ class UserController extends Controller
                 'status' => 'failed',
                 'data' => $user,
             ]);
+        }
+    }
+
+    /** 
+     * Method to send message from contact us
+     * @param \Illuminate\Http\Request $request The HTTP request
+     *
+     * @return Response
+     */
+    public function sendMessageFromContactUs(Request $request)
+    {
+        $data = $request->get('data');
+
+        try {
+            ContactUs::create($data);
+
+            return Inertia::render('/contact-us');
+        } catch (\Throwable $th) {
+            throw $th;
         }
     }
 }
