@@ -1,6 +1,6 @@
 
 import { useLoginRegisterStore } from "@/utils/store/loginRegisterStore";
-import React, { LegacyRef, MutableRefObject, RefObject, useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { PageProps } from "./types";
 
 import Footer from "@/Components/Footer";

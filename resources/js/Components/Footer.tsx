@@ -152,7 +152,8 @@ const Footer = () => {
                     <span className="block text-sm text-center text-gray-500 dark:text-gray-400">
                         © 2023-2024 E-Blotter™. All Rights Reserved. Developed
                         by {" "}
-                        Johnny P. Antiojo Jr.
+                        <b>JOHNNY P. ANTIOJO JR</b>   <br />
+                        under the supervision of <b>PLTCOL ROBERT R MANSUETO</b>.
                         .
                     </span>
                     <ul className="flex justify-center mt-5 space-x-5">

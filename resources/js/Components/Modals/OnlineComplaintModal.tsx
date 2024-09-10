@@ -80,7 +80,6 @@ const OnlineComplaintModal = () => {
             || onlineComplaintData.barangay == ""
             || onlineComplaintData.city == ""
             || onlineComplaintData.province == ""
-            || onlineComplaintData.landmark_location == ""
         )
         ) {
             return Swal.fire({
@@ -112,7 +111,6 @@ const OnlineComplaintModal = () => {
             || onlineComplaintData.reporter_barangay == ""
             || onlineComplaintData.reporter_city == ""
             || onlineComplaintData.reporter_province == ""
-            || onlineComplaintData.reporter_zip_code == 0
         )
         ) {
             return Swal.fire({
@@ -390,8 +388,8 @@ const OnlineComplaintModal = () => {
                                         <h6 className='text-slate-500 lg:w-[25%]'>
                                             {item[0].replace("_", " ").replace(item[0].charAt(0), item[0].toUpperCase().charAt(0))}
                                         </h6>
-                                        <h6 className='font-bold lg:w-[75%] text-slate-700'>
-                                            : &nbsp;&nbsp;{item[1]}
+                                        <h6 className='font-bold lg:w-[75%] text-slate-700 flex'>
+                                            <span className='hidden lg:flex'>: &nbsp;&nbsp;</span>{item[1]}
                                         </h6>
                                     </div>
                                 ))}
@@ -402,8 +400,6 @@ const OnlineComplaintModal = () => {
                 return null;
         }
     };
-
-    console.log('data : ', onlineComplaintData);
 
     return (
         <div className="w-full max-w-7xl lg:p-6 bg-white shadow-md rounded-lg mx-auto mt-16 lg:mt-0">
@@ -437,12 +433,12 @@ const OnlineComplaintModal = () => {
 
 
                 {/* Step Content */}
-                <div className="transition-opacity duration-500 ease-in-out mt-3 h-[28rem]">
+                <div className="transition-opacity duration-500 ease-in-out lg:mt-3 lg:h-[28rem] h-auto lg:p-0 px-3">
                     {renderStepContent()}
                 </div>
 
                 {/* Navigation Buttons */}
-                <div className="flex justify-between mt-6 px-3 gap-6">
+                <div className="flex justify-between mt-6 px-3 gap-6 pb-4">
                     <button
                         onClick={handlePrev}
                         className={`border border-slate-300 px-4 py-2 rounded-lg  flex place-items-center gap-2 ${currentStep === 1 ? 'opacity-50 cursor-not-allowed' : ''}`}
