@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Blotter;
 use App\Models\User;
 use App\Models\UserAddress;
 use App\Services\BlotterService;
@@ -47,10 +48,33 @@ class BlotterController extends Controller
     public function create(Request $request)
     {
         $userId = auth()->user()->id;
+        $imageName = "";
 
         try {
             $this->blotterService->create($request);
 
+            // Checker if the uploaded blotter entry has a incident picture
+            if ($request->hasFile('uploaded_file')) {
+                $image = $request->file('uploaded_file');
+
+                // Get the MIME type of the uploaded file
+                $mime = $image->getMimeType();
+
+                if ($mime === 'image/jpeg' || $mime === 'image/png' || $mime === 'image/jpg') {
+                    // Process the image since it's either JPEG or PNG
+                    $imageName = time() . '.' . $image->getClientOriginalExtension();
+
+                    // Move the headshot to manufacturer image folder
+                    $image->move(public_path('images/incidents'), $imageName);
+                }
+
+                // Update blotter incident image
+                Blotter::where('user_id', $userId)
+                    ->where('entry_number', $request->get('entry_number'))
+                    ->update(['uploaded_file' => $imageName]);
+            }
+
+            // Get all the blotter of the giver barangay id
             $blotters = $this->blotterService->getAll(10, 1, "", $userId, 0, 0);
 
             return Inertia::render($this->blottersUrl, [

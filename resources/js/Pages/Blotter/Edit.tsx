@@ -31,13 +31,13 @@ type Data = {
     barangay: string,
     date_reported: string,
     time_of_report: string,
+    date_of_incident: string,
+    time_of_incident: string,
     incident_type: 0,
-
     complainant_data: Object[],
-
     respondent_data: Object[],
-
     narrative: string,
+    uploaded_file: string,
     remarks: string,
     complainant_signature: string,
     recorded_by: string,
@@ -57,6 +57,8 @@ export default function Edit({ auth, blotter }: PageProps<{ blotter: any }>) {
         date_reported: blotter.date_reported?.substring(0, 10),
         time_of_report: blotter.time_of_report,
         incident_type: blotter.incident_type,
+        date_of_incident: blotter.date_of_incident,
+        time_of_incident: blotter.time_of_incident,
 
         complainant_data: [{
             complainant_family_name: blotter.complainant_family_name ?? "",
@@ -111,13 +113,14 @@ export default function Edit({ auth, blotter }: PageProps<{ blotter: any }>) {
         }],
 
         narrative: blotter.narrative ?? "",
+        uploaded_file: blotter.uploaded_file ?? "",
         remarks: blotter.remarks ?? "",
         complainant_signature: '',
         recorded_by: blotter.recorded_by ?? "",
         recorded_by_signature: '',
     });
 
-    console.log('date reported: ', data.date_reported);
+    console.log('blotter data: ', blotter);
 
 
     // Move to respondent handler

@@ -17,11 +17,14 @@ class Blotter extends Model
         'barangay',
         'date_reported',
         'time_of_report',
+        'date_of_incident',
+        'time_of_incident',
         'incident_type',
         'narrative',
         'remarks',
         'complainant_signature',
         'recorded_by',
         'recorded_by_signature',
+        'uploaded_file',
     ];
 }

@@ -141,13 +141,13 @@ const PersonInvolveData = ({ data, setData, person }: { data: any; setData: Call
     const [respondents, setRespondents] = useState<number[]>([1]);
 
     return (
-        <div className="animate-fadeinleft rounded-lg border border-stroke shadow-default dark:border-strokedark dark:bg-boxdark mt-4 ">
+        <div className="animate-fadeinleft rounded-lg dark:border-strokedark dark:bg-boxdark mt-4 ">
 
             {complainants?.map((count, i) => (
                 <>
-                    <div className="mt-2 px-6.5 py-2 dark:border-strokedark  dark:bg-boxdark bg-amber text-white flex justify-between"
+                    <div className="mt-2 px-6.5 py-2 dark:border-strokedark bg-white dark:bg-boxdark  flex justify-between"
                         key={i}>
-                        <h3 className="font-medium text-white dark:text-white">
+                        <h3 className="font-medium dark:text-white">
                             {person === 'Complainant'
                                 ? `A - Reporting Person (Victim's Data No. ${count})`
                                 : `B - Person Complain of/ Suspect Data No. ${count}`
@@ -414,8 +414,8 @@ const PersonInvolveData = ({ data, setData, person }: { data: any; setData: Call
                     <div className="grid lg:grid-cols-2 grid-cols-1 gap-6 mt-6">
                         <div className="border border-slate-200 bg-white dark:bg-boxdark">
                             {/** Home Address */}
-                            <div className="border-b border-stroke py-2 px-6.5 dark:border-strokedark  dark:bg-boxdark bg-amber text-white">
-                                <h3 className="font-medium text-white dark:text-white">
+                            <div className="border-b border-stroke py-2 px-6.5 dark:border-strokedark  dark:bg-boxdark ">
+                                <h3 className="font-medium dark:text-white">
                                     Place of Incident
                                 </h3>
                             </div>
@@ -518,7 +518,7 @@ const PersonInvolveData = ({ data, setData, person }: { data: any; setData: Call
                                 <div className="w-full mt-[.5rem]">
                                     <div className="relative z-20  bg-white dark:bg-form-input">
                                         <label className="z-40 text-xs bg-white  dark:bg-transparent absolute ml-3 mt-[-.4rem]">
-                                            City *
+                                            Municipality / City *
                                         </label>
                                         <span className="absolute top-1/2 left-4 z-30 -translate-y-1/2">
                                             <Globe className='text-slate-600' />
@@ -596,9 +596,9 @@ const PersonInvolveData = ({ data, setData, person }: { data: any; setData: Call
 
                         {/**Work Address */}
                         <div className="">
-                            <div className="border-b border-stroke py-2 px-6.5 dark:border-strokedark  dark:bg-boxdark bg-amber text-white">
+                            <div className="border-b border-stroke py-2 px-6.5 dark:border-strokedark bg-white dark:bg-boxdark ">
                                 <div className="flex">
-                                    <h3 className="font-medium text-white text-center dark:text-white">
+                                    <h3 className="font-medium text-center dark:text-white">
                                         Home Address
                                     </h3>
                                 </div>
@@ -702,7 +702,7 @@ const PersonInvolveData = ({ data, setData, person }: { data: any; setData: Call
                                 <div className="w-full mt-[.5rem]">
                                     <div className="relative z-20 bg-white dark:bg-form-input">
                                         <label className="z-40 text-xs dark:bg-transparent bg-white absolute ml-3 mt-[-.4rem]">
-                                            City *
+                                            Municipality / City *
                                         </label>
                                         <span className="absolute top-1/2 left-4 z-30 -translate-y-1/2">
                                             <Globe className='text-slate-600' />

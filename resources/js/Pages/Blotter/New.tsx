@@ -64,6 +64,8 @@ export default function New({ auth, latestID }: PageProps<{ latestID: number }>)
         barangay: user?.name,
         date_reported: `${todayYear}-${todayMonth}-${todayDay}`,
         time_of_report: `${h}:${m}`,
+        date_of_incident: "",
+        time_of_incident: "",
         incident_type: "",
 
         complainant_data: [{
@@ -129,8 +131,6 @@ export default function New({ auth, latestID }: PageProps<{ latestID: number }>)
 
     // Move to respondent handler
     const handleNext = () => {
-
-        {/* Check for the unanswered require input
         if (data.entry_number == 0 || data.entry_number == latestID - 1)
             return SweetAlert(`Entry number  is required!`, 'Unable to proceed, please answer entry number.', 'error', 2500);
 
@@ -153,7 +153,7 @@ export default function New({ auth, latestID }: PageProps<{ latestID: number }>)
             return SweetAlert(`Complainant address is required!`, 'Unable to proceed, please provide Complainant address.', 'error', 2500);
 
         if (data.narrative == "")
-            return SweetAlert(`Narrative report is required!`, 'Unable to proceed, please provide narrative report .', 'error', 2500); */}
+            return SweetAlert(`Narrative report is required!`, 'Unable to proceed, please provide narrative report .', 'error', 2500);
 
         return person != 'Complainant' ? setPerson('Complainant') : setPerson('Suspect/s');
     }

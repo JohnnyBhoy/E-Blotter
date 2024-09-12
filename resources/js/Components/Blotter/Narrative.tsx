@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { Camera } from 'react-bootstrap-icons';
 import Editor from 'react-simple-wysiwyg';
 import Swal from 'sweetalert2';
 
@@ -74,9 +73,9 @@ const Narrative = ({ data, setData }: { data: any; setData: CallableFunction }) 
         <div className="animate-fadeinup rounded-lg border border-stroke dark:border-strokedark dark:bg-boxdark mt-4">
 
             <div className="lg:flex gap-6 w-full">
-                <div className="bg-white lg:w-[70%] w-full">
-                    <div className="flex justify-between border-b border-stroke py-2 px-6.5 dark:border-strokedark  dark:bg-boxdark bg-amber text-white">
-                        <h3 className="font-medium text-white dark:text-white">
+                <div className="bg-white lg:w-[60%] w-full">
+                    <div className="flex justify-between border-b border-stroke py-2 px-6.5 dark:border-strokedark  dark:bg-boxdark bg-white">
+                        <h3 className="font-medium dark:text-white">
                             Narrative of Incident
                         </h3>
                     </div>
@@ -88,9 +87,9 @@ const Narrative = ({ data, setData }: { data: any; setData: CallableFunction }) 
                     {/** End complainant Address */}
                 </div>
 
-                <div className="lg:w-[30%] bg-white">
-                    <div className="flex justify-between border-b border-stroke py-2 px-6.5 dark:border-strokedark  dark:bg-boxdark bg-amber text-white">
-                        <h3 className="font-medium text-white dark:text-white">
+                <div className="lg:w-[40%] bg-white">
+                    <div className="flex justify-between border-b border-stroke py-2 px-6.5 dark:border-strokedark  dark:bg-boxdark bg-white">
+                        <h3 className="font-medium dark:text-white">
                             Upload Picture / Video
                         </h3>
 
@@ -105,7 +104,13 @@ const Narrative = ({ data, setData }: { data: any; setData: CallableFunction }) 
                     </div>
 
                     <div className="flex justify-center place-items-center">
-                        {!headshot ? (
+                        {data?.uploaded_file != "" ? (
+                            <img
+                                src={`/images/incidents/${data?.uploaded_file}`}
+                                alt="incident-icon"
+                                className='lg:mt-[1rem] mt-[1rem] lg:h-[18rem] h-[10rem] lg:w-[28rem] w-[10rem] border shadow'
+                            />
+                        ) : !headshot ? (
                             <input
                                 type="file"
                                 className='mt-[10rem] ml-[5rem]'
@@ -115,7 +120,7 @@ const Narrative = ({ data, setData }: { data: any; setData: CallableFunction }) 
                             <img
                                 src={headshot != "" ? headshot : ""}
                                 alt="incident-icon"
-                                className='rounded-full lg:mt-[3rem] mt-[1rem] lg:h-[15rem] h-[10rem] lg:w-[15rem] w-[10rem]'
+                                className='lg:mt-[1rem] mt-[1rem] lg:h-[18rem] h-[10rem] lg:w-[28rem] w-[10rem] border shadow'
                             />
                         )
                         }
