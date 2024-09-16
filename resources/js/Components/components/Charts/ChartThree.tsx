@@ -99,7 +99,7 @@ const ChartThree: React.FC = () => {
         </div>
       </div>
 
-      <div className="mb-2">
+      <div className="mb-12 mt-16">
         <div id="chartThree" className="mx-auto flex justify-center">
           <ReactApexChart
             options={options}
@@ -121,7 +121,7 @@ const ChartThree: React.FC = () => {
         </div>
         <div className="sm:w-1/2 w-full px-6">
           <div className="flex w-full items-center">
-            <span className="mr-2 block h-3 w-full max-w-3 rounded-full bg-[#6577F3]"></span>
+            <span className="mr-2 block h-3 w-fulle max-w-3 rounded-full bg-[#6577F3]"></span>
             <p className="flex w-full gap-8 text-sm font-medium text-black dark:text-white">
               <span> Amicably Settled </span>
               <span> {isNaN(settledPercentage) ? 0 : settledPercentage}% </span>

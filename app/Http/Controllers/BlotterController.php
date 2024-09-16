@@ -65,7 +65,7 @@ class BlotterController extends Controller
                     $imageName = time() . '.' . $image->getClientOriginalExtension();
 
                     // Move the headshot to manufacturer image folder
-                    $image->move(public_path('images/incidents'), $imageName);
+                    $image->move(public_path("images/{$userId}/incidents"), $imageName);
                 }
 
                 // Update blotter incident image

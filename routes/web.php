@@ -54,8 +54,10 @@ Route::get('/contact-us', function () {
     return Inertia::render('ContactUs');
 })->name('contact.us');
 
-Route::post('/contact-us', [UserController::class, 'sendMessageFromContactUs'])
-    ->name('sendMessageFromContactUs');
+// FAQ Frequently Added Questions
+Route::get('/faq', function () {
+    return Inertia::render('Faq');
+})->name('faq');
 
 /**
  * Route for Barangay User

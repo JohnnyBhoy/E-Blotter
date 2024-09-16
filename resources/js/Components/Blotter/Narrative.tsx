@@ -1,3 +1,4 @@
+import getUserId from '@/utils/functions/getUserId';
 import React, { useState } from 'react';
 import Editor from 'react-simple-wysiwyg';
 import Swal from 'sweetalert2';
@@ -12,6 +13,8 @@ const Narrative = ({ data, setData }: { data: any; setData: CallableFunction }) 
     const [image, setImage] = useState<File | null>(null);
     const [headshot, setHeadshot] = useState<string>('');
 
+    const userId = getUserId();
+
     function onChange(e: any) {
         setData('narrative', e.target.value);
     }
@@ -25,13 +28,13 @@ const Narrative = ({ data, setData }: { data: any; setData: CallableFunction }) 
 
             const fileType = headshotFile.name.split(".")[headshotFile.name.split(".").length - 1];
             const fileSize = headshotFile.size;
-            const supportedFileType = ['jpg', 'jpeg', 'png', 'jfif'];
+            const supportedFileType = ['jpg', 'jpeg', 'png', 'jfif', 'mp4'];
 
             // Return if unsupported image format
             if (supportedFileType.indexOf(fileType) == -1) {
                 return Swal.fire({
                     title: "Unsupported Image Fomat",
-                    text: "Allowed format ('jpg', 'jpeg', 'png', 'jfif')",
+                    text: "Allowed format ('jpg', 'jpeg', 'png', 'jfif', 'mp4')",
                     icon: 'error',
                     timer: 3000,
                     showConfirmButton: false,
@@ -40,9 +43,15 @@ const Narrative = ({ data, setData }: { data: any; setData: CallableFunction }) 
             };
 
             // Return if file is too big or more than 1mb
-            if (fileSize > 1000000) {
-                setErrorUpload('Your selected file size is not supported');
-                return;
+            if (fileSize > 10000000) {
+                return Swal.fire({
+                    title: "File too large",
+                    text: "Allowed size 10mb",
+                    icon: 'error',
+                    timer: 3500,
+                    showConfirmButton: false,
+                    showCancelButton: false,
+                });
             };
 
             setErrorUpload('');
@@ -62,6 +71,7 @@ const Narrative = ({ data, setData }: { data: any; setData: CallableFunction }) 
         }).then((result) => {
             if (result.isConfirmed) {
                 setHeadshot("");
+                setData('uploaded_file', "");
             } else if (result.isDenied) {
                 Swal.fire("Changes are not saved", "", "info");
             }
@@ -83,7 +93,8 @@ const Narrative = ({ data, setData }: { data: any; setData: CallableFunction }) 
                         value={data.narrative}
                         onChange={onChange}
                         className='h-28 text-sm'
-                        containerProps={{ style: { resize: 'vertical', height: '20rem' } }} />
+                        containerProps={{ style: { resize: 'vertical', height: '20rem', overflow: 'auto' } }}
+                    />
                     {/** End complainant Address */}
                 </div>
 
@@ -93,7 +104,7 @@ const Narrative = ({ data, setData }: { data: any; setData: CallableFunction }) 
                             Upload Picture / Video
                         </h3>
 
-                        {headshot ? (
+                        {headshot != "" ? (
                             <button
                                 className="font-medium text-black dark:text-white bg-white dark:bg-boxdark border hover:bg-slate-300 text-xs rounded-3xl px-3 text-blue-700"
                                 onClick={handleConfirmChange}
@@ -104,23 +115,23 @@ const Narrative = ({ data, setData }: { data: any; setData: CallableFunction }) 
                     </div>
 
                     <div className="flex justify-center place-items-center">
-                        {data?.uploaded_file != "" ? (
-                            <img
-                                src={`/images/incidents/${data?.uploaded_file}`}
-                                alt="incident-icon"
-                                className='lg:mt-[1rem] mt-[1rem] lg:h-[18rem] h-[10rem] lg:w-[28rem] w-[10rem] border shadow'
-                            />
-                        ) : !headshot ? (
-                            <input
-                                type="file"
-                                className='mt-[10rem] ml-[5rem]'
-                                onChange={(e) => handleImageChange(e)}
-                            />
-                        ) : (
+                        {headshot != "" ? (
                             <img
                                 src={headshot != "" ? headshot : ""}
                                 alt="incident-icon"
                                 className='lg:mt-[1rem] mt-[1rem] lg:h-[18rem] h-[10rem] lg:w-[28rem] w-[10rem] border shadow'
+                            />
+                        ) : data?.uploaded_file != "" ? (
+                            <img
+                                src={`/images/${userId}/incidents/${data?.uploaded_file}`}
+                                alt="incident-icon"
+                                className='lg:mt-[1rem] mt-[1rem] lg:h-[18rem] h-[10rem] lg:w-[28rem] w-[10rem] border shadow'
+                            />
+                        ) : (
+                            <input
+                                type="file"
+                                className='mt-[10rem] ml-[5rem]'
+                                onChange={(e) => handleImageChange(e)}
                             />
                         )
                         }
