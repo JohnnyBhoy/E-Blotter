@@ -273,4 +273,54 @@ class BlotterController extends Controller
             return response()->json(['error' => $th], 500);
         }
     }
+
+    /**
+     * Method to get blotter records of barangay by incident  type
+     * @param \Illuminate\Http\Request $request The HTTP request
+     */
+    public function getBarangayIncidentByType(Request $request)
+    {
+        $userId = auth()->user()->id;
+        $incidentType = $request->get('incident_type');
+
+        try {
+            $incidents = Blotter::leftJoin('complainants as c', 'blotters.id', '=', 'c.blotter_id')
+                ->leftJoin('respondents as r', 'blotters.id', '=', 'r.blotter_id')
+                ->where('blotters.user_id', $userId)
+                ->where('blotters.incident_type', $incidentType)
+                ->get()
+                ->toArray();
+
+            return Inertia::render('Barangay/Incidents', [
+                'incidents' => $incidents,
+            ]);
+        } catch (\Throwable $th) {
+            return response()->json(['error' => $th], 500);
+        }
+    }
+
+    /**
+     * Method to get blotter records of barangay by place of incident
+     * @param \Illuminate\Http\Request $request The HTTP request
+     */
+    public function getBarangayIncidentByPurok(Request $request)
+    {
+        $userId = auth()->user()->id;
+        $purok = $request->get('purok');
+
+        try {
+            $puroks = Blotter::leftJoin('complainants as c', 'blotters.id', '=', 'c.blotter_id')
+                ->leftJoin('respondents as r', 'blotters.id', '=', 'r.blotter_id')
+                ->where('blotters.user_id', $userId)
+                ->where('c.complainant_village', $purok)
+                ->get()
+                ->toArray();
+
+            return Inertia::render('Barangay/Puroks', [
+                'puroks' => $puroks,
+            ]);
+        } catch (\Throwable $th) {
+            return response()->json(['error' => $th], 500);
+        }
+    }
 }

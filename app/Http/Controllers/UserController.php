@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Blotter;
+use App\Models\Complainant;
 use App\Models\ContactUs;
 use App\Models\User;
 use App\Services\BlotterService;
@@ -73,6 +74,22 @@ class UserController extends Controller
                 ];
             });
 
+
+        // Get Top 10 Purok with the most recorded incidents
+        $top10Purok = Complainant::select('complainant_village', DB::raw('COUNT(*) as count'))
+            ->where('user_id', $userId)
+            ->groupBy('complainant_village')
+            ->orderBy('count', 'desc')
+            ->limit(10)
+            ->get()
+            ->map(function ($item, $index) {
+                return [
+                    'rank' => $index + 1,
+                    'purok' => $item->complainant_village,
+                    'count' => $item->count
+                ];
+            });
+
         return Inertia::render('Dashboard', [
             'datas' =>  [
                 $blotter,
@@ -87,6 +104,7 @@ class UserController extends Controller
             'blotterPerYear' => $blotterPerYear,
             'monthlyIncidents' => $monthlyIncidents,
             'top10Cases' => $top10Cases,
+            'top10Purok' => $top10Purok,
         ]);
     }
 

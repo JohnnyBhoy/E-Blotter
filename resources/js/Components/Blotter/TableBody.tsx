@@ -5,10 +5,11 @@ import dateToString from '@/utils/functions/dataToString';
 import getUserRole from '@/utils/functions/getUserRole';
 import { router } from '@inertiajs/react';
 import React from 'react';
-import { PencilSquare, Trash } from 'react-bootstrap-icons';
+import { EyeFill, PencilSquare, Trash } from 'react-bootstrap-icons';
 import Swal from 'sweetalert2';
 
 const TableBody = ({ blotters, setData }: { blotters: any; setData: CallableFunction }) => {
+    console.log(blotters);
 
     // User Role and redirect edit route
     const userRole = getUserRole();
@@ -123,7 +124,7 @@ const TableBody = ({ blotters, setData }: { blotters: any; setData: CallableFunc
 
                     <td className="border border-slate-300 dark:border-white py-2 px-2 dark:border-strokedark">
                         <p className="text-black dark:text-white  grid place-items-start  text-xs" >
-                            {getIncidentType(blotter?.incident_type)?.split(" - ")[1]?.substring(0, 50)}
+                            {getIncidentType(blotter?.incident_type)?.split(" - ")[1]?.substring(0, 50) ?? 'Other'}
                         </p>
                     </td>
 
@@ -135,12 +136,7 @@ const TableBody = ({ blotters, setData }: { blotters: any; setData: CallableFunc
 
                     <td className="border border-slate-300 dark:border-white py-2 px-2 dark:border-strokedark">
                         <p
-                            className={`inline-flex rounded-full grid place-items-center bg-opacity-10 py-1 px-1 text-xs font-medium ${blotter?.remarks === '1'
-                                ? 'bg-success text-success'
-                                : blotter?.remarks === '2'
-                                    ? 'bg-danger text-danger'
-                                    : 'bg-warning text-warning'
-                                }`}
+                            className={`inline-flex rounded-full ml-2 bg-opacity-10 py-1 px-1 text-xs  text-slate-700`}
                         >
                             {formatCaseDisposition(blotter?.remarks)}
                         </p>
@@ -150,14 +146,19 @@ const TableBody = ({ blotters, setData }: { blotters: any; setData: CallableFunc
                             <button
                                 onClick={() => handleEdit(blotter.id)}
                                 className="bg-primary text-white rounded p-2 flex justify-center text-xs py-1 gap-1">
-                                <PencilSquare size={16} />
+                                {userRole == 2
+                                    ? <><EyeFill size={16} /> View</>
+                                    : <PencilSquare size={16} />
+                                }
                             </button>
 
-                            <button
-                                onClick={(e) => handleConfirmDelete(e, blotter.id)}
-                                className="bg-danger text-white rounded p-2 flex justify-center text-xs py-1 gap-1">
-                                <Trash size={16} />
-                            </button>
+                            {userRole != 2 ? (
+                                <button
+                                    onClick={(e) => handleConfirmDelete(e, blotter.id)}
+                                    className="bg-danger text-white rounded p-2 flex justify-center text-xs py-1 gap-1">
+                                    <Trash size={16} />
+                                </button>
+                            ) : null}
                         </div>
                     </td>
                 </tr>
