@@ -1,6 +1,6 @@
 import { PageProps } from "@/Pages/types";
-import { router, useForm } from "@inertiajs/react";
-import React, { FormEventHandler, useRef, useState } from "react";
+import { useForm } from "@inertiajs/react";
+import React, { FormEventHandler, useState } from "react";
 
 import TableBody from "@/Components/Blotter/TableBody";
 import TableHead from "@/Components/Blotter/TableHead";
@@ -10,16 +10,16 @@ import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import barangays from "@/utils/data/barangays";
 import disposition from "@/utils/data/disposition";
 import incidentTypes from "@/utils/data/incidentTypes";
-import SweetAlert from "@/utils/functions/Sweetalert";
 import getBarangayByBrgyCode from "@/utils/functions/getBarangayByBrgyCode";
 import getBarangayByCityCode from "@/utils/functions/getBarangayByCityCode";
 import getIncidentType from "@/utils/functions/getIncidentType";
 import getRemark from "@/utils/functions/getRemark";
 import getUserRole from "@/utils/functions/getUserRole";
-import { ChevronDown, FileEarmark, FileExcel, FileSpreadsheet, FiletypeCsv, FiletypePdf, Printer, Search } from "react-bootstrap-icons";
+import { ChevronDown, Search } from "react-bootstrap-icons";
 
-import Swal from "sweetalert2";
+import { ActionButtons } from "@/Components/ActionButtons";
 import { usePDF } from 'react-to-pdf';
+import Swal from "sweetalert2";
 import * as XLSX from 'xlsx';
 
 type BlotterProps = {
@@ -154,8 +154,8 @@ export default function Blotters({ auth, blotters, message, pageDisplay, pageNum
     };
 
     const printDiv = (divId: any) => {
-        var printContents: any = document?.getElementById(divId)?.innerHTML;
-        var originalContents = document.body.innerHTML;
+        const printContents: any = document?.getElementById(divId)?.innerHTML;
+        const originalContents = document.body.innerHTML;
 
         document.body.innerHTML = printContents;
 
@@ -477,38 +477,4 @@ const TypeFilter = ({ entries, showEntries, setShowEntries, data, setData, handl
             </div>
         </div>
     </div>
-}
-
-const ActionButtons = ({ onDownload, onExportToExcel, onPrint }:
-    { onDownload: CallableFunction; onExportToExcel: CallableFunction; onPrint: CallableFunction }) => {
-    return (
-        <>
-            <button
-                className="p-2 border border-slate-400 px-2 py-1 flex gap-1 rounded-l text-slate-700 hover:bg-slate-200"
-                onClick={() => onExportToExcel()}
-            >
-                <FiletypeCsv className="mt-1" /> CSV
-            </button>
-
-            <button
-                className="p-2 border border-slate-400 px-2 py-1 flex gap-1 text-slate-700 hover:bg-slate-200"
-                onClick={() => onExportToExcel()}
-            >
-                <FileExcel className="mt-1" onClick={() => onDownload} /> Excel
-            </button>
-
-            <button
-                className="p-2 border border-slate-400 px-2 py-1 flex gap-1 text-slate-700 hover:bg-slate-200"
-                onClick={() => onDownload()}
-            >
-                <FiletypePdf className="mt-1" /> PDF
-            </button>
-            <button
-                className="p-2 rounded-r border border-slate-400 px-2 py-1 flex gap-1 mr-4 text-slate-700 hover:bg-slate-200"
-                onClick={() => onPrint()}
-            >
-                <Printer className="mt-1" /> Print
-            </button>
-        </>
-    )
 }

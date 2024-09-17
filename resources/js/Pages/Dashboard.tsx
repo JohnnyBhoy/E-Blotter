@@ -3,10 +3,10 @@ import ChartFour from "@/Components/components/Charts/ChartFour";
 import ChartOne from "@/Components/components/Charts/ChartOne";
 import ChartThree from "@/Components/components/Charts/ChartThree";
 import ChartTop10PrevalentCrimes from "@/Components/components/Charts/ChartTop10PrevalentCrimes";
+import ChartTop10PurokWithIncidentReported from "@/Components/components/Charts/ChartTop10PurokWithIncidentReported";
 import ChartTwo from "@/Components/components/Charts/ChartTwo";
 import ChatCard from "@/Components/components/Chat/ChatCard";
 import MapOne from "@/Components/components/Maps/MapOne";
-import TableBarangayDashboard from "@/Components/components/Tables/TableBarangayDashboard";
 import TableOne from "@/Components/components/Tables/TableOne";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 
@@ -14,9 +14,9 @@ import { PageProps } from "@/Pages/types";
 import { useBlotterStore } from "@/utils/store/blotterStore";
 import { Head } from "@inertiajs/react";
 import React, { useEffect } from "react";
-import { BagCheck, BootstrapReboot, BuildingFillGear, Buildings, BuildingUp, CCircle, Ear, Fingerprint, Upload } from "react-bootstrap-icons";
+import { BagCheck, BootstrapReboot, CCircle, Ear, Fingerprint, Upload } from "react-bootstrap-icons";
 
-export default function Dashboard({ auth, datas, lastYearBlotter, thisYearBlotter, thisWeekBlotter, blotterPerYear, monthlyIncidents, top10Cases }
+export default function Dashboard({ auth, datas, lastYearBlotter, thisYearBlotter, thisWeekBlotter, blotterPerYear, monthlyIncidents, top10Cases, top10Purok }
     : PageProps<{
         datas: number[];
         lastYearBlotter: object[];
@@ -25,12 +25,13 @@ export default function Dashboard({ auth, datas, lastYearBlotter, thisYearBlotte
         blotterPerYear: object[];
         monthlyIncidents: object[];
         top10Cases: object[];
+        top10Purok: object[];
     }>) {
 
-    console.log(top10Cases);
+    console.log('top 10 purok : ', top10Purok);
 
     // Global state
-    const { blotter, hearing, pending, settled, referred, setBlotter, setHearing, setSettled, setPending, setReferred, setYearlyBlotter, setTop10Cases } = useBlotterStore();
+    const { blotter, hearing, pending, settled, referred, setBlotter, setHearing, setSettled, setPending, setReferred, setYearlyBlotter, setTop10Cases, setTop10Sitio } = useBlotterStore();
 
     useEffect(() => {
         setBlotter(datas[0]);
@@ -40,6 +41,7 @@ export default function Dashboard({ auth, datas, lastYearBlotter, thisYearBlotte
         setReferred(datas[4]);
         setYearlyBlotter(blotterPerYear);
         setTop10Cases(top10Cases);
+        setTop10Sitio(top10Purok);
     }, [datas]);
 
     return (
@@ -128,6 +130,8 @@ export default function Dashboard({ auth, datas, lastYearBlotter, thisYearBlotte
                 <ChartTwo data={thisWeekBlotter} />
 
                 <ChartTop10PrevalentCrimes />
+
+                <ChartTop10PurokWithIncidentReported />
 
                 <ChartThree />
 

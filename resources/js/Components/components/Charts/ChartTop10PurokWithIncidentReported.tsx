@@ -1,6 +1,5 @@
 import getIncidentType from '@/utils/functions/getIncidentType';
 import { useBlotterStore } from '@/utils/store/blotterStore';
-import { router } from '@inertiajs/react';
 import { ApexOptions } from 'apexcharts';
 import React, { useEffect, useState } from 'react';
 import ReactApexChart from 'react-apexcharts';
@@ -14,25 +13,25 @@ interface ChartTwoState {
   }[];
 }
 
-const ChartTop10PrevalentCrimes = () => {
+const ChartTop10PurokWithIncidentReported = () => {
   // Global state
-  const { top10Cases } = useBlotterStore();
+  const { top10Sitio } = useBlotterStore();
 
   // Local states
   const [year, setYear] = useState(1);
   const [view, setView] = useState(1);
 
-  const barangays = top10Cases?.map((item: any) => getIncidentType(item?.incident_type)?.split("-")[1]?.substring(0, 20) ?? "Other");
-  const blotterRanks = top10Cases?.map((item: any) => item?.count)
+  const barangays = top10Sitio?.map((item: any) => item?.purok ?? "Other");
+  const blotterRanks = top10Sitio?.map((item: any) => item?.count)
 
   console.log('cases : ', barangays);
   console.log(blotterRanks);
 
   // Get the max rank
-  let maxCount = top10Cases?.reduce((max: number, obj: any) => obj?.count > max ? obj?.count : max, -Infinity);
+  let maxCount = top10Sitio?.reduce((max: number, obj: any) => obj?.count > max ? obj?.count : max, -Infinity);
 
   const options: ApexOptions = {
-    colors: ['#69D8D1'],
+    colors: ['#007f8c'],
     chart: {
       fontFamily: 'Satoshi, sans-serif',
       type: 'bar',
@@ -117,6 +116,7 @@ const ChartTop10PrevalentCrimes = () => {
       ...prevState,
     }));
   };
+
   const handleDownload = () => {
     setView(2);
     const table = document.getElementById('content-to-download');
@@ -133,7 +133,7 @@ const ChartTop10PrevalentCrimes = () => {
       <div className="mb-4 justify-between gap-4 sm:flex">
         <div>
           <h4 className="text-xl font-semibold text-black dark:text-white">
-            Top 10 Prevalent Incidents Reported
+            Top 10 Purok / Sitio with Reported Incidents
           </h4>
         </div>
         <div>
@@ -168,7 +168,7 @@ const ChartTop10PrevalentCrimes = () => {
               height={350}
             />
           </div>
-          : <TopBarangayTable datas={top10Cases} />
+          : <TopBarangayTable datas={top10Sitio} />
         }
 
       </div>
@@ -176,27 +176,21 @@ const ChartTop10PrevalentCrimes = () => {
   );
 };
 
-export default ChartTop10PrevalentCrimes;
+export default ChartTop10PurokWithIncidentReported;
 
 type Datas = {
   rank: number;
-  incident_type: number;
+  purok: number;
   count: number;
 }
 
 const TopBarangayTable = ({ datas }: { datas: any }) => {
-  const handleVisitBarangayByIncidentType = (incidentType: number) => {
-    router.get('/barangay-incidents', {
-      incident_type: incidentType,
-    });
-  }
-
   return (
     <div className="rounded-lg border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
       <table className='border p-2 w-full rounded-lg' id="content-to-download" >
         <tr className=''>
           <th className='p-2 bg-blue-500 text-white border border border-solid border-slate-500'>Rank</th>
-          <th className='p-2 bg-blue-500 text-white border border border-solid border-slate-500'>Case / Incident Type</th>
+          <th className='p-2 bg-blue-500 text-white border border border-solid border-slate-500'>Sitio / Purok</th>
           <th className='p-2 bg-blue-500 text-white border border border-solid border-slate-500'>Total</th>
           <th className='p-2 bg-blue-500 text-white border border border-solid border-slate-500'>Action</th>
         </tr>
@@ -204,14 +198,10 @@ const TopBarangayTable = ({ datas }: { datas: any }) => {
           {datas?.map((item: Datas) => (
             <tr key={item?.rank}>
               <td className='px-2 py-1 border border-slate-300 text-center'>{item?.rank}</td>
-              <td className='px-2 py-1 border border-slate-300 lg:text-base text-xs'>
-                {getIncidentType(item?.incident_type)}
-              </td>
+              <td className='px-2 py-1 border border-slate-300 text-center lg:text-base text-xs'>{item?.purok ?? 'Other'}</td>
               <td className='px-2 py-1 border border-slate-300 text-center'>{item?.count}</td>
               <td className='px-2 py-1 border border-slate-300 text-center'>
-                <button
-                  className='bg-success text-white rounded-lg px-3 text-sm'
-                  onClick={() => handleVisitBarangayByIncidentType(item?.incident_type)}>
+                <button className='bg-success text-white rounded-lg px-3 text-sm'>
                   View
                 </button>
               </td>

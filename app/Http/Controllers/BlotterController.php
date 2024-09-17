@@ -273,4 +273,29 @@ class BlotterController extends Controller
             return response()->json(['error' => $th], 500);
         }
     }
+
+    /**
+     * Method to view blotter data based on
+     * @param \Illuminate\Http\Request $request The HTTP request
+     */
+    public function getBarangayIncidentByType(Request $request)
+    {
+        $userId = auth()->user()->id;
+        $incidentType = $request->get('incident_type');
+
+        try {
+            $incidents = Blotter::leftJoin('complainants as c', 'blotters.id', '=', 'c.blotter_id')
+                ->leftJoin('respondents as r', 'blotters.id', '=', 'r.blotter_id')
+                ->where('blotters.user_id', $userId)
+                ->where('blotters.incident_type', $incidentType)
+                ->get()
+                ->toArray();
+
+            return Inertia::render('Barangay/Incidents', [
+                'incidents' => $incidents,
+            ]);
+        } catch (\Throwable $th) {
+            return response()->json(['error' => $th], 500);
+        }
+    }
 }

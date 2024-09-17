@@ -3,7 +3,7 @@ import getIncidentType from '@/utils/functions/getIncidentType';
 import { ApexOptions } from 'apexcharts';
 import React, { useEffect, useState } from 'react';
 import ReactApexChart from 'react-apexcharts';
-import { ChevronBarDown, ChevronDown } from 'react-bootstrap-icons';
+import { ChevronDown } from 'react-bootstrap-icons';
 
 interface ChartTwoState {
   series: {
@@ -30,7 +30,7 @@ const ChartFour = ({ monthlyIncidents }: { monthlyIncidents: any }) => {
   let maxCount = monthlyIncidents?.reduce((max: number, obj: any) => obj?.count > max ? obj?.count : max, -Infinity);
 
   const options: ApexOptions = {
-    colors: ['#69D8D1'],
+    colors: ['#B6B6B7'],
     chart: {
       fontFamily: 'Satoshi, sans-serif',
       type: 'bar',
