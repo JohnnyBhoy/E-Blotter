@@ -14,7 +14,11 @@ import { PageProps } from "@/Pages/types";
 import { useBlotterStore } from "@/utils/store/blotterStore";
 import { Head } from "@inertiajs/react";
 import React, { useEffect } from "react";
+<<<<<<< HEAD
 import { BagCheck, BootstrapReboot, Ear, Fingerprint, Intersect, Upload } from "react-bootstrap-icons";
+=======
+import { BagCheck, BootstrapReboot, CCircle, Ear, Fingerprint, Upload } from "react-bootstrap-icons";
+>>>>>>> a72769b0f33fc3b3821546bbe82c95cca7c63ee1
 
 export default function Dashboard({ auth, datas, lastYearBlotter, thisYearBlotter, thisWeekBlotter, blotterPerYear, monthlyIncidents, top10Cases, top10Purok }
     : PageProps<{

@@ -1,5 +1,10 @@
+<<<<<<< HEAD
 import { useBlotterStore } from '@/utils/store/blotterStore';
 import { router } from '@inertiajs/react';
+=======
+import getIncidentType from '@/utils/functions/getIncidentType';
+import { useBlotterStore } from '@/utils/store/blotterStore';
+>>>>>>> a72769b0f33fc3b3821546bbe82c95cca7c63ee1
 import { ApexOptions } from 'apexcharts';
 import React, { useEffect, useState } from 'react';
 import ReactApexChart from 'react-apexcharts';
@@ -180,17 +185,24 @@ export default ChartTop10PurokWithIncidentReported;
 
 type Datas = {
   rank: number;
+<<<<<<< HEAD
   purok: string;
+=======
+  purok: number;
+>>>>>>> a72769b0f33fc3b3821546bbe82c95cca7c63ee1
   count: number;
 }
 
 const TopBarangayTable = ({ datas }: { datas: any }) => {
+<<<<<<< HEAD
   const handleVisitBarangayByIncidentPurok = (purok: string) => {
     router.get('/barangay-puroks', {
       purok: purok,
     });
   }
 
+=======
+>>>>>>> a72769b0f33fc3b3821546bbe82c95cca7c63ee1
   return (
     <div className="rounded-lg border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
       <table className='border p-2 w-full rounded-lg' id="content-to-download" >
@@ -207,8 +219,12 @@ const TopBarangayTable = ({ datas }: { datas: any }) => {
               <td className='px-2 py-1 border border-slate-300 text-center lg:text-base text-xs'>{item?.purok ?? 'Other'}</td>
               <td className='px-2 py-1 border border-slate-300 text-center'>{item?.count}</td>
               <td className='px-2 py-1 border border-slate-300 text-center'>
+<<<<<<< HEAD
                 <button className='bg-success text-white rounded-lg px-3 text-sm'
                   onClick={() => handleVisitBarangayByIncidentPurok(item?.purok)}>
+=======
+                <button className='bg-success text-white rounded-lg px-3 text-sm'>
+>>>>>>> a72769b0f33fc3b3821546bbe82c95cca7c63ee1
                   View
                 </button>
               </td>

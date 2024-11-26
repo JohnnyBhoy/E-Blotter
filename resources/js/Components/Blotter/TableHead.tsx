@@ -1,7 +1,11 @@
 import React from 'react'
 
 const TableHead = () => {
+<<<<<<< HEAD
     const headers = ['Entry No.', 'Complainant/s', 'Suspect/s', 'Incident Type', 'Place of Incident', 'Time / Date', 'Incident Photo', 'Remarks', 'Action'];
+=======
+    const headers = ['Entry No.', 'Complainant/s', 'Suspect/s', 'Incident Type', 'Reported Date', 'Case Remarks', 'Action'];
+>>>>>>> a72769b0f33fc3b3821546bbe82c95cca7c63ee1
 
     return (
         <thead>

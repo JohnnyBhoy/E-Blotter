@@ -274,7 +274,11 @@ class BlotterController extends Controller
     }
 
     /**
+<<<<<<< HEAD
      * Method to get blotter records of barangay by incident  type
+=======
+     * Method to view blotter data based on
+>>>>>>> a72769b0f33fc3b3821546bbe82c95cca7c63ee1
      * @param \Illuminate\Http\Request $request The HTTP request
      */
     public function getBarangayIncidentByType(Request $request)
@@ -297,6 +301,7 @@ class BlotterController extends Controller
             return response()->json(['error' => $th], 500);
         }
     }
+<<<<<<< HEAD
 
     /**
      * Method to get blotter records of barangay by place of incident
@@ -322,4 +327,6 @@ class BlotterController extends Controller
             return response()->json(['error' => $th], 500);
         }
     }
+=======
+>>>>>>> a72769b0f33fc3b3821546bbe82c95cca7c63ee1
 }

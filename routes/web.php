@@ -101,11 +101,15 @@ Route::group(['middleware' => ['auth', 'verified', IsBarangay::class]], function
     Route::get('/referred', [BlotterController::class, 'getBlotterByRemarks'])->name('referred');
     Route::get('/pending', [BlotterController::class, 'getBlotterByRemarks'])->name('pending');
 
+<<<<<<< HEAD
     // Barangay Incidents
     Route::get('/barangay-incidents', [BlotterController::class, 'getBarangayIncidentByType'])->name('incidentsByType');
 
     // Barangay Puroks
     Route::get('/barangay-puroks', [BlotterController::class, 'getBarangayIncidentByPurok'])->name('incidentsByPurok');
+=======
+    Route::get('/barangay-incidents', [BlotterController::class, 'getBarangayIncidentByType'])->name('incidentsByType');
+>>>>>>> a72769b0f33fc3b3821546bbe82c95cca7c63ee1
 });
 
 /**
