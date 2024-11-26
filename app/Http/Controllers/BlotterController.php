@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Blotter;
-use App\Models\User;
 use App\Models\UserAddress;
 use App\Services\BlotterService;
 use Illuminate\Http\Request;

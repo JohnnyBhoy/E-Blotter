@@ -177,6 +177,7 @@ const Puroks = ({ auth, puroks }:
                                 <TableHead />
                                 <TableBody
                                     blotters={puroks
+                                        ?.sort((a: any, b: any) => b.entry_number - a.entry_number)
                                         ?.filter((item: any) => item?.complainant_first_name?.toLowerCase().includes(keyword?.toLocaleLowerCase)
                                             || item?.complainant_family_name?.toLowerCase()?.includes(keyword?.toLocaleLowerCase())
                                             || item?.respondent_family_name?.toLowerCase()?.includes(keyword?.toLocaleLowerCase())

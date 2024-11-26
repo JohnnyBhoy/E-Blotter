@@ -173,10 +173,11 @@ const Incidents = ({ auth, incidents }:
                                 <TableHead />
                                 <TableBody
                                     blotters={incidents
-                                        ?.filter((item: any) => item?.complainant_first_name?.toLowerCase().includes(keyword?.toLocaleLowerCase)
+                                        ?.sort((a: any, b: any) => b.entry_number - a.entry_number)
+                                        ?.filter((item: any) => item?.complainant_first_name?.toLowerCase().includes(keyword?.toLocaleLowerCase())
                                             || item?.complainant_family_name?.toLowerCase()?.includes(keyword?.toLocaleLowerCase())
                                             || item?.respondent_family_name?.toLowerCase()?.includes(keyword?.toLocaleLowerCase())
-                                            || item?.respondent_family_name?.toLowerCase()?.includes(keyword?.toLocaleLowerCase()))
+                                            || item?.respondent_first_name?.toLowerCase()?.includes(keyword?.toLocaleLowerCase()))
                                         .slice(currentPage == 1 ? 0 : ((currentPage - 1) * 10), rowsPerPage * currentPage)}
                                     setData={() => { }}
                                 />

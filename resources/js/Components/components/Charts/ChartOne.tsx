@@ -183,7 +183,7 @@ const ChartOne = ({ lastYearBlotter, thisYearBlotter }: {
               <span className="block h-2.5 w-full max-w-2.5 rounded-full bg-secondary"></span>
             </span>
             <div className="w-full">
-              <p className="font-semibold text-secondary">Prevalent Crimes</p>
+              <p className="font-semibold text-secondary">Prevalent Incidents</p>
               <p className="text-sm font-medium">
                 January - December {date.getFullYear()}
               </p>

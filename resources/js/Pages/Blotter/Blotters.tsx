@@ -162,6 +162,8 @@ export default function Blotters({ auth, blotters, message, pageDisplay, pageNum
         return window.print();
     }
 
+    console.log('blotters from blotter lists :', blotters);
+
     return (
         <AuthenticatedLayout
             user={auth.user}

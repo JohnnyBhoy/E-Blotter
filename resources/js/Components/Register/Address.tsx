@@ -66,11 +66,11 @@ const Address = ({ data, setData }: { data: any; setData: CallableFunction }) =>
                             </option>
                             {Object.entries(provinces)?.map((province) => province[1])
                                 ?.filter((province) => parseInt(province.region_code) == data.region_code)
-                                ?.map((province: any) => (
+                                ?.map((province: any, i: number) => (
                                     <option
                                         value={parseInt(province?.province_code)}
                                         className="text-body dark:text-bodydark"
-                                        key={province.id}>
+                                        key={i}>
                                         {province?.province_name}
                                     </option>
                                 ))}
@@ -100,11 +100,11 @@ const Address = ({ data, setData }: { data: any; setData: CallableFunction }) =>
                             {Object.entries(cities)
                                 ?.map((city) => city[1])
                                 ?.filter((city) => parseInt(city.province_code) === data.province_code)
-                                ?.map((city: any) => (
+                                ?.map((city: any, i: number) => (
                                     <option
                                         value={parseInt(city?.city_code)}
                                         className="text-body dark:text-bodydark"
-                                        key={city.id}>
+                                        key={i}>
                                         {city?.city_name}
                                     </option>
                                 ))}
@@ -133,11 +133,11 @@ const Address = ({ data, setData }: { data: any; setData: CallableFunction }) =>
                         {Object.entries(barangays)
                             ?.map((barangay) => barangay[1])
                             ?.filter((barangay) => parseInt(barangay.city_code) === data.city_code)
-                            ?.map((barangay: any) => (
+                            ?.map((barangay: any, i: number) => (
                                 <option
                                     value={parseInt(barangay?.brgy_code)}
                                     className="text-body dark:text-bodydark"
-                                    key={barangay.id}>
+                                    key={i}>
                                     {barangay?.brgy_name}
                                 </option>
                             ))}

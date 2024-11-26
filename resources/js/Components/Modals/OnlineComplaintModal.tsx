@@ -1,7 +1,10 @@
+import barangays from '@/utils/data/barangays';
+import cities from '@/utils/data/cities';
+import provinces from '@/utils/data/provinces';
 import { useOnlineComplaintStore } from '@/utils/store/onlineComplaintStore';
 import { router } from '@inertiajs/react';
 import React, { useState } from 'react';
-import { ArrowDown, ChevronLeft, ChevronRight } from 'react-bootstrap-icons';
+import { ArrowDown, ChevronLeft, ChevronRight, Globe } from 'react-bootstrap-icons';
 import Swal from 'sweetalert2';
 
 const OnlineComplaintModal = () => {
@@ -12,6 +15,8 @@ const OnlineComplaintModal = () => {
     const { setOnlineComplaintData, onlineComplaintData } = useOnlineComplaintStore();
     const [currentStep, setCurrentStep] = useState(1);
     const [submitting, setSubmitting] = useState(false);
+
+    console.log(onlineComplaintData);
 
     const incidentType = [
         {
@@ -33,7 +38,7 @@ const OnlineComplaintModal = () => {
         },
     ];
 
-    const incidentDate = ['Time_Reported', 'Date_Reported', 'Time_Of_Incident', 'Date_Of_Incident'];
+    const incidentDate = ['Time_Reported (Oras ng Report)', 'Date_Reported (Petsa ng Report)', 'Time_Of_Incident (Oras na nangyari ang insidente)', 'Date_Of_Incident (Araw ng nangyari ang insidente)'];
     const incidentPlace = ['Purok', 'Barangay', 'City', 'Province', 'Landmark_Location'];
     const reportingPerson = ['First_name', 'Family_Name', 'Middle_Name', 'Age'];
     const homeAddress = ['Reporter_Purok', 'Reporter_Barangay', 'Reporter_City', 'Reporter_Province', 'Reporter_Zip_Code'];
@@ -51,7 +56,7 @@ const OnlineComplaintModal = () => {
     ];
 
     const handleNext = () => {
-        if (currentStep == 1 && onlineComplaintData.incident_type == "") {
+        if (currentStep == 1 && onlineComplaintData.incident_type == 0) {
             return Swal.fire({
                 title: "Unable to proceed!",
                 text: "Please provide incident type.",
@@ -188,6 +193,8 @@ const OnlineComplaintModal = () => {
         setOnlineComplaintData({ ...onlineComplaintData, [name]: value });
     }
 
+    console.log('data : ', onlineComplaintData);
+
     const renderStepContent = () => {
         const inputStyle = "rounded";
 
@@ -195,16 +202,13 @@ const OnlineComplaintModal = () => {
             case 1:
                 return (
                     <div>
-                        <h3 className="text-lg font-medium text-gray-700 mb-3 text-center">
-                            What is the incident you want to report (Anong uri ng insidente ang iyong nais i-ulat)?
-                        </h3>
                         <div className="animate-slideinright grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-2 lg:gap-x-24 lg:gap-y-6 gap-10 p-6 lg:px-48">
                             {incidentType.map((type, index) => (
                                 <label
-                                    key={index} className={`transition duration-300 ease-in-out hover:scale-110 cursor-pointer  transition duration-300 ease-in-out hover:scale-110 cursor-pointer hover:bg-blue-500 hover:text-white border border-gray-300 rounded-lg shadow-md cursor-pointer flex flex-col items-center hover:border-blue-600 transition ${onlineComplaintData.incident_type == type?.incident ? "bg-blue-600" : ""}`}
-                                    onClick={() => setOnlineComplaintData({ ...onlineComplaintData, incident_type: type.incident })
+                                    key={index} className={`transition duration-300 ease-in-out hover:scale-110 cursor-pointer  transition duration-300 ease-in-out hover:scale-110 cursor-pointer hover:bg-blue-500 hover:text-white border border-gray-300 rounded-lg shadow-md cursor-pointer flex flex-col items-center hover:border-blue-600 transition ${onlineComplaintData.incident_type == type?.id ? "bg-blue-600" : ""}`}
+                                    onClick={() => setOnlineComplaintData({ ...onlineComplaintData, incident_type: type.id })
                                     }>
-                                    <input type="radio" name="incident-type" value={type?.incident} className="hidden" />
+                                    <input type="radio" name="incident-type" value={type?.id} className="hidden" />
                                     <img
                                         src={type?.icon}
                                         alt="incident"
@@ -218,17 +222,16 @@ const OnlineComplaintModal = () => {
                 );
             case 2:
                 return (
-                    <div className="animate-slideinright ">
-                        <h3 className="text-lg font-medium text-gray-700 mb-4">Step 2: Incident Details</h3>
-                        <div className="grid grid-cols-1 gap-y-10">
+                    <div className="animate-slideinright lg:px-20">
+                        <div className="grid grid-cols-1 gap-y-10 mt-5">
                             {incidentDate.map((item: string, key: number) => (
-                                <div key={key} className="flex flex-col">
+                                <div key={key} className="flex flex-col mt-2">
                                     <label htmlFor={item}>{item.replace("_", " ")}</label>
                                     <input
                                         type={item?.includes('Time') ? "time" : "date"}
                                         name={item.toLocaleLowerCase()}
                                         id={item.toLocaleLowerCase()}
-                                        className={inputStyle}
+                                        className={`relative z-20 w-full appearance-none rounded border border-stroke bg-transparent py-3 outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input}`}
                                         onChange={((e: any) => handleChangeIncidentData(e))}
                                         required
                                     />
@@ -240,9 +243,140 @@ const OnlineComplaintModal = () => {
             case 3:
                 return (
                     <div className="animate-slideinright ">
-                        <h3 className="text-lg font-medium text-gray-700 mb-4">Step 3: Place of Incident</h3>
-                        <div className="grid grid-cols-1 gap-y-4">
-                            {incidentPlace.map((item: string) => (
+                        <div className="grid grid-cols-1 lg:gap-y-8 px-10">
+                            <div className="flex flex-col">
+                                <label htmlFor="">Province</label>
+                                <div className="relative">
+                                    <div className="relative z-20 bg-white dark:bg-form-input">
+                                        <span className="absolute top-1/2 left-4 z-30 -translate-y-1/2">
+                                            <Globe className='text-slate-600' />
+                                        </span>
+                                        <select
+                                            value={onlineComplaintData.province}
+                                            onChange={(e) => setOnlineComplaintData({ ...onlineComplaintData, province: e.target.value })}
+                                            className={`relative z-20 w-full appearance-none rounded border border-stroke bg-transparent py-3 px-12 outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input}`}
+                                        >
+                                            <option value="" className="text-body dark:text-bodydark" key={1}>
+                                                Select province
+                                            </option>
+                                            {Object.entries(provinces)?.map((province) => province[1])
+                                                ?.sort((a: any, b: any) => a.province_name.localeCompare(b.province_name))
+                                                ?.map((province: any) => (
+                                                    <option
+                                                        value={parseInt(province?.province_code)}
+                                                        className="text-body dark:text-bodydark"
+                                                        key={province.id}>
+                                                        {province?.province_name}
+                                                    </option>
+                                                ))}
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div className="mt-2">
+                                <label className="block text-black dark:text-white">
+                                    Select City/Municipality
+                                </label>
+                                <div className="relative">
+                                    <div className="relative z-20 bg-white dark:bg-form-input">
+                                        <span className="absolute top-1/2 left-4 z-30 -translate-y-1/2">
+                                            <Globe className='text-slate-600' />
+                                        </span>
+                                        <select
+                                            value={onlineComplaintData.city}
+                                            onChange={(e) => setOnlineComplaintData({ ...onlineComplaintData, city: e.target.value })}
+                                            className={`relative z-20 w-full appearance-none rounded border border-stroke bg-transparent py-3 px-12 outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input}`}
+                                        >
+                                            <option value="" className="text-body dark:text-bodydark" key={1}>
+                                                Select City / Municipalities
+                                            </option>
+                                            {Object.entries(cities)
+                                                ?.map((city) => city[1])
+                                                ?.filter((city) => parseInt(city.province_code) === parseInt(onlineComplaintData.province))
+                                                ?.sort((a: any, b: any) => a.city_name.localeCompare(b.city_name))
+                                                ?.map((city: any) => (
+                                                    <option
+                                                        value={parseInt(city?.city_code)}
+                                                        className="text-body dark:text-bodydark"
+                                                        key={city.id}>
+                                                        {city?.city_name}
+                                                    </option>
+                                                ))}
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div className="mb-2 mt-2">
+                                <label className="block text-black dark:text-white">
+                                    Select Barangay
+                                </label>
+                                <div className="relative">
+                                    <span className="absolute top-1/2 left-4 z-30 -translate-y-1/2">
+                                        <Globe className='text-slate-600' />
+                                    </span>
+                                    <select
+                                        value={onlineComplaintData?.barangay}
+                                        onChange={(e) => setOnlineComplaintData({ ...onlineComplaintData, barangay: e.target.value })}
+                                        className={`relative z-20 w-full appearance-none rounded border border-stroke bg-transparent py-3 px-12 outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input `}
+                                    >
+                                        <option value="" className="text-body dark:text-bodydark" key={1}>
+                                            Select Barangay
+                                        </option>
+                                        {Object.entries(barangays)
+                                            ?.map((barangay) => barangay[1])
+                                            ?.filter((barangay) => parseInt(barangay.city_code) === parseInt(onlineComplaintData?.city))
+                                            ?.map((barangay: any) => (
+                                                <option
+                                                    value={parseInt(barangay?.brgy_code)}
+                                                    className="text-body dark:text-bodydark"
+                                                    key={barangay.id}>
+                                                    {barangay?.brgy_name}
+                                                </option>
+                                            ))}
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div className="grid grid-cols-1 lg:grid-cols-2 lg:gap-10">
+                                <div className="flex flex-col">
+                                    <label htmlFor="Purok">Purok</label>
+                                    <div className="relative">
+                                        <span className="absolute top-1/2 left-4 z-30 -translate-y-1/2">
+                                            <Globe className='text-slate-600' />
+                                        </span>
+                                        <input
+                                            type="text"
+                                            name={onlineComplaintData.purok}
+                                            id="purok"
+                                            className={`relative z-20 w-full appearance-none rounded border border-stroke bg-transparent py-3 px-12 outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input `}
+                                            onChange={(e) => setOnlineComplaintData({ ...onlineComplaintData, purok: e.target.value })}
+                                            required
+                                        />
+                                    </div>
+                                </div>
+
+                                <div className="flex flex-col">
+                                    <label htmlFor="Purok">Nearest Landmark</label>
+                                    <div className="relative">
+                                        <span className="absolute top-1/2 left-4 z-30 -translate-y-1/2">
+                                            <Globe className='text-slate-600' />
+                                        </span>
+                                        <input
+                                            type="text"
+                                            name={onlineComplaintData.landmark_location}
+                                            id="purok"
+                                            className={`relative z-20 w-full appearance-none rounded border border-stroke bg-transparent py-3 px-12 outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input `}
+                                            onChange={(e) => setOnlineComplaintData({ ...onlineComplaintData, landmark_location: e.target.value })}
+                                            required
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            {/*incidentPlace.map((item: string) => (
                                 <div className="flex flex-col">
                                     <label htmlFor={item}>{item.replace("_", " ")}</label>
                                     <input
@@ -254,14 +388,14 @@ const OnlineComplaintModal = () => {
                                         required
                                     />
                                 </div>
-                            ))}
+                            ))*/}
                         </div>
                     </div>
                 );
             case 4:
                 return (
                     <div className="animate-slideinright ">
-                        <h3 className="text-lg font-medium text-gray-700 mb-4">Step 4: Reporting Person</h3>
+                        <h3 className="text-lg font-medium text-gray-700 mb-4">Step 4: Reporting Person (Impormasyon ng taong nag-ulat ng insidente)</h3>
                         <div className="grid grid-cols-1 gap-y-4">
                             {reportingPerson.map((item: string, i: number) => (
                                 <div key={i} className="flex flex-col">
@@ -404,7 +538,7 @@ const OnlineComplaintModal = () => {
     return (
         <div className="w-full max-w-7xl lg:p-6 bg-white shadow-md rounded-lg mx-auto mt-16 lg:mt-0">
             <h3 className='text-center text-2xl font-bold text-slate-600 border-b border-slate-300 mb-2 pb-2'>
-                Report Incident Online
+                Report Incident Online (Magreport ng insidente sa online)
             </h3>
             {/* Stepper Navigation */}
             <div className="relative">
@@ -438,10 +572,10 @@ const OnlineComplaintModal = () => {
                 </div>
 
                 {/* Navigation Buttons */}
-                <div className="flex justify-between mt-6 px-3 gap-6 pb-4">
+                <div className="flex justify-end mt-6 px-3 gap-6 pb-4">
                     <button
                         onClick={handlePrev}
-                        className={`border border-slate-300 px-4 py-2 rounded-lg  flex place-items-center gap-2 ${currentStep === 1 ? 'opacity-50 cursor-not-allowed' : ''}`}
+                        className={`border hover:bg-slate-200 border-slate-300 px-4 py-2 rounded-lg  flex place-items-center gap-2 ${currentStep === 1 ? 'opacity-50 cursor-not-allowed' : ''}`}
                         disabled={currentStep === 1}
                     >
                         <ChevronLeft />
@@ -449,7 +583,7 @@ const OnlineComplaintModal = () => {
                     </button>
                     <button
                         onClick={handleNext}
-                        className="bg-blue-600 text-white px-6 py-2 rounded-lg flex place-items-center gap-2"
+                        className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 flex place-items-center gap-2"
                     >
                         {submitting ? 'Saving...' : currentStep === steps.length ? 'Submit' : 'Next'}
                         <ChevronRight />

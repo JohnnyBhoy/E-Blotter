@@ -12,10 +12,10 @@ interface ChartTwoState {
 const ChartTwo = ({ data }: { data: any }) => {
 
   // Local states
-  const [week, setweek] = useState(1);
+  const [week, setWeek] = useState(1);
 
-  const weeklyDataCount = week === 1 ? data?.slice(7, 15)?.map((count: any) => count?.count) : data?.slice(0, 7)?.map((count: any) => count?.count);
-  const weeklyDataDay = week === 1 ? data?.slice(7, 15)?.map((day: any) => day?.day) : data?.slice(0, 7)?.map((day: any) => day?.day);
+  const weeklyDataCount = week === 2 ? data?.slice(7, 15)?.map((count: any) => count?.count) : data?.slice(0, 7)?.map((count: any) => count?.count);
+  const weeklyDataDay = week === 2 ? data?.slice(7, 15)?.map((day: any) => day?.day) : data?.slice(0, 7)?.map((day: any) => day?.day);
 
   // Get the max count
   let maxCount = data?.reduce((max: number, obj: any) => obj?.count > max ? obj?.count : max, -Infinity);
@@ -121,7 +121,7 @@ const ChartTwo = ({ data }: { data: any }) => {
             <select
               name="#"
               id="#"
-              onChange={(e) => setweek(parseInt(e.target.value))}
+              onChange={(e) => setWeek(parseInt(e.target.value))}
               className="relative z-20 inline-flex appearance-none bg-transparent py-1 pl-3 pr-8 text-sm font-medium outline-none"
             >
               <option value={1} className='dark:bg-boxdark'>This Week</option>

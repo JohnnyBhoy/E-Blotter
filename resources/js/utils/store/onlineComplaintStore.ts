@@ -9,7 +9,7 @@ const h = date.getHours() < 10 ? `0${date.getHours()}` : date.getHours();
 const m = date.getMinutes() < 10 ? `0${date.getMinutes()}` : date.getMinutes();
 
 type OnlineComplaint = {
-    incident_type: string,
+    incident_type: number,
     date_reported: string,
     time_reported: string,
     date_of_incident: string,
@@ -45,7 +45,7 @@ type OnlineComplaintStore = {
 
 export const useOnlineComplaintStore = create<OnlineComplaintStore>((set) => ({
     onlineComplaintData: {
-        incident_type: "",
+        incident_type: 0,
         date_reported: `${todayYear}-${todayMonth}-${todayDay}`,
         time_reported: `${h}:${m}`,
         date_of_incident: `${todayYear}-${todayMonth}-${todayDay}`,

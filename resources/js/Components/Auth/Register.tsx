@@ -9,6 +9,7 @@ import BlotterLogo from '../Register/BlotterLogo';
 import EmailAndPassword from '../Register/EmailAndPassword';
 import RegisterTitle from '../Register/RegisterTitle';
 import SubmitRegistration from '../Register/SubmitRegistration';
+import { ArrowLeft } from 'react-bootstrap-icons';
 
 const Register = () => {
     // Global state
@@ -77,7 +78,12 @@ const Register = () => {
                             </form>
                         )}
 
-                        <div className="mt-6 text-center">
+                        <div className="mt-6 text-center lg:flex justify-between">
+                            {page != 1 && <h6
+                                className='flex place-items-center gap-2 hover:underline hover:text-blue-500 cursor-pointer'
+                                onClick={() => setPage(1)}>
+                                <ArrowLeft /> Back
+                            </h6>}
                             <p>
                                 Already have an account?{' '}
                                 <button type="button" onClick={handleShowLogin} className="text-primary">

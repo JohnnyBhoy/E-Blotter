@@ -1,7 +1,7 @@
 import React from 'react'
 
 const TableHead = () => {
-    const headers = ['Entry No.', 'Complainant/s', 'Suspect/s', 'Incident Type', 'Reported Date', 'Case Remarks', 'Action'];
+    const headers = ['Entry No.', 'Complainant/s', 'Suspect/s', 'Incident Type', 'Place of Incident', 'Time / Date', 'Incident Photo', 'Remarks', 'Action'];
 
     return (
         <thead>

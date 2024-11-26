@@ -416,7 +416,7 @@ const PersonInvolveData = ({ data, setData, person }: { data: any; setData: Call
                             {/** Home Address */}
                             <div className="border-b border-stroke py-2 px-6.5 dark:border-strokedark  dark:bg-boxdark ">
                                 <h3 className="font-medium dark:text-white">
-                                    Place of Incident
+                                    {person === 'Complainant' ? "Place of Incident" : "Home Address"}
                                 </h3>
                             </div>
                             <div className="grid lg:grid-cols-2 grid-cols-1 gap-6 p-3">
@@ -599,7 +599,7 @@ const PersonInvolveData = ({ data, setData, person }: { data: any; setData: Call
                             <div className="border-b border-stroke py-2 px-6.5 dark:border-strokedark bg-white dark:bg-boxdark ">
                                 <div className="flex">
                                     <h3 className="font-medium text-center dark:text-white">
-                                        Home Address
+                                        {person === 'Complainant' ? "Home Address" : "Work Address"}
                                     </h3>
                                 </div>
                             </div>

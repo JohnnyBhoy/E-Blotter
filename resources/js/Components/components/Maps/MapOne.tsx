@@ -9,8 +9,8 @@ const MapOne = ({ auth, level = 'Barangay' }: PageProps<({ level: string })>) =>
         {level} Map
       </h4>
       <iframe
-        title="San Jose Antique"
-        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d31354.997362619622!2d121.99134615969821!3d10.782589226330815!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x33ae484a4e97c385%3A0xbf3738c8f41b097c!2sSibalom%20Public%20Market!5e0!3m2!1sen!2sph!4v1725974118066!5m2!1sen!2sph"
+        title="Bugasong Antique"
+        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d38239.69376125766!2d122.11138526368602!3d11.09635931631053!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x33afb7416ea24615%3A0x2264c6a82877d428!2sBugasong%2C%20Antique!5e1!3m2!1sen!2sph!4v1731371309881!5m2!1sen!2sph"
         width="100%"
         height="92%"
         className="border:0;"
