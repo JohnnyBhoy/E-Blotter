@@ -58,6 +58,13 @@ const DropdownUser = () => {
     }, 10000);
   }
 
+  const getRole = (roleId: number) => {
+    if (roleId == 1) return 'System';
+    if (roleId == 2) return 'Barangay';
+    if (roleId == 3) return 'Municipal';
+    if (roleId == 4) return 'Provincial';
+  }
+
   return (
     <div className="relative">
       <button
@@ -70,7 +77,7 @@ const DropdownUser = () => {
           <span className="block text-sm font-medium text-black dark:text-white">
             {user?.name}
           </span>
-          <span className="block text-xs">Brgy. Admin</span>
+          <span className="block text-xs">{getRole(user?.role)} Admin</span>
         </span>
 
         <span className="h-12 w-12 rounded-full">

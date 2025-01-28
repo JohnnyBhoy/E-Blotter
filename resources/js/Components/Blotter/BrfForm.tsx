@@ -24,7 +24,7 @@ const BrfForm = ({ data, setData }: { data: any; setData: CallableFunction }) =>
     }
 
     return (
-        <div className="animate-slideinright border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
+        <div className="border border-stroke bg-white shadow-sm dark:border-strokedark dark:bg-boxdark">
             <div className="border-b border-stroke py-2 px-6.5 dark:border-strokedark dark:bg-boxdark">
                 <h3 className="font-medium dark:text-white">
                     Barangay e-Record Form (BRF)

@@ -23,7 +23,7 @@ const CaseDisposition = ({ data, setData }: { data: any; setData: CallableFuncti
     }
 
     return (
-        <div className="animate-fadeinleft rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark mt-4 w-full">
+        <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark mt-4 w-full">
             <div className="border-b border-stroke py-2  px-6.5 dark:border-strokedark bg-white flex justify-between">
                 <h3 className="font-medium dark:text-white text-center">
                     Case Disposition

@@ -35,7 +35,7 @@ const CardDataStats: React.FC<CardDataStatsProps> = ({
   }
 
   return (
-    <div className="rounded-lg border border-stroke bg-white px-6 py-2 shadow-default dark:border-strokedark dark:bg-boxdark cursor-pointer hover:bg-slate-300">
+    <div className="rounded-lg border border-slate-300 bg-white px-6 py-2 shadow-sm dark:border-strokedark dark:bg-boxdark cursor-pointer hover:bg-slate-300">
       <form onClick={submit}>
         <div className="flex justify-between">
           <div className="flex h-11.5 w-11.5 items-center justify-center rounded-full bg-meta-2 dark:bg-meta-4">

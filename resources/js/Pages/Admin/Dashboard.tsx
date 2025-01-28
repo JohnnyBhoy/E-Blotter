@@ -2,15 +2,12 @@ import CardDataStats from "@/Components/CardDataStats";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 
 import { PageProps } from "@/Pages/types";
-import barangays from "@/utils/data/barangays";
-import cities from "@/utils/data/cities";
 import getBarangayByBrgyCode from "@/utils/functions/getBarangayByBrgyCode";
 import getCity from "@/utils/functions/getCity";
-import getProvince from "@/utils/functions/getProvince";
 import { useBlotterStore } from "@/utils/store/blotterStore";
 import { Head, router } from "@inertiajs/react";
 import React, { useEffect, useState } from "react";
-import { BookHalf, BookmarkCheck, BookmarkCheckFill, Bookshelf, BuildingFillGear, Buildings, BuildingUp, ChevronLeft, ChevronRight, Ear, EvStation, File, FileCheck, Folder2, FolderFill, LayoutSidebarInset, PersonFillCheck, Upload } from "react-bootstrap-icons";
+import { BuildingFillGear, Buildings, BuildingUp, ChevronLeft, ChevronRight, FolderFill, Upload } from "react-bootstrap-icons";
 
 export default function Dashboard({ auth, provinces, cities, barangays, blotters }
     : PageProps<{
@@ -90,7 +87,7 @@ export default function Dashboard({ auth, provinces, cities, barangays, blotters
 
             <div className="flex justify-between gap-6">
 
-                <div className="w-[40%] bg-white">
+                <div className="w-[40%]">
                     <Provinces
                         provinces={provinces}
                         selectedProvince={selectedProvince}
@@ -175,25 +172,23 @@ const Provinces = ({ provinces, selectedProvince, setSelectedProvince }
         }]
 
     return (
-        <div className="my-10 border border-solid border-slate-200 shadow rounded  shadow p-6 h-[21rem]">
+        <div className="my-10 border border-solid border-slate-300 shadow-sms rounded p-6 h-[21rem] bg-white">
             <h2 className="font-bold text-slate-700">
                 {provincesData?.length - 2} Provinces and 2 Component Cities
             </h2>
 
             <div className="grid grid-cols-2 xl:grid-cols-4 gap-4 mt-5">
                 {provincesData?.map((province: any, key: number) => (
-                    <>
-                        <button
-                            className={`${selectedProvince == province?.code
-                                ? 'bg-blue-400 text-blue-400'
-                                : 'bg-none text-green-400'} 
+                    <button
+                        className={`${selectedProvince == province?.code
+                            ? 'bg-blue-400 text-blue-400'
+                            : 'bg-none text-green-400'} 
                                 w-full bg-white text-sm place-items-center rounded-lg py-2 uppercase hover:text-blue-400 hover:text-white font-bold flex flex-col`}
-                            onClick={() => setSelectedProvince(province?.code)}
-                        >
-                            <FolderFill size={72} />
-                            <h6 className="text-slate-500">{province?.name}</h6>
-                        </button >
-                    </>
+                        onClick={() => setSelectedProvince(province?.code)}
+                    >
+                        <FolderFill size={72} />
+                        <h6 className="text-slate-500">{province?.name}</h6>
+                    </button >
                 ))}
             </div>
         </div >
@@ -206,7 +201,7 @@ const Cities = ({ cities, provinces, selectedProvince, selectedCity, setSelected
     return (
         <>
             {/** City / Municipality Card */}
-            <div className="my-6 mt-10 border border-solid border-slate-200 shadow rounded p-6 h-[21rem] overflow-scroll  overflow-x-hidden">
+            <div className="my-6 mt-10 border border-solid border-slate-300 shadow-sm rounded p-6 h-[21rem] overflow-scroll  overflow-x-hidden bg-white">
                 <h2 className="font-bold text-slate-700">
                     {cities?.filter((item: any) => item?.province_code == selectedProvince)?.length} City / Municipalities
                 </h2>
@@ -215,20 +210,18 @@ const Cities = ({ cities, provinces, selectedProvince, selectedCity, setSelected
                     {cities?.filter((item: any) => item?.province_code == selectedProvince)?.length > 0
                         ? cities?.filter((item: any) => item?.province_code == selectedProvince)
                             ?.map((city: any, key: number) => (
-                                <>
-                                    <button
-                                        className={`${selectedCity == city?.city_code
-                                            ? 'bg-blue-400 text-blue-400'
-                                            : 'text-green-400'} 
+                                <button
+                                    className={`${selectedCity == city?.city_code
+                                        ? 'bg-blue-400 text-blue-400'
+                                        : 'text-green-400'} 
                                 w-full bg-white text place-items-center rounded-lg py-2 uppercase hover:text-blue-400 hover:text-blue-500 font-bold flex flex-col`}
-                                        onClick={() => setSelected(city?.city_code)}
-                                    >
-                                        <FolderFill size={72} />
-                                        <h6 className="text-slate-500 text-xs">
-                                            {getCity(city?.city_code)}
-                                        </h6>
-                                    </button >
-                                </>
+                                    onClick={() => setSelected(city?.city_code)}
+                                >
+                                    <FolderFill size={72} />
+                                    <h6 className="text-slate-500 text-xs">
+                                        {getCity(city?.city_code)}
+                                    </h6>
+                                </button >
                             ))
                         : <button className="bg-none text-green-400 w-full text place-items-center rounded-lg py-2 uppercase bg-white hover:text-blue-400 font-bold flex flex-col"
                         >
@@ -272,7 +265,7 @@ const Barangays = ({ selectedCity, barangays }
     return (
         <>
             {/** Barangay Table */}
-            <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark xl:pb-1">
+            <div className="rounded-sm border border-slate-300 bg-white shadow-sm dark:border-strokedark dark:bg-boxdark xl:pb-1">
                 <div className="max-w-full overflow-x-auto">
                     <table className="w-full z-20 border border-[#eee]">
                         <thead>

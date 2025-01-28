@@ -138,10 +138,9 @@ const PersonInvolveData = ({ data, setData, person }: { data: any; setData: Call
     }
 
     const [complainants, setComplainants] = useState<number[]>([1]);
-    const [respondents, setRespondents] = useState<number[]>([1]);
 
     return (
-        <div className="animate-fadeinleft rounded-lg dark:border-strokedark dark:bg-boxdark mt-4 ">
+        <div className="rounded-lg dark:border-strokedark dark:bg-boxdark mt-4 ">
 
             {complainants?.map((count, i) => (
                 <>
@@ -411,15 +410,15 @@ const PersonInvolveData = ({ data, setData, person }: { data: any; setData: Call
                     </div>
 
                     {/* <!-- Complainant Address --> */}
-                    <div className="grid lg:grid-cols-2 grid-cols-1 gap-6 mt-6">
-                        <div className="border border-slate-200 bg-white dark:bg-boxdark">
+                    <div className="grid grid-cols-1 gap-6 mt-6">
+                        <div className="border border-slate-200 bg-white dark:bg-boxdark shadow-sm">
                             {/** Home Address */}
                             <div className="border-b border-stroke py-2 px-6.5 dark:border-strokedark  dark:bg-boxdark ">
                                 <h3 className="font-medium dark:text-white">
                                     {person === 'Complainant' ? "Place of Incident" : "Home Address"}
                                 </h3>
                             </div>
-                            <div className="grid lg:grid-cols-2 grid-cols-1 gap-6 p-3">
+                            <div className="grid lg:grid-cols-3 grid-cols-1 gap-6 p-3">
                                 <div className="w-full mt-[.5rem]">
                                     <FormInput
                                         label="House no/Street"
@@ -596,14 +595,14 @@ const PersonInvolveData = ({ data, setData, person }: { data: any; setData: Call
 
                         {/**Work Address */}
                         <div className="">
-                            <div className="border-b border-stroke py-2 px-6.5 dark:border-strokedark bg-white dark:bg-boxdark ">
+                            <div className="border-b border-stroke py-2 px-6.5 dark:border-strokedark bg-white dark:bg-boxdark shadow-sm">
                                 <div className="flex">
                                     <h3 className="font-medium text-center dark:text-white">
                                         {person === 'Complainant' ? "Home Address" : "Work Address"}
                                     </h3>
                                 </div>
                             </div>
-                            <div className="grid lg:grid-cols-2 grid-cols-1 gap-6 p-3 border border-slate-200 bg-white dark:bg-boxdark">
+                            <div className="grid lg:grid-cols-3 grid-cols-1 gap-6 p-3 border border-slate-200 bg-white dark:bg-boxdark">
                                 <div className="w-full mt-[.5rem]">
                                     <FormInput
                                         label="House no./Street"

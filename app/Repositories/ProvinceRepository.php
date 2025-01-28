@@ -18,4 +18,17 @@ class ProvinceRepository
             ->get()
             ->toArray();
     }
+
+    /**
+     * Method to get all cities and municipalities
+     * based on the given province code
+     * @param $provinceCode  Province code
+     * @return array Array of City user id
+     */
+    public function getAllCitiesByProvinceCode(Int $provinceCode): array
+    {
+        return UserAddress::where('province_code', $provinceCode)
+            ->pluck('user_id')
+            ->toArray();
+    }
 }

@@ -80,7 +80,7 @@ const Narrative = ({ data, setData }: { data: any; setData: CallableFunction }) 
 
     return (
 
-        <div className="animate-fadeinup rounded-lg border border-stroke dark:border-strokedark dark:bg-boxdark mt-4">
+        <div className="rounded-lg border border-stroke dark:border-strokedark dark:bg-boxdark mt-4">
 
             <div className="lg:flex gap-6 w-full">
                 <div className="bg-white lg:w-[60%] w-full">

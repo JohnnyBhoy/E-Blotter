@@ -180,7 +180,7 @@ export default function Blotters({ auth, blotters, message, pageDisplay, pageNum
             <div className="grid grid-cols-1 gap-9 sm:grid-cols-1 mt-[-.5rem]">
 
                 <div className="flex flex-col lg:gap-0 gap-4">
-                    <div className="flex justify-between my-2 animate-fadeindown">
+                    <div className="flex justify-between my-2">
                         <div className="flex gap-2">
                             <div className="flex">
                                 <PerPage
@@ -259,7 +259,7 @@ export default function Blotters({ auth, blotters, message, pageDisplay, pageNum
 
                     </div>
                     {/**Table */}
-                    <div className="rounded-sm border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark xl:pb-1 mt-2 animate-slideinright">
+                    <div className="rounded-sm border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark xl:pb-1 mt-2">
                         <div className="max-w-full overflow-x-auto" id="content-to-export" ref={targetRef}>
                             <table className="w-full z-20 rounded-lg border border-[#eee]">
                                 <TableHead />
@@ -273,7 +273,7 @@ export default function Blotters({ auth, blotters, message, pageDisplay, pageNum
                     {/** End Table */}
 
 
-                    <div className="flex justify-between mt-2 animate-fadeinup">
+                    <div className="flex justify-between mt-2">
                         <h6 className="my-3 text-slate-600">
                             Showing <b>{(parseInt(data.page) - 1) * parseInt(data.per_page) + 1}</b> to <b>{parseInt(data.per_page) * parseInt(data.page)}</b> of <b>{blotters?.total}</b> entries
                         </h6>

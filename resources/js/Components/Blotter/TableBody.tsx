@@ -1,16 +1,22 @@
 import { BlotterProps } from '@/Pages/types/blotter';
 import disposition from '@/utils/data/disposition';
 import incidentTypes from '@/utils/data/incidentTypes';
-import dateToString from '@/utils/functions/dataToString';
+import getBarangayByBrgyCode from '@/utils/functions/getBarangayByBrgyCode';
 import getUserRole from '@/utils/functions/getUserRole';
 import { router } from '@inertiajs/react';
-import React from 'react';
-import { PencilSquare, Trash } from 'react-bootstrap-icons';
+import { default as React, useState } from 'react';
+import { EyeFill, Images, PencilSquare, Trash, X } from 'react-bootstrap-icons';
 import Swal from 'sweetalert2';
 import Modal from '../Modal';
-import getBarangayByBrgyCode from '@/utils/functions/getBarangayByBrgyCode';
 
 const TableBody = ({ blotters, setData }: { blotters: any; setData: CallableFunction }) => {
+    console.log(blotters);
+
+    // Local states
+    const [showIncidentPhoto, setShowIncidentPhoto] = useState<boolean>(false);
+    const [incidentPhotoIdToShow, setIncidentPhotoIdToShow] = useState<number>(0);
+    const [blotterId, setBlotterId] = useState<number>(0);
+    const [incidentPhotoToShow, setIncidentPhotoToShow] = useState<string>("");
 
     // User Role and redirect edit route
     const userRole = getUserRole();
@@ -135,7 +141,13 @@ const TableBody = ({ blotters, setData }: { blotters: any; setData: CallableFunc
 
                             <td className="border border-slate-300 dark:border-white py-2 px-2 dark:border-strokedark">
                                 <p className="text-black dark:text-white  grid place-items-start  text-xs" >
-                                    {getIncidentType(blotter?.incident_type)?.split(" - ")[1]?.substring(0, 50)}
+                                    {getIncidentType(blotter?.incident_type)?.split(" - ")[1]?.substring(0, 50) ?? 'Other'}
+                                </p>
+                            </td>
+
+                            <td className="border border-slate-300 dark:border-white py-2 px-2 dark:border-strokedark">
+                                <p className="text-black dark:text-white  grid place-items-start  text-xs" >
+                                    {blotter?.complainant_street},  {blotter?.complainant_village}, {getBarangayByBrgyCode(parseInt(blotter?.complainant_barangay))}
                                 </p>
                             </td>
 
@@ -159,12 +171,7 @@ const TableBody = ({ blotters, setData }: { blotters: any; setData: CallableFunc
 
                             <td className="border border-slate-300 dark:border-white py-2 px-2 dark:border-strokedark">
                                 <p
-                                    className={`inline-flex rounded-full grid place-items-center bg-opacity-10 py-1 px-1 text-xs font-medium ${blotter?.remarks === '1'
-                                        ? 'bg-success text-success'
-                                        : blotter?.remarks === '2'
-                                            ? 'bg-danger text-danger'
-                                            : 'bg-warning text-warning'
-                                        }`}
+                                    className={`inline-flex rounded-full ml-2 bg-opacity-10 py-1 px-1 text-xs  text-slate-700`}
                                 >
                                     {formatCaseDisposition(blotter?.remarks)}
                                 </p>
@@ -174,20 +181,56 @@ const TableBody = ({ blotters, setData }: { blotters: any; setData: CallableFunc
                                     <button
                                         onClick={() => handleEdit(blotter.id)}
                                         className="bg-primary text-white rounded p-2 flex justify-center text-xs py-1 gap-1">
-                                        <PencilSquare size={16} />
+                                        {userRole == 2
+                                            ? <><EyeFill size={16} /> View</>
+                                            : <PencilSquare size={16} />
+                                        }
                                     </button>
 
-                                    <button
-                                        onClick={(e) => handleConfirmDelete(e, blotter.id)}
-                                        className="bg-danger text-white rounded p-2 flex justify-center text-xs py-1 gap-1">
-                                        <Trash size={16} />
-                                    </button>
+                                    {userRole != 2 ? (
+                                        <button
+                                            onClick={(e) => handleConfirmDelete(e, blotter.id)}
+                                            className="bg-danger text-white rounded p-2 flex justify-center text-xs py-1 gap-1">
+                                            <Trash size={16} />
+                                        </button>
+                                    ) : null}
                                 </div>
                             </td>
                         </tr>
-                    ))}
-            </tbody>
-            )
+                    ))
+                }
+            </tbody >
+            <Modal
+                show={showIncidentPhoto}
+                onClose={() => setShowIncidentPhoto(false)}
+                maxWidth='4xl'>
+                <div className="p-3">
+                    <div className="flex justify-between place-items-center mb-2">
+                        <h6
+                            className='text-blue-500 hover:underline cursor-pointer'
+                            onClick={() => handleEdit(blotterId)} >
+                            View incident details
+                        </h6>
+                        <div
+                            className="flex place-items-center hover:font-bold cursor-pointer"
+                            onClick={() => setShowIncidentPhoto(false)}>
+                            <X size={30} /> Close
+                        </div>
+                    </div>  {!incidentPhotoToShow
+                        ? <div className="flex place-items-center flex-col py-20">
+                            <Images size={250} className='text-slate-600' />
+                            <h1 className='text-slate-500 text-3xl font-bold'>NO IMAGE AVAILABLE!</h1>
+                        </div>
+                        : <img
+                            src={`/images/${incidentPhotoIdToShow}/incidents/${incidentPhotoToShow}`}
+                            alt="incident-pic"
+                            className='h-[30rem] w-full'
+                        />}
+
+                </div>
+            </Modal>
+        </>
+    )
 }
 
-            export default TableBody
+export default TableBody

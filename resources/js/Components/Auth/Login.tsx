@@ -1,5 +1,5 @@
 import { Link, router, useForm } from '@inertiajs/react';
-import React, { FormEvent, useEffect } from 'react';
+import React, { FormEvent, useEffect, useState } from 'react';
 import { Hypnotize } from 'react-bootstrap-icons';
 import InputError from '../InputError';
 import { useLoginRegisterStore } from '@/utils/store/loginRegisterStore';
@@ -16,6 +16,7 @@ const Login = () => {
         password: '',
         remember: false,
     });
+    const [showPassword, setShowPassword] = useState<boolean>(false);
 
     const currentPage = window.location.pathname;
 
@@ -236,7 +237,7 @@ const Login = () => {
                                 </label>
                                 <div className="relative">
                                     <input
-                                        type="password"
+                                        type={showPassword ? "text" : "password"}
                                         value={data?.password}
                                         onChange={(e) => setData('password', e.target.value)}
                                         placeholder="Enter your Password"
@@ -250,6 +251,7 @@ const Login = () => {
                                             viewBox="0 0 22 22"
                                             fill="none"
                                             xmlns="http://www.w3.org/2000/svg"
+                                            onClick={() => setShowPassword(!showPassword)}
                                         >
                                             <g opacity="0.5">
                                                 <path

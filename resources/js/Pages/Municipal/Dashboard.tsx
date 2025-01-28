@@ -7,7 +7,6 @@ import ChartTopBarangay from "@/Components/components/Charts/ChartTopBarangay";
 import ChartTwo from "@/Components/components/Charts/ChartTwo";
 import ChatCard from "@/Components/components/Chat/ChatCard";
 import MapOne from "@/Components/components/Maps/MapOne";
-import TableMunicipalDashboard from "@/Components/components/Tables/TableMunicipalDashboard";
 import TableOne from "@/Components/components/Tables/TableOne";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 
@@ -17,7 +16,7 @@ import getBarangayByBrgyCode from "@/utils/functions/getBarangayByBrgyCode";
 import { useBlotterStore } from "@/utils/store/blotterStore";
 import { Head, router } from "@inertiajs/react";
 import React, { useEffect, useState } from "react";
-import { BagCheck, BootstrapReboot, Building, CCircle, ChevronLeft, ChevronRight, Ear, Fingerprint, JournalAlbum, JournalBookmark, JournalCheck, JournalRichtext, Upload } from "react-bootstrap-icons";
+import { BagCheck, BootstrapReboot, Building, CCircle, ChevronLeft, ChevronRight, Ear, Fingerprint } from "react-bootstrap-icons";
 
 export default function Dashboard({ auth, datas, lastYearBlotter, thisYearBlotter, thisWeekBlotter, blotterPerYear, monthlyIncidents, topBarangay, barangays, top10Cases }
     : PageProps<{

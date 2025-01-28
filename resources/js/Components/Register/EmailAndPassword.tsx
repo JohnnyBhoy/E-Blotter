@@ -1,7 +1,8 @@
-import React from 'react'
+import React, { useState } from 'react'
 import InputError from '../InputError';
 
 const EmailAndPassword = ({ data, setData, setPage, errors }: { data: any; setData: CallableFunction; setPage: CallableFunction; errors: any }) => {
+    const [showPassword, setShowPassword] = useState<boolean>(false);
 
     return (
         <>
@@ -85,7 +86,7 @@ const EmailAndPassword = ({ data, setData, setPage, errors }: { data: any; setDa
                 </label>
                 <div className="relative">
                     <input
-                        type="password"
+                        type={showPassword ? "text" : "password"}
                         value={data?.password}
                         onChange={(e) => setData('password', e.target.value)}
                         placeholder="Enter your password"
@@ -100,6 +101,7 @@ const EmailAndPassword = ({ data, setData, setPage, errors }: { data: any; setDa
                             viewBox="0 0 22 22"
                             fill="none"
                             xmlns="http://www.w3.org/2000/svg"
+                            onClick={() => setShowPassword(!showPassword)}
                         >
                             <g opacity="0.5">
                                 <path
@@ -123,11 +125,12 @@ const EmailAndPassword = ({ data, setData, setPage, errors }: { data: any; setDa
                 </label>
                 <div className="relative">
                     <input
-                        type="password"
+                        type={showPassword ? "text" : "password"}
                         value={data?.password_confirmation}
                         onChange={(e) => setData('password_confirmation', e.target.value)}
                         placeholder="Re-enter your password"
                         className="w-full rounded-lg border border-stroke bg-transparent py-4 pl-6 pr-10 text-black outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
+                        onClick={() => setShowPassword(!showPassword)}
                     />
 
                     <span className="absolute right-4 top-4">

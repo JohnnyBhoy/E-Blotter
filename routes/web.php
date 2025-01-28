@@ -3,6 +3,7 @@
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\BlotterController;
 use App\Http\Controllers\IncidentController;
+use App\Http\Controllers\MapController;
 use App\Http\Controllers\MunicipalController;
 use App\Http\Controllers\ProvinceController;
 use App\Http\Controllers\RegionController;
@@ -101,15 +102,14 @@ Route::group(['middleware' => ['auth', 'verified', IsBarangay::class]], function
     Route::get('/referred', [BlotterController::class, 'getBlotterByRemarks'])->name('referred');
     Route::get('/pending', [BlotterController::class, 'getBlotterByRemarks'])->name('pending');
 
-<<<<<<< HEAD
     // Barangay Incidents
     Route::get('/barangay-incidents', [BlotterController::class, 'getBarangayIncidentByType'])->name('incidentsByType');
 
     // Barangay Puroks
     Route::get('/barangay-puroks', [BlotterController::class, 'getBarangayIncidentByPurok'])->name('incidentsByPurok');
-=======
-    Route::get('/barangay-incidents', [BlotterController::class, 'getBarangayIncidentByType'])->name('incidentsByType');
->>>>>>> a72769b0f33fc3b3821546bbe82c95cca7c63ee1
+
+    // Barangay Puroks
+    Route::get('/barangay-map', [MapController::class, 'index'])->name('index');
 });
 
 /**
@@ -131,6 +131,17 @@ Route::group(['middleware' => ['auth', 'verified', IsStation::class]], function 
 Route::group(['middleware' => ['auth', 'verified', IsProvince::class]], function () {
     // Dashboard
     Route::get('/province-dashboard', [ProvinceController::class, 'dashboard'])->name('province.dashboard');
+
+    // Cities
+    Route::get('/province-cities', [ProvinceController::class, 'getCities'])->name('province.cities');
+
+    // Barangays
+    Route::get('/province-barangays', [ProvinceController::class, 'getbarangays'])->name('province.barangays');
+
+    // Blotters
+    Route::get('/blotter/province-blotters', [BlotterController::class, 'getAll'])->name('blotter.province.blotters');
+    Route::get('/blotter/province-edit', [BlotterController::class, 'get'])->name('blotter.province.edit');
+    Route::delete('/blotter/province-delete', [BlotterController::class, 'delete'])->name('blotter.province.delete');
 });
 
 /**
