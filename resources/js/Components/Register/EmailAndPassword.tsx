@@ -159,7 +159,7 @@ const EmailAndPassword = ({ data, setData, setPage, errors }: { data: any; setDa
             < div className="mb-5">
                 <button
                     onClick={() => setPage(2)}
-                    className="w-full cursor-pointer rounded-lg border border-primary bg-primary p-4 text-white transition hover:bg-opacity-90"
+                    className="w-full cursor-pointer rounded-lg border border-primary bg-blue-400 p-4 text-white transition hover:bg-opacity-90"
                 >
                     Next
                 </button>

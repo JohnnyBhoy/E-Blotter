@@ -4,8 +4,9 @@ const HomeImage = () => {
     return (
         <div className="lg:mt-0 lg:col-span-5 lg:flex">
             <img
-                src="./images/homepage/homepage_image_1.png"
+                src="./images/homeheader.png"
                 alt="hero banner"
+                className="rounded-lg"
             />
         </div>
     )

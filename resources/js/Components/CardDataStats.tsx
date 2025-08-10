@@ -1,6 +1,5 @@
 import { useForm } from '@inertiajs/react';
 import React, { ReactNode } from 'react';
-import { ArrowDown, ArrowUp } from 'react-bootstrap-icons';
 
 interface CardDataStatsProps {
   title: string;
@@ -35,7 +34,7 @@ const CardDataStats: React.FC<CardDataStatsProps> = ({
   }
 
   return (
-    <div className="rounded-lg border border-slate-300 bg-white px-6 py-2 shadow-sm dark:border-strokedark dark:bg-boxdark cursor-pointer hover:bg-slate-300">
+    <div className="rounded-lg border border-slate-300 bg-white px-6 py-6 shadow-sm dark:border-strokedark dark:bg-boxdark cursor-pointer hover:bg-slate-300">
       <form onClick={submit}>
         <div className="flex justify-between">
           <div className="flex h-11.5 w-11.5 items-center justify-center rounded-full bg-meta-2 dark:bg-meta-4">
@@ -43,7 +42,7 @@ const CardDataStats: React.FC<CardDataStatsProps> = ({
           </div>
 
           <div className="">
-            <h1 className='text-2xl text-black dark:text-white font-bold text-slate-700 dark:text-white'>
+            <h1 className='text-4xl text-black dark:text-white font-bold text-slate-700 dark:text-white'>
               {parseInt(total) < 1000 ? parseInt(total) : `${(parseInt(total) / 1000).toFixed(1)}k`}
             </h1>
           </div>

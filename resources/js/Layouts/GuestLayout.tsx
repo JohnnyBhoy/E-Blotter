@@ -1,10 +1,12 @@
 import Login from "@/Components/Auth/Login";
 import Register from "@/Components/Auth/Register";
 import Modal from "@/Components/Modal";
+import ReportingOptions from "@/Pages/Guest/ReportingOptions";
 import { useHeaderStore } from "@/utils/store/headerStore";
 import { useLoginRegisterStore } from "@/utils/store/loginRegisterStore";
 import { Link } from "@inertiajs/react";
-import React from "react";
+import React, { useState } from "react";
+import { TelephoneOutboundFill } from "react-bootstrap-icons";
 
 export default function Guest({ children }: { children: any }) {
     const tabs = ["Overview", "About", "Contact Us", "Help"];
@@ -13,25 +15,28 @@ export default function Guest({ children }: { children: any }) {
     const { activeTab, setActiveTab } = useHeaderStore();
     const { showLogin, showRegister, setShowLogin, setShowRegister } = useLoginRegisterStore();
 
+    //Local state
+    const [showReportingOptions, setShowReportingOptions] = useState(false);
+
     return (
         < div className="" >
-            <header className="fixed w-full">
+            <header className="fixed w-full shadow">
                 <nav className="bg-white border-gray-200 py-2.5 dark:bg-gray-900">
                     <div className="flex flex-wrap items-center justify-between max-w-screen-xl px-4 mx-auto">
                         <Link href="/" className="flex items-center">
-                            <img src="/images/logo/e-blotter.ico" className="h-6 mr-3 sm:h-9" alt="Landwind Logo" />
-                            <span className="self-center text-xl font-semibold whitespace-nowrap dark:text-white text-blue-500">Barangay E-Blotter</span>
+                            <img src="/images/logs.ico" className="h-6 mr-3 sm:h-9" alt="Landwind Logo" />
+                            <span className="self-center text-xl font-semibold whitespace-nowrap dark:text-white text-blue-500">E-911</span>
                         </Link>
-                        <div className="flex items-center lg:order-2">
+                        <div className="flex items-center lg:order-2 hidden">
                             <div className="lg:inline hidden">
                                 <button
-                                    className="text-slate-500 bg-slate-200 hover:bg-slate-300 focus:ring-4 focus:ring-purple-300 font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 sm:mr-2 lg:mr-0 dark:bg-purple-600 dark:hover:bg-purple-700 focus:outline-none dark:focus:ring-purple-800"
+                                    className="text-slate-500 bg-slate-200 hover:bg-slate-300 focus:ring-4 focus:ring-purple-300 font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 sm:mr-2 lg:mr-0 dark:bg-purple-600 dark:hover:bg-purple-500 focus:outline-none dark:focus:ring-purple-800"
                                     onClick={() => setShowLogin(true)}
                                 >
                                     Sign in
                                 </button>
 
-                                <button className="text-white bg-purple-700 hover:bg-purple-800 focus:ring-4 focus:ring-purple-300 font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 sm:mr-2 lg:mr-0 dark:bg-purple-600 dark:hover:bg-purple-700 focus:outline-none dark:focus:ring-purple-800 ml-6"
+                                <button className="text-white bg-blue-400 hover:bg-blue-500 focus:ring-4 focus:ring-purple-300 font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 sm:mr-2 lg:mr-0 dark:bg-purple-600 dark:hover:bg-purple-700 focus:outline-none dark:focus:ring-purple-800 ml-6"
                                     onClick={() => setShowRegister(true)}
                                 >
                                     Create account
@@ -44,16 +49,40 @@ export default function Guest({ children }: { children: any }) {
                                 <svg className="hidden w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clipRule="evenodd"></path></svg>
                             </button>
                         </div>
-                        <div className="items-center justify-between hidden w-full lg:flex lg:w-auto lg:order-1" id="mobile-menu-2">
-                            <ul className="flex flex-col mt-4 font-medium lg:flex-row lg:space-x-8 lg:mt-0">
+                        <div className="items-center justify-between w-full lg:flex lg:w-auto lg:order-1 hidden" id="mobile-menu-2">
+
+                            <button
+                                className="bg-red-500 text-white animate-pulse py-2 px-3 rounded-lg flex place-items-center gap-2"
+                                onClick={() => setShowReportingOptions(!showReportingOptions)}
+                            >
+                                <TelephoneOutboundFill
+                                    className="animate-bounce"
+                                />
+                                Report Incident
+                            </button>
+
+
+                            <ul className="flex flex-col mt-4 font-medium lg:flex-row lg:space-x-8 lg:mt-0 hidden">
                                 <li>
-                                    <Link href="/" className="block py-2 pl-3 pr-4 text-white bg-purple-700 rounded lg:bg-transparent lg:text-purple-700 lg:p-0 dark:text-white" aria-current="page">Overview</Link>
+                                    <Link
+                                        href="/"
+                                        className="block py-2 pl-3 pr-4 text-white bg-purple-700 rounded lg:bg-transparent lg:text-purple-700 lg:p-0 dark:text-white" aria-current="page">
+                                        Overview
+                                    </Link>
                                 </li>
                                 <li>
-                                    <Link href="/faq" className="block py-2 pl-3 pr-4 text-gray-700 border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 lg:hover:text-purple-700 lg:p-0 dark:text-gray-400 lg:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent dark:border-gray-700">FAQ</Link>
+                                    <Link
+                                        href="/faq"
+                                        className="block py-2 pl-3 pr-4 text-gray-700 border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 lg:hover:text-purple-700 lg:p-0 dark:text-gray-400 lg:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent dark:border-gray-700">
+                                        FAQ
+                                    </Link>
                                 </li>
                                 <li>
-                                    <Link href="/contact-us" className="block py-2 pl-3 pr-4 text-gray-700 border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 lg:hover:text-purple-700 lg:p-0 dark:text-gray-400 lg:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent dark:border-gray-700">Contact Us</Link>
+                                    <Link
+                                        href="/contact-us"
+                                        className="block py-2 pl-3 pr-4 text-gray-700 border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 lg:hover:text-purple-700 lg:p-0 dark:text-gray-400 lg:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent dark:border-gray-700">
+                                        Contact Us
+                                    </Link>
                                 </li>
                             </ul>
                         </div>
@@ -72,6 +101,15 @@ export default function Guest({ children }: { children: any }) {
                 <Register />
             </Modal >
             {/** Register Modal */}
+
+            {/**Reporting options */}
+            <Modal
+                show={showReportingOptions}
+                maxWidth="2xl"
+                onClose={() => setShowReportingOptions(false)}>
+                <ReportingOptions />
+            </Modal>
+
         </div >
     );
 }

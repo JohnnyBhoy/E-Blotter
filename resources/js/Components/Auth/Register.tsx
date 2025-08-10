@@ -86,7 +86,7 @@ const Register = () => {
                             </h6>}
                             <p>
                                 Already have an account?{' '}
-                                <button type="button" onClick={handleShowLogin} className="text-primary">
+                                <button type="button" onClick={handleShowLogin} className="text-info">
                                     Sign in
                                 </button>
                             </p>

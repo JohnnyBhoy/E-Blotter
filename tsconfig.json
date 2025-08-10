@@ -1,7 +1,7 @@
 {
     "compilerOptions": {
-      "target": "es5",
-      "module": "es2015",
+      "module": "es2020", // or "esnext", "node16", etc.
+      "target": "es2020", // match the same or higher
       "strict": true,
       "jsx": "react",
       "allowJs": true,

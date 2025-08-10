@@ -54,19 +54,6 @@ class RegisteredUserController extends Controller
                 'role' => $request->role,
             ]);
 
-            $userId = $this->userService->getByEmail($request->email);
-
-            $addressData = [
-                'user_id' => $userId->id,
-                'region_code' => $request->region_code,
-                'province_code' => $request->province_code,
-                'city_code' => $request->city_code,
-                'barangay_code' => $request->barangay_code,
-            ];
-
-            // Create user address
-            $this->userService->create($addressData);
-
             event(new Registered($user));
 
             Auth::login($user);

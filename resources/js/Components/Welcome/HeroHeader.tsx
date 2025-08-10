@@ -1,13 +1,10 @@
 import { AgencyProps } from "@/Pages/types/agency";
+import { agencyHotline } from "@/utils/data/agencyHotline";
+import { useOnlineComplaintStore } from "@/utils/store/onlineComplaintStore";
 import React from "react";
 import Modal from "../Modal";
 import OnlineComplaintModal from "../Modals/OnlineComplaintModal";
 import AgencyHotline from "../components/Welcome/AgencyHotline";
-import HomeCta from "../components/Welcome/HomeCta";
-import HomeImage from "../components/Welcome/HomeImage";
-import Purpose from "../components/Welcome/Purpose";
-import { agencyHotline } from "@/utils/data/agencyHotline";
-import { useOnlineComplaintStore } from "@/utils/store/onlineComplaintStore";
 
 const HeroHeader = () => {
     // Local state
@@ -15,22 +12,8 @@ const HeroHeader = () => {
 
     return (
         <div>
-            <section className="bg-white dark:bg-gray-900">
-                <div className="grid grid-col-reverse max-w-screen-xl px-4 pt-20 pb-8 mx-auto lg:gap-8 xl:gap-0 lg:py-16 lg:grid-cols-12 lg:pt-28">
-                    <div className="mr-auto place-self-center lg:col-span-7 space-y-16">
-                        <h3 className="max-w-2xl mb-4 text-3xl font-extrabold leading-none tracking-tight md:text-4xl xl:text-5xl dark:text-white lg:text-start text-center">
-                            Harmonization of <br /> Barangay Incidents
-                            <br /> via Barangay e-Blotter
-                        </h3>
-
-                        <Purpose />
-
-                        <HomeCta onClick={() => setShowOnlineComplaintModal(true)} />
-
-                    </div>
-
-                    <HomeImage />
-                </div>
+            <section className="bg-white dark:bg-gray-900 mt-20 grid place-items-center">
+                <img src='/images/E-911_heroheader.png' alt="" />
             </section>
             {/** End block **/}
 

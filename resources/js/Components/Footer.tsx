@@ -147,12 +147,12 @@ const Footer = () => {
                             className="h-6 mr-3 sm:h-9"
                             alt="Landwind Logo"
                         />
-                        E-Blotter
+                        E-911
                     </a>
                     <span className="block text-sm text-center text-gray-500 dark:text-gray-400">
                         © 2023-2024 E-Blotter™. All Rights Reserved. Developed
                         by {" "}
-                        <b>JOHNNY P. ANTIOJO JR</b>   <br />
+                        <b>YOBZIDACYTIC</b>   <br />
                         Project managed by <b>PLTCOL ROBERT R MANSUETO</b>.
                         .
                     </span>

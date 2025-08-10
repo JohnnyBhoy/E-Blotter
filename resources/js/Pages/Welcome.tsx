@@ -56,7 +56,8 @@ export default function Welcome({
 
     return (
         <GuestLayout>
-            <Head title=" Welcome -Barangay E-Blotter" />
+            <Head title="E-911 Online Crime Reporting, Emergency & Response Monitoring System via Mobile Phone
+" />
 
             {/** Start block **/}
             <div ref={ref1} className={`transition-opacity ease-in duration-300 ${isVisible1 ? "opacity-100" : "opacity-0"}`}>

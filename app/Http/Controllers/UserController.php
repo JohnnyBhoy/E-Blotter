@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Blotter;
 use App\Models\Complainant;
 use App\Models\ContactUs;
+use App\Models\Incident;
+use App\Models\IncidentReport;
 use App\Models\User;
 use App\Services\BlotterService;
 use App\Services\IncidentService;
@@ -33,78 +35,15 @@ class UserController extends Controller
     /** Dashboard */
     public function dashboard()
     {
-        $userId = auth()->user()->id;
-        $lastYear  = date('Y') - 1;
-        $currentYear  = date('Y');
-
         // Get the monthly incident type and count
-        $monthlyIncidents = $this->incidentService->getMonthly($userId);
-
-        // Yearly blotter
-        $blotterPerYear = $this->blotterService->getYearlyBlotter($userId);
-
-        $recordsLastYear = $this->blotterService->getYearlyBlotterByMonth($userId, $lastYear);
-
-        $recordsThisWeek = $this->blotterService->getWeeklyBlotter($userId);
-
-        $recordsThisYear = $this->blotterService->getYearlyBlotterByMonth($userId, $currentYear);
-
-        $blotter = Blotter::where('user_id', $userId)->count();
-
-        $hearing = Blotter::where('user_id', $userId)->where('remarks', 1)->count();
-
-        $settled = Blotter::where('user_id', $userId)->where('remarks', 2)->count();
-
-        $pending = Blotter::where('user_id', $userId)->where('remarks', 3)->count();
-
-        $referred = Blotter::where('user_id', $userId)->where('remarks', 4)->count();
-
-        // Get Top 10 Most Crime of the barangay
-        $top10Cases = Blotter::select('incident_type', DB::raw('COUNT(*) as count'))
-            ->where('user_id', $userId)
-            ->groupBy('incident_type')
-            ->orderBy('count', 'desc')
-            ->limit(10)
-            ->get()
-            ->map(function ($item, $index) {
-                return [
-                    'rank' => $index + 1,
-                    'incident_type' => $item->incident_type,
-                    'count' => $item->count
-                ];
-            });
-
-
-        // Get Top 10 Purok with the most recorded incidents
-        $top10Purok = Complainant::select('complainant_village', DB::raw('COUNT(*) as count'))
-            ->where('user_id', $userId)
-            ->groupBy('complainant_village')
-            ->orderBy('count', 'desc')
-            ->limit(10)
-            ->get()
-            ->map(function ($item, $index) {
-                return [
-                    'rank' => $index + 1,
-                    'purok' => $item->complainant_village,
-                    'count' => $item->count
-                ];
-            });
-
         return Inertia::render('Dashboard', [
-            'datas' =>  [
-                $blotter,
-                $hearing,
-                $settled,
-                $pending,
-                $referred,
+            'incidentCounts' =>  [
+                IncidentReport::where('status', 1)->count(),
+                IncidentReport::where('status', 2)->count(),
+                IncidentReport::where('status', 3)->count(),
+                IncidentReport::where('status', 4)->count(),
             ],
-            'lastYearBlotter' => $recordsLastYear,
-            'thisYearBlotter' => $recordsThisYear,
-            'thisWeekBlotter' => $recordsThisWeek,
-            'blotterPerYear' => $blotterPerYear,
-            'monthlyIncidents' => $monthlyIncidents,
-            'top10Cases' => $top10Cases,
-            'top10Purok' => $top10Purok,
+            'incidents' => IncidentReport::all(),
         ]);
     }
 
