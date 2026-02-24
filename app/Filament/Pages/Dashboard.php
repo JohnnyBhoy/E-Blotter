@@ -2,7 +2,7 @@
 
 namespace App\Filament\Pages;
 
-use App\Filament\Widgets\StatsOverview;
+use App\Filament\Widgets\UserOverviewWidget;
 use App\Filament\Widgets\UserStatsWidget;
 use App\Models\IncidentReport;
 use Filament\Pages\Page;
@@ -30,6 +30,7 @@ class Dashboard extends Page
    protected function getHeaderWidgets(): array
     {
         return [
+            UserOverviewWidget::class,
             UserStatsWidget::class,
         ];
     }

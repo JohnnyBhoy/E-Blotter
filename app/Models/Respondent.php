@@ -39,4 +39,30 @@ class Respondent extends Model
         'respondent_work_province',
         'respondent_work_region',
     ];
+
+    /**
+     * Get the blotter that owns the respondent.
+     */
+    public function blotter()
+    {
+        return $this->belongsTo(Blotter::class);
+    }
+
+    /**
+     * Get the user that owns the respondent.
+     */
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    /**
+     * Get the full name of the respondent.
+     */
+    public function getFullNameAttribute()
+    {
+        return trim($this->respondent_first_name . ' ' . 
+                   $this->respondent_middle_name . ' ' . 
+                   $this->respondent_family_name);
+    }
 }

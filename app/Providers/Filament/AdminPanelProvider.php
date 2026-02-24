@@ -24,7 +24,7 @@ class AdminPanelProvider extends PanelProvider
 {
     public function authorize(Request $request): bool
     {
-        return $request->user()?->is_admin === 1;
+        return $request->user()?->role === 1; // Super Admin role
     }
 
 
@@ -36,7 +36,14 @@ class AdminPanelProvider extends PanelProvider
             ->path('admin')
             ->login()
             ->colors([
-                'primary' => Color::Amber,
+                'primary' => Color::Blue,
+                'gray' => Color::Slate,
+            ])
+            ->brandName('E-Blotter Admin')
+            ->brandLogo(fn () => view('filament.brand-logo'))
+            ->navigationGroups([
+                'User Management',
+                'System',
             ])
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')
@@ -60,7 +67,9 @@ class AdminPanelProvider extends PanelProvider
             ])
             ->renderHook(
                 'panels::head.end',
-                fn() => '<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />'
+                fn() => '
+                    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+                '
             )
             ->renderHook(
                 'panels::body.end',

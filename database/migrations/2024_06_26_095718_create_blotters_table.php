@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('entry_number');
-            $table->string('barangay');
+            $table->string('barangay')->nullable();
             $table->string('date_reported');
             $table->string('time_of_report');
             $table->string('incident_type');

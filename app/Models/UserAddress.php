@@ -18,4 +18,12 @@ class UserAddress extends Model
         'province_code',
         'region_code',
     ];
+
+    /**
+     * Get the user that owns the address.
+     */
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

@@ -121,8 +121,8 @@ const ChartFour = ({ monthlyIncidents }: { monthlyIncidents: any }) => {
     <div className="col-span-12 rounded-lg border border-stroke bg-white p-7.5 shadow-default dark:border-strokedark dark:bg-boxdark w-full">
       <div className="mb-4 justify-between gap-4 sm:flex">
         <div>
-          <h4 className="text-xl font-semibold text-black dark:text-white">
-            Yearly Incidents  Reports <small className='text-xs'>(Hover number buttons to view incident description)</small>
+          <h4 className="text-xl font-semibold text-gray-900 dark:text-white">
+            Yearly Incidents  Reports <small className='text-xs'>Hover number buttons to view incident description</small>
           </h4>
         </div>
 
@@ -255,7 +255,7 @@ const Table = ({ datas }: { datas: any }) => {
               key={key}
             >
               <div className="flex items-center gap-3 p-2.5 xl:p-1 w-full">
-                <p className="hidden text-black text-sm dark:text-white sm:block ml-3">
+                <p className="hidden text-gray-900 text-sm dark:text-white sm:block ml-3">
                   {getIncidentType(parseInt(item.incident_type))}
                 </p>
               </div>

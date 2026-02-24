@@ -42,7 +42,7 @@ class AuthenticatedSessionController extends Controller
         }
 
         if ($role == 2) {
-            $route =   redirect()->intended(route('dashboard', absolute: false))->with(['status' => 'ok']);
+            $route =   redirect()->intended(route('province.dashboard', absolute: false))->with(['status' => 'ok']);
         }
 
         if ($role == 3) {
@@ -50,7 +50,11 @@ class AuthenticatedSessionController extends Controller
         }
 
         if ($role == 4) {
-            $route = redirect()->intended(route('province.dashboard', absolute: false))->with(['status' => 'ok']);
+            $route = redirect()->intended(route('police.station.dashboard', absolute: false))->with(['status' => 'ok']);
+        }
+
+        if ($role == 5) {
+            $route = redirect()->intended(route('barangay.dashboard', absolute: false))->with(['status' => 'ok']);
         }
 
         return $route;

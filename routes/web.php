@@ -27,7 +27,7 @@ Route::get('/', function () {
         }
 
         if ($user->role == 2) {
-            $route =  redirect()->route('dashboard');
+            $route =  redirect()->route('province.dashboard');
         }
 
         if ($user->role == 3) {
@@ -35,11 +35,11 @@ Route::get('/', function () {
         }
 
         if ($user->role == 4) {
-            $route =  redirect()->route('province.dashboard');
+            $route =  redirect()->route('police.station.dashboard');
         }
 
         if ($user->role == 5) {
-            $route =  redirect()->route('region.dashboard');
+            $route =  redirect()->route('barangay.dashboard');
         }
     }
 
@@ -67,7 +67,12 @@ Route::group(['middleware' => ['auth', 'verified', IsBarangay::class]], function
     $blotter =  '/blotter';
 
     // Dashboard
-    Route::get('/dashboard', [UserController::class, 'dashboard'])->name('dashboard');
+    Route::get('/barangay/dashboard', [UserController::class, 'dashboard'])->name('barangay.dashboard');
+
+    // Incidents
+    Route::get('/barangay/incidents', function () {
+        return Inertia::render('Barangay/Incidents');
+    })->name('barangay.incidents');
 
     // Blotter
     Route::get($blotter, [BlotterController::class, 'index'])->name('blotter.new');
@@ -117,7 +122,13 @@ Route::group(['middleware' => ['auth', 'verified', IsBarangay::class]], function
  */
 Route::group(['middleware' => ['auth', 'verified', IsStation::class]], function () {
     // Dashboard
+    Route::get('/station/dashboard', [MunicipalController::class, 'dashboard'])->name('station.dashboard');
     Route::get('/municipal-dashboard', [MunicipalController::class, 'dashboard'])->name('municipal.dashboard');
+
+    // New Station Dashboard
+    Route::get('/police-station/dashboard', function () {
+        return Inertia::render('Station/Dashboard');
+    })->name('police.station.dashboard');
 
     // Blotters
     Route::get('/blotter/municipal-blotters', [BlotterController::class, 'getAll'])->name('blotter.municipal.blotters');
@@ -131,6 +142,9 @@ Route::group(['middleware' => ['auth', 'verified', IsStation::class]], function 
 Route::group(['middleware' => ['auth', 'verified', IsProvince::class]], function () {
     // Dashboard
     Route::get('/province-dashboard', [ProvinceController::class, 'dashboard'])->name('province.dashboard');
+
+    // Municipal Reports
+    Route::get('/municipal/{id}', [ProvinceController::class, 'municipalReports'])->name('province.municipal.reports');
 
     // Cities
     Route::get('/province-cities', [ProvinceController::class, 'getCities'])->name('province.cities');

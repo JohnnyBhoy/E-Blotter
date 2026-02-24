@@ -39,4 +39,30 @@ class Complainant extends Model
         'complainant_work_province',
         'complainant_work_region',
     ];
+
+    /**
+     * Get the blotter that owns the complainant.
+     */
+    public function blotter()
+    {
+        return $this->belongsTo(Blotter::class);
+    }
+
+    /**
+     * Get the user that owns the complainant.
+     */
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    /**
+     * Get the full name of the complainant.
+     */
+    public function getFullNameAttribute()
+    {
+        return trim($this->complainant_first_name . ' ' . 
+                   $this->complainant_middle_name . ' ' . 
+                   $this->complainant_family_name);
+    }
 }

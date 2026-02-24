@@ -35,16 +35,7 @@ class UserController extends Controller
     /** Dashboard */
     public function dashboard()
     {
-        // Get the monthly incident type and count
-        return Inertia::render('Dashboard', [
-            'incidentCounts' =>  [
-                IncidentReport::where('status', 1)->count(),
-                IncidentReport::where('status', 2)->count(),
-                IncidentReport::where('status', 3)->count(),
-                IncidentReport::where('status', 4)->count(),
-            ],
-            'incidents' => IncidentReport::all(),
-        ]);
+        return Inertia::render('Barangay/Dashboard');
     }
 
     /**

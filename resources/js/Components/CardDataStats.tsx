@@ -42,7 +42,7 @@ const CardDataStats: React.FC<CardDataStatsProps> = ({
           </div>
 
           <div className="">
-            <h1 className='text-4xl text-black dark:text-white font-bold text-slate-700 dark:text-white'>
+            <h1 className='text-4xl font-bold text-gray-900 dark:text-white'>
               {parseInt(total) < 1000 ? parseInt(total) : `${(parseInt(total) / 1000).toFixed(1)}k`}
             </h1>
           </div>
@@ -51,7 +51,7 @@ const CardDataStats: React.FC<CardDataStatsProps> = ({
 
         <div className="flex items-end justify-between">
           <div className='flex flex-row gap-2'>
-            <span className="text-sm font-medium mt-1">{title}</span>
+            <span className="text-sm font-medium mt-1 text-gray-700 dark:text-gray-300">{title}</span>
           </div>
         </div>
       </form>

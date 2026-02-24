@@ -18,26 +18,26 @@ const Edit = ({ auth, data }: PageProps<{ data: any }>) => {
 
     const brgyName = Object.entries(barangays)
         ?.map((barangay) => barangay[1])
-        ?.filter((barangay) => parseInt(barangay.brgy_code) == data.barangay_code);
+        ?.filter((barangay) => parseInt(barangay.brgy_code) == (data?.barangay_code || 0));
 
     const cityName = Object.entries(cities)
         ?.map((city) => city[1])
-        ?.filter((city) => parseInt(city.city_code) == data.city_code);
+        ?.filter((city) => parseInt(city.city_code) == (data?.city_code || 0));
 
     const provinceName = Object.entries(provinces)
         ?.map((province) => province[1])
-        ?.filter((province) => parseInt(province.province_code) == data.province_code);
+        ?.filter((province) => parseInt(province.province_code) == (data?.province_code || 0));
 
     const regionName = Object.entries(regions)
         ?.map((region) => region[1])
-        ?.filter((region) => parseInt(region.region_code) == data.region_code);
+        ?.filter((region) => parseInt(region.region_code) == (data?.region_code || 0));
 
     useEffect(() => {
-        setBarangay(brgyName[0].brgy_name);
-        setCity(cityName[0].city_name);
-        setProvince(provinceName[0].province_name);
-        setRegion(regionName[0].region_name);
-    }, []);
+        if (brgyName.length > 0) setBarangay(brgyName[0].brgy_name);
+        if (cityName.length > 0) setCity(cityName[0].city_name);
+        if (provinceName.length > 0) setProvince(provinceName[0].province_name);
+        if (regionName.length > 0) setRegion(regionName[0].region_name);
+    }, [brgyName, cityName, provinceName, regionName]);
 
     return (
         <AuthenticatedLayout

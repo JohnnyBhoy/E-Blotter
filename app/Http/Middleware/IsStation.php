@@ -16,7 +16,7 @@ class IsStation
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (Auth::user() &&  Auth::user()->role == 3) {
+        if (Auth::user() && Auth::user()->role == 4) {
             return $next($request);
         }
 

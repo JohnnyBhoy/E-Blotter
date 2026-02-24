@@ -20,7 +20,11 @@ class UserResource extends Resource
 {
     protected static ?string $model = User::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-users';
+
+    protected static ?string $navigationGroup = 'User Management';
+
+    protected static ?int $navigationSort = 1;
 
     public static function form(Forms\Form $form): Forms\Form
     {
@@ -41,11 +45,17 @@ class UserResource extends Resource
                     ->dehydrated(fn($state) => filled($state))
                     ->dehydrateStateUsing(fn($state) => bcrypt($state)),
 
-                Select::make('roles')
+                Select::make('role')
                     ->label('Role')
-                    ->relationship('roles', 'name')
-                    ->multiple()
-                    ->preload(),
+                    ->options([
+                        1 => 'Super Admin',
+                        2 => 'Province',
+                        3 => 'Municipality',
+                        4 => 'Station',
+                        5 => 'Barangay',
+                    ])
+                    ->default(5) // Default to Barangay
+                    ->required(),
             ]);
     }
 
@@ -56,14 +66,15 @@ class UserResource extends Resource
             ->columns([
                 TextColumn::make('name')->searchable(),
                 TextColumn::make('email')->searchable(),
-                TextColumn::make('role_display')
+                TextColumn::make('role')
                     ->label('Role')
-                    ->getStateUsing(function ($record) {
-                        $roles = $record->roles->pluck('name')->toArray();
-
-                        return count($roles) > 0
-                            ? implode(', ', $roles)
-                            : 'reporter';
+                    ->formatStateUsing(fn ($state) => match($state) {
+                        1 => 'Super Admin',
+                        2 => 'Province',
+                        3 => 'Municipality',
+                        4 => 'Station',
+                        5 => 'Barangay',
+                        default => 'Unknown',
                     }),
                 TextColumn::make('created_at')->dateTime()->label('Created'),
             ])
@@ -99,6 +110,6 @@ class UserResource extends Resource
 
     public static function canAccessPanel(\Filament\Panel $panel): bool
     {
-        return auth()->user()?->hasRole('admin');
+        return auth()->user()?->role === 1; // Super Admin role
     }
 }

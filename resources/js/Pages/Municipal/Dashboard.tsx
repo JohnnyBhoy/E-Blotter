@@ -66,7 +66,7 @@ export default function Dashboard({ auth, datas, lastYearBlotter, thisYearBlotte
         <AuthenticatedLayout
             user={auth.user}
             header={
-                <h2 className="font-semibold text-xl text-gray-800 leading-tight">
+                <h2 className="font-semibold text-xl text-gray-800 dark:!text-white leading-tight">
                     Municipal Dashboard
                 </h2>
             }
@@ -156,7 +156,7 @@ export default function Dashboard({ auth, datas, lastYearBlotter, thisYearBlotte
                                 <thead>
                                     <tr className="bg-blue-500 text-white text-left dark:bg-meta-4 ">
                                         {tableHeaders.map((header, key) => (
-                                            <th className="border border-[#eee] min-w-[120px] py-3 px-2 font-medium text-sm dark:text-white xl:pl-11" key={key}>
+                                            <th className="border border-[#eee] min-w-[120px] py-3 px-2 font-medium text-sm dark:!text-white xl:pl-11" key={key}>
                                                 {header}
                                             </th>
                                         ))}
@@ -169,12 +169,12 @@ export default function Dashboard({ auth, datas, lastYearBlotter, thisYearBlotte
                                         ?.map((barangay: any, key: number) => (
                                             <tr key={key} className="hover:bg-slate-100 cursor-pointer z-20 bg-white dark:bg-meta-4">
                                                 <td className="border border-slate-300 dark:border-white py-1.5 px-2 pl-9 dark:border-strokedark xl:pl-11">
-                                                    <h5 className="font-bold text-black dark:text-white text-xs">
+                                                    <h5 className="font-bold text-gray-900 dark:text-white text-xs">
                                                         {getBarangayByBrgyCode(barangay?.barangay_code)}
                                                     </h5>
                                                 </td>
 
-                                                <td className="border border-slate-300 dark:border-white py-1.5 px-2 dark:border-strokedark text-xs text-center">
+                                                <td className="border border-slate-300 dark:border-white py-1.5 px-2 dark:border-strokedark text-xs text-center dark:text-gray-200">
                                                     {barangay?.total}
                                                 </td>
 
@@ -182,7 +182,7 @@ export default function Dashboard({ auth, datas, lastYearBlotter, thisYearBlotte
                                                     ?.blotters
                                                     ?.map((remark: any, key: number) => (
                                                         <td
-                                                            className="border border-slate-300 dark:border-white py-1.5 px-2 dark:border-strokedark text-xs  text-center"
+                                                            className="border border-slate-300 dark:border-white py-1.5 px-2 dark:border-strokedark text-xs text-center dark:text-gray-200"
                                                             key={key}>
                                                             {remark?.count}
                                                         </td>
@@ -213,27 +213,30 @@ export default function Dashboard({ auth, datas, lastYearBlotter, thisYearBlotte
                                 </button>
 
                                 <button
-                                    className={activePage == 1 ? `bg-slate-700 rounded-full text-white w-6 h-6` : 'hover:font-bold'}
+                                    className={activePage == 1 ? `bg-slate-700 rounded-full text-white w-6 h-6` : 'text-gray-700 dark:text-gray-300 hover:font-bold'}
                                     onClick={() => {
                                         setLimitBarangay([0, 10]);
                                         setActivePage(1);
-                                    }}>
+                                    }}
+                                >
                                     1
                                 </button>
                                 <button
-                                    className={activePage == 2 ? `bg-slate-700 rounded-full text-white w-6 h-6` : 'hover:font-bold'}
+                                    className={activePage == 2 ? `bg-slate-700 rounded-full text-white w-6 h-6` : 'text-gray-700 dark:text-gray-300 hover:font-bold'}
                                     onClick={() => {
                                         setLimitBarangay([10, 20]);
                                         setActivePage(2);
-                                    }}>
+                                    }}
+                                >
                                     2
                                 </button>
                                 <button
-                                    className={activePage == 3 ? `bg-slate-700 rounded-full text-white w-6 h-6` : 'hover:font-bold'}
+                                    className={activePage == 3 ? `bg-slate-700 rounded-full text-white w-6 h-6` : 'text-gray-700 dark:text-gray-300 hover:font-bold'}
                                     onClick={() => {
                                         setLimitBarangay([20, 30]);
                                         setActivePage(3);
-                                    }}>
+                                    }}
+                                >
                                     3
                                 </button>
                                 <button

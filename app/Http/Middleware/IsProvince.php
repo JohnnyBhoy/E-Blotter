@@ -16,7 +16,7 @@ class IsProvince
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (Auth::user() &&  Auth::user()->role == 4) {
+        if (Auth::user() && Auth::user()->role == 2) {
             return $next($request);
         }
 

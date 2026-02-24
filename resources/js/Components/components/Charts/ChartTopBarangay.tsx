@@ -113,7 +113,7 @@ const ChartTopBarangay = ({ datas }: { datas: any }) => {
     <div className="col-span-12 rounded-sm border border-stroke bg-white p-7.5 shadow-default dark:border-strokedark dark:bg-boxdark xl:col-span-12">
       <div className="mb-4 justify-between gap-4 sm:flex">
         <div>
-          <h4 className="text-xl font-semibold text-black dark:text-white">
+          <h4 className="text-xl font-semibold text-gray-900 dark:text-white">
             Top 10 Barangay with most Blotter Incidents
           </h4>
         </div>
@@ -209,17 +209,17 @@ const TopBarangayTable = ({ datas }: { datas: any }) => {
             key={key}
           >
             <div className="flex items-center gap-3 p-2.5 xl:p-1 w-6">
-              <p className="hidden text-black dark:text-white sm:block text-center ml-6">
+              <p className="hidden text-gray-900 dark:text-white sm:block text-center ml-6">
                 {key + 1}
               </p>
             </div>
             <div className="flex items-center gap-3 p-2.5 xl:p-1 w-1/4">
-              <p className="hidden text-black dark:text-white sm:block text-center ml-6">
+              <p className="hidden text-gray-900 dark:text-white sm:block text-center ml-6">
                 {item?.id}
               </p>
             </div>
             <div className="flex items-center gap-3 p-2.5 xl:p-1">
-              <p className="hidden text-black dark:text-white sm:block">
+              <p className="hidden text-gray-900 dark:text-white sm:block">
                 Barangay {item.name}
               </p>
             </div>

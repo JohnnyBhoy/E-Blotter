@@ -63,7 +63,7 @@ const ChartTop10Cities = ({ cities }: { cities: any }) => {
     <div className="col-span-12 rounded-lg border border-slate-300 bg-white p-7.5 shadow-sm dark:border-strokedark dark:bg-boxdark xl:col-span-12 w-full">
       <div className="justify-between gap-4 sm:flex">
         <div>
-          <h3 className="font-bold text-black dark:text-white">
+          <h3 className="font-bold text-gray-900 dark:text-white">
             Municipalities Blotter Count
           </h3>
         </div>

@@ -27,4 +27,28 @@ class Blotter extends Model
         'recorded_by_signature',
         'uploaded_file',
     ];
+
+    /**
+     * Get the user that owns the blotter.
+     */
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    /**
+     * Get the complainant for the blotter.
+     */
+    public function complainant()
+    {
+        return $this->hasOne(Complainant::class);
+    }
+
+    /**
+     * Get the respondent for the blotter.
+     */
+    public function respondent()
+    {
+        return $this->hasOne(Respondent::class);
+    }
 }
