@@ -622,4 +622,32 @@ class BlotterRepository
             })
             ->toArray();
     }
+
+    /**
+     * Method to get blotter count by barangay
+     * @param int $userId User ID of the barangay
+     * @return int Count of blotters for the specific barangay user
+     */
+    public function getCountByBarangay(Int $userId)
+    {
+        return DB::table('blotters as b')
+            ->join('users as u', 'b.user_id', '=', 'u.id')
+            ->where('b.user_id', $userId)  // Filter by user.id directly
+            ->where('u.role', 5)  // Only barangay users
+            ->count();
+    }
+
+    /**
+     * Method to get blotter count by station
+     * @param int $userId User ID of the station
+     * @return int Count of blotters for the specific station user
+     */
+    public function getCountByStation(Int $userId)
+    {
+        $stationCode = UserAddress::where('user_id', $userId)->pluck('city_code');
+
+        $barangaysCode = UserAddress::where('city_code', $stationCode)->pluck('user_id');
+
+        return Blotter::whereIn('user_id', $barangaysCode)->count();
+    }
 }

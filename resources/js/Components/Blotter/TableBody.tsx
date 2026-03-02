@@ -1,20 +1,27 @@
-import { BlotterProps } from '@/Pages/types/blotter';
-import disposition from '@/utils/data/disposition';
-import incidentTypes from '@/utils/data/incidentTypes';
-import getBarangayByBrgyCode from '@/utils/functions/getBarangayByBrgyCode';
-import getUserRole from '@/utils/functions/getUserRole';
-import { router } from '@inertiajs/react';
-import { default as React, useState } from 'react';
-import { EyeFill, Images, PencilSquare, Trash, X } from 'react-bootstrap-icons';
-import Swal from 'sweetalert2';
-import Modal from '../Modal';
+import { BlotterProps } from "@/Pages/types/blotter";
+import disposition from "@/utils/data/disposition";
+import incidentTypes from "@/utils/data/incidentTypes";
+import getBarangayByBrgyCode from "@/utils/functions/getBarangayByBrgyCode";
+import getUserRole from "@/utils/functions/getUserRole";
+import { router } from "@inertiajs/react";
+import { default as React, useState } from "react";
+import { EyeFill, Images, PencilSquare, Trash, X } from "react-bootstrap-icons";
+import Swal from "sweetalert2";
+import Modal from "../Modal";
 
-const TableBody = ({ blotters, setData }: { blotters: any; setData: CallableFunction }) => {
+const TableBody = ({
+    blotters,
+    setData,
+}: {
+    blotters: any;
+    setData: CallableFunction;
+}) => {
     console.log(blotters);
 
     // Local states
     const [showIncidentPhoto, setShowIncidentPhoto] = useState<boolean>(false);
-    const [incidentPhotoIdToShow, setIncidentPhotoIdToShow] = useState<number>(0);
+    const [incidentPhotoIdToShow, setIncidentPhotoIdToShow] =
+        useState<number>(0);
     const [blotterId, setBlotterId] = useState<number>(0);
     const [incidentPhotoToShow, setIncidentPhotoToShow] = useState<string>("");
 
@@ -22,22 +29,31 @@ const TableBody = ({ blotters, setData }: { blotters: any; setData: CallableFunc
     const userRole = getUserRole();
 
     // Delete url based on role
-    const deleteBlotterUrl = userRole == 1 ? '/blotter/admin-delete' : userRole == 3 ? '/blotter/municipal-delete' : 'blotter/delete';
+    const deleteBlotterUrl =
+        userRole == 1
+            ? "/blotter/admin-delete"
+            : userRole == 3
+              ? "/blotter/municipal-delete"
+              : "blotter/delete";
 
     // Edit blotter url
-    const editBlotterUrl = userRole == 1 ? '/blotter/admin-edit'
-        : userRole == 2 ? '/blotter/edit'
-            : userRole == 3 ? '/blotter/municipal-edit'
+    const editBlotterUrl =
+        userRole == 1
+            ? "/blotter/admin-edit"
+            : userRole == 5
+              ? "/barangay/edit"
+              : userRole == 3
+                ? "/blotter/municipal-edit"
                 : "dashboard";
 
     const handleEdit = (id: number) => {
         router.visit(editBlotterUrl, {
-            method: 'get',
+            method: "get",
             data: {
                 id: id,
             },
-        })
-    }
+        });
+    };
 
     const handleConfirmDelete = (e: any, id: number) => {
         e.preventDefault();
@@ -52,7 +68,7 @@ const TableBody = ({ blotters, setData }: { blotters: any; setData: CallableFunc
             reverseButtons: true,
             customClass: {
                 confirmButton: "btn btn-success",
-                cancelButton: "btn btn-danger"
+                cancelButton: "btn btn-danger",
             },
         }).then((result) => {
             if (result.isConfirmed) {
@@ -65,7 +81,6 @@ const TableBody = ({ blotters, setData }: { blotters: any; setData: CallableFunc
                         timer: 3000,
                     });
                 } else {
-
                     router.delete(deleteBlotterUrl, {
                         data: { id: id },
                     });
@@ -78,7 +93,6 @@ const TableBody = ({ blotters, setData }: { blotters: any; setData: CallableFunc
                         timer: 2500,
                     });
                 }
-
             } else if (
                 /* Read more about handling dismissals below */
                 result.dismiss === Swal.DismissReason.cancel
@@ -92,145 +106,148 @@ const TableBody = ({ blotters, setData }: { blotters: any; setData: CallableFunc
                 });
             }
         });
-    }
+    };
 
     // Get incident type
     const getIncidentType = (type: number) => {
-        const incident = incidentTypes?.filter((item: any) => item?.id == type)[0];
+        const incident = incidentTypes?.filter(
+            (item: any) => item?.id == type,
+        )[0];
         return incident?.value;
     };
 
     const formatCaseDisposition = (remarks: string) => {
-        if (remarks > '4') return 'Other';
+        if (remarks > "4") return "Other";
 
-        const result = disposition?.filter((item: any) => item?.id == parseInt(remarks))
+        const result = disposition?.filter(
+            (item: any) => item?.id == parseInt(remarks),
+        );
 
         return result[0]?.value;
-    }
+    };
 
-    const handlePreviewIncidentPhoto = (uploadedFile: string, userId: number, blotterId: number) => {
+    const handlePreviewIncidentPhoto = (
+        uploadedFile: string,
+        userId: number,
+        blotterId: number,
+    ) => {
         setBlotterId(blotterId);
         setShowIncidentPhoto(true);
         setIncidentPhotoIdToShow(userId);
         setIncidentPhotoToShow(uploadedFile);
-    }
+    };
 
     return (
         <>
             <tbody>
                 {blotters
-                    ?.filter((item: any, index: any, self: any) => self?.findIndex((t: any) => t?.id === item?.id) === index)
+                    ?.filter(
+                        (item: any, index: any, self: any) =>
+                            self?.findIndex((t: any) => t?.id === item?.id) ===
+                            index,
+                    )
                     ?.map((blotter: BlotterProps, i: number) => (
-                        <tr key={i} className={`hover:bg-slate-100 cursor-pointer z-20 ${(i % 2) == 1 ? 'bg-white' : 'bg-slate-100'} dark:bg-meta-4`}>
-                            <td className="border border-slate-300 dark:border-white py-2 px-2 pl-9 dark:border-strokedark xl:pl-11">
-                                <h5 className="font-medium text-black dark:text-white text-xs">
+                        <tr
+                            key={i}
+                            className={`hover:bg-gradient-to-r hover:from-blue-50 hover:to-blue-100 dark:hover:from-gray-700 dark:hover:to-gray-600 cursor-pointer z-20 ${i % 2 == 1 ? "bg-white dark:bg-gray-800" : "bg-gradient-to-r from-slate-50 to-slate-100 dark:from-gray-800 dark:to-gray-900"} transition-all duration-200`}
+                        >
+                            <td className="px-4 py-3 border-0 border-b border-gray-100 dark:border-gray-700 first:rounded-bl-xl">
+                                <h5 className="font-semibold text-gray-900 dark:text-white">
                                     {blotter?.entry_number}
                                 </h5>
                             </td>
-                            <td className="border border-slate-300 dark:border-white py-2 px-2 dark:border-strokedark ">
-                                <p className="text-black dark:text-white text-xs">
-                                    {blotter?.complainant_family_name},  {blotter?.complainant_first_name}  {blotter?.complainant_middle_name?.charAt(0)}.
+                            <td className="px-4 py-3 border-0 border-b border-gray-100 dark:border-gray-700">
+                                <p className="text-gray-700 dark:text-gray-300 text-sm">
+                                    {blotter?.complainant_family_name},{" "}
+                                    {blotter?.complainant_first_name}
                                 </p>
                             </td>
-
-                            <td className="border border-slate-300 dark:border-white py-2 px-2 dark:border-strokedark">
-                                <p className="text-black dark:text-white text-xs">
-                                    {blotter?.respondent_family_name},  {blotter?.respondent_first_name}  {blotter?.complainant_middle_name?.charAt(0)}.
+                            <td className="px-4 py-3 border-0 border-b border-gray-100 dark:border-gray-700">
+                                <p className="text-gray-700 dark:text-gray-300 text-sm">
+                                    {blotter?.respondent_family_name},{" "}
+                                    {blotter?.respondent_first_name}
                                 </p>
                             </td>
-
-                            <td className="border border-slate-300 dark:border-white py-2 px-2 dark:border-strokedark">
-                                <p className="text-black dark:text-white  grid place-items-start  text-xs" >
-                                    {getIncidentType(blotter?.incident_type)?.split(" - ")[1]?.substring(0, 50) ?? 'Other'}
-                                </p>
+                            <td className="px-4 py-3 border-0 border-b border-gray-100 dark:border-gray-700">
+                                <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-gradient-to-r from-purple-500 to-purple-600 text-white">
+                                    {getIncidentType(blotter?.incident_type)}
+                                </span>
                             </td>
-
-                            <td className="border border-slate-300 dark:border-white py-2 px-2 dark:border-strokedark">
-                                <p className="text-black dark:text-white  grid place-items-start  text-xs" >
-                                    {blotter?.complainant_street},  {blotter?.complainant_village}, {getBarangayByBrgyCode(parseInt(blotter?.complainant_barangay))}
-                                </p>
-                            </td>
-
-                            <td className="border border-slate-300 dark:border-white py-2 px-2 dark:border-strokedark">
-                                <p className="text-black dark:text-white text-xs  grid place-items-center ">
-                                    {blotter?.time_of_incident ?? blotter?.time_of_report} / {blotter?.date_of_incident ?? blotter?.date_reported}
-                                </p>
-                            </td>
-
-                            <td className="border border-slate-300 dark:border-white py-2 px-2 dark:border-strokedark flex place-items-center gap-3"
-                                onClick={() => handlePreviewIncidentPhoto(blotter?.uploaded_file, blotter?.user_id, blotter?.id)}>
-                                <img
-                                    src={`/images/${blotter?.user_id}/incidents/${blotter?.uploaded_file}`}
-                                    alt="incident-pic"
-                                    className='h-6 w-10'
-                                />
-                                <p className="text-blue-600 underline dark:text-white  grid place-items-start  text-xs" >
-                                    {blotter?.uploaded_file ?? 'No file uploaded'}
-                                </p>
-                            </td>
-
-                            <td className="border border-slate-300 dark:border-white py-2 px-2 dark:border-strokedark">
+                            <td className="px-4 py-3 border-0 border-b border-gray-100 dark:border-gray-700">
                                 <p
-                                    className={`inline-flex rounded-full ml-2 bg-opacity-10 py-1 px-1 text-xs  text-slate-700`}
+                                    className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-medium ${
+                                        blotter?.remarks == "1"
+                                            ? "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200"
+                                            : blotter?.remarks == "2"
+                                              ? "bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200"
+                                              : blotter?.remarks == "3"
+                                                ? "bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200"
+                                                : blotter?.remarks == "4"
+                                                  ? "bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200"
+                                                  : "bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-200"
+                                    }`}
                                 >
                                     {formatCaseDisposition(blotter?.remarks)}
                                 </p>
                             </td>
-                            <td className="border border-slate-300 dark:border-white py-2 px-2 dark:border-strokedark">
-                                <div className="flex justify-center space-x-3.5">
+                            <td className="px-4 py-3 border-0 border-b border-gray-100 dark:border-gray-700">
+                                <div className="flex justify-center space-x-2">
                                     <button
                                         onClick={() => handleEdit(blotter.id)}
-                                        className="bg-primary text-white rounded p-2 flex justify-center text-xs py-1 gap-1">
-                                        {userRole == 2
-                                            ? <><EyeFill size={16} /> View</>
-                                            : <PencilSquare size={16} />
-                                        }
+                                        className="bg-gradient-to-r from-blue-500 to-blue-600 text-white rounded-lg px-3 py-1.5 text-xs hover:from-blue-600 hover:to-blue-700 transition-all duration-200 flex items-center gap-1"
+                                    >
+                                        {userRole == 2 ? (
+                                            <>
+                                                <EyeFill size={14} /> View
+                                            </>
+                                        ) : (
+                                            <PencilSquare size={14} />
+                                        )}
                                     </button>
 
                                     {userRole != 2 ? (
                                         <button
-                                            onClick={(e) => handleConfirmDelete(e, blotter.id)}
-                                            className="bg-danger text-white rounded p-2 flex justify-center text-xs py-1 gap-1">
-                                            <Trash size={16} />
+                                            onClick={(e) =>
+                                                handleConfirmDelete(
+                                                    e,
+                                                    blotter.id,
+                                                )
+                                            }
+                                            className="bg-gradient-to-r from-red-500 to-red-600 text-white rounded-lg px-3 py-1.5 text-xs hover:from-red-600 hover:to-red-700 transition-all duration-200 flex items-center gap-1"
+                                        >
+                                            <Trash size={14} />
                                         </button>
                                     ) : null}
                                 </div>
                             </td>
                         </tr>
-                    ))
-                }
-            </tbody >
+                    ))}
+            </tbody>
+
             <Modal
                 show={showIncidentPhoto}
                 onClose={() => setShowIncidentPhoto(false)}
-                maxWidth='4xl'>
+                maxWidth="4xl"
+            >
                 <div className="p-3">
                     <div className="flex justify-between place-items-center mb-2">
                         <h6
-                            className='text-blue-500 hover:underline cursor-pointer'
-                            onClick={() => handleEdit(blotterId)} >
+                            className="text-blue-500 hover:underline cursor-pointer"
+                            onClick={() => handleEdit(blotterId)}
+                        >
                             View incident details
                         </h6>
                         <div
                             className="flex place-items-center hover:font-bold cursor-pointer"
-                            onClick={() => setShowIncidentPhoto(false)}>
+                            onClick={() => setShowIncidentPhoto(false)}
+                        >
                             <X size={30} /> Close
                         </div>
-                    </div>  {!incidentPhotoToShow
-                        ? <div className="flex place-items-center flex-col py-20">
-                            <Images size={250} className='text-slate-600' />
-                            <h1 className='text-slate-500 text-3xl font-bold'>NO IMAGE AVAILABLE!</h1>
-                        </div>
-                        : <img
-                            src={`/images/${incidentPhotoIdToShow}/incidents/${incidentPhotoToShow}`}
-                            alt="incident-pic"
-                            className='h-[30rem] w-full'
-                        />}
-
+                    </div>
                 </div>
             </Modal>
         </>
-    )
-}
+    );
+};
 
-export default TableBody
+export default TableBody;

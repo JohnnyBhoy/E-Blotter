@@ -22,7 +22,7 @@ class Blotter extends Model
         'incident_type',
         'narrative',
         'remarks',
-        'complainant_signature',
+        'complainant_id',
         'recorded_by',
         'recorded_by_signature',
         'uploaded_file',

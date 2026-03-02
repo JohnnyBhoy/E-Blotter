@@ -20,7 +20,7 @@ class BarangayBlotterController extends Controller
         if (!$user) {
             return response()->json(['message' => 'Unauthenticated'], 401);
         }
-        
+
         $blotters = Blotter::where('user_id', $user->id)
             ->orderBy('created_at', 'desc')
             ->get();
@@ -46,10 +46,10 @@ class BarangayBlotterController extends Controller
         ]);
 
         $user = Auth::user();
-        
+
         // Generate entry number
         $entryNumber = $this->generateEntryNumber();
-        
+
         $blotter = Blotter::create([
             'user_id' => $user->id,
             'entry_number' => $entryNumber,
@@ -160,15 +160,15 @@ class BarangayBlotterController extends Controller
             ->get();
 
         $filename = "barangay-blotter-reports-" . date('Y-m-d') . ".csv";
-        
+
         $headers = [
             'Content-Type' => 'text/csv',
             'Content-Disposition' => "attachment; filename=\"{$filename}\"",
         ];
 
-        $callback = function() use ($blotters) {
+        $callback = function () use ($blotters) {
             $file = fopen('php://output', 'w');
-            
+
             // CSV header
             fputcsv($file, [
                 'Entry #',
@@ -210,7 +210,7 @@ class BarangayBlotterController extends Controller
     public function statistics(): JsonResponse
     {
         $user = Auth::user();
-        
+
         $total = Blotter::where('user_id', $user->id)->count();
         $pending = Blotter::where('user_id', $user->id)
             ->where('status', 'Pending')
@@ -218,7 +218,7 @@ class BarangayBlotterController extends Controller
         $resolved = Blotter::where('user_id', $user->id)
             ->where('status', 'Resolved')
             ->count();
-        
+
         $thisMonth = Blotter::where('user_id', $user->id)
             ->whereMonth('created_at', now()->month)
             ->whereYear('created_at', now()->year)
@@ -243,7 +243,7 @@ class BarangayBlotterController extends Controller
         $sequence = DB::table('blotters')
             ->whereYear('created_at', $year)
             ->max('entry_number') + 1;
-        
+
         return str_pad($sequence, 6, '0', STR_PAD_LEFT);
     }
 }

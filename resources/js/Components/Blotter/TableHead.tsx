@@ -1,13 +1,16 @@
 import React from 'react'
 
 const TableHead = () => {
-    const headers = ['Entry No.', 'Complainant/s', 'Suspect/s', 'Incident Type', 'Place of Incident', 'Time / Date', 'Incident Photo', 'Remarks', 'Action'];
+    const headers = ['Entry No.', 'Complainant', 'Suspect', 'Incident Type', 'Remarks', 'Action'];
 
     return (
         <thead>
-            <tr className="bg-gray-1 text-left dark:bg-meta-4 ">
-                {headers.map((item: string) => (
-                    <th className="border border-slate-300 min-w-[120px] py-3 px-2 font-medium text-black dark:text-white xl:pl-7 text-sm">
+            <tr className="bg-gradient-to-r from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-900 text-left">
+                {headers.map((item: string, index: number) => (
+                    <th 
+                        key={index}
+                        className="px-4 py-3 font-semibold text-gray-900 dark:text-white text-sm border-0 border-b-2 border-gray-200 dark:border-gray-700 first:rounded-tl-xl last:rounded-tr-xl transition-all duration-200 hover:bg-gray-100 dark:hover:bg-gray-700"
+                    >
                         {item}
                     </th>
                 ))}

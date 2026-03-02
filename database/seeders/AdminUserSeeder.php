@@ -28,7 +28,7 @@ class AdminUserSeeder extends Seeder
             'email_verified_at' => now(),
         ]);
 
-        // Create Province user
+        {/* Create Province user
         $province = User::create([
             'name' => 'Province Officer',
             'email' => 'province@eblotter.gov.ph',
@@ -136,6 +136,7 @@ class AdminUserSeeder extends Seeder
             'province_code' => 'PH-0001',
             'region_code' => 'PH-01',
         ]);
+        */}
 
         $this->command->info('✅ E-Blotter users created successfully!');
         $this->command->info('');

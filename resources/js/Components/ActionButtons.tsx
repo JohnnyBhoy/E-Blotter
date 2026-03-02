@@ -6,30 +6,31 @@ export const ActionButtons = ({ onDownload, onExportToExcel, onPrint }:
     return (
         <>
             <button
-                className="p-2 border border-slate-400 px-2 py-1 flex gap-1 rounded-l text-slate-700 hover:bg-slate-200"
+                className="p-2 border-0 bg-white dark:bg-gray-800 rounded-lg shadow-sm hover:shadow-md transition-all duration-200 flex items-center gap-2"
                 onClick={() => onExportToExcel()}
             >
-                <FiletypeCsv className="mt-1" /> CSV
+                <FiletypeCsv className="w-5 h-5" /> CSV
             </button>
 
             <button
-                className="p-2 border border-slate-400 px-2 py-1 flex gap-1 text-slate-700 hover:bg-slate-200"
+                className="p-2 border-0 bg-white dark:bg-gray-800 rounded-lg shadow-sm hover:shadow-md transition-all duration-200 flex items-center gap-2"
                 onClick={() => onExportToExcel()}
             >
-                <FileExcel className="mt-1" onClick={() => onDownload} /> Excel
+                <FileExcel className="w-5 h-5" /> Excel
             </button>
 
             <button
-                className="p-2 border border-slate-400 px-2 py-1 flex gap-1 text-slate-700 hover:bg-slate-200"
+                className="p-2 border-0 bg-white dark:bg-gray-800 rounded-lg shadow-sm hover:shadow-md transition-all duration-200 flex items-center gap-2"
                 onClick={() => onDownload()}
             >
-                <FiletypePdf className="mt-1" /> PDF
+                <FiletypePdf className="w-5 h-5" /> PDF
             </button>
+
             <button
-                className="p-2 rounded-r border border-slate-400 px-2 py-1 flex gap-1 mr-4 text-slate-700 hover:bg-slate-200"
+                className="p-2 border-0 bg-white dark:bg-gray-800 rounded-lg shadow-sm hover:shadow-md transition-all duration-200 flex items-center gap-2"
                 onClick={() => onPrint()}
             >
-                <Printer className="mt-1" /> Print
+                <Printer className="w-5 h-5" /> Print
             </button>
         </>
     )

@@ -49,6 +49,17 @@ class BlotterController extends Controller
         $userId = auth()->user()->id;
         $imageName = "";
 
+        // Avoid duplicate entry number for the same user
+        $entryNumber = $request->get('entry_number');
+
+        $blotterEntryNumber = Blotter::where('user_id', $userId)
+            ->where('entry_number', $entryNumber)
+            ->first();
+
+        if ($blotterEntryNumber) {
+            return response()->json(['error' => 'Entry number already exists'], 400);
+        }
+
         try {
             $this->blotterService->create($request);
 
@@ -74,7 +85,7 @@ class BlotterController extends Controller
             }
 
             // Get all the blotter of the giver barangay id
-            $blotters = $this->blotterService->getAll(10, 1, "", $userId, 0, 0);
+            $blotters = $this->blotterService->getAll($userId);
 
             return Inertia::render($this->blottersUrl, [
                 'blotters' => $blotters,
@@ -225,6 +236,95 @@ class BlotterController extends Controller
         } catch (\Throwable $th) {
             return response()->json(['error' => $th], 500);
         }
+    }
+
+    /**
+     * Method to edit blotter data for current barangay user
+     * @param \Illuminate\Http\Request $request The HTTP request
+     */
+    public function getBarangayEdit(Request $request)
+    {
+        $id = $request->get('id');
+        $userId = auth()->user()->id;
+
+        try {
+            $blotter = $this->blotterService->get($id);
+
+            // Ensure the blotter belongs to the current barangay user
+            if ($blotter->user_id !== $userId) {
+                return response()->json(['error' => 'Unauthorized'], 403);
+            }
+
+            return Inertia::render('Blotter/Edit', [
+                'blotter' => $blotter
+            ]);
+        } catch (\Throwable $th) {
+            return response()->json(['error' => $th], 500);
+        }
+    }
+
+    /**
+     * Method to update blotter data for current barangay user
+     * @param \Illuminate\Http\Request $request The HTTP request
+     */
+    public function updateBarangay(Request $request)
+    {
+        $userId = auth()->user()->id;
+        $data = $request->all();
+
+        try {
+            // Get the blotter to verify ownership
+            $blotter = $this->blotterService->get($data['id']);
+
+            // Ensure the blotter belongs to the current barangay user
+            if ($blotter->user_id !== $userId) {
+                return response()->json(['error' => 'Unauthorized'], 403);
+            }
+
+            // Update the blotter
+            $this->blotterService->update($data['id'], $data);
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Blotter updated successfully'
+            ]);
+        } catch (\Throwable $th) {
+            return response()->json(['error' => $th], 500);
+        }
+    }
+
+    /**
+     * Method to retrieve all blotter entries for current barangay user
+     * @param \Illuminate\Http\Request $request The HTTP request
+     */
+    public function getBarangayBlotters(Request $request)
+    {
+        $userId = auth()->user()->id;
+
+        // Get current barangay user's blotters only
+        $blotters = $this->blotterService->getAll($userId);
+
+        // Get barangay options for filtering
+        $barangayOptions = DB::table("user_addresses as ua")
+            ->join("users as u", "ua.user_id", '=', 'u.id')
+            ->where('u.role', 5) // Only barangay users
+            ->select('ua.user_id', 'ua.barangay_code')
+            ->orderBy('ua.barangay_code', 'asc')
+            ->get()
+            ->toArray();
+
+        return Inertia::render($this->blottersUrl, [
+            'blotters' => $blotters,
+            'message' => 'successful retrieve',
+            'pageDisplay' => 10,
+            'pageNumber' => 1,
+            'keyword' => "",
+            'cityCode' => null,
+            'brgyCode' => null,
+            'remark' => 0,
+            'incidentType' => 0,
+            'brgyWithRecords' => $barangayOptions,
+        ]);
     }
 
     /**

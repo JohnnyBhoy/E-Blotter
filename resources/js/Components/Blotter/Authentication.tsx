@@ -26,17 +26,6 @@ const Authentication = ({ data, setData }: { data: any; setData: CallableFunctio
                         className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent py-2 px-5 text-sm text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
                     />
                 </div>
-                {/* <div className="lg:w-1/2 w-full">
-                    <label className="text-xs bg-white dark:bg-transparent absolute ml-3 mt-[-.4rem]">
-                        Signature of Recorder
-                    </label>
-                    <input
-                        value={data?.recorded_by_signature}
-                        type="file"
-                        onChange={(e) => setData('recorded_by_signature', e.target.value)}
-                        className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent py-2 px-5 text-sm text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
-                    />
-                </div> */}
                 {/** End work address */}
             </div>
             {/** End complainant Address */}

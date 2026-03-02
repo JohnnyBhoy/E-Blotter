@@ -30,6 +30,14 @@ export default function Authenticated({
                         <Header sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
                         {/* <!-- ===== Header End ===== --> */}
 
+                        {/* <!-- ===== Page Header Start ===== --> */}
+                        {header && (
+                            <div className="px-4 sm:px-6 lg:px-8 py-4 bg-white dark:bg-gray-800">
+                                {header}
+                            </div>
+                        )}
+                        {/* <!-- ===== Page Header End ===== --> */}
+
                         {/* <!-- ===== Main Content Start ===== --> */}
                         <main>
                             <div className="mx-auto max-w-screen-2xl bg-transparent">

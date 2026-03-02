@@ -6,6 +6,7 @@ use App\Models\Complainant;
 use App\Models\UserAddress;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class ProvinceRepository
 {
@@ -14,7 +15,14 @@ class ProvinceRepository
      */
     public function get()
     {
-        return UserAddress::selectRaw('DISTINCT province_code, region_code')
+        return DB::table('users as u')
+            ->join('user_addresses as ua', 'u.id', '=', 'ua.user_id')
+            ->select(
+                'u.id',
+                'u.name',
+                'ua.province_code',
+            )
+            ->where('u.role', 3)
             ->get()
             ->toArray();
     }

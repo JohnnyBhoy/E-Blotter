@@ -140,11 +140,11 @@ const PersonInvolveData = ({ data, setData, person }: { data: any; setData: Call
     const [complainants, setComplainants] = useState<number[]>([1]);
 
     return (
-        <div className="rounded-lg dark:border-strokedark dark:bg-boxdark mt-4 ">
+        <div className="rounded-lg dark:border-strokedark dark:bg-boxdark mt-4">
 
             {complainants?.map((count, i) => (
                 <>
-                    <div className="mt-2 px-6.5 py-2 dark:border-strokedark bg-white dark:bg-boxdark  flex justify-between"
+                    <div className="mt-2 px-6.5 py-2 border  border-slate-200 dark:border-strokedark bg-white dark:bg-boxdark  flex justify-between rounded-t-lg"
                         key={i}>
                         <h3 className="font-medium dark:text-white">
                             {person === 'Complainant'
@@ -186,9 +186,9 @@ const PersonInvolveData = ({ data, setData, person }: { data: any; setData: Call
 
                     </div>
 
-                    <div className="bg-white pt-[1rem] pb-[.5rem] shadow">
-                        <div className="lg:flex lg:gap-5.5 p-2 w-full space-y-6 lg:space-y-0">
-                            <div className="lg:w-1/2 w-full">
+                    <div className="bg-white pt-[1rem] pb-[.5rem] border border-slate-200 rounded-b-lg">
+                        <div className="grid grid-cols-3 gap-4 p-6">
+                            <div className=" w-full">
                                 <FormInput
                                     label="Family Name *"
                                     type="text"
@@ -202,7 +202,7 @@ const PersonInvolveData = ({ data, setData, person }: { data: any; setData: Call
                                 />
                             </div>
 
-                            <div className="lg:w-1/2 w-full">
+                            <div className="w-full">
                                 <FormInput
                                     label="First Name *"
                                     type="text"
@@ -216,7 +216,7 @@ const PersonInvolveData = ({ data, setData, person }: { data: any; setData: Call
                                 />
                             </div>
 
-                            <div className="lg:w-1/2 w-full">
+                            <div className="w-full">
                                 <FormInput
                                     label="Middle Name *"
                                     type="text"
@@ -230,7 +230,7 @@ const PersonInvolveData = ({ data, setData, person }: { data: any; setData: Call
                                 />
                             </div>
 
-                            <div className="lg:w-1/2 w-full">
+                            <div className="w-full">
                                 <FormInput
                                     label="Birth Date *"
                                     type="date"
@@ -257,10 +257,8 @@ const PersonInvolveData = ({ data, setData, person }: { data: any; setData: Call
                                     onChange={(e) => handleSetData(e, i)}
                                 />
                             </div>
-                        </div>
 
-                        <div className="lg:flex lg:gap-5.5 p-2 mb-6 w-full space-y-6 lg:space-y-0">
-                            <div className="lg:w-1/2 w-full">
+                            <div className="w-full">
                                 <label className="text-xs bg-white dark:bg-transparent  absolute ml-3 mt-[-.4rem]">
                                     Citizenship *
                                 </label>
@@ -285,7 +283,7 @@ const PersonInvolveData = ({ data, setData, person }: { data: any; setData: Call
                                 </select>
                             </div>
 
-                            <div className="lg:w-1/2 w-full">
+                            <div className="w-full">
                                 <label className="text-xs dark:bg-transparent  bg-white absolute ml-3 mt-[-.4rem]">
                                     Sex / Gender *
                                 </label>
@@ -310,7 +308,7 @@ const PersonInvolveData = ({ data, setData, person }: { data: any; setData: Call
                                 </select>
                             </div>
 
-                            <div className="lg:w-1/2 w-full">
+                            <div className="w-full">
                                 <label className="text-xs dark:bg-transparent  bg-white absolute ml-3 mt-[-.4rem]">
                                     Civil Status *
                                 </label>
@@ -406,19 +404,19 @@ const PersonInvolveData = ({ data, setData, person }: { data: any; setData: Call
                                     onChange={(e) => handleSetData(e, i)}
                                 />
                             </div>
-                        </div>
+                                              </div>
                     </div>
 
                     {/* <!-- Complainant Address --> */}
                     <div className="grid grid-cols-1 gap-6 mt-6">
-                        <div className="border border-slate-200 bg-white dark:bg-boxdark shadow-sm">
+                        <div className="border border-slate-200 bg-white dark:bg-boxdark shadow-sm rounded-lg">
                             {/** Home Address */}
                             <div className="border-b border-stroke py-2 px-6.5 dark:border-strokedark  dark:bg-boxdark ">
                                 <h3 className="font-medium dark:text-white">
                                     {person === 'Complainant' ? "Place of Incident" : "Home Address"}
                                 </h3>
                             </div>
-                            <div className="grid lg:grid-cols-3 grid-cols-1 gap-6 p-3">
+                            <div className="grid lg:grid-cols-3 grid-cols-1 gap-6 p-6">
                                 <div className="w-full mt-[.5rem]">
                                     <FormInput
                                         label="House no/Street"
@@ -595,14 +593,14 @@ const PersonInvolveData = ({ data, setData, person }: { data: any; setData: Call
 
                         {/**Work Address */}
                         <div className="">
-                            <div className="border-b border-stroke py-2 px-6.5 dark:border-strokedark bg-white dark:bg-boxdark shadow-sm">
+                            <div className="border-b border-stroke py-2 px-6.5 dark:border-strokedark bg-white dark:bg-boxdark shadow-sm border rounded-t-lg">
                                 <div className="flex">
                                     <h3 className="font-medium text-center dark:text-white">
                                         {person === 'Complainant' ? "Home Address" : "Work Address"}
                                     </h3>
                                 </div>
                             </div>
-                            <div className="grid lg:grid-cols-3 grid-cols-1 gap-6 p-3 border border-slate-200 bg-white dark:bg-boxdark">
+                            <div className="grid lg:grid-cols-3 grid-cols-1 gap-6 p-6 border border-slate-200 bg-white dark:bg-boxdark rounded-b-lg">
                                 <div className="w-full mt-[.5rem]">
                                     <FormInput
                                         label="House no./Street"
@@ -778,11 +776,6 @@ const PersonInvolveData = ({ data, setData, person }: { data: any; setData: Call
                         {/** End work address */}
 
                     </div>
-                    <div className="rounded-lg bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
-
-
-
-                    </div >
                 </>
             ))}
             {/** End complainant Address */}

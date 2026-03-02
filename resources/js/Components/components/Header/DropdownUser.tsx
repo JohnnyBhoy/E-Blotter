@@ -2,6 +2,7 @@ import Modal from '@/Components/Modal';
 import { PageProps } from '@/Pages/types';
 import { useLoginRegisterStore } from '@/utils/store/loginRegisterStore';
 import { Link, usePage } from '@inertiajs/react';
+import { UserCircle } from 'lucide-react';
 import React, { useEffect, useRef, useState } from 'react';
 import { Hypnotize } from 'react-bootstrap-icons';
 
@@ -75,7 +76,9 @@ const DropdownUser = () => {
       >
 
         <span className="h-12 w-12 rounded-full">
-          <img src={user?.avatar ? `/images/barangay_avatar/${user?.avatar}` : UserOne} alt="User" className='rounded-full' />
+            <div className="h-12 w-12 rounded-full bg-gradient-to-r from-blue-500 to-purple-600 flex items-center justify-center">
+              <UserCircle className="w-6 h-6 text-white" />
+            </div>
         </span>
 
         <svg

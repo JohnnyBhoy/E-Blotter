@@ -54,7 +54,7 @@ class User extends Authenticatable  //implements MustVerifyEmail
     }
 
     // Hierarchical Relationships
-    
+
     /**
      * Get the province that this user belongs to (if user is municipality, station, or barangay)
      */
@@ -166,7 +166,7 @@ class User extends Authenticatable  //implements MustVerifyEmail
 
     public function getRoleNameAttribute()
     {
-        return match($this->role) {
+        return match ($this->role) {
             1 => 'Super Admin',
             2 => 'Province',
             3 => 'Municipality',

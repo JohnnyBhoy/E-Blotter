@@ -20,7 +20,7 @@ use App\Http\Middleware\IsBarangay;
 Route::middleware(['web', 'auth', 'verified', IsBarangay::class])->group(function () {
     // Existing incident reports
     Route::apiResource('incident-reports', IncidentReportController::class);
-    
+
     // Barangay blotter system
     Route::prefix('barangay')->group(function () {
         // Blotter CRUD operations
@@ -29,11 +29,11 @@ Route::middleware(['web', 'auth', 'verified', IsBarangay::class])->group(functio
         Route::get('/blotters/{id}', [BarangayBlotterController::class, 'show']);
         Route::put('/blotters/{id}', [BarangayBlotterController::class, 'update']);
         Route::delete('/blotters/{id}', [BarangayBlotterController::class, 'destroy']);
-        
+
         // Reports and export
         Route::get('/reports', [BarangayBlotterController::class, 'reports']);
         Route::get('/reports/export', [BarangayBlotterController::class, 'export']);
-        
+
         // Statistics
         Route::get('/statistics', [BarangayBlotterController::class, 'statistics']);
     });
@@ -48,11 +48,11 @@ Route::middleware(['web', 'auth', 'verified', \App\Http\Middleware\IsStation::cl
         Route::get('/blotters/{id}', [StationBlotterController::class, 'show']);
         Route::put('/blotters/{id}', [StationBlotterController::class, 'update']);
         Route::delete('/blotters/{id}', [StationBlotterController::class, 'destroy']);
-        
+
         // Reports and export
         Route::get('/reports', [StationBlotterController::class, 'reports']);
         Route::get('/reports/export', [StationBlotterController::class, 'export']);
-        
+
         // Statistics
         Route::get('/statistics', [StationBlotterController::class, 'statistics']);
     });

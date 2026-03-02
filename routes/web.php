@@ -74,6 +74,20 @@ Route::group(['middleware' => ['auth', 'verified', IsBarangay::class]], function
         return Inertia::render('Barangay/Incidents');
     })->name('barangay.incidents');
 
+    // New Blotter Report
+    Route::get('/barangay/new-blotter', function () {
+        return Inertia::render('Barangay/NewBlotter');
+    })->name('barangay.new.blotter');
+
+    // Barangay Blotters - Get blotters for current barangay user
+    Route::get('/barangay/blotters', [BlotterController::class, 'getBarangayBlotters'])->name('barangay.blotters');
+
+    // Barangay Edit - Edit blotter for current barangay user
+    Route::get('/barangay/edit', [BlotterController::class, 'getBarangayEdit'])->name('barangay.edit');
+
+    // Barangay Update - Update blotter for current barangay user
+    Route::put('/barangay/update', [BlotterController::class, 'updateBarangay'])->name('barangay.update');
+
     // Blotter
     Route::get($blotter, [BlotterController::class, 'index'])->name('blotter.new');
     Route::post($blotter, [BlotterController::class, 'create'])->name('blotter');
@@ -178,6 +192,30 @@ Route::group(['middleware' => ['auth', 'verified', IsAdmin::class]], function ()
 
     // Barangays
     Route::get('/admin-barangays', [AdminController::class, 'getbarangays'])->name('admin.barangays');
+
+    // Admin Barangay Management
+    Route::get('/admin/barangay', [AdminController::class, 'barangayIndex'])->name('admin.barangay');
+    Route::get('/admin/barangay/create', [AdminController::class, 'barangayCreate'])->name('admin.barangay.create');
+    Route::post('/admin/barangay', [AdminController::class, 'barangayStore'])->name('admin.barangay.store');
+    Route::get('/admin/barangay/{id}/edit', [AdminController::class, 'barangayEdit'])->name('admin.barangay.edit');
+    Route::put('/admin/barangay/{id}', [AdminController::class, 'barangayUpdate'])->name('admin.barangay.update');
+    Route::delete('/admin/barangay/{id}', [AdminController::class, 'barangayDestroy'])->name('admin.barangay.destroy');
+
+    // Admin Station Management
+    Route::get('/admin/station', [AdminController::class, 'stationIndex'])->name('admin.station');
+    Route::get('/admin/station/create', [AdminController::class, 'stationCreate'])->name('admin.station.create');
+    Route::post('/admin/station', [AdminController::class, 'stationStore'])->name('admin.station.store');
+    Route::get('/admin/station/{id}/edit', [AdminController::class, 'stationEdit'])->name('admin.station.edit');
+    Route::put('/admin/station/{id}', [AdminController::class, 'stationUpdate'])->name('admin.station.update');
+    Route::delete('/admin/station/{id}', [AdminController::class, 'stationDestroy'])->name('admin.station.destroy');
+
+    // Admin Province Management
+    Route::get('/admin/province', [AdminController::class, 'provinceIndex'])->name('admin.province');
+    Route::get('/admin/province/create', [AdminController::class, 'provinceCreate'])->name('admin.province.create');
+    Route::post('/admin/province', [AdminController::class, 'provinceStore'])->name('admin.province.store');
+    Route::get('/admin/province/{id}/edit', [AdminController::class, 'provinceEdit'])->name('admin.province.edit');
+    Route::put('/admin/province/{id}', [AdminController::class, 'provinceUpdate'])->name('admin.province.update');
+    Route::delete('/admin/province/{id}', [AdminController::class, 'provinceDestroy'])->name('admin.province.destroy');
 
     // Blotters
     Route::get('/blotter/admin-blotters', [BlotterController::class, 'getAll'])->name('blotter.admin.blotters');

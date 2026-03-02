@@ -1,5 +1,5 @@
 import { PageProps } from "@/Pages/types";
-import { Head, useForm, usePage } from "@inertiajs/react";
+import { Head, Link, useForm, usePage } from "@inertiajs/react";
 import React, { FormEvent, ReactElement, useState } from "react";
 import { ArrowLeft, ArrowRight, CircleHalf, CloudUpload } from "react-bootstrap-icons";
 import { SweetAlertOptions } from 'sweetalert2';
@@ -9,7 +9,6 @@ import BrfForm from "@/Components/Blotter/BrfForm";
 import CaseDisposition from "@/Components/Blotter/CaseDisposition";
 import Narrative from "@/Components/Blotter/Narrative";
 import PersonInvolveData from "@/Components/Blotter/PersonInvolveData";
-import Breadcrumb from "@/Components/components/Breadcrumbs/Breadcrumb";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import SweetAlert from "@/utils/functions/Sweetalert";
 
@@ -159,22 +158,48 @@ export default function Edit({ auth, blotter }: PageProps<{ blotter: any }>) {
     const Submit = (e: FormEvent) => {
         e.preventDefault();
 
-        post(route("blotter"));
+        // Check user role and use appropriate route
+        const userRole = auth.user.role;
+        if (userRole === 5) { // Barangay user
+            put(route("barangay.update"));
+        } else {
+            post(route("blotter"));
+        }
     }
 
     return (
         <AuthenticatedLayout
             user={auth.user}
             header={
-                <h2 className="font-semibold text-xl text-gray-800 leading-tight">
-                    Blotter
-                </h2>
+                <div className="flex items-center justify-between w-full">
+                    <div className="flex items-center space-x-4">
+                        <div className="p-4 bg-blue-700 rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-500 transform hover:scale-105">
+                            <CloudUpload className="w-7 h-7 text-white" />
+                        </div>
+                        <div className="space-y-1">
+                            <h2 className="font-bold text-3xl text-transparent bg-clip-text bg-gradient-to-r from-emerald-600 to-cyan-600 dark:from-emerald-400 dark:to-cyan-400 leading-tight">
+                                Edit Blotter Report
+                            </h2>
+                            <p className="text-gray-600 dark:text-gray-400 text-sm font-medium">
+                                Modify existing blotter entry for your barangay
+                            </p>
+                        </div>
+                    </div>
+                    
+                    {/* Back to Blotters Button */}
+                   <Link 
+                       href="/barangay/blotters" 
+                       className="flex place-items-center gap-2 bg-blue-700 text-white p-2 rounded-full"
+                   >
+                        <ArrowLeft className="w-5 h-5 group-hover:scale-110 transition-transform duration-300" />
+                        <span className="font-semibold whitespace-nowrap">Back to Blotters</span>
+                    </Link>
+                </div>
             }
         >
             <Head title="Barangay Blotter" />
-            <Breadcrumb pageName={person} />
 
-            <div className="grid grid-cols-1 gap-9 sm:grid-cols-1">
+            <div className="grid grid-cols-1 gap-9 sm:grid-cols-1 px-6">
 
                 <div className="flex flex-col lg:gap-0 gap-4">
 

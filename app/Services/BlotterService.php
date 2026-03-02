@@ -2,6 +2,8 @@
 
 namespace App\Services;
 
+use App\Models\Blotter;
+use App\Models\User;
 use Illuminate\Support\Collection;
 use App\Repositories\BlotterRepository;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
@@ -85,18 +87,31 @@ class BlotterService
 
     /**
      * Method to get all blotter data based on
-     * @param int $perPage Data record display
-     * @param int $page Data page display
      * @param int $userId ID of the barangay
-     * @param string $keyword  Filter
-     * @param int $remark case disposition / action
-     * @param int $incidentType case blotter type
      *
      * @return LengthAwarePaginator
      */
-    public function getAll(Int $perPage, Int $page, String $keyword, Int $userId, Int $remark, Int $incidentType)
+    public function getAll(Int $userId)
     {
-        return $this->blotter->getAll($perPage,  $page,  $keyword, $userId, $remark, $incidentType);
+        // Get all blotters by user_id joined with complainant and respondent in Query builder
+        return Blotter::where('blotters.user_id', $userId)
+            ->leftJoin('complainants', 'blotters.id', '=', 'complainants.blotter_id')
+            ->leftJoin('respondents', 'blotters.id', '=', 'respondents.blotter_id')
+            ->select(
+                'blotters.id',
+                'blotters.entry_number',
+                'blotters.incident_type',
+                'blotters.remarks',
+                'complainants.complainant_family_name',
+                'complainants.complainant_first_name',
+                'complainants.complainant_middle_name',
+                'respondents.respondent_family_name',
+                'respondents.respondent_first_name',
+                'respondents.respondent_middle_name',
+            )
+            ->where('complainants.complainant_family_name', '!=', null)
+            ->distinct()
+            ->get();
     }
 
     /**
@@ -196,5 +211,25 @@ class BlotterService
     public function getBarangayWithMostBlotter(Int $userId)
     {
         return $this->blotter->getBarangayWithMostBlotter($userId);
+    }
+
+    /**
+     * Method to get blotter count by barangay
+     * @param int $barangayCode Barangay code
+     * @return int Count of blotters for the barangay
+     */
+    public function getCountByBarangay(Int $barangayCode)
+    {
+        return $this->blotter->getCountByBarangay($barangayCode);
+    }
+
+    /**
+     * Method to get blotter count by station
+     * @param int $userId Station user ID
+     * @return int Count of blotters for the station
+     */
+    public function getCountByStation(Int $userId)
+    {
+        return $this->blotter->getCountByStation($userId);
     }
 }
