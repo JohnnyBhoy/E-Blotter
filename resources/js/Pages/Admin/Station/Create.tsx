@@ -164,18 +164,18 @@ export default function StationCreate({ auth }: PageProps) {
                 <div className="flex items-center space-x-4">
                     <Link
                         href={route("admin.station")}
-                        className="p-2 bg-gray-200 dark:bg-gray-700 rounded-lg hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors"
+                        className="p-2 bg-gray-200 dark:bg-claude-panel-2 rounded-lg hover:bg-gray-300 dark:hover:bg-claude-panel-2 transition-colors"
                     >
-                        <ArrowLeft className="w-5 h-5 text-gray-600 dark:text-gray-400" />
+                        <ArrowLeft className="w-5 h-5 text-gray-600 dark:text-claude-text-muted" />
                     </Link>
-                    <div className="p-3 bg-gradient-to-r from-blue-600 to-purple-600 rounded-xl shadow-lg">
+                    <div className="p-3 bg-gradient-to-r from-claude-accent to-claude-accent-light rounded-xl shadow-lg">
                         <Shield className="w-6 h-6 text-white" />
                     </div>
                     <div>
-                        <h2 className="font-bold text-2xl text-gray-900 dark:text-white leading-tight">
+                        <h2 className="font-bold text-2xl text-gray-900 dark:text-claude-text leading-tight">
                             Create Station
                         </h2>
-                        <p className="text-gray-600 dark:text-gray-400 text-sm">
+                        <p className="text-gray-600 dark:text-claude-text-muted text-sm">
                             Add a new police station to the system using
                             existing data
                         </p>
@@ -185,15 +185,15 @@ export default function StationCreate({ auth }: PageProps) {
         >
             <Head title="Admin - Create Station" />
 
-            <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-slate-100 dark:from-gray-900 dark:via-blue-900 dark:to-gray-800">
+            <div className="min-h-screen bg-gray-50 dark:bg-claude-bg">
                 <div className="relative z-10 p-6">
                     <div className="max-w-full mx-auto">
-                        <div className="bg-white dark:bg-white/10 rounded-xl shadow-lg border border-blue-200 dark:border-white/20 backdrop-blur-lg p-8">
+                        <div className="bg-white dark:bg-claude-panel rounded-xl shadow-lg border border-gray-200 dark:border-claude-border backdrop-blur-lg p-8">
                             <form onSubmit={handleSubmit} className="space-y-6">
                                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6">
                                     {/* Region Dropdown */}
                                     <div>
-                                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                                        <label className="block text-sm font-medium text-gray-700 dark:text-claude-text-muted mb-2">
                                             Region
                                         </label>
                                         <select
@@ -203,7 +203,7 @@ export default function StationCreate({ auth }: PageProps) {
                                                     e.target.value,
                                                 )
                                             }
-                                            className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-800 dark:text-white"
+                                            className="w-full px-4 py-2 border border-gray-300 dark:border-claude-border rounded-lg focus:ring-2 focus:ring-claude-accent/50 focus:border-transparent dark:bg-claude-panel dark:text-claude-text"
                                             required
                                         >
                                             <option value="">
@@ -227,7 +227,7 @@ export default function StationCreate({ auth }: PageProps) {
 
                                     {/* Province Dropdown */}
                                     <div>
-                                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                                        <label className="block text-sm font-medium text-gray-700 dark:text-claude-text-muted mb-2">
                                             Province
                                         </label>
                                         <select
@@ -238,7 +238,7 @@ export default function StationCreate({ auth }: PageProps) {
                                                 )
                                             }
                                             disabled={!selectedRegion}
-                                            className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-800 dark:text-white disabled:opacity-50 disabled:cursor-not-allowed"
+                                            className="w-full px-4 py-2 border border-gray-300 dark:border-claude-border rounded-lg focus:ring-2 focus:ring-claude-accent/50 focus:border-transparent dark:bg-claude-panel dark:text-claude-text disabled:opacity-50 disabled:cursor-not-allowed"
                                             required
                                         >
                                             <option value="">
@@ -268,7 +268,7 @@ export default function StationCreate({ auth }: PageProps) {
 
                                     {/* City Dropdown */}
                                     <div>
-                                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                                        <label className="block text-sm font-medium text-gray-700 dark:text-claude-text-muted mb-2">
                                             City/Municipality
                                         </label>
                                         <select
@@ -277,7 +277,7 @@ export default function StationCreate({ auth }: PageProps) {
                                                 handleCityChange(e.target.value)
                                             }
                                             disabled={!selectedProvince}
-                                            className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-800 dark:text-white disabled:opacity-50 disabled:cursor-not-allowed"
+                                            className="w-full px-4 py-2 border border-gray-300 dark:border-claude-border rounded-lg focus:ring-2 focus:ring-claude-accent/50 focus:border-transparent dark:bg-claude-panel dark:text-claude-text disabled:opacity-50 disabled:cursor-not-allowed"
                                         >
                                             <option value="">
                                                 {selectedStationName ||
@@ -303,7 +303,7 @@ export default function StationCreate({ auth }: PageProps) {
 
                                     {/* Station Name */}
                                     <div>
-                                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                                        <label className="block text-sm font-medium text-gray-700 dark:text-claude-text-muted mb-2">
                                             Station Name
                                         </label>
                                         <input
@@ -315,7 +315,7 @@ export default function StationCreate({ auth }: PageProps) {
                                                 )
                                             }
                                             placeholder="e.g., San Pedro Police Station"
-                                            className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-800 dark:text-white"
+                                            className="w-full px-4 py-2 border border-gray-300 dark:border-claude-border rounded-lg focus:ring-2 focus:ring-claude-accent/50 focus:border-transparent dark:bg-claude-panel dark:text-claude-text"
                                             required
                                         />
                                         {errors.station_name && (
@@ -327,14 +327,14 @@ export default function StationCreate({ auth }: PageProps) {
 
                                     {/* Station Code (Auto-generated) */}
                                     <div>
-                                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                                        <label className="block text-sm font-medium text-gray-700 dark:text-claude-text-muted mb-2">
                                             Station Code
                                         </label>
                                         <input
                                             type="text"
                                             value={data.user_address.city_code}
                                             readOnly
-                                            className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400"
+                                            className="w-full px-4 py-2 border border-gray-300 dark:border-claude-border rounded-lg bg-gray-100 dark:bg-claude-panel-2 text-gray-600 dark:text-claude-text-muted"
                                             placeholder="Auto-generated"
                                         />
                                         {errors.station_code && (
@@ -346,7 +346,7 @@ export default function StationCreate({ auth }: PageProps) {
 
                                     {/* Email */}
                                     <div>
-                                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                                        <label className="block text-sm font-medium text-gray-700 dark:text-claude-text-muted mb-2">
                                             Email
                                         </label>
                                         <input
@@ -359,7 +359,7 @@ export default function StationCreate({ auth }: PageProps) {
                                                 })
                                             }
                                             placeholder="station@email.com"
-                                            className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-800 dark:text-white"
+                                            className="w-full px-4 py-2 border border-gray-300 dark:border-claude-border rounded-lg focus:ring-2 focus:ring-claude-accent/50 focus:border-transparent dark:bg-claude-panel dark:text-claude-text"
                                         />
                                         {errors.email && (
                                             <p className="mt-1 text-sm text-red-600">
@@ -370,7 +370,7 @@ export default function StationCreate({ auth }: PageProps) {
 
                                     {/* Password */}
                                     <div>
-                                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                                        <label className="block text-sm font-medium text-gray-700 dark:text-claude-text-muted mb-2">
                                             Password
                                         </label>
                                         <input
@@ -383,7 +383,7 @@ export default function StationCreate({ auth }: PageProps) {
                                                 })
                                             }
                                             placeholder="Enter password"
-                                            className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-800 dark:text-white"
+                                            className="w-full px-4 py-2 border border-gray-300 dark:border-claude-border rounded-lg focus:ring-2 focus:ring-claude-accent/50 focus:border-transparent dark:bg-claude-panel dark:text-claude-text"
                                         />
                                         {errors?.user?.password && (
                                             <p className="mt-1 text-sm text-red-600">
@@ -394,7 +394,7 @@ export default function StationCreate({ auth }: PageProps) {
 
                                     {/* Longitude */}
                                     <div>
-                                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                                        <label className="block text-sm font-medium text-gray-700 dark:text-claude-text-muted mb-2">
                                             Longitude
                                         </label>
                                         <input
@@ -404,7 +404,7 @@ export default function StationCreate({ auth }: PageProps) {
                                                 setData("lang", e.target.value)
                                             }
                                             placeholder="e.g., 122.1234"
-                                            className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-800 dark:text-white"
+                                            className="w-full px-4 py-2 border border-gray-300 dark:border-claude-border rounded-lg focus:ring-2 focus:ring-claude-accent/50 focus:border-transparent dark:bg-claude-panel dark:text-claude-text"
                                         />
                                         {errors.lang && (
                                             <p className="mt-1 text-sm text-red-600">
@@ -415,7 +415,7 @@ export default function StationCreate({ auth }: PageProps) {
 
                                     {/* Latitude */}
                                     <div>
-                                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                                        <label className="block text-sm font-medium text-gray-700 dark:text-claude-text-muted mb-2">
                                             Latitude
                                         </label>
                                         <input
@@ -425,7 +425,7 @@ export default function StationCreate({ auth }: PageProps) {
                                                 setData("lat", e.target.value)
                                             }
                                             placeholder="e.g., 10.1234"
-                                            className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-800 dark:text-white"
+                                            className="w-full px-4 py-2 border border-gray-300 dark:border-claude-border rounded-lg focus:ring-2 focus:ring-claude-accent/50 focus:border-transparent dark:bg-claude-panel dark:text-claude-text"
                                         />
                                         {errors.lat && (
                                             <p className="mt-1 text-sm text-red-600">
@@ -439,14 +439,14 @@ export default function StationCreate({ auth }: PageProps) {
                                 <div className="flex justify-end space-x-4">
                                     <Link
                                         href={route("admin.station")}
-                                        className="px-6 py-2 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
+                                        className="px-6 py-2 border border-gray-300 dark:border-claude-border text-gray-700 dark:text-claude-text-muted rounded-lg hover:bg-gray-50 dark:hover:bg-claude-panel-2 transition-colors"
                                     >
                                         Cancel
                                     </Link>
                                     <button
                                         type="submit"
                                         disabled={processing}
-                                        className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                                        className="px-6 py-2 bg-claude-accent text-white hover:bg-claude-accent-light transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                                     >
                                         {processing
                                             ? "Creating..."

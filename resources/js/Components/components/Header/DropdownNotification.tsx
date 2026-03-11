@@ -42,7 +42,7 @@ const DropdownNotification = () => {
           setDropdownOpen(!dropdownOpen);
         }}
         href="#"
-        className="relative flex h-8.5 w-8.5 items-center justify-center rounded-full border-[0.5px] border-stroke bg-gray hover:text-primary dark:border-strokedark dark:bg-meta-4 dark:text-white"
+        className="relative flex h-8.5 w-8.5 items-center justify-center rounded-full border-[0.5px] border-stroke bg-gray hover:text-primary dark:border-strokedark dark:bg-meta-4 dark:text-claude-text"
       >
         <span
           className={`absolute -top-0.5 right-0 z-1 h-2 w-2 rounded-full bg-meta-1 ${notifying === false ? 'hidden' : 'inline'
@@ -94,7 +94,7 @@ const DropdownNotification = () => {
               href="#"
             >
               <p className="text-sm">
-                <span className="text-black dark:text-white">
+                <span className="text-black dark:text-claude-text">
                   Edit your information in a swipe
                 </span>{' '}
                 Sint occaecat cupidatat non proident, sunt in culpa qui officia
@@ -110,7 +110,7 @@ const DropdownNotification = () => {
               href="#"
             >
               <p className="text-sm">
-                <span className="text-black dark:text-white">
+                <span className="text-black dark:text-claude-text">
                   It is a long established fact
                 </span>{' '}
                 that a reader will be distracted by the readable.
@@ -125,7 +125,7 @@ const DropdownNotification = () => {
               href="#"
             >
               <p className="text-sm">
-                <span className="text-black dark:text-white">
+                <span className="text-black dark:text-claude-text">
                   There are many variations
                 </span>{' '}
                 of passages of Lorem Ipsum available, but the majority have
@@ -141,7 +141,7 @@ const DropdownNotification = () => {
               href="#"
             >
               <p className="text-sm">
-                <span className="text-black dark:text-white">
+                <span className="text-black dark:text-claude-text">
                   There are many variations
                 </span>{' '}
                 of passages of Lorem Ipsum available, but the majority have

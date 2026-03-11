@@ -16,7 +16,7 @@ const HomeCta = ({ onClick }: { onClick: MouseEventHandler }) => {
                     <ArrowDown size={24} className="mt-2 animate-bounce" />
                 </div>
 
-                <h6 className="text-slate-600 dark:text-gray-400">Immediate Assistance Police, Fire Response, Rescue & Medical Emergency</h6>
+                <h6 className="text-slate-600 dark:text-claude-text-muted">Immediate Assistance Police, Fire Response, Rescue & Medical Emergency</h6>
             </button>
 
             <div className="space-y-2 flex flex-col">

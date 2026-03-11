@@ -146,7 +146,7 @@ const PersonInvolveData = ({ data, setData, person }: { data: any; setData: Call
                 <>
                     <div className="mt-2 px-6.5 py-2 border  border-slate-200 dark:border-strokedark bg-white dark:bg-boxdark  flex justify-between rounded-t-lg"
                         key={i}>
-                        <h3 className="font-medium dark:text-white">
+                        <h3 className="font-medium dark:text-claude-text">
                             {person === 'Complainant'
                                 ? `A - Reporting Person (Victim's Data No. ${count})`
                                 : `B - Person Complain of/ Suspect Data No. ${count}`
@@ -157,7 +157,7 @@ const PersonInvolveData = ({ data, setData, person }: { data: any; setData: Call
                             {count === complainants?.length
                                 ? <>
                                     <button
-                                        className="font-medium text-black dark:text-white bg-white dark:bg-boxdark border hover:bg-slate-300 text-xs rounded-3xl px-3 text-blue-700"
+                                        className="font-medium text-black dark:text-claude-text bg-white dark:bg-boxdark border hover:bg-slate-300 text-xs rounded-3xl px-3 text-blue-700"
                                         onClick={() => {
                                             setComplainants([...complainants, count + 1]);
                                             setData(person === 'Complainant' ? 'complainant_data' : 'respondent_data',
@@ -171,7 +171,7 @@ const PersonInvolveData = ({ data, setData, person }: { data: any; setData: Call
 
                                     {count != 1
                                         ? <button
-                                            className="font-medium text-black dark:text-white bg-white  hover:bg-slate-300 text-xs rounded-3xl px-3 text-red-700"
+                                            className="font-medium text-black dark:text-claude-text bg-white  hover:bg-slate-300 text-xs rounded-3xl px-3 text-red-700"
                                             onClick={() => {
                                                 setComplainants(complainants?.slice(0, -1));
                                                 setData('complainant_data', data.complainant_data?.slice(0, -1));
@@ -270,7 +270,7 @@ const PersonInvolveData = ({ data, setData, person }: { data: any; setData: Call
                                         ? data.complainant_data[i]?.complainant_citizenship
                                         : data.respondent_data[i]?.respondent_citizenship}
                                     onChange={(e) => handleSetData(e, i)}
-                                    className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent py-2 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary text-sm"
+                                    className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent py-2 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-claude-text dark:focus:border-primary text-sm"
                                 >
                                     {citizenships?.map((citizenship: Data) => (
                                         <option
@@ -295,7 +295,7 @@ const PersonInvolveData = ({ data, setData, person }: { data: any; setData: Call
                                         ? data.complainant_data[i]?.complainant_gender
                                         : data.respondent_data[i]?.respondent_gender}
                                     onChange={(e) => handleSetData(e, i)}
-                                    className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent py-2 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary text-sm"
+                                    className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent py-2 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-claude-text dark:focus:border-primary text-sm"
                                 >
                                     {genders?.map((gender: Data) => (
                                         <option
@@ -320,7 +320,7 @@ const PersonInvolveData = ({ data, setData, person }: { data: any; setData: Call
                                         ? data.complainant_data[i]?.complainant_civil_status
                                         : data.respondent_data[i]?.respondent_civil_status}
                                     onChange={(e) => handleSetData(e, i)}
-                                    className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent py-2 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary text-sm"
+                                    className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent py-2 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-claude-text dark:focus:border-primary text-sm"
                                 >
                                     {civilStatus?.map((status: Data) => (
                                         <option
@@ -351,7 +351,7 @@ const PersonInvolveData = ({ data, setData, person }: { data: any; setData: Call
                                         ? data.complainant_data[i]?.complainant_occupation
                                         : data.respondent_data[i]?.respondent_occupation}
                                     onChange={(e) => handleSetData(e, i)}
-                                    className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent py-2 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary text-sm"
+                                    className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent py-2 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-claude-text dark:focus:border-primary text-sm"
                                 >
                                     <option value="" key={0}>Select Occupation</option>
                                     {occupations?.map((occupation: Data) => (
@@ -377,7 +377,7 @@ const PersonInvolveData = ({ data, setData, person }: { data: any; setData: Call
                                         ? data.complainant_data[i]?.complainant_education
                                         : data.respondent_data[i]?.respondent_education}
                                     onChange={(e) => handleSetData(e, i)}
-                                    className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent py-2 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary text-sm"
+                                    className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent py-2 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-claude-text dark:focus:border-primary text-sm"
                                 >
                                     <option value="" key={0}>Select Attainment</option>
                                     {educations?.map((education: Data) => (
@@ -412,7 +412,7 @@ const PersonInvolveData = ({ data, setData, person }: { data: any; setData: Call
                         <div className="border border-slate-200 bg-white dark:bg-boxdark shadow-sm rounded-lg">
                             {/** Home Address */}
                             <div className="border-b border-stroke py-2 px-6.5 dark:border-strokedark  dark:bg-boxdark ">
-                                <h3 className="font-medium dark:text-white">
+                                <h3 className="font-medium dark:text-claude-text">
                                     {person === 'Complainant' ? "Place of Incident" : "Home Address"}
                                 </h3>
                             </div>
@@ -595,7 +595,7 @@ const PersonInvolveData = ({ data, setData, person }: { data: any; setData: Call
                         <div className="">
                             <div className="border-b border-stroke py-2 px-6.5 dark:border-strokedark bg-white dark:bg-boxdark shadow-sm border rounded-t-lg">
                                 <div className="flex">
-                                    <h3 className="font-medium text-center dark:text-white">
+                                    <h3 className="font-medium text-center dark:text-claude-text">
                                         {person === 'Complainant' ? "Home Address" : "Work Address"}
                                     </h3>
                                 </div>

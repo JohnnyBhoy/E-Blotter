@@ -269,7 +269,7 @@ export default function New({
                             <h2 className="font-bold text-3xl text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600 dark:from-blue-400 dark:to-purple-400 leading-tight">
                                 New Blotter Report
                             </h2>
-                            <p className="text-gray-600 dark:text-gray-400 text-sm font-medium">
+                            <p className="text-gray-600 dark:text-claude-text-muted text-sm font-medium">
                                 Create a new blotter entry for your barangay
                             </p>
                         </div>

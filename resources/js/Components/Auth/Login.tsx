@@ -61,7 +61,7 @@ const Login = () => {
                             <img className="h-24" src='/images/logo/e-blotter.ico' alt="Logo" />
                         </Link>
 
-                        <p className="dark:text-white text-slate-500">
+                        <p className="dark:text-claude-text text-slate-500">
                             Barangay Realtime Blotter Report
                         </p>
 
@@ -192,13 +192,13 @@ const Login = () => {
 
                 <div className="w-full border-stroke dark:border-strokedark xl:w-1/2 xl:border-l-2">
                     <div className="w-full p-4 sm:p-12.5 xl:p-17.5">
-                        <h2 className="mb-9 text-2xl font-bold text-black dark:text-white sm:text-title-xl2">
+                        <h2 className="mb-9 text-2xl font-bold text-black dark:text-claude-text sm:text-title-xl2">
                             Sign in to E-Blotter
                         </h2>
 
                         <form onSubmit={submit}>
                             <div className="mb-4">
-                                <label className="mb-2.5 block font-medium text-black dark:text-white">
+                                <label className="mb-2.5 block font-medium text-black dark:text-claude-text">
                                     Email
                                 </label>
                                 <div className="relative">
@@ -207,7 +207,7 @@ const Login = () => {
                                         value={data?.email}
                                         onChange={(e) => setData('email', e.target.value)}
                                         placeholder="Enter your email"
-                                        className="w-full rounded-lg border border-stroke bg-transparent py-4 pl-6 pr-10 text-black outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
+                                        className="w-full rounded-lg border border-stroke bg-transparent py-4 pl-6 pr-10 text-black outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:text-claude-text dark:focus:border-primary"
                                     />
 
                                     <span className="absolute right-4 top-4">
@@ -232,7 +232,7 @@ const Login = () => {
                             </div>
 
                             <div className="mb-6">
-                                <label className="mb-2.5 block font-medium text-black dark:text-white">
+                                <label className="mb-2.5 block font-medium text-black dark:text-claude-text">
                                     Password
                                 </label>
                                 <div className="relative">
@@ -241,7 +241,7 @@ const Login = () => {
                                         value={data?.password}
                                         onChange={(e) => setData('password', e.target.value)}
                                         placeholder="Enter your Password"
-                                        className="w-full rounded-lg border border-stroke bg-transparent py-4 pl-6 pr-10 text-black outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
+                                        className="w-full rounded-lg border border-stroke bg-transparent py-4 pl-6 pr-10 text-black outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:text-claude-text dark:focus:border-primary"
                                     />
                                     <span className="absolute right-4 top-4">
                                         <svg
@@ -282,7 +282,7 @@ const Login = () => {
                             </div>
 
                             <button
-                                className="flex w-full items-center justify-center gap-3.5 rounded-lg border border-stroke bg-gray p-4 hover:bg-opacity-50 dark:border-strokedark dark:bg-meta-4 dark:hover:bg-opacity-50 dark:text-white"
+                                className="flex w-full items-center justify-center gap-3.5 rounded-lg border border-stroke bg-gray p-4 hover:bg-opacity-50 dark:border-strokedark dark:bg-meta-4 dark:hover:bg-opacity-50 dark:text-claude-text"
                                 type="submit">
                                 <span>
                                     <svg
@@ -321,7 +321,7 @@ const Login = () => {
                             </button>
 
                             <div className="mt-6 text-center">
-                                <p className='dark:text-white'>
+                                <p className='dark:text-claude-text'>
                                     Don’t have any account?{' '}
                                     <button type="button" onClick={handleRegister} className="text-primary">
                                         Sign Up

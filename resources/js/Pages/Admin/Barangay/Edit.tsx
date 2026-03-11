@@ -269,18 +269,18 @@ export default function BarangayEdit({ auth, barangay }: BarangayEditProps) {
                 <div className="flex items-center space-x-4">
                     <Link
                         href={route("admin.barangay")}
-                        className="p-2 bg-gray-200 dark:bg-gray-700 rounded-lg hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors"
+                        className="p-2 bg-gray-200 dark:bg-claude-panel-2 rounded-lg hover:bg-gray-300 dark:hover:bg-claude-panel-2 transition-colors"
                     >
-                        <ArrowLeft className="w-5 h-5 text-gray-600 dark:text-gray-400" />
+                        <ArrowLeft className="w-5 h-5 text-gray-600 dark:text-claude-text-muted" />
                     </Link>
-                    <div className="p-3 bg-gradient-to-r from-blue-600 to-purple-600 rounded-xl shadow-lg">
+                    <div className="p-3 bg-gradient-to-r from-claude-accent to-claude-accent-light rounded-xl shadow-lg">
                         <BuildingFillGear className="w-6 h-6 text-white" />
                     </div>
                     <div>
-                        <h2 className="font-bold text-2xl text-gray-900 dark:text-white leading-tight">
+                        <h2 className="font-bold text-2xl text-gray-900 dark:text-claude-text leading-tight">
                             Edit Barangay
                         </h2>
-                        <p className="text-gray-600 dark:text-gray-400 text-sm">
+                        <p className="text-gray-600 dark:text-claude-text-muted text-sm">
                             Update barangay information and settings
                         </p>
                     </div>
@@ -289,15 +289,15 @@ export default function BarangayEdit({ auth, barangay }: BarangayEditProps) {
         >
             <Head title="Admin - Edit Barangay" />
 
-            <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-slate-100 dark:from-gray-900 dark:via-blue-900 dark:to-gray-800">
+            <div className="min-h-screen bg-gray-50 dark:bg-claude-bg">
                 <div className="relative z-10 p-6">
                     <div className="max-w-full mx-auto">
-                        <div className="bg-white dark:bg-white/10 rounded-xl shadow-lg border border-blue-200 dark:border-white/20 backdrop-blur-lg p-8">
+                        <div className="bg-white dark:bg-claude-panel rounded-xl shadow-lg border border-gray-200 dark:border-claude-border backdrop-blur-lg p-8">
                             <form onSubmit={handleSubmit} className="space-y-6">
                                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                                     {/* Region Dropdown */}
                                     <div>
-                                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                                        <label className="block text-sm font-medium text-gray-700 dark:text-claude-text-muted mb-2">
                                             Region
                                         </label>
                                         <select
@@ -307,7 +307,7 @@ export default function BarangayEdit({ auth, barangay }: BarangayEditProps) {
                                                     e.target.value,
                                                 )
                                             }
-                                            className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-800 dark:text-white"
+                                            className="w-full px-4 py-2 border border-gray-300 dark:border-claude-border rounded-lg focus:ring-2 focus:ring-claude-accent/50 focus:border-transparent dark:bg-claude-panel dark:text-claude-text"
                                             required
                                         >
                                             <option value="">
@@ -331,7 +331,7 @@ export default function BarangayEdit({ auth, barangay }: BarangayEditProps) {
 
                                     {/* Province Dropdown */}
                                     <div>
-                                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                                        <label className="block text-sm font-medium text-gray-700 dark:text-claude-text-muted mb-2">
                                             Province
                                         </label>
                                         <select
@@ -341,7 +341,7 @@ export default function BarangayEdit({ auth, barangay }: BarangayEditProps) {
                                                     e.target.value,
                                                 )
                                             }
-                                            className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-800 dark:text-white"
+                                            className="w-full px-4 py-2 border border-gray-300 dark:border-claude-border rounded-lg focus:ring-2 focus:ring-claude-accent/50 focus:border-transparent dark:bg-claude-panel dark:text-claude-text"
                                             required
                                             disabled={!selectedRegion}
                                         >
@@ -372,7 +372,7 @@ export default function BarangayEdit({ auth, barangay }: BarangayEditProps) {
 
                                     {/* City Dropdown */}
                                     <div>
-                                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                                        <label className="block text-sm font-medium text-gray-700 dark:text-claude-text-muted mb-2">
                                             City/Municipality
                                         </label>
                                         <select
@@ -380,7 +380,7 @@ export default function BarangayEdit({ auth, barangay }: BarangayEditProps) {
                                             onChange={(e) =>
                                                 handleCityChange(e.target.value)
                                             }
-                                            className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-800 dark:text-white"
+                                            className="w-full px-4 py-2 border border-gray-300 dark:border-claude-border rounded-lg focus:ring-2 focus:ring-claude-accent/50 focus:border-transparent dark:bg-claude-panel dark:text-claude-text"
                                             required
                                             disabled={!selectedProvince}
                                         >
@@ -405,7 +405,7 @@ export default function BarangayEdit({ auth, barangay }: BarangayEditProps) {
 
                                     {/* Barangay Dropdown */}
                                     <div>
-                                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                                        <label className="block text-sm font-medium text-gray-700 dark:text-claude-text-muted mb-2">
                                             Barangay
                                         </label>
                                         <select
@@ -415,7 +415,7 @@ export default function BarangayEdit({ auth, barangay }: BarangayEditProps) {
                                                     e.target.value,
                                                 )
                                             }
-                                            className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-800 dark:text-white bg-gray-50"
+                                            className="w-full px-4 py-2 border border-gray-300 dark:border-claude-border rounded-lg focus:ring-2 focus:ring-claude-accent/50 focus:border-transparent dark:bg-claude-panel dark:text-claude-text bg-gray-50"
                                             required
                                             disabled={true}
                                         >
@@ -440,14 +440,14 @@ export default function BarangayEdit({ auth, barangay }: BarangayEditProps) {
                                                 {errors.brgy_code}
                                             </p>
                                         )}
-                                        <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
+                                        <p className="mt-1 text-sm text-gray-500 dark:text-claude-text-muted">
                                             Barangay selection is disabled in edit mode
                                         </p>
                                     </div>
 
                                     {/* Email */}
                                     <div>
-                                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                                        <label className="block text-sm font-medium text-gray-700 dark:text-claude-text-muted mb-2">
                                             Email Address
                                         </label>
                                         <input
@@ -456,7 +456,7 @@ export default function BarangayEdit({ auth, barangay }: BarangayEditProps) {
                                             onChange={(e) =>
                                                 setData("email", e.target.value)
                                             }
-                                            className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-800 dark:text-white"
+                                            className="w-full px-4 py-2 border border-gray-300 dark:border-claude-border rounded-lg focus:ring-2 focus:ring-claude-accent/50 focus:border-transparent dark:bg-claude-panel dark:text-claude-text"
                                             placeholder="barangay@example.com"
                                         />
                                         {errors.email && (
@@ -468,7 +468,7 @@ export default function BarangayEdit({ auth, barangay }: BarangayEditProps) {
 
                                     {/* Password */}
                                     <div>
-                                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                                        <label className="block text-sm font-medium text-gray-700 dark:text-claude-text-muted mb-2">
                                             Password (leave empty to keep current)
                                         </label>
                                         <input
@@ -480,7 +480,7 @@ export default function BarangayEdit({ auth, barangay }: BarangayEditProps) {
                                                     e.target.value,
                                                 )
                                             }
-                                            className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-800 dark:text-white"
+                                            className="w-full px-4 py-2 border border-gray-300 dark:border-claude-border rounded-lg focus:ring-2 focus:ring-claude-accent/50 focus:border-transparent dark:bg-claude-panel dark:text-claude-text"
                                             placeholder="Enter new password (min 6 characters)"
                                         />
                                         {errors.password && (
@@ -492,7 +492,7 @@ export default function BarangayEdit({ auth, barangay }: BarangayEditProps) {
 
                                     {/* Language */}
                                     <div>
-                                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                                        <label className="block text-sm font-medium text-gray-700 dark:text-claude-text-muted mb-2">
                                             Longtitude
                                         </label>
                                         <input
@@ -501,7 +501,7 @@ export default function BarangayEdit({ auth, barangay }: BarangayEditProps) {
                                             onChange={(e) =>
                                                 setData("lang", e.target.value)
                                             }
-                                            className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-800 dark:text-white"
+                                            className="w-full px-4 py-2 border border-gray-300 dark:border-claude-border rounded-lg focus:ring-2 focus:ring-claude-accent/50 focus:border-transparent dark:bg-claude-panel dark:text-claude-text"
                                             placeholder="14.5995"
                                         />
                                         {errors.lang && (
@@ -513,7 +513,7 @@ export default function BarangayEdit({ auth, barangay }: BarangayEditProps) {
 
                                     {/* Latitude */}
                                     <div>
-                                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                                        <label className="block text-sm font-medium text-gray-700 dark:text-claude-text-muted mb-2">
                                             Latitude
                                         </label>
                                         <input
@@ -523,7 +523,7 @@ export default function BarangayEdit({ auth, barangay }: BarangayEditProps) {
                                             onChange={(e) =>
                                                 setData("lat", e.target.value)
                                             }
-                                            className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-800 dark:text-white"
+                                            className="w-full px-4 py-2 border border-gray-300 dark:border-claude-border rounded-lg focus:ring-2 focus:ring-claude-accent/50 focus:border-transparent dark:bg-claude-panel dark:text-claude-text"
                                             placeholder="14.5995"
                                         />
                                         {errors.lat && (
@@ -535,7 +535,7 @@ export default function BarangayEdit({ auth, barangay }: BarangayEditProps) {
 
                                     {/* Avatar URL */}
                                     <div>
-                                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                                        <label className="block text-sm font-medium text-gray-700 dark:text-claude-text-muted mb-2">
                                             Avatar URL
                                         </label>
                                         <input
@@ -547,7 +547,7 @@ export default function BarangayEdit({ auth, barangay }: BarangayEditProps) {
                                                     e.target.value,
                                                 )
                                             }
-                                            className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-800 dark:text-white"
+                                            className="w-full px-4 py-2 border border-gray-300 dark:border-claude-border rounded-lg focus:ring-2 focus:ring-claude-accent/50 focus:border-transparent dark:bg-claude-panel dark:text-claude-text"
                                             placeholder="https://example.com/avatar.jpg"
                                         />
                                         {errors.avatar && (
@@ -559,7 +559,7 @@ export default function BarangayEdit({ auth, barangay }: BarangayEditProps) {
 
                                     {/* Banner URL */}
                                     <div>
-                                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                                        <label className="block text-sm font-medium text-gray-700 dark:text-claude-text-muted mb-2">
                                             Banner URL
                                         </label>
                                         <input
@@ -571,7 +571,7 @@ export default function BarangayEdit({ auth, barangay }: BarangayEditProps) {
                                                     e.target.value,
                                                 )
                                             }
-                                            className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-800 dark:text-white"
+                                            className="w-full px-4 py-2 border border-gray-300 dark:border-claude-border rounded-lg focus:ring-2 focus:ring-claude-accent/50 focus:border-transparent dark:bg-claude-panel dark:text-claude-text"
                                             placeholder="https://example.com/banner.jpg"
                                         />
                                         {errors.banner && (
@@ -585,14 +585,14 @@ export default function BarangayEdit({ auth, barangay }: BarangayEditProps) {
                                 <div className="flex items-center justify-end space-x-4 pt-6">
                                     <Link
                                         href={route("admin.barangay")}
-                                        className="px-6 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors"
+                                        className="px-6 py-2 border border-gray-300 dark:border-claude-border rounded-lg text-gray-700 dark:text-claude-text-muted hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors"
                                     >
                                         Cancel
                                     </Link>
                                     <button
                                         type="submit"
                                         disabled={processing}
-                                        className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                                        className="px-6 py-2 bg-claude-accent text-white hover:bg-claude-accent-light disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
                                     >
                                         {processing
                                             ? "Updating..."
@@ -613,7 +613,7 @@ export default function BarangayEdit({ auth, barangay }: BarangayEditProps) {
                                     ? "bg-green-500"
                                     : toast.type === "error"
                                       ? "bg-red-500"
-                                      : "bg-blue-500"
+                                      : "bg-claude-accent"
                             }`}
                         >
                             {toast.message}

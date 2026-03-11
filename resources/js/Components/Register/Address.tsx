@@ -14,7 +14,7 @@ const Address = ({ data, setData }: { data: any; setData: CallableFunction }) =>
 
     return (
         <><div className="mb-4">
-            <label className="mb-3 block text-black dark:text-white">
+            <label className="mb-3 block text-black dark:text-claude-text">
                 Select Region
             </label>
 
@@ -28,7 +28,7 @@ const Address = ({ data, setData }: { data: any; setData: CallableFunction }) =>
                         <select
                             value={data.region_code}
                             onChange={(e) => setData('region_code', parseInt(e.target.value))}
-                            className={`relative z-20 w-full appearance-none rounded border border-stroke bg-transparent py-3 px-12 outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input ${isOptionSelected ? 'text-black dark:text-white' : ''
+                            className={`relative z-20 w-full appearance-none rounded border border-stroke bg-transparent py-3 px-12 outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input ${isOptionSelected ? 'text-black dark:text-claude-text' : ''
                                 }`}
                         >
                             <option value="" className="text-body dark:text-bodydark" key={1}>
@@ -46,7 +46,7 @@ const Address = ({ data, setData }: { data: any; setData: CallableFunction }) =>
         </div>
 
             <div className="mb-4">
-                <label className="mb-3 block text-black dark:text-white">
+                <label className="mb-3 block text-black dark:text-claude-text">
                     Select Province
                 </label>
                 <div className="relative">
@@ -58,7 +58,7 @@ const Address = ({ data, setData }: { data: any; setData: CallableFunction }) =>
                         <select
                             value={data.province_code}
                             onChange={(e) => setData('province_code', parseInt(e.target.value))}
-                            className={`relative z-20 w-full appearance-none rounded border border-stroke bg-transparent py-3 px-12 outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input ${isOptionSelected ? 'text-black dark:text-white' : ''
+                            className={`relative z-20 w-full appearance-none rounded border border-stroke bg-transparent py-3 px-12 outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input ${isOptionSelected ? 'text-black dark:text-claude-text' : ''
                                 }`}
                         >
                             <option value="" className="text-body dark:text-bodydark" key={1}>
@@ -80,7 +80,7 @@ const Address = ({ data, setData }: { data: any; setData: CallableFunction }) =>
             </div>
 
             <div className="mb-4">
-                <label className="mb-3 block text-black dark:text-white">
+                <label className="mb-3 block text-black dark:text-claude-text">
                     Select City/Municipality
                 </label>
                 <div className="relative">
@@ -91,7 +91,7 @@ const Address = ({ data, setData }: { data: any; setData: CallableFunction }) =>
                         <select
                             value={data.city_code}
                             onChange={(e) => setData('city_code', parseInt(e.target.value))}
-                            className={`relative z-20 w-full appearance-none rounded border border-stroke bg-transparent py-3 px-12 outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input ${isOptionSelected ? 'text-black dark:text-white' : ''
+                            className={`relative z-20 w-full appearance-none rounded border border-stroke bg-transparent py-3 px-12 outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input ${isOptionSelected ? 'text-black dark:text-claude-text' : ''
                                 }`}
                         >
                             <option value="" className="text-body dark:text-bodydark" key={1}>
@@ -114,7 +114,7 @@ const Address = ({ data, setData }: { data: any; setData: CallableFunction }) =>
             </div>
 
             <div className="mb-6">
-                <label className="mb-3 block text-black dark:text-white">
+                <label className="mb-3 block text-black dark:text-claude-text">
                     Select Barangay
                 </label>
                 <div className="relative">
@@ -124,7 +124,7 @@ const Address = ({ data, setData }: { data: any; setData: CallableFunction }) =>
                     <select
                         value={data.barangay_code}
                         onChange={(e) => setData('barangay_code', parseInt(e.target.value))}
-                        className={`relative z-20 w-full appearance-none rounded border border-stroke bg-transparent py-3 px-12 outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input ${isOptionSelected ? 'text-black dark:text-white' : ''
+                        className={`relative z-20 w-full appearance-none rounded border border-stroke bg-transparent py-3 px-12 outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input ${isOptionSelected ? 'text-black dark:text-claude-text' : ''
                             }`}
                     >
                         <option value="" className="text-body dark:text-bodydark" key={1}>

@@ -22,7 +22,7 @@ const ChartTopBarangay = ({ datas }: { datas: any }) => {
   let maxCount = datas?.reduce((max: number, obj: any) => obj?.count > max ? obj?.count : max, -Infinity);
 
   const options: ApexOptions = {
-    colors: ['#80CAEE'],
+    colors: ['#d4622a'],
     chart: {
       fontFamily: 'Satoshi, sans-serif',
       type: 'bar',
@@ -113,7 +113,7 @@ const ChartTopBarangay = ({ datas }: { datas: any }) => {
     <div className="col-span-12 rounded-sm border border-stroke bg-white p-7.5 shadow-default dark:border-strokedark dark:bg-boxdark xl:col-span-12">
       <div className="mb-4 justify-between gap-4 sm:flex">
         <div>
-          <h4 className="text-xl font-semibold text-gray-900 dark:text-white">
+          <h4 className="text-xl font-semibold text-gray-900 dark:text-claude-text">
             Top 10 Barangay with most Blotter Incidents
           </h4>
         </div>
@@ -209,17 +209,17 @@ const TopBarangayTable = ({ datas }: { datas: any }) => {
             key={key}
           >
             <div className="flex items-center gap-3 p-2.5 xl:p-1 w-6">
-              <p className="hidden text-gray-900 dark:text-white sm:block text-center ml-6">
+              <p className="hidden text-gray-900 dark:text-claude-text sm:block text-center ml-6">
                 {key + 1}
               </p>
             </div>
             <div className="flex items-center gap-3 p-2.5 xl:p-1 w-1/4">
-              <p className="hidden text-gray-900 dark:text-white sm:block text-center ml-6">
+              <p className="hidden text-gray-900 dark:text-claude-text sm:block text-center ml-6">
                 {item?.id}
               </p>
             </div>
             <div className="flex items-center gap-3 p-2.5 xl:p-1">
-              <p className="hidden text-gray-900 dark:text-white sm:block">
+              <p className="hidden text-gray-900 dark:text-claude-text sm:block">
                 Barangay {item.name}
               </p>
             </div>
@@ -228,7 +228,7 @@ const TopBarangayTable = ({ datas }: { datas: any }) => {
             </div>
 
             <div className="hidden items-center justify-center p-2.5 sm:flex xl:p-1">
-              <button className='text-xs bg-blue-400 text-white rounded-3xl px-4 py-1 hover:bg-blue-600'>
+              <button className='text-xs bg-claude-accent text-white rounded-3xl px-4 py-1 hover:bg-claude-accent-light'>
                 View
               </button>
             </div>

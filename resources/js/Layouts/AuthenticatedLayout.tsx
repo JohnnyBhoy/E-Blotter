@@ -17,7 +17,7 @@ export default function Authenticated({
 
     return (
         <>
-            <div className="bg-white dark:bg-gradient-to-br dark:from-slate-900 dark:via-blue-900 dark:to-slate-900 dark:text-black transition-colors duration-300">
+            <div className="bg-gray-50 dark:bg-claude-bg dark:text-claude-text transition-colors duration-300">
                 {/* <!-- ===== Page Wrapper Start ===== --> */}
                 <div className="flex h-screen overflow-hidden">
                     {/* <!-- ===== Sidebar Start ===== --> */}
@@ -32,7 +32,7 @@ export default function Authenticated({
 
                         {/* <!-- ===== Page Header Start ===== --> */}
                         {header && (
-                            <div className="px-4 sm:px-6 lg:px-8 py-4 bg-white dark:bg-gray-800">
+                            <div className="px-4 sm:px-6 lg:px-8 py-4 bg-white dark:bg-claude-panel border-b border-gray-100 dark:border-claude-border">
                                 {header}
                             </div>
                         )}

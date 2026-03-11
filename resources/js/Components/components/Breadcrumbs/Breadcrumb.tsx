@@ -7,7 +7,7 @@ interface BreadcrumbProps {
 const Breadcrumb = ({ pageName }: BreadcrumbProps) => {
   return (
     <div className="lg:mb-2 mb-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-      <h3 className="text-title-sm font-semibold text-black dark:text-white">
+      <h3 className="text-title-sm font-semibold text-black dark:text-claude-text">
         {pageName}
         <small className="text-xs"> (Note: input that have '*' are required.)</small>
       </h3>

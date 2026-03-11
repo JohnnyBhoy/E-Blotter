@@ -35,16 +35,16 @@ const TableThree = () => {
         <table className="w-full table-auto">
           <thead>
             <tr className="bg-gray-2 text-left dark:bg-meta-4">
-              <th className="min-w-[220px] py-4 px-4 font-medium text-black dark:text-white xl:pl-11">
+              <th className="min-w-[220px] py-4 px-4 font-medium text-black dark:text-claude-text xl:pl-11">
                 Package
               </th>
-              <th className="min-w-[150px] py-4 px-4 font-medium text-black dark:text-white">
+              <th className="min-w-[150px] py-4 px-4 font-medium text-black dark:text-claude-text">
                 Invoice date
               </th>
-              <th className="min-w-[120px] py-4 px-4 font-medium text-black dark:text-white">
+              <th className="min-w-[120px] py-4 px-4 font-medium text-black dark:text-claude-text">
                 Status
               </th>
-              <th className="py-4 px-4 font-medium text-black dark:text-white">
+              <th className="py-4 px-4 font-medium text-black dark:text-claude-text">
                 Actions
               </th>
             </tr>
@@ -53,13 +53,13 @@ const TableThree = () => {
             {packageData.map((packageItem, key) => (
               <tr key={key}>
                 <td className="border-b border-[#eee] py-5 px-4 pl-9 dark:border-strokedark xl:pl-11">
-                  <h5 className="font-medium text-black dark:text-white">
+                  <h5 className="font-medium text-black dark:text-claude-text">
                     {packageItem.name}
                   </h5>
                   <p className="text-sm">${packageItem.price}</p>
                 </td>
                 <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
-                  <p className="text-black dark:text-white">
+                  <p className="text-black dark:text-claude-text">
                     {packageItem.invoiceDate}
                   </p>
                 </td>

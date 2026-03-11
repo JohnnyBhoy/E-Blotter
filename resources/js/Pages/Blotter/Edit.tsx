@@ -180,7 +180,7 @@ export default function Edit({ auth, blotter }: PageProps<{ blotter: any }>) {
                             <h2 className="font-bold text-3xl text-transparent bg-clip-text bg-gradient-to-r from-emerald-600 to-cyan-600 dark:from-emerald-400 dark:to-cyan-400 leading-tight">
                                 Edit Blotter Report
                             </h2>
-                            <p className="text-gray-600 dark:text-gray-400 text-sm font-medium">
+                            <p className="text-gray-600 dark:text-claude-text-muted text-sm font-medium">
                                 Modify existing blotter entry for your barangay
                             </p>
                         </div>

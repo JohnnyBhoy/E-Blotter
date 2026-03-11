@@ -85,7 +85,7 @@ const Narrative = ({ data, setData }: { data: any; setData: CallableFunction }) 
             <div className="lg:flex gap-6 w-full">
                 <div className="bg-white lg:w-[60%] w-full">
                     <div className="flex justify-between border-b border-stroke py-2 px-6.5 dark:border-strokedark  dark:bg-boxdark bg-white">
-                        <h3 className="font-medium dark:text-white">
+                        <h3 className="font-medium dark:text-claude-text">
                             Narrative of Incident
                         </h3>
                     </div>
@@ -100,13 +100,13 @@ const Narrative = ({ data, setData }: { data: any; setData: CallableFunction }) 
 
                 <div className="lg:w-[40%] bg-white">
                     <div className="flex justify-between border-b border-stroke py-2 px-6.5 dark:border-strokedark  dark:bg-boxdark bg-white">
-                        <h3 className="font-medium dark:text-white">
+                        <h3 className="font-medium dark:text-claude-text">
                             Upload Picture / Video
                         </h3>
 
                         {headshot != "" ? (
                             <button
-                                className="font-medium text-black dark:text-white bg-white dark:bg-boxdark border hover:bg-slate-300 text-xs rounded-3xl px-3 text-blue-700"
+                                className="font-medium text-black dark:text-claude-text bg-white dark:bg-boxdark border hover:bg-slate-300 text-xs rounded-3xl px-3 text-blue-700"
                                 onClick={handleConfirmChange}
                             >
                                 Change

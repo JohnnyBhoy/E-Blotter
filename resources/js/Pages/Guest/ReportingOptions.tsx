@@ -101,9 +101,6 @@ const ReportingOptions = () => {
         );
     };
 
-    useEffect(() => {
-        getLocation();
-    }, []);
 
     const formatReport = (reportId: number) => {
         if (reportId == 1) return 'CRIME';

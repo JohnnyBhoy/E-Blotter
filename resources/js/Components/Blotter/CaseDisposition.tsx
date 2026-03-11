@@ -25,7 +25,7 @@ const CaseDisposition = ({ data, setData }: { data: any; setData: CallableFuncti
     return (
         <div className="rounded-lg border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark mt-4 w-full">
             <div className="border-b border-stroke py-2  px-6.5 dark:border-strokedark bg-white flex justify-between">
-                <h3 className="font-medium dark:text-white text-center">
+                <h3 className="font-medium dark:text-claude-text text-center">
                     Case Disposition
                 </h3>
                 <button onClick={handleAddDisposition} className="text-xs bg-blue-500 hover:bg-blue-700 text-white px-2 py-1 rounded-3xl dark:bg-transparent text-end">
@@ -41,7 +41,7 @@ const CaseDisposition = ({ data, setData }: { data: any; setData: CallableFuncti
                         name="remarks"
                         value={data.remarks}
                         onChange={(e) => setData('remarks', e.target.value)}
-                        className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent py-2 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary text-sm"
+                        className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent py-2 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-claude-text dark:focus:border-primary text-sm"
                     >
                         <option value="" key={0}>Select Disposition</option>
                         {disposition?.map((item: any) => (

@@ -7,7 +7,7 @@ const EmailAndPassword = ({ data, setData, setPage, errors }: { data: any; setDa
     return (
         <>
             <div className="mb-4">
-                <label className="mb-2.5 block font-medium text-black dark:text-white">
+                <label className="mb-2.5 block font-medium text-black dark:text-claude-text">
                     Name of Barangay
                 </label>
                 <div className="relative">
@@ -16,7 +16,7 @@ const EmailAndPassword = ({ data, setData, setPage, errors }: { data: any; setDa
                         value={data?.name}
                         onChange={(e) => setData('name', e.target.value)}
                         placeholder="Enter barangay name"
-                        className="w-full rounded-lg border border-stroke bg-transparent py-4 pl-6 pr-10 text-black outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
+                        className="w-full rounded-lg border border-stroke bg-transparent py-4 pl-6 pr-10 text-black outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:text-claude-text dark:focus:border-primary"
                         required
                     />
 
@@ -46,7 +46,7 @@ const EmailAndPassword = ({ data, setData, setPage, errors }: { data: any; setDa
             </div>
 
             <div className="mb-4">
-                <label className="mb-2.5 block font-medium text-black dark:text-white">
+                <label className="mb-2.5 block font-medium text-black dark:text-claude-text">
                     Barangay Email
                 </label>
                 <div className="relative">
@@ -55,7 +55,7 @@ const EmailAndPassword = ({ data, setData, setPage, errors }: { data: any; setDa
                         value={data?.email}
                         onChange={(e) => setData('email', e.target.value)}
                         placeholder="Enter your barangay email"
-                        className="w-full rounded-lg border border-stroke bg-transparent py-4 pl-6 pr-10 text-black outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
+                        className="w-full rounded-lg border border-stroke bg-transparent py-4 pl-6 pr-10 text-black outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:text-claude-text dark:focus:border-primary"
                         required
                     />
 
@@ -81,7 +81,7 @@ const EmailAndPassword = ({ data, setData, setPage, errors }: { data: any; setDa
             </div>
 
             <div className="mb-4">
-                <label className="mb-2.5 block font-medium text-black dark:text-white">
+                <label className="mb-2.5 block font-medium text-black dark:text-claude-text">
                     Password
                 </label>
                 <div className="relative">
@@ -90,7 +90,7 @@ const EmailAndPassword = ({ data, setData, setPage, errors }: { data: any; setDa
                         value={data?.password}
                         onChange={(e) => setData('password', e.target.value)}
                         placeholder="Enter your password"
-                        className="w-full rounded-lg border border-stroke bg-transparent py-4 pl-6 pr-10 text-black outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
+                        className="w-full rounded-lg border border-stroke bg-transparent py-4 pl-6 pr-10 text-black outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:text-claude-text dark:focus:border-primary"
                     />
 
                     <span className="absolute right-4 top-4">
@@ -120,7 +120,7 @@ const EmailAndPassword = ({ data, setData, setPage, errors }: { data: any; setDa
             </div>
 
             <div className="mb-6">
-                <label className="mb-2.5 block font-medium text-black dark:text-white">
+                <label className="mb-2.5 block font-medium text-black dark:text-claude-text">
                     Re-type Password
                 </label>
                 <div className="relative">
@@ -129,7 +129,7 @@ const EmailAndPassword = ({ data, setData, setPage, errors }: { data: any; setDa
                         value={data?.password_confirmation}
                         onChange={(e) => setData('password_confirmation', e.target.value)}
                         placeholder="Re-enter your password"
-                        className="w-full rounded-lg border border-stroke bg-transparent py-4 pl-6 pr-10 text-black outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
+                        className="w-full rounded-lg border border-stroke bg-transparent py-4 pl-6 pr-10 text-black outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:text-claude-text dark:focus:border-primary"
                         onClick={() => setShowPassword(!showPassword)}
                     />
 

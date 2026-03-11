@@ -7,6 +7,7 @@ use App\Models\UserAddress;
 use App\Services\BlotterService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 use Inertia\Inertia;
 
 class BlotterController extends Controller
@@ -36,7 +37,7 @@ class BlotterController extends Controller
                 'latestID' => $latestBlotterId
             ]);
         } catch (\Throwable $th) {
-            return response()->json(['error' => $th], 500);
+            return response()->json(['error' => $th->getMessage()], 500);
         }
     }
 
@@ -63,25 +64,24 @@ class BlotterController extends Controller
         try {
             $this->blotterService->create($request);
 
-            // Checker if the uploaded blotter entry has a incident picture
+            // Check if the uploaded blotter entry has an incident picture
             if ($request->hasFile('uploaded_file')) {
                 $image = $request->file('uploaded_file');
 
-                // Get the MIME type of the uploaded file
+                $allowedMimes = ['image/jpeg', 'image/png', 'image/jpg'];
+                $allowedExtensions = ['jpg', 'jpeg', 'png'];
                 $mime = $image->getMimeType();
+                $extension = strtolower($image->getClientOriginalExtension());
 
-                if ($mime === 'image/jpeg' || $mime === 'image/png' || $mime === 'image/jpg') {
-                    // Process the image since it's either JPEG or PNG
-                    $imageName = time() . '.' . $image->getClientOriginalExtension();
-
-                    // Move the headshot to manufacturer image folder
+                if (in_array($mime, $allowedMimes) && in_array($extension, $allowedExtensions) && $image->getSize() <= 2 * 1024 * 1024) {
+                    $imageName = Str::uuid() . '.' . $extension;
                     $image->move(public_path("images/{$userId}/incidents"), $imageName);
-                }
 
-                // Update blotter incident image
-                Blotter::where('user_id', $userId)
-                    ->where('entry_number', $request->get('entry_number'))
-                    ->update(['uploaded_file' => $imageName]);
+                    // Update blotter incident image
+                    Blotter::where('user_id', $userId)
+                        ->where('entry_number', $request->get('entry_number'))
+                        ->update(['uploaded_file' => $imageName]);
+                }
             }
 
             // Get all the blotter of the giver barangay id
@@ -92,7 +92,7 @@ class BlotterController extends Controller
                 'message' => 'Blotter entry submitted.',
             ]);
         } catch (\Throwable $th) {
-            return response()->json(['error' => $th], 500);
+            return response()->json(['error' => $th->getMessage()], 500);
         }
     }
 
@@ -119,9 +119,9 @@ class BlotterController extends Controller
             ->get()
             ->toArray();
 
-        if (intVal($brgyCode > 0)) {
+        if (intVal($brgyCode) > 0) {
             $user = UserAddress::where('barangay_code', $brgyCode)->first();
-            $userId = $user->id ?? auth()->user()->id;
+            $userId = $user->user_id ?? auth()->user()->id;
         } else {
             $userId =  auth()->user()->id;
         }
@@ -171,7 +171,7 @@ class BlotterController extends Controller
                 'message' => 'Blotter removed successfully.',
             ]);
         } catch (\Throwable $th) {
-            return response()->json(['error' => $th], 500);
+            return response()->json(['error' => $th->getMessage()], 500);
         }
     }
 
@@ -190,7 +190,7 @@ class BlotterController extends Controller
                 'blotter' => $blotter
             ]);
         } catch (\Throwable $th) {
-            return response()->json(['error' => $th], 500);
+            return response()->json(['error' => $th->getMessage()], 500);
         }
     }
 
@@ -211,7 +211,7 @@ class BlotterController extends Controller
                 'monthlyBlotters' => $monthlyBlotters,
             ]);
         } catch (\Throwable $th) {
-            return response()->json(['error' => $th], 500);
+            return response()->json(['error' => $th->getMessage()], 500);
         }
     }
 
@@ -234,7 +234,7 @@ class BlotterController extends Controller
                 'dailyBlotters' => $dailyBlotters,
             ]);
         } catch (\Throwable $th) {
-            return response()->json(['error' => $th], 500);
+            return response()->json(['error' => $th->getMessage()], 500);
         }
     }
 
@@ -259,7 +259,7 @@ class BlotterController extends Controller
                 'blotter' => $blotter
             ]);
         } catch (\Throwable $th) {
-            return response()->json(['error' => $th], 500);
+            return response()->json(['error' => $th->getMessage()], 500);
         }
     }
 
@@ -289,7 +289,7 @@ class BlotterController extends Controller
                 'message' => 'Blotter updated successfully'
             ]);
         } catch (\Throwable $th) {
-            return response()->json(['error' => $th], 500);
+            return response()->json(['error' => $th->getMessage()], 500);
         }
     }
 
@@ -302,7 +302,7 @@ class BlotterController extends Controller
         $userId = auth()->user()->id;
 
         // Get current barangay user's blotters only
-        $blotters = $this->blotterService->getAll($userId);
+        $blotters = $this->blotterService->getAllSimple($userId);
 
         // Get barangay options for filtering
         $barangayOptions = DB::table("user_addresses as ua")
@@ -348,9 +348,10 @@ class BlotterController extends Controller
                 'pageDisplay' => $perPage,
                 'pageNumber' => $page,
                 'keyword' => $keyword,
+                'remark' => $remark,
             ]);
         } catch (\Throwable $th) {
-            return response()->json(['error' => $th], 500);
+            return response()->json(['error' => $th->getMessage()], 500);
         }
     }
 
@@ -369,7 +370,7 @@ class BlotterController extends Controller
                 'blotter' => $blotter
             ]);
         } catch (\Throwable $th) {
-            return response()->json(['error' => $th], 500);
+            return response()->json(['error' => $th->getMessage()], 500);
         }
     }
 
@@ -395,7 +396,7 @@ class BlotterController extends Controller
                 'incidents' => $incidents,
             ]);
         } catch (\Throwable $th) {
-            return response()->json(['error' => $th], 500);
+            return response()->json(['error' => $th->getMessage()], 500);
         }
     }
 
@@ -420,7 +421,7 @@ class BlotterController extends Controller
                 'puroks' => $puroks,
             ]);
         } catch (\Throwable $th) {
-            return response()->json(['error' => $th], 500);
+            return response()->json(['error' => $th->getMessage()], 500);
         }
     }
 }

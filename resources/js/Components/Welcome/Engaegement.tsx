@@ -8,8 +8,8 @@ const Engaegement = () => {
                 src="./images/homepage/community_engagement.webp"
                 alt="feature  2"
             />
-            <div className="text-gray-500 sm:text-lg dark:text-gray-400">
-                <h2 className="mb-4 text-2xl font-extrabold tracking-tight text-gray-900 dark:text-white">
+            <div className="text-gray-500 sm:text-lg dark:text-claude-text-muted">
+                <h2 className="mb-4 text-2xl font-extrabold tracking-tight text-gray-900 dark:text-claude-text">
                     4. Community Engagement and Empowerment
                 </h2>
                 <p className="mb-8 font-light lg:text-xl">
@@ -17,7 +17,7 @@ const Engaegement = () => {
                 </p>
                 {/** List **/}
                 <ul
-                    className="pt-8 space-y-5 border-t border-gray-200 my-7 dark:border-gray-700"
+                    className="pt-8 space-y-5 border-t border-gray-200 my-7 dark:border-claude-border"
                 >
                     <li className="flex space-x-3">
                         {/** Icon **/}
@@ -33,7 +33,7 @@ const Engaegement = () => {
                                 clipRule="evenodd"
                             ></path>
                         </svg>
-                        <span className="text-base font-medium leading-tight text-gray-900 dark:text-white">
+                        <span className="text-base font-medium leading-tight text-gray-900 dark:text-claude-text">
                             Engage in prevention efforts and collaborate with authorities
                         </span>
                     </li>
@@ -51,7 +51,7 @@ const Engaegement = () => {
                                 clipRule="evenodd"
                             ></path>
                         </svg>
-                        <span className="text-base font-medium leading-tight text-gray-900 dark:text-white">
+                        <span className="text-base font-medium leading-tight text-gray-900 dark:text-claude-text">
                             Encourage other community groups to assist as additional force multipliers for local agencies
                         </span>
                     </li>
@@ -69,7 +69,7 @@ const Engaegement = () => {
                                 clipRule="evenodd"
                             ></path>
                         </svg>
-                        <span className="text-base font-medium leading-tight text-gray-900 dark:text-white">
+                        <span className="text-base font-medium leading-tight text-gray-900 dark:text-claude-text">
                             Enhance overall community safety
                         </span>
                     </li>

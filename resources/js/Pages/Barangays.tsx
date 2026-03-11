@@ -60,15 +60,15 @@ const Barangays = ({ auth, barangays }: PageProps<{ barangays: Barangays }>) => 
                 </Link>
 
                 <div className="flex gap-10">
-                    <h1 className="text-black dark:text-white">
+                    <h1 className="text-black dark:text-claude-text">
                         City : <b>{getCity(barangays[0].cityCode)}</b>
                     </h1>
 
-                    <h1 className="text-black dark:text-white">
+                    <h1 className="text-black dark:text-claude-text">
                         Province : <b>{getProvince(barangays[0].provinceCode)}</b>
                     </h1>
 
-                    <h1 className="text-black dark:text-white">
+                    <h1 className="text-black dark:text-claude-text">
                         No of Barangays : <b>{barangays?.length}</b>
                     </h1>
                 </div>
@@ -81,16 +81,16 @@ const Barangays = ({ auth, barangays }: PageProps<{ barangays: Barangays }>) => 
                     <table className="w-full z-20 border border-[#eee]">
                         <thead>
                             <tr className="bg-gray-2 text-left dark:bg-meta-4 ">
-                                <th className="border border-[#eee] min-w-[120px] py-3 px-2 font-medium text-black dark:text-white xl:pl-11">
+                                <th className="border border-[#eee] min-w-[120px] py-3 px-2 font-medium text-black dark:text-claude-text xl:pl-11">
                                     Id
                                 </th>
-                                <th className="border border-[#eee] min-w-[150px] py-3 px-2 xl:pl-11 font-medium text-black dark:text-white">
+                                <th className="border border-[#eee] min-w-[150px] py-3 px-2 xl:pl-11 font-medium text-black dark:text-claude-text">
                                     Barangay
                                 </th>
-                                <th className="border border-[#eee] min-w-[120px] py-3 px-2 font-medium text-black dark:text-white xl:pl-11">
+                                <th className="border border-[#eee] min-w-[120px] py-3 px-2 font-medium text-black dark:text-claude-text xl:pl-11">
                                     No. of Blotters
                                 </th>
-                                <th className="border border-[#eee] min-w-[120px] py-3 px-2 font-medium text-black dark:text-white xl:pl-11">
+                                <th className="border border-[#eee] min-w-[120px] py-3 px-2 font-medium text-black dark:text-claude-text xl:pl-11">
                                     Action
                                 </th>
                             </tr>
@@ -101,17 +101,17 @@ const Barangays = ({ auth, barangays }: PageProps<{ barangays: Barangays }>) => 
                                 ?.map((barangay: Barangay, key: number) => (
                                     <tr key={key} className="hover:bg-slate-100 cursor-pointer z-20 bg-white dark:bg-meta-4">
                                         <td className="border border-[#eee] dark:border-white py-1.5 px-2 pl-9 dark:border-strokedark xl:pl-11">
-                                            <h5 className="text-black dark:text-white">
+                                            <h5 className="text-black dark:text-claude-text">
                                                 {barangay?.barangayCode}
                                             </h5>
                                         </td>
                                         <td className="border border-[#eee] dark:border-white py-1.5 px-2 pl-9 dark:border-strokedark xl:pl-11">
-                                            <h5 className="text-black dark:text-white text-start">
+                                            <h5 className="text-black dark:text-claude-text text-start">
                                                 {getBarangayByBrgyCode(barangay?.barangayCode)}
                                             </h5>
                                         </td>
                                         <td className="border border-[#eee] dark:border-white py-1.5 px-2 pl-9 dark:border-strokedark xl:pl-11">
-                                            <h5 className="text-black dark:text-white">
+                                            <h5 className="text-black dark:text-claude-text">
                                                 {barangay?.noOfBlotters}
                                             </h5>
                                         </td>

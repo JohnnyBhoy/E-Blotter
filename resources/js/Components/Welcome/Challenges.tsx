@@ -10,20 +10,20 @@ const Challenges = () => {
                 <p className="text-lg font-medium text-purple-600 dark:text-purple-500">
                     Challenges in Barangays
                 </p>
-                <h2 className="mt-3 mb-4 text-3xl font-extrabold tracking-tight text-gray-900 md:text-3xl dark:text-white">
+                <h2 className="mt-3 mb-4 text-3xl font-extrabold tracking-tight text-gray-900 md:text-3xl dark:text-claude-text">
                     Regarding Crime Incidents and Peace and Order
                 </h2>
-                <ul className="font-light text-gray-500 sm:text-xl dark:text-gray-400">
+                <ul className="font-light text-gray-500 sm:text-xl dark:text-claude-text-muted">
                     {challenges.map((item: string, i: number) => (
                         <li key={i}>
-                            <p className="font-light text-gray-500 dark:text-gray-400 text-base flex hover:font-bold cursor-pointer">
+                            <p className="font-light text-gray-500 dark:text-claude-text-muted text-base flex hover:font-bold cursor-pointer">
                                 <CheckSquareFill className='text-green-500 mr-3' size={20} />
                                 {item}
                             </p>
                         </li>
                     ))}
                 </ul>
-                <div className="pt-6 mt-6 space-y-4 border-t border-gray-200 dark:border-gray-700">
+                <div className="pt-6 mt-6 space-y-4 border-t border-gray-200 dark:border-claude-border">
                     <div>
                         <a
                             href="#"
@@ -80,10 +80,10 @@ const Challenges = () => {
                             clipRule="evenodd"
                         ></path>
                     </svg>
-                    <h3 className="mb-2 text-2xl font-bold dark:text-white">
+                    <h3 className="mb-2 text-2xl font-bold dark:text-claude-text">
                         100% accessable
                     </h3>
-                    <p className="font-light text-gray-500 dark:text-gray-400">
+                    <p className="font-light text-gray-500 dark:text-claude-text-muted">
                         Access you blotter report anywhere
                         and in any device
                     </p>
@@ -97,10 +97,10 @@ const Challenges = () => {
                     >
                         <path d="M9 6a3 3 0 11-6 0 3 3 0 016 0zM17 6a3 3 0 11-6 0 3 3 0 016 0zM12.93 17c.046-.327.07-.66.07-1a6.97 6.97 0 00-1.5-4.33A5 5 0 0119 16v1h-6.07zM6 11a5 5 0 015 5v1H1v-1a5 5 0 015-5z"></path>
                     </svg>
-                    <h3 className="mb-2 text-2xl font-bold dark:text-white">
+                    <h3 className="mb-2 text-2xl font-bold dark:text-claude-text">
                         45 Barangays
                     </h3>
-                    <p className="font-light text-gray-500 dark:text-gray-400">
+                    <p className="font-light text-gray-500 dark:text-claude-text-muted">
                         Trusted by over 45 barangays around the
                         region VI
                     </p>
@@ -118,10 +118,10 @@ const Challenges = () => {
                             clipRule="evenodd"
                         ></path>
                     </svg>
-                    <h3 className="mb-2 text-2xl font-bold dark:text-white">
+                    <h3 className="mb-2 text-2xl font-bold dark:text-claude-text">
                         1 Region
                     </h3>
-                    <p className="font-light text-gray-500 dark:text-gray-400">
+                    <p className="font-light text-gray-500 dark:text-claude-text-muted">
                         This Online blottering system is
                         now serving Region VI, Philippines
                     </p>
@@ -135,10 +135,10 @@ const Challenges = () => {
                     >
                         <path d="M3 1a1 1 0 000 2h1.22l.305 1.222a.997.997 0 00.01.042l1.358 5.43-.893.892C3.74 11.846 4.632 14 6.414 14H15a1 1 0 000-2H6.414l1-1H14a1 1 0 00.894-.553l3-6A1 1 0 0017 3H6.28l-.31-1.243A1 1 0 005 1H3zM16 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM6.5 18a1.5 1.5 0 100-3 1.5 1.5 0 000 3z"></path>
                     </svg>
-                    <h3 className="mb-2 text-2xl font-bold dark:text-white">
+                    <h3 className="mb-2 text-2xl font-bold dark:text-claude-text">
                         Unlimited
                     </h3>
-                    <p className="font-light text-gray-500 dark:text-gray-400">
+                    <p className="font-light text-gray-500 dark:text-claude-text-muted">
                         Blotter Transactions per day
                         to every signed up user
                     </p>

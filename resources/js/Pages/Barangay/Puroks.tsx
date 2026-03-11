@@ -1,19 +1,22 @@
 import { PageProps } from "@/Pages/types";
-import React, { useState } from 'react';
+import React, { useState } from "react";
 
 import { ActionButtons } from "@/Components/ActionButtons";
-import TableBody from '@/Components/Blotter/TableBody';
-import TableHead from '@/Components/Blotter/TableHead';
+import TableBody from "@/Components/Blotter/TableBody";
+import TableHead from "@/Components/Blotter/TableHead";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import getIncidentType from "@/utils/functions/getIncidentType";
-import { ArrowReturnLeft, ChevronLeft, ChevronRight } from "react-bootstrap-icons";
+import {
+    ArrowReturnLeft,
+    ChevronLeft,
+    ChevronRight,
+} from "react-bootstrap-icons";
 import { usePDF } from "react-to-pdf";
 import Swal from "sweetalert2";
-import * as XLSX from 'xlsx';
+import * as XLSX from "xlsx";
 import { Link } from "@inertiajs/react";
 
-const Puroks = ({ auth, puroks }:
-    PageProps<{ puroks: any }>) => {
+const Puroks = ({ auth, puroks }: PageProps<{ puroks: any }>) => {
     const purok = window.location.search?.split("=")[1];
 
     // Local states
@@ -33,7 +36,7 @@ const Puroks = ({ auth, puroks }:
             showCancelButton: true,
             confirmButtonColor: "#3085d6",
             cancelButtonColor: "#d33",
-            confirmButtonText: "Yes, download it!"
+            confirmButtonText: "Yes, download it!",
         }).then((result) => {
             if (result.isConfirmed) {
                 toPDF();
@@ -46,7 +49,7 @@ const Puroks = ({ auth, puroks }:
                 });
             }
         });
-    }
+    };
 
     // Download excel copy
     const handleDownloadExcel = () => {
@@ -57,16 +60,16 @@ const Puroks = ({ auth, puroks }:
             showCancelButton: true,
             confirmButtonColor: "#3085d6",
             cancelButtonColor: "#d33",
-            confirmButtonText: "Yes, download it!"
+            confirmButtonText: "Yes, download it!",
         }).then((result) => {
             if (result.isConfirmed) {
-                const table = document.getElementById('content-to-export');
+                const table = document.getElementById("content-to-export");
                 const ws = XLSX.utils.table_to_sheet(table); // Convert table to worksheet
                 const wb = XLSX.utils.book_new(); // Create a new workbook
-                XLSX.utils.book_append_sheet(wb, ws, 'Sheet1'); // Append worksheet to workbook
+                XLSX.utils.book_append_sheet(wb, ws, "Sheet1"); // Append worksheet to workbook
 
                 // Generate a downloadable Excel file
-                XLSX.writeFile(wb, `${getIncidentType(incidentId)}.xlsx`);
+                XLSX.writeFile(wb, `Purok ${purok}.xlsx`);
 
                 Swal.fire({
                     title: "Downloaded!",
@@ -90,10 +93,9 @@ const Puroks = ({ auth, puroks }:
         }, 100);
 
         return window.print();
-    }
+    };
 
     const totalPages = Math.ceil(Puroks?.length / rowsPerPage);
-
 
     const handlePageChange = (pageNumber: number) => {
         setCurrentPage(pageNumber);
@@ -105,12 +107,15 @@ const Puroks = ({ auth, puroks }:
             pageNumbers.push(i);
         }
 
-
-        return pageNumbers.map(number => (
+        return pageNumbers.map((number) => (
             <button
                 key={number}
                 onClick={() => handlePageChange(number)}
-                className={currentPage === number ? 'bg-slate-500 text-white h-6 w-6 rounded shadow' : ''}
+                className={
+                    currentPage === number
+                        ? "bg-slate-500 text-white h-6 w-6 rounded shadow"
+                        : ""
+                }
             >
                 {number}
             </button>
@@ -131,37 +136,46 @@ const Puroks = ({ auth, puroks }:
                     <div className="flex justify-between mb-6">
                         <div className="flex">
                             <Link href="/">
-                                <ArrowReturnLeft className="hover:font-bold mr-6 mt-2" size={20} />
+                                <ArrowReturnLeft
+                                    className="hover:font-bold mr-6 mt-2"
+                                    size={20}
+                                />
                             </Link>
                             <ActionButtons
                                 onDownload={handleDownload}
                                 onExportToExcel={handleDownloadExcel}
-                                onPrint={() => printDiv('content-to-export')}
+                                onPrint={() => printDiv("content-to-export")}
                             />
                         </div>
 
                         <div className="flex place-items-center">
-
-                            <h2 className="mr-4">Purok :  <input
-                                type="text"
-                                value={purok?.replace('%20', " ")}
-                                onChange={(e) => setKeyword(e.target.value)}
-                                className="rounded py-1"
-                            /></h2>
-
-                            Per Page:  <select
+                            <h2 className="mr-4">
+                                Purok :{" "}
+                                <input
+                                    type="text"
+                                    value={purok?.replace("%20", " ")}
+                                    onChange={(e) => setKeyword(e.target.value)}
+                                    className="rounded py-1"
+                                />
+                            </h2>
+                            Per Page:{" "}
+                            <select
                                 name=""
                                 id=""
-                                onChange={(e) => setRowsPerPage(parseInt(e.target.value))}
+                                onChange={(e) =>
+                                    setRowsPerPage(parseInt(e.target.value))
+                                }
                                 className="py-1 rounded text-slate-500 mr-5 ml-2"
                             >
                                 <option value={10}>10</option>
                                 <option value={50}>50</option>
                                 <option value={100}>100</option>
-                                <option value={Puroks?.length}>{Puroks?.length}</option>
+                                <option value={Puroks?.length}>
+                                    {Puroks?.length}
+                                </option>
                             </select>
-
-                            Search : <input
+                            Search :{" "}
+                            <input
                                 type="text"
                                 value={keyword}
                                 onChange={(e) => setKeyword(e.target.value)}
@@ -172,36 +186,86 @@ const Puroks = ({ auth, puroks }:
                     </div>
                     {/**Table */}
                     <div className="rounded-sm border-stroke bg-white dark:border-strokedark dark:bg-boxdark xl:pb-1 mt-2 animate-slideinright">
-                        <div className="max-w-full overflow-x-auto" id="content-to-export" ref={targetRef}>
+                        <div
+                            className="max-w-full overflow-x-auto"
+                            id="content-to-export"
+                            ref={targetRef}
+                        >
                             <table className="w-full z-20 rounded-lg border border-[#eee]">
                                 <TableHead />
                                 <TableBody
                                     blotters={puroks
-                                        ?.sort((a: any, b: any) => b.entry_number - a.entry_number)
-                                        ?.filter((item: any) => item?.complainant_first_name?.toLowerCase().includes(keyword?.toLocaleLowerCase)
-                                            || item?.complainant_family_name?.toLowerCase()?.includes(keyword?.toLocaleLowerCase())
-                                            || item?.respondent_family_name?.toLowerCase()?.includes(keyword?.toLocaleLowerCase())
-                                            || item?.respondent_family_name?.toLowerCase()?.includes(keyword?.toLocaleLowerCase()))
-                                        .slice(currentPage == 1 ? 0 : ((currentPage - 1) * 10), rowsPerPage * currentPage)}
-                                    setData={() => { }}
+                                        ?.sort(
+                                            (a: any, b: any) =>
+                                                b.entry_number - a.entry_number,
+                                        )
+                                        ?.filter(
+                                            (item: any) =>
+                                                item?.complainant_first_name
+                                                    ?.toLowerCase()
+                                                    .includes(
+                                                        keyword?.toLocaleLowerCase,
+                                                    ) ||
+                                                item?.complainant_family_name
+                                                    ?.toLowerCase()
+                                                    ?.includes(
+                                                        keyword?.toLocaleLowerCase(),
+                                                    ) ||
+                                                item?.respondent_family_name
+                                                    ?.toLowerCase()
+                                                    ?.includes(
+                                                        keyword?.toLocaleLowerCase(),
+                                                    ) ||
+                                                item?.respondent_family_name
+                                                    ?.toLowerCase()
+                                                    ?.includes(
+                                                        keyword?.toLocaleLowerCase(),
+                                                    ),
+                                        )
+                                        .slice(
+                                            currentPage == 1
+                                                ? 0
+                                                : (currentPage - 1) * 10,
+                                            rowsPerPage * currentPage,
+                                        )}
+                                    setData={() => {}}
                                 />
                             </table>
 
                             <div className="flex justify-between py-6 ">
                                 <div className="text-slate-600">
-                                    <h6>Showing <b>{currentPage == 1 ? 1 : ((currentPage) * 10)} -  {currentPage == 1
-                                        ? currentPage * rowsPerPage
-                                        : (currentPage + 1) * rowsPerPage} of {Puroks?.length}</b> results</h6>
+                                    <h6>
+                                        Showing{" "}
+                                        <b>
+                                            {currentPage == 1
+                                                ? 1
+                                                : currentPage * 10}{" "}
+                                            -{" "}
+                                            {currentPage == 1
+                                                ? currentPage * rowsPerPage
+                                                : (currentPage + 1) *
+                                                  rowsPerPage}{" "}
+                                            of {Puroks?.length}
+                                        </b>{" "}
+                                        results
+                                    </h6>
                                 </div>
                                 <div className="flex justify-end gap-5 place-items-center">
-                                    <div className="flex place-items-center  gap-1 hover:fontbold cursor-pointer" onClick={() => setCurrentPage(currentPage - 1)} >
+                                    <div
+                                        className="flex place-items-center  gap-1 hover:fontbold cursor-pointer"
+                                        onClick={() =>
+                                            setCurrentPage(currentPage - 1)
+                                        }
+                                    >
                                         <ChevronLeft />
                                         <h6>Previous</h6>
                                     </div>
                                     {renderPageNumbers()}
                                     <div
                                         className="flex place-items-center  gap-1 hover:fontbold cursor-pointer"
-                                        onClick={() => setCurrentPage(currentPage + 1)}
+                                        onClick={() =>
+                                            setCurrentPage(currentPage + 1)
+                                        }
                                     >
                                         <h6>Next</h6>
                                         <ChevronRight />
@@ -212,10 +276,9 @@ const Puroks = ({ auth, puroks }:
                     </div>
                     {/** End Table */}
                 </div>
-
             </div>
-        </AuthenticatedLayout >
-    )
-}
+        </AuthenticatedLayout>
+    );
+};
 
-export default Puroks
+export default Puroks;

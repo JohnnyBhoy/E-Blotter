@@ -14,6 +14,7 @@ use App\Services\UserService;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -66,41 +67,36 @@ class UserController extends Controller
         $userId = auth()->user()->id;
         $user = $this->userService->get($userId);
 
+        $allowedMimes = ['image/jpeg', 'image/png', 'image/jpg'];
+        $allowedExtensions = ['jpg', 'jpeg', 'png'];
+
         try {
             if ($request->hasFile('banner')) {
                 $image = $request->file('banner');
-
-                // Get the MIME type of the uploaded file
                 $mime = $image->getMimeType();
+                $extension = strtolower($image->getClientOriginalExtension());
 
-                if ($mime === 'image/jpeg' || $mime === 'image/png') {
-                    // Process the image since it's either JPEG or PNG
-                    $imageName = time() . '.' . $image->getClientOriginalExtension();
-
-                    // Move the headshot to manufacturer image folder
+                if (in_array($mime, $allowedMimes) && in_array($extension, $allowedExtensions) && $image->getSize() <= 5 * 1024 * 1024) {
+                    $imageName = Str::uuid() . '.' . $extension;
                     $image->move(public_path('images/barangay_banner'), $imageName);
+                    User::where('id', $userId)->update(['banner' => $imageName]);
+                    $status = 'success';
+                } else {
+                    $status = 'failed';
                 }
-
-                User::where('id', $userId)->update(['banner' => $imageName]);
-
-                $status = 'success';
             } elseif ($request->hasFile('avatar')) {
                 $image = $request->file('avatar');
-
-                // Get the MIME type of the uploaded file
                 $mime = $image->getMimeType();
+                $extension = strtolower($image->getClientOriginalExtension());
 
-                if ($mime === 'image/jpeg' || $mime === 'image/png') {
-                    // Process the image since it's either JPEG or PNG
-                    $imageName = time() . '.' . $image->getClientOriginalExtension();
-
-                    // Move the headshot to manufacturer image folder
+                if (in_array($mime, $allowedMimes) && in_array($extension, $allowedExtensions) && $image->getSize() <= 2 * 1024 * 1024) {
+                    $imageName = Str::uuid() . '.' . $extension;
                     $image->move(public_path('images/barangay_avatar'), $imageName);
+                    User::where('id', $userId)->update(['avatar' => $imageName]);
+                    $status = 'success';
+                } else {
+                    $status = 'failed';
                 }
-
-                User::where('id', $userId)->update(['avatar' => $imageName]);
-
-                $status = 'success';
             } else {
                 $status = 'failed';
             }
@@ -117,7 +113,7 @@ class UserController extends Controller
         }
     }
 
-    /** 
+    /**
      * Method to send message from contact us
      * @param \Illuminate\Http\Request $request The HTTP request
      *
@@ -125,14 +121,19 @@ class UserController extends Controller
      */
     public function sendMessageFromContactUs(Request $request)
     {
-        $data = $request->get('data');
+        $validated = $request->validate([
+            'data.full_name'     => 'required|string|max:255',
+            'data.email_address' => 'required|email|max:255',
+            'data.subject'       => 'required|string|max:255',
+            'data.message'       => 'required|string|max:5000',
+        ]);
 
         try {
-            ContactUs::create($data);
+            ContactUs::create($validated['data']);
 
-            return Inertia::render('/contact-us');
+            return to_route('contact.us');
         } catch (\Throwable $th) {
-            throw $th;
+            return back()->withErrors(['message' => 'Failed to send message. Please try again.']);
         }
     }
 }

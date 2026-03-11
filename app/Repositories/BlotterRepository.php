@@ -329,15 +329,12 @@ class BlotterRepository
         $filter = [];
 
         foreach ($attribs as $attrib) {
-            if ($complainant[$attrib]) {
-                $pair = [
-                    $attrib => $complainant[$attrib]
-                ];
-                $filter[] = $pair;
+            if (!empty($complainant[$attrib])) {
+                $filter[$attrib] = $complainant[$attrib];
             }
         }
 
-        return array_merge(...$filter);
+        return $filter;
     }
 
     private function createFilterHolderForRequest(array $attribs, Request $request)
@@ -345,15 +342,12 @@ class BlotterRepository
         $filter = [];
 
         foreach ($attribs as $attrib) {
-            if ($request->get($attrib)) {
-                $pair = [
-                    $attrib => $request->get($attrib)
-                ];
-                $filter[] = $pair;
+            if ($request->get($attrib) !== null && $request->get($attrib) !== '') {
+                $filter[$attrib] = $request->get($attrib);
             }
         }
 
-        return array_merge(...$filter);
+        return $filter;
     }
 
     /**

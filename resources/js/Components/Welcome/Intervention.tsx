@@ -3,15 +3,15 @@ import React from 'react'
 const Intervention = () => {
     return (
         <div className="items-center gap-8 lg:grid lg:grid-cols-2 xl:gap-16">
-            <div className="text-gray-500 sm:text-lg dark:text-gray-400">
-                <h2 className="mb-4 text-3xl font-extrabold tracking-tight text-gray-900 dark:text-white">
+            <div className="text-gray-500 sm:text-lg dark:text-claude-text-muted">
+                <h2 className="mb-4 text-3xl font-extrabold tracking-tight text-gray-900 dark:text-claude-text">
                     5. Trust and Confidence Building
                 </h2>
                 <p className="mb-8 font-light lg:text-xl">
                     The system builds trust and confidence in incident management by promoting effective collaboration between barangay officials, law enforcement, disaster response agencies, and the community. Using web and mobile platforms, transparency and accountability are enhanced. When community members witness this collaboration;
                 </p>
                 {/** List **/}
-                <ul className="pt-8 space-y-5 border-t border-gray-200 my-7 dark:border-gray-700"  >
+                <ul className="pt-8 space-y-5 border-t border-gray-200 my-7 dark:border-claude-border"  >
                     <li className="flex space-x-3">
                         {/** Icon **/}
                         <svg
@@ -26,7 +26,7 @@ const Intervention = () => {
                                 clipRule="evenodd"
                             ></path>
                         </svg>
-                        <span className="text-base font-medium leading-tight text-gray-900 dark:text-white">
+                        <span className="text-base font-medium leading-tight text-gray-900 dark:text-claude-text">
                             It strengthens their trust in the ability of authorities to address incidents and maintain public safety.
                         </span>
                     </li>
@@ -44,7 +44,7 @@ const Intervention = () => {
                                 clipRule="evenodd"
                             ></path>
                         </svg>
-                        <span className="text-base font-medium leading-tight text-gray-900 dark:text-white">
+                        <span className="text-base font-medium leading-tight text-gray-900 dark:text-claude-text">
                             Fostering a cooperative relationship between the community and government agencies.
                         </span>
                     </li>
@@ -62,7 +62,7 @@ const Intervention = () => {
                                 clipRule="evenodd"
                             ></path>
                         </svg>
-                        <span className="text-base font-medium leading-tight text-gray-900 dark:text-white">
+                        <span className="text-base font-medium leading-tight text-gray-900 dark:text-claude-text">
                             Realtime Barangay e-Blotter
                         </span>
                     </li>

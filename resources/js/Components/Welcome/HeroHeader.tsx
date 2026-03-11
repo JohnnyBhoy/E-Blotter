@@ -12,7 +12,7 @@ const HeroHeader = () => {
 
     return (
         <div>
-            <section className="bg-white dark:bg-gray-900 mt-20 grid place-items-center">
+            <section className="bg-white dark:bg-claude-bg mt-20 grid place-items-center">
                 <img src='/images/E-911_heroheader.png' alt="" />
             </section>
             {/** End block **/}

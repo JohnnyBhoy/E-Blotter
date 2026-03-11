@@ -21,7 +21,7 @@ const ChartTwo = ({ data }: { data: any }) => {
   let maxCount = data?.reduce((max: number, obj: any) => obj?.count > max ? obj?.count : max, -Infinity);
 
   const options: ApexOptions = {
-    colors: ['#FBD1A2'],
+    colors: ['#d4622a'],
     chart: {
       fontFamily: 'Satoshi, sans-serif',
       type: 'bar',
@@ -112,7 +112,7 @@ const ChartTwo = ({ data }: { data: any }) => {
     <div className="col-span-12 rounded-lg border border-stroke bg-white p-7.5 shadow-default dark:border-strokedark dark:bg-boxdark xl:col-span-4 animate-slideinright">
       <div className="mb-4 justify-between gap-4 sm:flex">
         <div>
-          <h4 className="text-xl font-semibold text-gray-900 dark:text-white">
+          <h4 className="text-xl font-semibold text-gray-900 dark:text-claude-text">
             Blotter {week === 1 ? 'this' : 'last'} week
           </h4>
         </div>

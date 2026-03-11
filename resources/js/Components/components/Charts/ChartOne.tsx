@@ -26,7 +26,7 @@ const ChartOne = ({ lastYearBlotter, thisYearBlotter }: {
       position: 'top',
       horizontalAlign: 'left',
     },
-    colors: ['#80CAEE', '#3C50E0'],
+    colors: ['#d4622a', '#e8743a'],
     chart: {
       fontFamily: 'Satoshi, sans-serif',
       height: 335,
@@ -87,7 +87,7 @@ const ChartOne = ({ lastYearBlotter, thisYearBlotter }: {
     markers: {
       size: 4,
       colors: '#fff',
-      strokeColors: ['#80CAEE', '#3056D3'],
+      strokeColors: ['#d4622a', '#3056D3'],
       strokeWidth: 3,
       strokeOpacity: 0.9,
       strokeDashArray: 0,
@@ -192,13 +192,13 @@ const ChartOne = ({ lastYearBlotter, thisYearBlotter }: {
         </div>
         <div className="flex w-full max-w-45 justify-end">
           <div className="inline-flex items-center rounded-md bg-whiter p-1.5 dark:bg-meta-4">
-            <button className="rounded py-1 px-3 text-xs font-medium text-gray-700 hover:bg-white hover:shadow-card dark:text-white dark:hover:bg-boxdark">
+            <button className="rounded py-1 px-3 text-xs font-medium text-gray-700 hover:bg-white hover:shadow-card dark:text-claude-text dark:hover:bg-boxdark">
               Day
             </button>
-            <button className="rounded py-1 px-3 text-xs font-medium text-gray-700 hover:bg-white hover:shadow-card dark:text-white dark:hover:bg-boxdark">
+            <button className="rounded py-1 px-3 text-xs font-medium text-gray-700 hover:bg-white hover:shadow-card dark:text-claude-text dark:hover:bg-boxdark">
               Week
             </button>
-            <button className="rounded bg-white py-1 px-3 text-xs font-medium text-gray-700 shadow-card hover:bg-white hover:shadow-card dark:bg-boxdark dark:text-white dark:hover:bg-boxdark">
+            <button className="rounded bg-white py-1 px-3 text-xs font-medium text-gray-700 shadow-card hover:bg-white hover:shadow-card dark:bg-boxdark dark:text-claude-text dark:hover:bg-boxdark">
               Month
             </button>
           </div>

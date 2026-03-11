@@ -16,10 +16,10 @@ class IsRegion
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (Auth::user() &&  Auth::user()->role == 5) {
+        if (Auth::user() && Auth::user()->role == 2) {
             return $next($request);
         }
 
-        return redirect('home')->with('error', 'You have not region admin access');
+        return redirect('home')->with('error', 'You do not have region admin access.');
     }
 }

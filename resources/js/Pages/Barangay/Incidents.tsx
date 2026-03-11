@@ -23,6 +23,7 @@ import {
     TrendingUp
 } from "lucide-react";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
+import getIncidentType from "@/utils/functions/getIncidentType";
 
 interface Blotter {
     id: number;
@@ -163,7 +164,7 @@ export default function Incidents({ auth }: { auth: any }) {
                         <FileText className="w-6 h-6 text-white" />
                     </div>
                     <div>
-                        <h2 className="font-bold text-xl text-black dark:text-white leading-tight">
+                        <h2 className="font-bold text-xl text-black dark:text-claude-text leading-tight">
                             Barangay Incidents
                         </h2>
                         <p className="text-sm text-blue-600 dark:text-blue-200">
@@ -191,7 +192,7 @@ export default function Incidents({ auth }: { auth: any }) {
                             <div className="flex items-center justify-between">
                                 <div>
                                     <p className="text-blue-600 dark:text-blue-200 text-sm">Total Incidents</p>
-                                    <p className="text-2xl font-bold text-black dark:text-white mt-1">{stats.total}</p>
+                                    <p className="text-2xl font-bold text-black dark:text-claude-text mt-1">{stats.total}</p>
                                 </div>
                                 <div className="p-3 bg-blue-100 dark:bg-blue-500/20 rounded-lg">
                                     <FileText className="w-6 h-6 text-blue-600 dark:text-blue-400" />
@@ -203,7 +204,7 @@ export default function Incidents({ auth }: { auth: any }) {
                             <div className="flex items-center justify-between">
                                 <div>
                                     <p className="text-blue-600 dark:text-blue-200 text-sm">Pending</p>
-                                    <p className="text-2xl font-bold text-black dark:text-white mt-1">{stats.pending}</p>
+                                    <p className="text-2xl font-bold text-black dark:text-claude-text mt-1">{stats.pending}</p>
                                 </div>
                                 <div className="p-3 bg-yellow-100 dark:bg-yellow-500/20 rounded-lg">
                                     <Clock className="w-6 h-6 text-yellow-600 dark:text-yellow-400" />
@@ -215,7 +216,7 @@ export default function Incidents({ auth }: { auth: any }) {
                             <div className="flex items-center justify-between">
                                 <div>
                                     <p className="text-blue-600 dark:text-blue-200 text-sm">Resolved</p>
-                                    <p className="text-2xl font-bold text-black dark:text-white mt-1">{stats.resolved}</p>
+                                    <p className="text-2xl font-bold text-black dark:text-claude-text mt-1">{stats.resolved}</p>
                                 </div>
                                 <div className="p-3 bg-green-100 dark:bg-green-500/20 rounded-lg">
                                     <CheckCircle className="w-6 h-6 text-green-600 dark:text-green-400" />
@@ -227,7 +228,7 @@ export default function Incidents({ auth }: { auth: any }) {
                             <div className="flex items-center justify-between">
                                 <div>
                                     <p className="text-blue-600 dark:text-blue-200 text-sm">This Month</p>
-                                    <p className="text-2xl font-bold text-black dark:text-white mt-1">{stats.this_month}</p>
+                                    <p className="text-2xl font-bold text-black dark:text-claude-text mt-1">{stats.this_month}</p>
                                 </div>
                                 <div className="p-3 bg-purple-100 dark:bg-purple-500/20 rounded-lg">
                                     <Calendar className="w-6 h-6 text-purple-600 dark:text-purple-400" />
@@ -247,7 +248,7 @@ export default function Incidents({ auth }: { auth: any }) {
                                         placeholder="Search incidents..."
                                         value={searchTerm}
                                         onChange={(e) => setSearchTerm(e.target.value)}
-                                        className="w-full pl-10 pr-4 py-2 bg-white dark:bg-white/10 border border-blue-300 dark:border-white/20 rounded-lg text-black dark:text-white placeholder-blue-400 dark:placeholder-blue-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                        className="w-full pl-10 pr-4 py-2 bg-white dark:bg-white/10 border border-blue-300 dark:border-white/20 rounded-lg text-black dark:text-claude-text placeholder-blue-400 dark:placeholder-blue-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
                                     />
                                 </div>
                             </div>
@@ -255,7 +256,7 @@ export default function Incidents({ auth }: { auth: any }) {
                                 <select
                                     value={selectedType}
                                     onChange={(e) => setSelectedType(e.target.value)}
-                                    className="w-full px-4 py-2 bg-white dark:bg-white/10 border border-blue-300 dark:border-white/20 rounded-lg text-black dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    className="w-full px-4 py-2 bg-white dark:bg-white/10 border border-blue-300 dark:border-white/20 rounded-lg text-black dark:text-claude-text focus:outline-none focus:ring-2 focus:ring-blue-500"
                                 >
                                     <option value="">All Types</option>
                                     {incidentTypes.map(type => (
@@ -268,11 +269,11 @@ export default function Incidents({ auth }: { auth: any }) {
 
                     {/* Incident Types Summary */}
                     <div className="bg-white dark:bg-white/10 dark:shadow-lg rounded-xl border border-blue-200 dark:border-white/20 backdrop-blur-none dark:backdrop-blur-lg p-6 mb-6 shadow-sm">
-                        <h3 className="text-xl font-bold text-black dark:text-white mb-4">Incidents by Type</h3>
+                        <h3 className="text-xl font-bold text-black dark:text-claude-text mb-4">Incidents by Type</h3>
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                             {Object.entries(stats.by_type).map(([type, count]) => (
                                 <div key={type} className="flex items-center justify-between p-3 bg-blue-50 dark:bg-white/5 rounded-lg">
-                                    <span className="text-sm font-medium text-black dark:text-white">{type}</span>
+                                    <span className="text-sm font-medium text-black dark:text-claude-text">{type}</span>
                                     <span className="px-2 py-1 bg-blue-600 text-white text-xs rounded-full">{count}</span>
                                 </div>
                             ))}
@@ -282,7 +283,7 @@ export default function Incidents({ auth }: { auth: any }) {
                     {/* Incidents Table */}
                     <div className="bg-white dark:bg-white/10 dark:shadow-lg rounded-xl border border-blue-200 dark:border-white/20 backdrop-blur-none dark:backdrop-blur-lg p-6 shadow-sm">
                         <div className="flex justify-between items-center mb-6">
-                            <h3 className="text-xl font-bold text-black dark:text-white">All Incidents</h3>
+                            <h3 className="text-xl font-bold text-black dark:text-claude-text">All Incidents</h3>
                             {!isLoading && blotters.length === 0 && (
                                 <button
                                     onClick={fetchBlotters}
@@ -303,10 +304,10 @@ export default function Incidents({ auth }: { auth: any }) {
                                 <div className="mb-4">
                                     <AlertCircle className="w-12 h-12 text-gray-400 mx-auto" />
                                 </div>
-                                <h4 className="text-lg font-medium text-gray-600 dark:text-gray-400 mb-2">
+                                <h4 className="text-lg font-medium text-gray-600 dark:text-claude-text-muted mb-2">
                                     No incidents available
                                 </h4>
-                                <p className="text-gray-500 dark:text-gray-500 mb-4">
+                                <p className="text-gray-500 dark:text-claude-text-muted mb-4">
                                     {searchTerm || selectedType 
                                         ? 'Try adjusting your search or filters' 
                                         : 'Unable to load blotter reports. Please check your connection and try again.'}
@@ -323,10 +324,10 @@ export default function Incidents({ auth }: { auth: any }) {
                                 <div className="mb-4">
                                     <AlertCircle className="w-12 h-12 text-gray-400 mx-auto" />
                                 </div>
-                                <h4 className="text-lg font-medium text-gray-600 dark:text-gray-400 mb-2">
+                                <h4 className="text-lg font-medium text-gray-600 dark:text-claude-text-muted mb-2">
                                     No incidents match your filters
                                 </h4>
-                                <p className="text-gray-500 dark:text-gray-500 mb-4">
+                                <p className="text-gray-500 dark:text-claude-text-muted mb-4">
                                     Try adjusting your search or filters to see more results
                                 </p>
                                 <button
@@ -344,14 +345,14 @@ export default function Incidents({ auth }: { auth: any }) {
                             </div>
                         ) : (
                             <div className="overflow-x-auto">
-                                <table className="w-full text-black dark:text-white">
+                                <table className="w-full text-black dark:text-claude-text">
                                     <thead>
                                         <tr className="border-b border-blue-200 dark:border-white/20">
-                                            <th className="text-left p-3 font-semibold text-blue-800 dark:text-white">Entry #</th>
-                                            <th className="text-left p-3 font-semibold text-blue-800 dark:text-white">Incident Type</th>
-                                            <th className="text-left p-3 font-semibold text-blue-800 dark:text-white">Date Reported</th>
-                                            <th className="text-left p-3 font-semibold text-blue-800 dark:text-white">Case Status</th>
-                                            <th className="text-left p-3 font-semibold text-blue-800 dark:text-white">Actions</th>
+                                            <th className="text-left p-3 font-semibold text-blue-800 dark:text-claude-text">Entry #</th>
+                                            <th className="text-left p-3 font-semibold text-blue-800 dark:text-claude-text">Incident Type</th>
+                                            <th className="text-left p-3 font-semibold text-blue-800 dark:text-claude-text">Date Reported</th>
+                                            <th className="text-left p-3 font-semibold text-blue-800 dark:text-claude-text">Case Status</th>
+                                            <th className="text-left p-3 font-semibold text-blue-800 dark:text-claude-text">Actions</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -361,19 +362,18 @@ export default function Incidents({ auth }: { auth: any }) {
                                                 <tr key={blotter.id} className="border-b border-blue-100 dark:border-white/10 hover:bg-blue-50 dark:hover:bg-white/5">
                                                     <td className="p-3">{blotter.entry_number}</td>
                                                     <td className="p-3">
-                                                        <span className="px-2 py-1 bg-blue-100 dark:bg-blue-500/20 rounded text-xs text-blue-800 dark:text-blue-400">
-                                                            {blotter.incident_type}
-                                                        </span>
+                                                        <span className="px-2 py-1 bg-blue-100 dark:bg-blue-500/20 rounded text-xs text-blue-800 dark:text-blue-400"
+                                                            dangerouslySetInnerHTML={{ __html: getIncidentType(blotter.incident_type) }} />
                                                     </td>
                                                     <td className="p-3">{new Date(blotter.date_reported).toLocaleDateString()}</td>
                                                     <td className="p-3">
                                                         <span className={`px-2 py-1 rounded text-xs ${
                                                             blotter.remarks?.toLowerCase().includes('resolved') ? 'bg-green-100 text-green-800 dark:bg-green-500/20 dark:text-green-400' :
                                                             blotter.remarks?.toLowerCase().includes('pending') ? 'bg-yellow-100 text-yellow-800 dark:bg-yellow-500/20 dark:text-yellow-400' :
-                                                            blotter.remarks?.toLowerCase().includes('closed') ? 'bg-gray-100 text-gray-800 dark:bg-gray-500/20 dark:text-gray-400' :
+                                                            blotter.remarks?.toLowerCase().includes('closed') ? 'bg-gray-100 text-gray-800 dark:bg-gray-500/20 dark:text-claude-text-muted' :
                                                             blotter.remarks?.toLowerCase().includes('investigation') ? 'bg-blue-100 text-blue-800 dark:bg-blue-500/20 dark:text-blue-400' :
                                                             blotter.remarks?.toLowerCase().includes('court') ? 'bg-purple-100 text-purple-800 dark:bg-purple-500/20 dark:text-purple-400' :
-                                                            'bg-gray-100 text-gray-800 dark:bg-gray-500/20 dark:text-gray-400'
+                                                            'bg-gray-100 text-gray-800 dark:bg-gray-500/20 dark:text-claude-text-muted'
                                                         }`}>
                                                             {blotter.remarks || 'No Status'}
                                                         </span>
@@ -400,7 +400,7 @@ export default function Incidents({ auth }: { auth: any }) {
                                             ))
                                         ) : (
                                             <tr>
-                                                <td colSpan={5} className="text-center py-8 text-gray-500 dark:text-gray-400">
+                                                <td colSpan={5} className="text-center py-8 text-gray-500 dark:text-claude-text-muted">
                                                     No incidents found
                                                 </td>
                                             </tr>

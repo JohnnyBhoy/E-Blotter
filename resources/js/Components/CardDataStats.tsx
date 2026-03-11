@@ -34,7 +34,7 @@ const CardDataStats: React.FC<CardDataStatsProps> = ({
   }
 
   return (
-    <div className="rounded-lg border border-slate-100 bg-white px-6 py-6 shadow dark:border-strokedark dark:bg-boxdark cursor-pointer hover:bg-slate-300">
+    <div className="rounded-lg border border-gray-100 bg-white px-6 py-6 shadow-sm dark:border-claude-border dark:bg-claude-panel cursor-pointer hover:bg-gray-50 dark:hover:bg-claude-panel-2 transition-colors duration-200">
       <form onClick={submit}>
         <div className="flex justify-between">
           <div className="flex h-11.5 w-11.5 items-center justify-center rounded-full bg-meta-2 dark:bg-meta-4">
@@ -42,7 +42,7 @@ const CardDataStats: React.FC<CardDataStatsProps> = ({
           </div>
 
           <div className="">
-            <h1 className='text-4xl font-bold text-gray-900 dark:text-white'>
+            <h1 className='text-4xl font-bold text-gray-900 dark:text-claude-text'>
               {parseInt(total) < 1000 ? parseInt(total) : `${(parseInt(total) / 1000).toFixed(1)}k`}
             </h1>
           </div>
@@ -51,7 +51,7 @@ const CardDataStats: React.FC<CardDataStatsProps> = ({
 
         <div className="flex items-end justify-between">
           <div className='flex flex-row gap-2'>
-            <span className="text-sm font-medium mt-1 text-gray-700 dark:text-gray-300">{title}</span>
+            <span className="text-sm font-medium mt-1 text-gray-700 dark:text-claude-text-muted">{title}</span>
           </div>
         </div>
       </form>

@@ -10,7 +10,7 @@ const Authentication = ({ data, setData }: { data: any; setData: CallableFunctio
     return (
         <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark mt-4 w-full">
             <div className="border-b border-stroke py-2  px-6.5 dark:border-strokedark bg-white">
-                <h3 className="font-medium dark:text-white text-center">
+                <h3 className="font-medium dark:text-claude-text text-center">
                     Authentication
                 </h3>
             </div>
@@ -23,7 +23,7 @@ const Authentication = ({ data, setData }: { data: any; setData: CallableFunctio
                         value={data?.recorded_by}
                         type="text"
                         onChange={(e) => setData('recorded_by', e.target.value)}
-                        className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent py-2 px-5 text-sm text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
+                        className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent py-2 px-5 text-sm text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-claude-text dark:focus:border-primary"
                     />
                 </div>
                 {/** End work address */}

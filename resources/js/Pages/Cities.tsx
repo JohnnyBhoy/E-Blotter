@@ -57,10 +57,10 @@ const Cities = ({ auth, cities }: PageProps<{ cities: Cities }>) => {
                 </div>
 
                 <div className="flex gap-12">
-                    <h1 className="text-black dark:text-white">
+                    <h1 className="text-black dark:text-claude-text">
                         Province : <b>{getProvince(cities[0].provinceCode)}</b>
                     </h1>
-                    <h1 className="text-black dark:text-white">
+                    <h1 className="text-black dark:text-claude-text">
                         No of Cities : <b>{cities?.length}</b>
                     </h1>
                 </div>
@@ -74,19 +74,19 @@ const Cities = ({ auth, cities }: PageProps<{ cities: Cities }>) => {
                     <table className="w-full z-20 border border-[#eee]">
                         <thead>
                             <tr className="bg-gray-2 text-left dark:bg-meta-4 ">
-                                <th className="border border-[#eee] min-w-[120px] py-3 px-2 font-medium text-black dark:text-white xl:pl-11">
+                                <th className="border border-[#eee] min-w-[120px] py-3 px-2 font-medium text-black dark:text-claude-text xl:pl-11">
                                     Id
                                 </th>
-                                <th className="border border-[#eee] min-w-[150px] py-3 px-2 xl:pl-11 font-medium text-black dark:text-white">
+                                <th className="border border-[#eee] min-w-[150px] py-3 px-2 xl:pl-11 font-medium text-black dark:text-claude-text">
                                     Municipality
                                 </th>
-                                <th className="border border-[#eee] min-w-[120px] py-3 px-2 font-medium text-black dark:text-white xl:pl-11">
+                                <th className="border border-[#eee] min-w-[120px] py-3 px-2 font-medium text-black dark:text-claude-text xl:pl-11">
                                     No. Of Barangay
                                 </th>
-                                <th className="border border-[#eee] min-w-[120px] py-3 px-2 font-medium text-black dark:text-white xl:pl-11">
+                                <th className="border border-[#eee] min-w-[120px] py-3 px-2 font-medium text-black dark:text-claude-text xl:pl-11">
                                     No. of Blotters
                                 </th>
-                                <th className="border border-[#eee] min-w-[120px] py-3 px-2 font-medium text-black dark:text-white xl:pl-11">
+                                <th className="border border-[#eee] min-w-[120px] py-3 px-2 font-medium text-black dark:text-claude-text xl:pl-11">
                                     Action
                                 </th>
                             </tr>
@@ -95,22 +95,22 @@ const Cities = ({ auth, cities }: PageProps<{ cities: Cities }>) => {
                             {cities?.map((city: City, key: number) => (
                                 <tr key={key} className="hover:bg-slate-100 cursor-pointer z-20 bg-white dark:bg-meta-4">
                                     <td className="border border-[#eee] dark:border-white py-1.5 px-2 pl-9 dark:border-strokedark xl:pl-11">
-                                        <h5 className="text-black dark:text-white">
+                                        <h5 className="text-black dark:text-claude-text">
                                             {city?.cityCode}
                                         </h5>
                                     </td>
                                     <td className="border border-[#eee] dark:border-white py-1.5 px-2 pl-9 dark:border-strokedark xl:pl-11">
-                                        <h5 className="text-black dark:text-white text-start">
+                                        <h5 className="text-black dark:text-claude-text text-start">
                                             {getCity(city?.cityCode)}
                                         </h5>
                                     </td>
                                     <td className="border border-[#eee] dark:border-white py-1.5 px-2 pl-9 dark:border-strokedark xl:pl-11">
-                                        <h5 className="text-black dark:text-white">
+                                        <h5 className="text-black dark:text-claude-text">
                                             {city?.noOfBarangays}
                                         </h5>
                                     </td>
                                     <td className="border border-[#eee] dark:border-white py-1.5 px-2 pl-9 dark:border-strokedark xl:pl-11">
-                                        <h5 className="text-black dark:text-white">
+                                        <h5 className="text-black dark:text-claude-text">
                                             {city?.noOfBlotters}
                                         </h5>
                                     </td>

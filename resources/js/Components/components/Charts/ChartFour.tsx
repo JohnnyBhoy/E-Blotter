@@ -30,7 +30,7 @@ const ChartFour = ({ monthlyIncidents }: { monthlyIncidents: any }) => {
   let maxCount = monthlyIncidents?.reduce((max: number, obj: any) => obj?.count > max ? obj?.count : max, -Infinity);
 
   const options: ApexOptions = {
-    colors: ['#B6B6B7'],
+    colors: ['#9b9b9b'],
     chart: {
       fontFamily: 'Satoshi, sans-serif',
       type: 'bar',
@@ -121,7 +121,7 @@ const ChartFour = ({ monthlyIncidents }: { monthlyIncidents: any }) => {
     <div className="col-span-12 rounded-lg border border-stroke bg-white p-7.5 shadow-default dark:border-strokedark dark:bg-boxdark w-full">
       <div className="mb-4 justify-between gap-4 sm:flex">
         <div>
-          <h4 className="text-xl font-semibold text-gray-900 dark:text-white">
+          <h4 className="text-xl font-semibold text-gray-900 dark:text-claude-text">
             Yearly Incidents  Reports <small className='text-xs'>Hover number buttons to view incident description</small>
           </h4>
         </div>
@@ -203,7 +203,7 @@ const IncidentButtons = ({ type, show, showId, setshow, setshowId }:
 
   return (
     <>
-      <button className={`z-20 mt-[-2rem] absolute bg-blue-400 text-white px-2 rounded-3xl text-xs py-1 ${show && showId == type?.id ? '' : 'hidden'}`}>
+      <button className={`z-20 mt-[-2rem] absolute bg-claude-accent text-white px-2 rounded-3xl text-xs py-1 ${show && showId == type?.id ? '' : 'hidden'}`}>
         {type.value}
       </button>
       <button
@@ -255,7 +255,7 @@ const Table = ({ datas }: { datas: any }) => {
               key={key}
             >
               <div className="flex items-center gap-3 p-2.5 xl:p-1 w-full">
-                <p className="hidden text-gray-900 text-sm dark:text-white sm:block ml-3">
+                <p className="hidden text-gray-900 text-sm dark:text-claude-text sm:block ml-3">
                   {getIncidentType(parseInt(item.incident_type))}
                 </p>
               </div>
@@ -264,7 +264,7 @@ const Table = ({ datas }: { datas: any }) => {
               </div>
 
               <div className="hidden items-center justify-center p-2.5 sm:flex xl:p-1">
-                <button className='text-xs bg-blue-400 text-white rounded-3xl px-4 py-1 hover:bg-blue-600'>
+                <button className='text-xs bg-claude-accent text-white rounded-3xl px-4 py-1 hover:bg-claude-accent-light'>
                   View
                 </button>
               </div>

@@ -3,15 +3,15 @@ import React from 'react'
 const CrimeDataAccuracy = () => {
     return (
         <div className="items-center gap-8 lg:grid lg:grid-cols-2 xl:gap-16">
-            <div className="text-gray-500 sm:text-lg dark:text-gray-400 animate-fadeInLeft">
-                <h2 className="mb-4 text-3xl font-extrabold tracking-tight text-gray-900 dark:text-white">
+            <div className="text-gray-500 sm:text-lg dark:text-claude-text-muted animate-fadeInLeft">
+                <h2 className="mb-4 text-3xl font-extrabold tracking-tight text-gray-900 dark:text-claude-text">
                     1. Improved Incident Data Accuracy
                 </h2>
                 <p className="mb-8 font-light lg:text-xl">
                     Barangay incident records provide essential local-level data that contribute to a comprehensive understanding of various incidents and emergencies, including crime, fire, and natural disasters. These records, detailing time, location, hotspots, and other circumstances, are monitored and acted upon in coordination with the local PNP and other government agencies. This ensures proper intervention, prevention, and response in real time. Enhanced data accuracy enables government agencies to make informed decisions regarding:
                 </p>
                 {/** List **/}
-                <ul className="pt-8 space-y-5 border-t border-gray-200 my-7 dark:border-gray-700">
+                <ul className="pt-8 space-y-5 border-t border-gray-200 my-7 dark:border-claude-border">
                     <li className="flex space-x-3">
                         {/** Icon **/}
                         <svg
@@ -26,7 +26,7 @@ const CrimeDataAccuracy = () => {
                                 clipRule="evenodd"
                             ></path>
                         </svg>
-                        <span className="text-base font-medium leading-tight text-gray-900 dark:text-white">
+                        <span className="text-base font-medium leading-tight text-gray-900 dark:text-claude-text">
                             Resource allocation
                         </span>
                     </li>
@@ -44,7 +44,7 @@ const CrimeDataAccuracy = () => {
                                 clipRule="evenodd"
                             ></path>
                         </svg>
-                        <span className="text-base font-medium leading-tight text-gray-900 dark:text-white">
+                        <span className="text-base font-medium leading-tight text-gray-900 dark:text-claude-text">
                             Time management
                         </span>
                     </li>
@@ -62,7 +62,7 @@ const CrimeDataAccuracy = () => {
                                 clipRule="evenodd"
                             ></path>
                         </svg>
-                        <span className="text-base font-medium leading-tight text-gray-900 dark:text-white">
+                        <span className="text-base font-medium leading-tight text-gray-900 dark:text-claude-text">
                             Incident prevention strategies
                         </span>
                     </li>

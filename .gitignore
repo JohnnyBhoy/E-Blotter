@@ -20,3 +20,5 @@ yarn-error.log
 /.vscode
 /public/images
 /manifest
+.DS_Store
+Thumbs.db

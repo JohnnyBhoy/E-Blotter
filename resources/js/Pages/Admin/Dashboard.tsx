@@ -1,359 +1,456 @@
-import CardDataStats from "@/Components/CardDataStats";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { PageProps } from "@/Pages/types";
-import getBarangayByBrgyCode from "@/utils/functions/getBarangayByBrgyCode";
-import getCity from "@/utils/functions/getCity";
-import { useBlotterStore } from "@/utils/store/blotterStore";
-import { Head, router } from "@inertiajs/react";
-import { TrendingUp, TrendingUpDown, Users } from "lucide-react";
-import React, { useEffect, useState } from "react";
-import { 
-    BuildingFillGear, 
-    Buildings, 
-    BuildingUp, 
-    ChevronLeft, 
-    ChevronRight, 
-    FolderFill, 
-    Upload,
+import { Head, Link } from "@inertiajs/react";
+import React from "react";
+import Chart from "react-apexcharts";
+import getIncidentType from "@/utils/functions/getIncidentType";
+import getRemark from "@/utils/functions/getRemark";
+import {
     Globe,
-    Activity,
-    Search,
-    Funnel,
-    BarChart,
-    Calendar,
-    Clock,
+    FileEarmarkText,
+    Building,
+    People,
+    CalendarCheck,
+    ExclamationTriangle,
     CheckCircle,
-    Eye,
-    Gear
+    HourglassSplit,
+    ArrowUpRight,
+    ArrowDownRight,
+    PersonBadge,
+    ShieldCheck,
+    JournalText,
+    BarChartFill,
+    ClockHistory,
+    PersonPlusFill,
 } from "react-bootstrap-icons";
 
-export default function Dashboard({ auth, provinces, cities, barangays, blotters }
-    : PageProps<{
-        provinces: object[];
-        cities: { city_code: number; province_code: number }[];
-        barangays: object[];
-        blotters: number;
-    }>) {
+// ─── Types ────────────────────────────────────────────────────────────────────
 
-    // Global states
-    const { setBlotter } = useBlotterStore();
-    
-    useEffect(() => {
-        setBlotter(blotters);
-    }, []);
+interface RecentBlotter {
+    id: number;
+    entry_number: string;
+    incident_type: number;
+    date_reported: string;
+    remarks: number;
+    created_at: string;
+    barangay_name: string;
+    complainant_family_name: string | null;
+    complainant_first_name: string | null;
+}
+
+interface RecentUser {
+    id: number;
+    name: string;
+    email: string;
+    created_at: string;
+}
+
+interface Reports {
+    totalBlotters: number;
+    totalActiveUsers: number;
+    totalStations: number;
+    thisMonthBlotters: number;
+    lastMonthBlotters: number;
+    thisWeekBlotters: number;
+    hearingCount: number;
+    settledCount: number;
+    pendingCount: number;
+    referredCount: number;
+    monthlyThisYear: number[];
+    monthlyLastYear: number[];
+    incidentTypeBreakdown: { incident_type: number; total: number }[];
+    topBarangayUsers: { id: number; name: string; total: number }[];
+    blottersOverTime: { date: string; total: number }[];
+    recentBlotters: RecentBlotter[];
+    recentRegistrations: RecentUser[];
+}
+
+// ─── Helpers ──────────────────────────────────────────────────────────────────
+
+const MONTHS = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+
+function pctChange(curr: number, prev: number) {
+    if (prev === 0) return { value: curr > 0 ? 100 : 0, up: true };
+    const diff = ((curr - prev) / prev) * 100;
+    return { value: Math.abs(Math.round(diff)), up: diff >= 0 };
+}
+
+const DISPOSITION_BADGE: Record<number, string> = {
+    1: "bg-yellow-100 text-yellow-700 dark:bg-yellow-900/30 dark:text-yellow-400",
+    2: "bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400",
+    3: "bg-orange-100 text-orange-700 dark:bg-orange-900/30 dark:text-orange-400",
+    4: "bg-orange-100 text-orange-700 dark:bg-claude-accent/20 dark:text-claude-accent",
+    5: "bg-gray-100 text-gray-600 dark:bg-claude-panel-2 dark:text-claude-text-muted",
+};
+
+function shortLabel(full: string, max = 30) {
+    const m = full.match(/Art\s+\d+\s+-\s+"(.+)"/);
+    const s = m ? m[1] : full;
+    return s.length > max ? s.substring(0, max) + "…" : s;
+}
+
+// ─── Small Components ─────────────────────────────────────────────────────────
+
+function KpiCard({
+    icon, label, value, sub, pct, up, color,
+}: {
+    icon: React.ReactNode;
+    label: string;
+    value: number;
+    sub?: string;
+    pct?: number;
+    up?: boolean;
+    color: string;
+}) {
+    return (
+        <div className="bg-white dark:bg-claude-panel rounded-xl border border-gray-100 dark:border-claude-border p-4 flex flex-col gap-3">
+            <div className="flex items-center justify-between">
+                <div className={`p-2 rounded-lg ${color}`}>{icon}</div>
+                {pct !== undefined && (
+                    <span className={`flex items-center gap-0.5 text-xs font-bold ${up ? "text-green-500" : "text-red-400"}`}>
+                        {up ? <ArrowUpRight size={13} /> : <ArrowDownRight size={13} />}
+                        {pct}%
+                    </span>
+                )}
+            </div>
+            <div>
+                <p className="text-2xl font-extrabold text-gray-900 dark:text-claude-text">
+                    {value >= 1000 ? `${(value / 1000).toFixed(1)}k` : value}
+                </p>
+                <p className="text-xs font-medium text-gray-500 dark:text-claude-text-muted mt-0.5">{label}</p>
+                {sub && <p className="text-xs text-gray-400 dark:text-claude-text-muted mt-1">{sub}</p>}
+            </div>
+        </div>
+    );
+}
+
+function GradCard({ value, label, color }: { value: number; label: string; color: string }) {
+    return (
+        <div className={`rounded-xl p-5 text-white shadow-md ${color}`}>
+            <p className="text-3xl font-extrabold">{value}</p>
+            <p className="text-sm opacity-80 mt-1">{label}</p>
+        </div>
+    );
+}
+
+function SectionTitle({ icon, title }: { icon: React.ReactNode; title: string }) {
+    return (
+        <h3 className="flex items-center gap-2 text-base font-bold text-gray-800 dark:text-claude-text mb-4">
+            {icon}{title}
+        </h3>
+    );
+}
+
+// ─── Dashboard ────────────────────────────────────────────────────────────────
+
+export default function Dashboard({
+    auth,
+    provinces,
+    cities,
+    barangays,
+    reports,
+}: PageProps<{
+    provinces: object[];
+    cities: object[];
+    barangays: object[];
+    blotters: number;
+    reports: Reports;
+}>) {
+    const currentYear = new Date().getFullYear();
+    const monthChange = pctChange(reports.thisMonthBlotters, reports.lastMonthBlotters);
+
+    const last30Total = reports.blottersOverTime.reduce((s, d) => s + d.total, 0);
 
     return (
         <AuthenticatedLayout
             user={auth.user}
             header={
-                <div className="flex items-center justify-between">
-                    <div className="flex items-center space-x-4">
-                        <div className="p-3 bg-gradient-to-r from-blue-600 to-purple-600 rounded-xl shadow-lg">
-                            <Globe className="w-6 h-6 text-white" />
-                        </div>
-                        <div>
-                            <h2 className="font-bold text-2xl text-gray-900 dark:text-white leading-tight">
-                                Admin Dashboard
-                            </h2>
-                            <p className="text-gray-600 dark:text-gray-400 text-sm">
-                                System Administration Panel
-                            </p>
-                        </div>
+                <div className="flex items-center gap-4">
+                    <div className="p-3 bg-claude-accent rounded-xl">
+                        <Globe className="w-6 h-6 text-white" />
                     </div>
-                    <div className="flex items-center space-x-3">
-                        <button className="p-2 bg-white dark:bg-white/10 rounded-lg border border-gray-200 dark:border-white/20 hover:bg-gray-50 dark:hover:bg-white/20 transition-colors">
-                            <Search className="w-5 h-5 text-gray-600 dark:text-gray-400" />
-                        </button>
-                        <button className="p-2 bg-white dark:bg-white/10 rounded-lg border border-gray-200 dark:border-white/20 hover:bg-gray-50 dark:hover:bg-white/20 transition-colors">
-                            <Gear className="w-5 h-5 text-gray-600 dark:text-gray-400" />
-                        </button>
+                    <div>
+                        <h2 className="font-bold text-2xl text-gray-900 dark:text-claude-text leading-tight">
+                            Admin Dashboard
+                        </h2>
+                        <p className="text-sm text-gray-500 dark:text-claude-text-muted">
+                            E-Blotter System — Administration &amp; Reports Overview
+                        </p>
                     </div>
                 </div>
             }
         >
-            <Head title="Admin - Dashboard" />
-            
-            <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-slate-100 dark:from-gray-900 dark:via-blue-900 dark:to-gray-800">
-                {/* Background Pattern */}
-                <div className="absolute inset-0 bg-black/5 dark:bg-black/20">
-                    <div className="absolute inset-0 dark:hidden" style={{
-                        backgroundImage: `radial-gradient(circle at 1px 1px, rgba(59, 130, 246, 0.05) 1px, transparent 1px)`,
-                        backgroundSize: '40px 40px'
-                    }}></div>
+            <Head title="Admin Dashboard" />
+
+            <div className="py-8 px-4 sm:px-6 space-y-6">
+
+                {/* ── KPI Row ─────────────────────────────────────────── */}
+                <div className="grid grid-cols-2 sm:grid-cols-4 xl:grid-cols-8 gap-3">
+                    <KpiCard icon={<FileEarmarkText className="w-4 h-4 text-claude-accent"/>}
+                        label="Total Blotters" value={reports.totalBlotters}
+                        color="bg-orange-50 dark:bg-claude-accent/10" />
+                    <KpiCard icon={<CalendarCheck className="w-4 h-4 text-claude-accent"/>}
+                        label="This Month" value={reports.thisMonthBlotters}
+                        sub={`Last month: ${reports.lastMonthBlotters}`}
+                        pct={monthChange.value} up={monthChange.up}
+                        color="bg-orange-50 dark:bg-claude-accent/10" />
+                    <KpiCard icon={<ClockHistory className="w-4 h-4 text-cyan-600"/>}
+                        label="This Week" value={reports.thisWeekBlotters}
+                        color="bg-cyan-50 dark:bg-cyan-900/20" />
+                    <KpiCard icon={<ExclamationTriangle className="w-4 h-4 text-yellow-600"/>}
+                        label="For Hearing" value={reports.hearingCount}
+                        color="bg-yellow-50 dark:bg-yellow-900/20" />
+                    <KpiCard icon={<CheckCircle className="w-4 h-4 text-green-600"/>}
+                        label="Settled" value={reports.settledCount}
+                        color="bg-green-50 dark:bg-green-900/20" />
+                    <KpiCard icon={<HourglassSplit className="w-4 h-4 text-orange-600"/>}
+                        label="Pending" value={reports.pendingCount}
+                        color="bg-orange-50 dark:bg-orange-900/20" />
+                    <KpiCard icon={<ShieldCheck className="w-4 h-4 text-purple-600"/>}
+                        label="Referred to PNP" value={reports.referredCount}
+                        color="bg-purple-50 dark:bg-purple-900/20" />
+                    <KpiCard icon={<People className="w-4 h-4 text-rose-600"/>}
+                        label="Brgy Officers" value={reports.totalActiveUsers}
+                        sub={`Stations: ${reports.totalStations}`}
+                        color="bg-rose-50 dark:bg-rose-900/20" />
                 </div>
 
-                <div className="relative z-10">
-                    {/* Stats Cards */}
-                    <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6 xl:grid-cols-4 2xl:gap-7.5 px-6 mt-7">
-                        <CardDataStats
-                            title="Provinces"
-                            total={`${provinces?.length || 0}`}
-                            rate={`${provinces?.length || 0}`}
-                            remark={1}
-                            routeTo="provinces"
-                            levelUp
-                        >
-                            <Buildings size={24} color="blue" />
-                        </CardDataStats>
+                {/* ── Jurisdiction Gradient Cards ─────────────────────── */}
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                    <GradCard value={provinces?.length ?? 0} label="Provinces" color="bg-gradient-to-br from-claude-accent to-claude-accent-light" />
+                    <GradCard value={cities?.length ?? 0} label="Cities / Municipalities" color="bg-gradient-to-br from-violet-500 to-violet-700" />
+                    <GradCard value={barangays?.length ?? 0} label="Barangays" color="bg-gradient-to-br from-fuchsia-500 to-fuchsia-700" />
+                    <GradCard value={reports.totalStations} label="Police Stations" color="bg-gradient-to-br from-rose-500 to-rose-700" />
+                </div>
 
-                        <CardDataStats
-                            title="Cities / Municipalities"
-                            total={`${cities?.length || 0}`}
-                            rate={`${cities?.length || 0}`}
-                            remark={2}
-                            routeTo="cities"
-                            levelUp
-                        >
-                            <BuildingUp size={24} color="blue" />
-                        </CardDataStats>
+                {/* ── Monthly Trend ────────────────────────────────────── */}
+                <div className="bg-white dark:bg-claude-panel rounded-xl border border-gray-100 dark:border-claude-border p-6">
+                    <SectionTitle
+                        icon={<BarChartFill className="text-claude-accent" size={16} />}
+                        title={`Monthly Blotter Trend — ${currentYear} vs ${currentYear - 1}`}
+                    />
+                    <Chart
+                        type="bar" height={300}
+                        options={{
+                            chart: { toolbar: { show: false }, stacked: false },
+                            plotOptions: { bar: { columnWidth: "55%", borderRadius: 4 } },
+                            dataLabels: { enabled: false },
+                            xaxis: { categories: MONTHS },
+                            yaxis: { title: { text: "Blotters" } },
+                            colors: ["#d4622a","#9b9b9b"],
+                            theme: { mode: "dark" },
+                            legend: { position: "top" },
+                            grid: { strokeDashArray: 4 },
+                            tooltip: { shared: true, intersect: false },
+                        }}
+                        series={[
+                            { name: `${currentYear}`, data: reports.monthlyThisYear },
+                            { name: `${currentYear - 1}`, data: reports.monthlyLastYear },
+                        ]}
+                    />
+                </div>
 
-                        <CardDataStats
-                            title="Barangays"
-                            total={`${barangays?.length || 0}`}
-                            rate={`${barangays?.length || 0}`}
-                            remark={3}
-                            routeTo="barangays"
-                            levelDown
-                        >
-                            <BuildingFillGear size={24} color="blue" />
-                        </CardDataStats>
-
-                        <CardDataStats
-                            title="Total Reports"
-                            total={`${blotters || 0}`}
-                            rate={`${blotters || 0}`}
-                            remark={4}
-                            routeTo="blotters"
-                            levelUp
-                        >
-                            <Upload size={24} color="blue" />
-                        </CardDataStats>
+                {/* ── Incident Type + Case Disposition ─────────────────── */}
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <div className="bg-white dark:bg-claude-panel rounded-xl border border-gray-100 dark:border-claude-border p-6">
+                        <SectionTitle
+                            icon={<JournalText className="text-green-600" size={16} />}
+                            title="Top Incident Types"
+                        />
+                        {reports.incidentTypeBreakdown.length > 0 ? (
+                            <Chart type="donut" height={300}
+                                options={{
+                                    labels: reports.incidentTypeBreakdown.map((d) => shortLabel(getIncidentType(d.incident_type))),
+                                    legend: { position: "bottom", fontSize: "11px" },
+                                    dataLabels: {
+                                        enabled: true,
+                                        formatter: (_v: any, opts: any) => opts.w.config.series[opts.seriesIndex],
+                                    },
+                                    plotOptions: { pie: { donut: { size: "65%" } } },
+                                    tooltip: { y: { formatter: (v: number) => `${v} case${v !== 1 ? "s" : ""}` } },
+                                }}
+                                series={reports.incidentTypeBreakdown.map((d) => d.total)}
+                            />
+                        ) : (
+                            <div className="flex items-center justify-center h-48 text-gray-400 text-sm">No data yet</div>
+                        )}
                     </div>
 
-                    {/* Quick Actions Section */}
-                    <div className="px-6 mt-8">
-                        <div className="bg-white dark:bg-white/10 rounded-xl shadow-lg border border-blue-200 dark:border-white/20 backdrop-blur-lg p-6">
-                            <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-6 flex items-center gap-2">
-                                <Activity className="w-5 h-5 text-blue-600" />
-                                Quick Actions
-                            </h3>
-                            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                                <button className="p-4 bg-blue-50 dark:bg-blue-900/20 rounded-lg border border-blue-200 dark:border-blue-800 hover:bg-blue-100 dark:hover:bg-blue-900/30 transition-all flex items-center gap-3">
-                                    <BarChart className="w-5 h-5 text-blue-600" />
-                                    <span className="text-gray-900 dark:text-white font-medium">View Reports</span>
-                                </button>
-                                <button className="p-4 bg-green-50 dark:bg-green-900/20 rounded-lg border border-green-200 dark:border-green-800 hover:bg-green-100 dark:hover:bg-green-900/30 transition-all flex items-center gap-3">
-                                    <TrendingUp className="w-5 h-5 text-green-600" />
-                                    <span className="text-gray-900 dark:text-white font-medium">Analytics</span>
-                                </button>
-                                <button className="p-4 bg-purple-50 dark:bg-purple-900/20 rounded-lg border border-purple-200 dark:border-purple-800 hover:bg-purple-100 dark:hover:bg-purple-900/30 transition-all flex items-center gap-3">
-                                    <Users className="w-5 h-5 text-purple-600" />
-                                    <span className="text-gray-900 dark:text-white font-medium">User Management</span>
-                                </button>
-                            </div>
-                        </div>
+                    <div className="bg-white dark:bg-claude-panel rounded-xl border border-gray-100 dark:border-claude-border p-6">
+                        <SectionTitle
+                            icon={<CheckCircle className="text-purple-600" size={16} />}
+                            title="Case Disposition Summary"
+                        />
+                        <Chart type="bar" height={300}
+                            options={{
+                                chart: { toolbar: { show: false } },
+                                plotOptions: { bar: { horizontal: true, borderRadius: 6, distributed: true } },
+                                dataLabels: { enabled: true },
+                                xaxis: { categories: ["For Hearing","Amicably Settled","Pending","Referred to PNP"] },
+                                colors: ["#f59e0b","#10b981","#f97316","#6366f1"],
+                                legend: { show: false },
+                                grid: { strokeDashArray: 4 },
+                                tooltip: { y: { formatter: (v: number) => `${v} case${v !== 1 ? "s" : ""}` } },
+                            }}
+                            series={[{ name: "Cases", data: [reports.hearingCount, reports.settledCount, reports.pendingCount, reports.referredCount] }]}
+                        />
+                    </div>
+                </div>
+
+                {/* ── Top 10 Barangays + 30-day Sparkline ─────────────── */}
+                <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                    <div className="lg:col-span-2 bg-white dark:bg-claude-panel rounded-xl border border-gray-100 dark:border-claude-border p-6">
+                        <SectionTitle
+                            icon={<BarChartFill className="text-fuchsia-600" size={16} />}
+                            title="Top 10 Barangays by Blotter Count"
+                        />
+                        {reports.topBarangayUsers.length > 0 ? (
+                            <Chart type="bar" height={300}
+                                options={{
+                                    chart: { toolbar: { show: false } },
+                                    plotOptions: { bar: { horizontal: true, borderRadius: 4, distributed: true } },
+                                    dataLabels: { enabled: true },
+                                    xaxis: { categories: reports.topBarangayUsers.map((b) => b.name) },
+                                    legend: { show: false },
+                                    grid: { strokeDashArray: 4 },
+                                    tooltip: { y: { formatter: (v: number) => `${v} blotter${v !== 1 ? "s" : ""}` } },
+                                }}
+                                series={[{ name: "Blotters", data: reports.topBarangayUsers.map((b) => b.total) }]}
+                            />
+                        ) : (
+                            <div className="flex items-center justify-center h-48 text-gray-400 text-sm">No data yet</div>
+                        )}
                     </div>
 
-                    {/* Recent Activity */}
-                    <div className="px-6 mt-8 mb-8">
-                        <div className="bg-white dark:bg-white/10 rounded-xl shadow-lg border border-blue-200 dark:border-white/20 backdrop-blur-lg p-6">
-                            <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-6 flex items-center gap-2">
-                                <Clock className="w-5 h-5 text-blue-600" />
-                                Recent Activity
-                            </h3>
-                            <div className="space-y-4">
-                                <div className="flex items-center gap-3 p-3 bg-blue-50 dark:bg-blue-900/20 rounded-lg">
-                                    <CheckCircle className="w-4 h-4 text-blue-600" />
-                                    <div>
-                                        <p className="text-sm font-medium text-gray-900 dark:text-white">System Status</p>
-                                        <p className="text-xs text-gray-500 dark:text-gray-400">All systems operational</p>
-                                    </div>
-                                </div>
-                                <div className="flex items-center gap-3 p-3 bg-green-50 dark:bg-green-900/20 rounded-lg">
-                                    <CheckCircle className="w-4 h-4 text-green-600" />
-                                    <div>
-                                        <p className="text-sm font-medium text-gray-900 dark:text-white">Database Sync</p>
-                                        <p className="text-xs text-gray-500 dark:text-gray-400">Last sync: 2 mins ago</p>
-                                    </div>
-                                </div>
-                            </div>
+                    <div className="bg-white dark:bg-claude-panel rounded-xl border border-gray-100 dark:border-claude-border p-6">
+                        <SectionTitle
+                            icon={<ClockHistory className="text-claude-accent" size={16} />}
+                            title="Last 30 Days"
+                        />
+                        <Chart type="area" height={240}
+                            options={{
+                                chart: { toolbar: { show: false } },
+                                dataLabels: { enabled: false },
+                                stroke: { curve: "smooth", width: 2 },
+                                xaxis: {
+                                    type: "datetime",
+                                    categories: reports.blottersOverTime.map((d) => d.date),
+                                    labels: { datetimeUTC: false, format: "dd MMM" },
+                                },
+                                colors: ["#d4622a"],
+                                fill: { type: "gradient", gradient: { opacityFrom: 0.4, opacityTo: 0.02 } },
+                                grid: { strokeDashArray: 4 },
+                                tooltip: { x: { format: "dd MMM yyyy" } },
+                            }}
+                            series={[{ name: "Reports", data: reports.blottersOverTime.map((d) => d.total) }]}
+                        />
+                        <div className="mt-4 text-center">
+                            <p className="text-4xl font-extrabold text-gray-900 dark:text-claude-text">{last30Total}</p>
+                            <p className="text-sm text-gray-500 dark:text-claude-text-muted">blotters in last 30 days</p>
                         </div>
                     </div>
                 </div>
+
+                {/* ── Recent Blotters Table ────────────────────────────── */}
+                <div className="bg-white dark:bg-claude-panel rounded-xl border border-gray-100 dark:border-claude-border p-6">
+                    <div className="flex items-center justify-between mb-4">
+                        <SectionTitle
+                            icon={<FileEarmarkText className="text-red-500" size={16} />}
+                            title="Recent Blotter Reports"
+                        />
+                        <Link href={route("blotter.admin.blotters")}
+                            className="text-sm text-claude-accent hover:underline font-medium">
+                            View All →
+                        </Link>
+                    </div>
+                    <div className="overflow-x-auto">
+                        <table className="w-full text-sm text-left">
+                            <thead>
+                                <tr className="border-b border-gray-200 dark:border-claude-border text-xs uppercase text-gray-500 dark:text-claude-text-muted">
+                                    <th className="py-3 px-3 font-semibold">Entry No.</th>
+                                    <th className="py-3 px-3 font-semibold">Complainant</th>
+                                    <th className="py-3 px-3 font-semibold">Incident Type</th>
+                                    <th className="py-3 px-3 font-semibold">Barangay</th>
+                                    <th className="py-3 px-3 font-semibold">Date Reported</th>
+                                    <th className="py-3 px-3 font-semibold">Status</th>
+                                </tr>
+                            </thead>
+                            <tbody className="divide-y divide-gray-100 dark:divide-claude-border">
+                                {reports.recentBlotters.length === 0 ? (
+                                    <tr>
+                                        <td colSpan={6} className="py-10 text-center text-gray-400 text-sm">
+                                            No blotter records yet
+                                        </td>
+                                    </tr>
+                                ) : (
+                                    reports.recentBlotters.map((b) => (
+                                        <tr key={b.id} className="hover:bg-gray-50 dark:hover:bg-claude-panel-2/60 transition-colors">
+                                            <td className="py-3 px-3 font-bold text-gray-900 dark:text-claude-text whitespace-nowrap">
+                                                #{b.entry_number}
+                                            </td>
+                                            <td className="py-3 px-3 text-gray-700 dark:text-claude-text-muted whitespace-nowrap">
+                                                {b.complainant_family_name
+                                                    ? `${b.complainant_family_name}, ${b.complainant_first_name ?? ""}`
+                                                    : <span className="italic text-gray-400">—</span>}
+                                            </td>
+                                            <td className="py-3 px-3 max-w-xs">
+                                                <span className="block truncate text-gray-700 dark:text-claude-text-muted"
+                                                    title={getIncidentType(b.incident_type)}>
+                                                    {shortLabel(getIncidentType(b.incident_type), 38)}
+                                                </span>
+                                            </td>
+                                            <td className="py-3 px-3 text-gray-700 dark:text-claude-text-muted whitespace-nowrap">
+                                                {b.barangay_name ?? "—"}
+                                            </td>
+                                            <td className="py-3 px-3 text-gray-500 dark:text-claude-text-muted whitespace-nowrap">
+                                                {new Date(b.date_reported).toLocaleDateString("en-PH", {
+                                                    year: "numeric", month: "short", day: "numeric",
+                                                })}
+                                            </td>
+                                            <td className="py-3 px-3">
+                                                <span className={`px-2.5 py-1 rounded-full text-xs font-semibold ${DISPOSITION_BADGE[b.remarks] ?? "bg-gray-100 text-gray-600"}`}>
+                                                    {getRemark(b.remarks) ?? "Unset"}
+                                                </span>
+                                            </td>
+                                        </tr>
+                                    ))
+                                )}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                {/* ── Recent Registrations ─────────────────────────────── */}
+                <div className="bg-white dark:bg-claude-panel rounded-xl border border-gray-100 dark:border-claude-border p-6">
+                    <SectionTitle
+                        icon={<PersonPlusFill className="text-emerald-600" size={16} />}
+                        title="Recently Registered Barangay Officers"
+                    />
+                    {reports.recentRegistrations.length === 0 ? (
+                        <p className="text-gray-400 text-sm">No recent registrations</p>
+                    ) : (
+                        <ul className="divide-y divide-gray-100 dark:divide-claude-border">
+                            {reports.recentRegistrations.map((u) => (
+                                <li key={u.id} className="flex items-center gap-3 py-3">
+                                    <div className="w-9 h-9 rounded-lg bg-emerald-100 dark:bg-emerald-900/20 flex items-center justify-center flex-shrink-0">
+                                        <PersonBadge className="text-emerald-600" size={16} />
+                                    </div>
+                                    <div className="flex-1 min-w-0">
+                                        <p className="text-sm font-semibold text-gray-900 dark:text-claude-text truncate">{u.name}</p>
+                                        <p className="text-xs text-gray-500 dark:text-claude-text-muted truncate">{u.email}</p>
+                                    </div>
+                                    <span className="text-xs text-gray-400 dark:text-claude-text-muted whitespace-nowrap">
+                                        {new Date(u.created_at).toLocaleDateString("en-PH", {
+                                            month: "short", day: "numeric", year: "numeric",
+                                        })}
+                                    </span>
+                                </li>
+                            ))}
+                        </ul>
+                    )}
+                </div>
+
             </div>
         </AuthenticatedLayout>
     );
-}
-
-const Cities = ({ cities, provinces, selectedProvince, selectedCity, setSelected, barangays, setSelectedProvince }
-    : { cities: object[], provinces: any, selectedProvince: number, selectedCity: number, setSelected: CallableFunction, barangays: object[]; setSelectedProvince: CallableFunction }) => {
-
-    return (
-        <>
-            {/** City / Municipality Card */}
-            <div className="my-6 mt-10 border border-solid border-slate-300 shadow-sm rounded p-6 h-[21rem] overflow-scroll  overflow-x-hidden bg-white">
-                <h2 className="font-bold text-slate-700">
-                    {cities?.filter((item: any) => item?.province_code == selectedProvince)?.length} City / Municipalities
-                </h2>
-
-                <div className="grid grid-cols-2 xl:grid-cols-6 gap-4 mt-6">
-                    {cities?.filter((item: any) => item?.province_code == selectedProvince)?.length > 0
-                        ? cities?.filter((item: any) => item?.province_code == selectedProvince)
-                            ?.map((city: any, key: number) => (
-                                <button
-                                    className={`${selectedCity == city?.city_code
-                                        ? 'bg-blue-400 text-blue-400'
-                                        : 'text-green-400'} 
-                                w-full bg-white text place-items-center rounded-lg py-2 uppercase hover:text-blue-400 hover:text-blue-500 font-bold flex flex-col`}
-                                    onClick={() => setSelected(city?.city_code)}
-                                >
-                                    <FolderFill size={72} />
-                                    <h6 className="text-slate-500 text-xs">
-                                        {getCity(city?.city_code)}
-                                    </h6>
-                                </button >
-                            ))
-                        : <button className="bg-none text-green-400 w-full text place-items-center rounded-lg py-2 uppercase bg-white hover:text-blue-400 font-bold flex flex-col"
-                        >
-                            <FolderFill size={72} />
-                            <h6 className="text-slate-500 text-xs">
-                                No data found
-                            </h6>
-                        </button >}
-                </div>
-            </div >
-            {/** End City / Municipality Card */}
-        </>
-    )
-}
-
-const Barangays = ({ selectedCity, barangays }
-    : { selectedCity: number, barangays: object[] }) => {
-    // Local states
-    const [activePage, setActivePage] = useState<number>(1);
-    const [limitBarangay, setLimitBarangay] = useState<number[]>([0, 10]);
-
-    // Handle redirect to blotters page by barangay code
-    const redirectToBlottersPerBarangayPage = (code: number) => {
-        router.visit('/blotter/admin-blotters', {
-            data: {
-                brgy_code: code,
-            },
-        });
-    }
-
-    // Handle redirect to barangay page by city code
-    const redirectToBarangaysOfCity = (cityId: number) => {
-        router.visit('/admin-barangays', {
-            data: {
-                city_id: cityId,
-            },
-        });
-    }
-
-    const tableHeaders = ['Barangay', 'Total Uploaded', 'Amicably Settled', 'Pending', 'For Hearing', 'Referred To PNP', 'Others', 'Action'];
-    return (
-        <>
-            {/** Barangay Table */}
-            <div className="rounded-sm  bg-white shadow-sm dark:border-strokedark dark:bg-boxdark xl:pb-1 px-6">
-                <div className="max-w-full overflow-x-auto">
-                    <table className="w-full z-20 border border-[#eee]">
-                        <thead>
-                            <tr className="bg-gray-2 text-left dark:bg-meta-4 ">
-                                {tableHeaders.map((header, key) => (
-                                    <th className="border border-[#eee] min-w-[120px] py-3 px-2 font-medium text-xs text-black dark:text-white xl:pl-11" key={key}>
-                                        {header}
-                                    </th>
-                                ))}
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {barangays
-                                ?.filter((item: any) => item?.city_code == selectedCity)
-                                ?.slice(limitBarangay[0], limitBarangay[1])
-                                ?.map((barangay: any, key: number) => (
-                                    <tr key={key} className="hover:bg-slate-100 cursor-pointer z-20 bg-white dark:bg-meta-4">
-                                        <td className="border border-[#eee] dark:border-white py-1.5 px-2 pl-9 dark:border-strokedark xl:pl-11">
-                                            <h5 className="text-black dark:text-white text-xs">
-                                                {getBarangayByBrgyCode(barangay?.barangay_code)}
-                                            </h5>
-                                        </td>
-
-                                        <td className="border border-[#eee] dark:border-white py-1.5 px-2 pl-9 dark:border-strokedark xl:pl-11 text-xs">
-                                            {barangay?.total}
-                                        </td>
-
-                                        {barangay
-                                            ?.blotters
-                                            ?.map((remark: any, key: number) => (
-                                                <td
-                                                    className="border border-[#eee] dark:border-white py-1.5 px-2 pl-9 dark:border-strokedark xl:pl-11 text-xs"
-                                                    key={key}>
-                                                    {remark?.count}
-                                                </td>
-                                            ))}
-
-                                        <td className="border border-[#eee] dark:border-white py-1.5 px-4 pl-9 dark:border-strokedark xl:pl-5">
-                                            <button
-                                                className="bg-green-600 hover:bg-green-800 text-white px-4 py-0 rounded-3xl"
-                                                onClick={() => redirectToBlottersPerBarangayPage(barangay?.barangay_code)}
-                                            >
-                                                View
-                                            </button>
-                                        </td>
-                                    </tr>
-                                ))}
-                        </tbody>
-                    </table>
-
-                    <div className="flex gap-4 px-6  py-3 justify-end">
-                        <button
-                            className="flex"
-                            onClick={() => {
-                                setActivePage(activePage == 1 ? 1 : activePage - 1);
-                                setLimitBarangay([0, 10]);
-                            }}>
-                            <ChevronLeft className="mt-1 cursor-pointer" />
-                            Previous
-                        </button>
-
-                        <button
-                            className={activePage == 1 ? `bg-slate-700 rounded-full text-white w-6 h-6` : 'hover:font-bold'}
-                            onClick={() => {
-                                setLimitBarangay([0, 10]);
-                                setActivePage(1);
-                            }}>
-                            1
-                        </button>
-                        <button
-                            className={activePage == 2 ? `bg-slate-700 rounded-full text-white w-6 h-6` : 'hover:font-bold'}
-                            onClick={() => {
-                                setLimitBarangay([10, 20]);
-                                setActivePage(2);
-                            }}>
-                            2
-                        </button>
-                        <button
-                            className={activePage == 3 ? `bg-slate-700 rounded-full text-white w-6 h-6` : 'hover:font-bold'}
-                            onClick={() => {
-                                setLimitBarangay([20, 30]);
-                                setActivePage(3);
-                            }}>
-                            3
-                        </button>
-                        <button
-                            className="flex"
-                            onClick={() => {
-                                setActivePage(activePage == 3 ? activePage : activePage + 1);
-                                setLimitBarangay([20, 30]);
-                            }}>
-                            Next <ChevronRight className="mt-1 cursor-pointer" />
-                        </button>
-
-                    </div>
-                </div>
-            </div>
-            {/** End Table */}
-        </>
-    )
 }

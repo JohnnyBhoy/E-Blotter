@@ -1,3 +1,44 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+    :root {
+        --claude-bg: #1a1a1a;
+        --claude-panel: #262626;
+        --claude-panel-2: #2d2d2d;
+        --claude-sidebar: #1f1f1f;
+        --claude-accent: #d4622a;
+        --claude-accent-light: #e8743a;
+        --claude-text: #ececec;
+        --claude-text-muted: #9b9b9b;
+        --claude-border: #3a3a3a;
+    }
+
+    /* Force dark class on initial load - Claude dark theme as default */
+    html {
+        color-scheme: dark;
+    }
+
+    /* Scrollbar styling for dark theme */
+    .dark ::-webkit-scrollbar {
+        width: 6px;
+        height: 6px;
+    }
+    .dark ::-webkit-scrollbar-track {
+        background: #1a1a1a;
+    }
+    .dark ::-webkit-scrollbar-thumb {
+        background: #3a3a3a;
+        border-radius: 3px;
+    }
+    .dark ::-webkit-scrollbar-thumb:hover {
+        background: #4a4a4a;
+    }
+
+    /* Card/panel base style for dark theme */
+    .dark .card-dark {
+        background-color: #262626;
+        border: 1px solid #3a3a3a;
+    }
+}

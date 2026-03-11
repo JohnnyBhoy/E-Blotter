@@ -32,7 +32,7 @@ const ChartTop10PrevalentCrimes = () => {
   let maxCount = top10Cases?.reduce((max: number, obj: any) => obj?.count > max ? obj?.count : max, -Infinity);
 
   const options: ApexOptions = {
-    colors: ['#69D8D1'],
+    colors: ['#d4622a'],
     chart: {
       fontFamily: 'Satoshi, sans-serif',
       type: 'bar',
@@ -132,7 +132,7 @@ const ChartTop10PrevalentCrimes = () => {
     <div className="col-span-12 rounded-lg border border-stroke bg-white p-7.5 shadow-default dark:border-strokedark dark:bg-boxdark xl:col-span-12">
       <div className="mb-4 justify-between gap-4 sm:flex">
         <div>
-          <h4 className="text-xl font-semibold text-gray-900 dark:text-white">
+          <h4 className="text-xl font-semibold text-gray-900 dark:text-claude-text">
             Top 10 Prevalent Incidents Reported
           </h4>
         </div>
@@ -195,10 +195,10 @@ const TopBarangayTable = ({ datas }: { datas: any }) => {
     <div className="rounded-lg border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
       <table className='border p-2 w-full rounded-lg' id="content-to-download" >
         <tr className=''>
-          <th className='p-2 bg-blue-500 text-white border border border-solid border-slate-500'>Rank</th>
-          <th className='p-2 bg-blue-500 text-white border border border-solid border-slate-500'>Case / Incident Type</th>
-          <th className='p-2 bg-blue-500 text-white border border border-solid border-slate-500'>Total</th>
-          <th className='p-2 bg-blue-500 text-white border border border-solid border-slate-500'>Action</th>
+          <th className='p-2 bg-claude-accent text-white border border border-solid border-slate-500'>Rank</th>
+          <th className='p-2 bg-claude-accent text-white border border border-solid border-slate-500'>Case / Incident Type</th>
+          <th className='p-2 bg-claude-accent text-white border border border-solid border-slate-500'>Total</th>
+          <th className='p-2 bg-claude-accent text-white border border border-solid border-slate-500'>Action</th>
         </tr>
         <tbody>
           {datas?.map((item: Datas) => (

@@ -149,31 +149,31 @@ const TableBody = ({
                     ?.map((blotter: BlotterProps, i: number) => (
                         <tr
                             key={i}
-                            className={`hover:bg-gradient-to-r hover:from-blue-50 hover:to-blue-100 dark:hover:from-gray-700 dark:hover:to-gray-600 cursor-pointer z-20 ${i % 2 == 1 ? "bg-white dark:bg-gray-800" : "bg-gradient-to-r from-slate-50 to-slate-100 dark:from-gray-800 dark:to-gray-900"} transition-all duration-200`}
+                            className={`hover:bg-gradient-to-r hover:from-blue-50 hover:to-blue-100 dark:hover:from-gray-700 dark:hover:to-gray-600 cursor-pointer z-20 ${i % 2 == 1 ? "bg-white dark:bg-claude-panel" : "bg-gradient-to-r from-slate-50 to-slate-100 dark:from-gray-800 dark:to-gray-900"} transition-all duration-200`}
                         >
-                            <td className="px-4 py-3 border-0 border-b border-gray-100 dark:border-gray-700 first:rounded-bl-xl">
-                                <h5 className="font-semibold text-gray-900 dark:text-white">
+                            <td className="px-4 py-3 border-0 border-b border-gray-100 dark:border-claude-border first:rounded-bl-xl">
+                                <h5 className="font-semibold text-gray-900 dark:text-claude-text">
                                     {blotter?.entry_number}
                                 </h5>
                             </td>
-                            <td className="px-4 py-3 border-0 border-b border-gray-100 dark:border-gray-700">
-                                <p className="text-gray-700 dark:text-gray-300 text-sm">
+                            <td className="px-4 py-3 border-0 border-b border-gray-100 dark:border-claude-border">
+                                <p className="text-gray-700 dark:text-claude-text-muted text-sm">
                                     {blotter?.complainant_family_name},{" "}
                                     {blotter?.complainant_first_name}
                                 </p>
                             </td>
-                            <td className="px-4 py-3 border-0 border-b border-gray-100 dark:border-gray-700">
-                                <p className="text-gray-700 dark:text-gray-300 text-sm">
+                            <td className="px-4 py-3 border-0 border-b border-gray-100 dark:border-claude-border">
+                                <p className="text-gray-700 dark:text-claude-text-muted text-sm">
                                     {blotter?.respondent_family_name},{" "}
                                     {blotter?.respondent_first_name}
                                 </p>
                             </td>
-                            <td className="px-4 py-3 border-0 border-b border-gray-100 dark:border-gray-700">
+                            <td className="px-4 py-3 border-0 border-b border-gray-100 dark:border-claude-border">
                                 <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-gradient-to-r from-purple-500 to-purple-600 text-white">
                                     {getIncidentType(blotter?.incident_type)}
                                 </span>
                             </td>
-                            <td className="px-4 py-3 border-0 border-b border-gray-100 dark:border-gray-700">
+                            <td className="px-4 py-3 border-0 border-b border-gray-100 dark:border-claude-border">
                                 <p
                                     className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-medium ${
                                         blotter?.remarks == "1"
@@ -184,13 +184,13 @@ const TableBody = ({
                                                 ? "bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200"
                                                 : blotter?.remarks == "4"
                                                   ? "bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200"
-                                                  : "bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-200"
+                                                  : "bg-gray-100 text-gray-800 dark:bg-claude-bg dark:text-claude-text"
                                     }`}
                                 >
                                     {formatCaseDisposition(blotter?.remarks)}
                                 </p>
                             </td>
-                            <td className="px-4 py-3 border-0 border-b border-gray-100 dark:border-gray-700">
+                            <td className="px-4 py-3 border-0 border-b border-gray-100 dark:border-claude-border">
                                 <div className="flex justify-center space-x-2">
                                     <button
                                         onClick={() => handleEdit(blotter.id)}

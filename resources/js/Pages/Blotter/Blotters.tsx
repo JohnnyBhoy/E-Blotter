@@ -205,10 +205,10 @@ export default function Blotters({
                         <Search className="w-6 h-6 text-white" />
                     </div>
                     <div>
-                        <h2 className="font-bold text-2xl text-gray-900 dark:text-white leading-tight">
+                        <h2 className="font-bold text-2xl text-gray-900 dark:text-claude-text leading-tight">
                             Blotter Records
                         </h2>
-                        <p className="text-gray-600 dark:text-gray-400 text-sm">
+                        <p className="text-gray-600 dark:text-claude-text-muted text-sm">
                             Manage and view all blotter entries
                         </p>
                     </div>
@@ -241,7 +241,7 @@ export default function Blotters({
                                             }
                                             type="text"
                                             placeholder="Search blotter records..."
-                                            className="border border-gray-300 dark:border-gray-600 flex-1 px-4 py-2 rounded-xl border-0 bg-white/50 dark:bg-white/10 backdrop-blur-sm focus:outline-none focus:ring-2 focus:ring-blue-500/50 transition-all duration-300"
+                                            className="border border-gray-300 dark:border-claude-border flex-1 px-4 py-2 rounded-xl border-0 bg-white/50 dark:bg-white/10 backdrop-blur-sm focus:outline-none focus:ring-2 focus:ring-blue-500/50 transition-all duration-300"
                                         />
                                         <button
                                             onClick={handleFetchBlotters}
@@ -286,20 +286,20 @@ export default function Blotters({
                         {/* Pagination - Enhanced */}
                         <div className="bg-gradient-to-br from-white/80 to-white/60 dark:from-white/10 dark:to-white/5 backdrop-blur-xl rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 p-4 border-0 mt-4">
                             <div className="flex justify-between items-center">
-                                <h6 className="text-gray-700 dark:text-gray-300 font-medium">
+                                <h6 className="text-gray-700 dark:text-claude-text-muted font-medium">
                                     Showing{" "}
-                                    <span className="font-bold text-gray-900 dark:text-white">
+                                    <span className="font-bold text-gray-900 dark:text-claude-text">
                                         {(parseInt(data.page) - 1) *
                                             parseInt(data.per_page) +
                                             1}
                                     </span>{" "}
                                     to{" "}
-                                    <span className="font-bold text-gray-900 dark:text-white">
+                                    <span className="font-bold text-gray-900 dark:text-claude-text">
                                         {parseInt(data.per_page) *
                                             parseInt(data.page)}
                                     </span>{" "}
                                     of{" "}
-                                    <span className="font-bold text-gray-900 dark:text-white">
+                                    <span className="font-bold text-gray-900 dark:text-claude-text">
                                         {blotters?.total}
                                     </span>{" "}
                                     entries
@@ -336,10 +336,10 @@ const PerPage = ({
     return (
         <div className="relative">
             <button
-                className="px-3 py-2 bg-white dark:bg-gray-800 rounded-lg shadow-sm hover:shadow-md transition-all duration-200 border-0 flex items-center justify-between"
+                className="px-3 py-2 bg-white dark:bg-claude-panel rounded-lg shadow-sm hover:shadow-md transition-all duration-200 border-0 flex items-center justify-between"
                 onClick={() => setShowEntries(!showEntries)}
             >
-                <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
+                <span className="text-sm font-medium text-gray-700 dark:text-claude-text-muted">
                     {data?.per_page} per page
                 </span>
                 <svg
@@ -357,12 +357,12 @@ const PerPage = ({
                 </svg>
             </button>
             {showEntries && (
-                <div className="absolute top-full mt-2 bg-white dark:bg-gray-800 rounded-lg shadow-lg border-0 z-50 min-w-[120px]">
+                <div className="absolute top-full mt-2 bg-white dark:bg-claude-panel rounded-lg shadow-lg border-0 z-50 min-w-[120px]">
                     {entries.map((entry: any, i: number) => (
                         <button
                             key={i + 1}
                             onClick={() => setData("per_page", entry)}
-                            className="w-full px-3 py-2 text-left text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors duration-200 border-0"
+                            className="w-full px-3 py-2 text-left text-sm text-gray-700 dark:text-claude-text-muted hover:bg-gray-100 dark:hover:bg-claude-panel-2 transition-colors duration-200 border-0"
                         >
                             {entry}
                         </button>
@@ -391,10 +391,10 @@ const BarangayFilter = ({
     return (
         <div className="relative">
             <button
-                className="px-3 py-2 bg-white dark:bg-gray-800 rounded-lg shadow-sm hover:shadow-md transition-all duration-200 border-0 flex items-center justify-between"
+                className="px-3 py-2 bg-white dark:bg-claude-panel rounded-lg shadow-sm hover:shadow-md transition-all duration-200 border-0 flex items-center justify-between"
                 onClick={() => setShowEntries(!showEntries)}
             >
-                <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
+                <span className="text-sm font-medium text-gray-700 dark:text-claude-text-muted">
                     {data.brgy_code == null
                         ? "Select Barangay"
                         : getBarangayByBrgyCode(data.brgy_code)}
@@ -414,14 +414,14 @@ const BarangayFilter = ({
                 </svg>
             </button>
             {showEntries && (
-                <div className="absolute top-full mt-2 bg-white dark:bg-gray-800 rounded-lg shadow-lg border-0 z-50 min-w-[150px] max-h-60 overflow-y-auto">
+                <div className="absolute top-full mt-2 bg-white dark:bg-claude-panel rounded-lg shadow-lg border-0 z-50 min-w-[150px] max-h-60 overflow-y-auto">
                     {entries.map((entry: any, i: number) => (
                         <button
                             key={i + 1}
                             onClick={() =>
                                 setData("brgy_code", parseInt(entry?.brgy_code))
                             }
-                            className="w-full px-3 py-2 text-left text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors duration-200 border-0"
+                            className="w-full px-3 py-2 text-left text-sm text-gray-700 dark:text-claude-text-muted hover:bg-gray-100 dark:hover:bg-claude-panel-2 transition-colors duration-200 border-0"
                         >
                             {entry?.brgy_name}
                         </button>
@@ -450,10 +450,10 @@ const RemarksFilter = ({
     return (
         <div className="relative">
             <button
-                className="px-3 py-2 bg-white dark:bg-gray-800 rounded-lg shadow-sm hover:shadow-md transition-all duration-200 border-0 flex items-center justify-between"
+                className="px-3 py-2 bg-white dark:bg-claude-panel rounded-lg shadow-sm hover:shadow-md transition-all duration-200 border-0 flex items-center justify-between"
                 onClick={() => setShowEntries(!showEntries)}
             >
-                <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
+                <span className="text-sm font-medium text-gray-700 dark:text-claude-text-muted">
                     {data.remarks == 0
                         ? "Select Remark"
                         : getRemark(parseInt(data.remarks))}
@@ -473,12 +473,12 @@ const RemarksFilter = ({
                 </svg>
             </button>
             {showEntries && (
-                <div className="absolute top-full mt-2 bg-white dark:bg-gray-800 rounded-lg shadow-lg border-0 z-50 min-w-[120px] max-h-60 overflow-y-auto">
+                <div className="absolute top-full mt-2 bg-white dark:bg-claude-panel rounded-lg shadow-lg border-0 z-50 min-w-[120px] max-h-60 overflow-y-auto">
                     {entries.map((entry: any, i: number) => (
                         <button
                             key={i + 1}
                             onClick={() => setData("remarks", entry.id)}
-                            className="w-full px-3 py-2 text-left text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors duration-200 border-0"
+                            className="w-full px-3 py-2 text-left text-sm text-gray-700 dark:text-claude-text-muted hover:bg-gray-100 dark:hover:bg-claude-panel-2 transition-colors duration-200 border-0"
                         >
                             {entry?.value}
                         </button>
@@ -507,10 +507,10 @@ const TypeFilter = ({
     return (
         <div className="relative">
             <button
-                className="px-3 py-2 bg-white dark:bg-gray-800 rounded-lg shadow-sm hover:shadow-md transition-all duration-200 border-0 flex items-center justify-between"
+                className="px-3 py-2 bg-white dark:bg-claude-panel rounded-lg shadow-sm hover:shadow-md transition-all duration-200 border-0 flex items-center justify-between"
                 onClick={() => setShowEntries(!showEntries)}
             >
-                <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
+                <span className="text-sm font-medium text-gray-700 dark:text-claude-text-muted">
                     {data.incident_type == null
                         ? "Select Type"
                         : getIncidentType(data.incident_type)?.split("-")[0]}
@@ -530,14 +530,14 @@ const TypeFilter = ({
                 </svg>
             </button>
             {showEntries && (
-                <div className="absolute top-full mt-2 bg-white dark:bg-gray-800 rounded-lg shadow-lg border-0 z-50 min-w-[120px] max-h-60 overflow-y-auto">
+                <div className="absolute top-full mt-2 bg-white dark:bg-claude-panel rounded-lg shadow-lg border-0 z-50 min-w-[120px] max-h-60 overflow-y-auto">
                     {entries.map((entry: any, i: number) => (
                         <button
                             key={i + 1}
                             onClick={() =>
                                 setData("incident_type", parseInt(entry?.id))
                             }
-                            className="w-full px-3 py-2 text-left text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors duration-200 border-0"
+                            className="w-full px-3 py-2 text-left text-sm text-gray-700 dark:text-claude-text-muted hover:bg-gray-100 dark:hover:bg-claude-panel-2 transition-colors duration-200 border-0"
                         >
                             {entry?.value?.split("-")[1]}
                         </button>

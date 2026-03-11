@@ -219,12 +219,12 @@ const Sidebar = ({
     return (
         <aside
             ref={sidebar}
-            className={`absolute left-0 top-0 z-9999 flex h-screen ${isCollapse ? "w-20" : "w-72"} flex-col overflow-y-hidden bg-white dark:bg-boxdark shadow-xs dark:shadow-sm duration-300 ease-linear lg:static lg:translate-x-0 ${
+            className={`absolute left-0 top-0 z-9999 flex h-screen ${isCollapse ? "w-20" : "w-72"} flex-col overflow-y-hidden bg-white dark:bg-claude-sidebar border-r border-gray-100 dark:border-claude-border shadow-xs duration-300 ease-linear lg:static lg:translate-x-0 ${
                 sidebarOpen ? "translate-x-0" : "-translate-x-full"
             }`}
         >
             {/* <!-- SIDEBAR HEADER --> */}
-            <div className="flex items-center justify-between gap-2 px-6 py-5.5 lg:py-6.5 bg-gradient-to-r from-blue-50 to-purple-50 dark:from-graydark dark:to-boxdark-2">
+            <div className="flex items-center justify-between gap-2 px-6 py-5.5 lg:py-6.5 border-b border-gray-100 dark:border-claude-border bg-white dark:bg-claude-sidebar">
                 <Link
                     href={
                         String(role) === "province" || role === 2
@@ -236,17 +236,17 @@ const Sidebar = ({
                     className="flex items-center gap-3 group"
                 >
                     <div className="relative">
-                        <div className="absolute inset-0 bg-gradient-to-r from-blue-500 to-purple-600 rounded-xl blur-sm opacity-75 group-hover:opacity-100 transition-opacity"></div>
-                        <div className="relative bg-white dark:bg-boxdark rounded-xl p-2 shadow-md">
+                        <div className="absolute inset-0 bg-claude-accent rounded-xl blur-sm opacity-60 group-hover:opacity-80 transition-opacity"></div>
+                        <div className="relative bg-white dark:bg-claude-panel-2 rounded-xl p-2 shadow-md">
                             <img src={Logo} alt="Logo" className="h-8 w-8" />
                         </div>
                     </div>
                     {!isCollapse && (
                         <div>
-                            <h3 className="font-bold text-xl bg-gradient-to-r from-blue-600 to-purple-600 dark:from-blue-400 dark:to-purple-400 bg-clip-text text-transparent">
+                            <h3 className="font-bold text-xl text-gray-800 dark:text-claude-text">
                                 E-Blotter
                             </h3>
-                            <p className="text-xs text-gray-500 dark:text-bodydark">
+                            <p className="text-xs text-gray-500 dark:text-claude-text-muted">
                                 Digital System
                             </p>
                         </div>
@@ -260,8 +260,8 @@ const Sidebar = ({
                     aria-expanded={sidebarOpen}
                     className="block lg:hidden relative group"
                 >
-                    <div className="relative w-8 h-8 rounded-lg bg-gray-100 dark:bg-graydark/50 hover:bg-red-100 dark:hover:bg-red-900/30 transition-all duration-300 flex items-center justify-center">
-                        <X className="w-4 h-4 text-gray-600 dark:text-bodydark group-hover:text-red-500 transition-colors" />
+                    <div className="relative w-8 h-8 rounded-lg bg-gray-100 dark:bg-claude-panel-2 hover:bg-red-100 dark:hover:bg-red-900/30 transition-all duration-300 flex items-center justify-center">
+                        <X className="w-4 h-4 text-gray-600 dark:text-claude-text-muted group-hover:text-red-500 transition-colors" />
                     </div>
                 </button>
             </div>
@@ -275,12 +275,12 @@ const Sidebar = ({
                         <div className="flex items-center justify-between mb-4">
                             {!isCollapse ? (
                                 <>
-                                    <h3 className="text-xs font-semibold text-gray-500 dark:text-white uppercase tracking-wider">
+                                    <h3 className="text-xs font-semibold text-gray-400 dark:text-claude-text-muted uppercase tracking-wider">
                                         Main Menu
                                     </h3>
                                     <button
                                         onClick={() => setIsCollapse(true)}
-                                        className="text-gray-400 hover:text-gray-600 dark:hover:text-white transition-colors"
+                                        className="text-gray-400 dark:text-claude-text-muted hover:text-gray-600 dark:hover:text-claude-text transition-colors"
                                     >
                                         <X size={18} />
                                     </button>
@@ -288,14 +288,14 @@ const Sidebar = ({
                             ) : (
                                 <button
                                     onClick={() => setIsCollapse(false)}
-                                    className="text-gray-400 hover:text-gray-600 dark:hover:text-white transition-colors mx-auto"
+                                    className="text-gray-400 dark:text-claude-text-muted hover:text-gray-600 dark:hover:text-claude-text transition-colors mx-auto"
                                 >
                                     <List size={20} />
                                 </button>
                             )}
                         </div>
 
-                        <ul className="mb-6 flex flex-col gap-2">
+                        <ul className="mb-6 flex flex-col gap-1">
                             {getNavItems().map((item: any, index) => (
                                 <li key={index}>
                                     {item.isDropdown ? (
@@ -306,26 +306,26 @@ const Sidebar = ({
                                                         !municipalitiesOpen,
                                                     )
                                                 }
-                                                className={`group relative flex items-center gap-3 rounded-xl px-4 py-3 font-medium text-gray-700 dark:text-white duration-300 ease-in-out hover:bg-blue-50 dark:hover:bg-blue-900/20 hover:text-blue-600 dark:hover:text-blue-400 transition-all w-full text-left ${
+                                                className={`group relative flex items-center gap-3 rounded-lg px-4 py-2.5 font-medium text-gray-700 dark:text-claude-text-muted duration-200 ease-in-out hover:bg-gray-100 dark:hover:bg-claude-panel hover:text-gray-900 dark:hover:text-claude-text transition-all w-full text-left ${
                                                     municipalitiesOpen
-                                                        ? "bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 shadow-sm"
+                                                        ? "bg-orange-50 dark:bg-claude-accent/10 text-orange-600 dark:text-claude-accent"
                                                         : ""
                                                 }`}
                                             >
-                                                <div className="relative text-gray-500 dark:text-gray-300 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
+                                                <div className={`relative transition-colors ${municipalitiesOpen ? "text-orange-600 dark:text-claude-accent" : "text-gray-500 dark:text-claude-text-muted"} group-hover:text-orange-600 dark:group-hover:text-claude-accent`}>
                                                     <item.icon
-                                                        size={20}
+                                                        size={18}
                                                         className="relative"
                                                     />
                                                 </div>
                                                 {!isCollapse && (
                                                     <>
-                                                        <span className="font-medium text-gray-900 dark:text-white flex-1">
+                                                        <span className="font-medium flex-1">
                                                             {item.label}
                                                         </span>
                                                         <ChevronDown
-                                                            size={16}
-                                                            className={`transition-transform duration-300 ${municipalitiesOpen ? "rotate-180" : ""}`}
+                                                            size={14}
+                                                            className={`transition-transform duration-300 text-gray-400 dark:text-claude-text-muted ${municipalitiesOpen ? "rotate-180" : ""}`}
                                                         />
                                                     </>
                                                 )}
@@ -334,28 +334,19 @@ const Sidebar = ({
                                             {/* Dropdown Menu */}
                                             {municipalitiesOpen &&
                                                 !isCollapse && (
-                                                    <div className="absolute left-0 top-full mt-2 w-full bg-white dark:bg-boxdark rounded-2xl shadow-xl dark:shadow-2xl z-50 overflow-hidden animate-in slide-in-from-top-2 duration-300 ease-out">
-                                                        <div className="py-2 max-h-64 overflow-y-auto scrollbar-thin scrollbar-thumb-gray-200 dark:scrollbar-thumb-graydark scrollbar-track-transparent">
+                                                    <div className="mt-1 ml-4 pl-3 border-l-2 border-gray-200 dark:border-claude-border">
+                                                        <div className="py-1 max-h-64 overflow-y-auto">
                                                             {item.dropdownItems?.map(
                                                                 (
                                                                     municipality: any,
                                                                     mIndex: number,
                                                                 ) => (
                                                                     <Link
-                                                                        key={
-                                                                            mIndex
-                                                                        }
+                                                                        key={mIndex}
                                                                         href={`/municipal/${municipality.id}`}
-                                                                        className="block px-4 py-3 text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-gradient-to-r hover:from-blue-50 hover:to-purple-50 dark:hover:from-blue-900/20 dark:hover:to-purple-900/20 hover:text-blue-600 dark:hover:text-blue-400 transition-all duration-200 ease-in-out transform hover:scale-[1.02] hover:translate-x-1"
+                                                                        className="block px-3 py-2 text-sm text-gray-600 dark:text-claude-text-muted hover:text-gray-900 dark:hover:text-claude-text hover:bg-gray-100 dark:hover:bg-claude-panel rounded-md transition-all duration-150"
                                                                     >
-                                                                        <div className="flex items-center gap-3">
-                                                                            <div className="w-2 h-2 rounded-full bg-gradient-to-r from-blue-400 to-purple-400 opacity-0 group-hover:opacity-100 transition-opacity duration-200"></div>
-                                                                            <span className="group-hover:font-semibold">
-                                                                                {
-                                                                                    municipality.name
-                                                                                }
-                                                                            </span>
-                                                                        </div>
+                                                                        {municipality.name}
                                                                     </Link>
                                                                 ),
                                                             )}
@@ -366,30 +357,27 @@ const Sidebar = ({
                                     ) : (
                                         <Link
                                             href={item.href}
-                                            className={`group relative flex items-center gap-3 rounded-xl px-4 py-3 font-medium text-gray-700 dark:text-white duration-300 ease-in-out hover:bg-blue-50 dark:hover:bg-blue-900/20 hover:text-blue-600 dark:hover:text-blue-400 transition-all ${
+                                            className={`group relative flex items-center gap-3 rounded-lg px-4 py-2.5 font-medium duration-200 ease-in-out transition-all ${
                                                 item.active
-                                                    ? "bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 shadow-sm"
-                                                    : ""
+                                                    ? "bg-orange-50 dark:bg-claude-accent/10 text-orange-700 dark:text-claude-accent"
+                                                    : "text-gray-700 dark:text-claude-text-muted hover:bg-gray-100 dark:hover:bg-claude-panel hover:text-gray-900 dark:hover:text-claude-text"
                                             } ${isCollapse ? "justify-center" : ""}`}
                                         >
                                             <div
-                                                className={`relative ${item.active ? "text-blue-600 dark:text-blue-400" : "text-gray-500 dark:text-gray-300"} group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors`}
+                                                className={`relative transition-colors ${item.active ? "text-orange-600 dark:text-claude-accent" : "text-gray-500 dark:text-claude-text-muted group-hover:text-orange-600 dark:group-hover:text-claude-accent"}`}
                                             >
-                                                {item.active && (
-                                                    <div className="absolute inset-0 bg-blue-100 dark:bg-blue-900/50 rounded-lg blur-sm"></div>
-                                                )}
                                                 <item.icon
-                                                    size={20}
+                                                    size={18}
                                                     className="relative"
                                                 />
                                             </div>
                                             {!isCollapse && (
                                                 <>
-                                                    <span className="font-medium text-gray-900 dark:text-white">
+                                                    <span className="font-medium">
                                                         {item.label}
                                                     </span>
                                                     {item.active && (
-                                                        <div className="absolute right-2 w-2 h-2 bg-blue-600 rounded-full animate-pulse"></div>
+                                                        <div className="absolute right-3 w-1.5 h-1.5 bg-claude-accent rounded-full"></div>
                                                     )}
                                                 </>
                                             )}
@@ -403,9 +391,9 @@ const Sidebar = ({
 
                 {/* <!-- User Info Footer --> */}
                 {!isCollapse && (
-                    <div className="p-4">
-                        <div className="flex items-center gap-3 p-3 rounded-xl bg-gradient-to-r from-blue-50 to-purple-50 dark:from-graydark dark:to-boxdark-2">
-                            <div className="w-10 h-10 rounded-full bg-gradient-to-r from-blue-500 to-purple-600 flex items-center justify-center text-white font-bold shadow-md">
+                    <div className="p-4 border-t border-gray-100 dark:border-claude-border">
+                        <div className="flex items-center gap-3 p-3 rounded-lg bg-gray-50 dark:bg-claude-panel-2">
+                            <div className="w-9 h-9 rounded-lg bg-claude-accent flex items-center justify-center text-white font-bold text-sm shadow-sm">
                                 {roleStr === "1"
                                     ? "A"
                                     : roleStr === "2"
@@ -418,8 +406,8 @@ const Sidebar = ({
                                             ? "B"
                                             : "U"}
                             </div>
-                            <div className="flex-1">
-                                <p className="text-sm font-semibold text-gray-900 dark:text-white capitalize">
+                            <div className="flex-1 min-w-0">
+                                <p className="text-sm font-semibold text-gray-900 dark:text-claude-text truncate">
                                     {roleStr === "1"
                                         ? "Administrator"
                                         : roleStr === "2"
@@ -432,8 +420,8 @@ const Sidebar = ({
                                                 ? "Barangay"
                                                 : "User"}
                                 </p>
-                                <p className="text-xs text-gray-500 dark:text-white">
-                                    Active
+                                <p className="text-xs text-gray-400 dark:text-claude-text-muted">
+                                    Active session
                                 </p>
                             </div>
                         </div>

@@ -26,7 +26,7 @@ const BrfForm = ({ data, setData }: { data: any; setData: CallableFunction }) =>
     return (
         <div className="border border-stroke bg-white shadow-sm dark:border-strokedark dark:bg-boxdark rounded-lg">
             <div className="border-b border-stroke py-2 px-6.5 dark:border-strokedark dark:bg-boxdark">
-                <h3 className="font-medium dark:text-white">
+                <h3 className="font-medium dark:text-claude-text">
                     Barangay e-Record Form (BRF)
                 </h3>
             </div>
@@ -40,7 +40,7 @@ const BrfForm = ({ data, setData }: { data: any; setData: CallableFunction }) =>
                         value={data?.entry_number}
                         type="number"
                         onChange={(e) => setData('entry_number', e.target.value)}
-                        className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent py-2 px-5 text-sm text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
+                        className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent py-2 px-5 text-sm text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-claude-text dark:focus:border-primary"
                     />
                 </div>
 
@@ -75,7 +75,7 @@ const BrfForm = ({ data, setData }: { data: any; setData: CallableFunction }) =>
                         value={data?.date_reported}
                         type="date"
                         onChange={(e) => setData('date_reported', e.target.value)}
-                        className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent py-2 px-5 text-sm text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
+                        className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent py-2 px-5 text-sm text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-claude-text dark:focus:border-primary"
                     />
                 </div>
 
@@ -87,7 +87,7 @@ const BrfForm = ({ data, setData }: { data: any; setData: CallableFunction }) =>
                         value={data?.time_of_report}
                         type="time"
                         onChange={(e) => setData('time_of_report', e.target.value)}
-                        className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent py-2 px-5 text-sm text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
+                        className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent py-2 px-5 text-sm text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-claude-text dark:focus:border-primary"
                     />
                 </div>
                 <div className="w-full">
@@ -98,7 +98,7 @@ const BrfForm = ({ data, setData }: { data: any; setData: CallableFunction }) =>
                         value={data?.date_of_incident}
                         type="date"
                         onChange={(e) => setData('date_of_incident', e.target.value)}
-                        className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent py-2 px-5 text-sm text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
+                        className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent py-2 px-5 text-sm text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-claude-text dark:focus:border-primary"
                     />
                 </div>
 
@@ -110,7 +110,7 @@ const BrfForm = ({ data, setData }: { data: any; setData: CallableFunction }) =>
                         value={data?.time_of_incident}
                         type="time"
                         onChange={(e) => setData('time_of_incident', e.target.value)}
-                        className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent py-2 px-5 text-sm text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
+                        className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent py-2 px-5 text-sm text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-claude-text dark:focus:border-primary"
                     />
                 </div>
             </div>

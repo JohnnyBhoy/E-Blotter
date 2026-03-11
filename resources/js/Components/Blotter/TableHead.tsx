@@ -9,7 +9,7 @@ const TableHead = () => {
                 {headers.map((item: string, index: number) => (
                     <th 
                         key={index}
-                        className="px-4 py-3 font-semibold text-gray-900 dark:text-white text-sm border-0 border-b-2 border-gray-200 dark:border-gray-700 first:rounded-tl-xl last:rounded-tr-xl transition-all duration-200 hover:bg-gray-100 dark:hover:bg-gray-700"
+                        className="px-4 py-3 font-semibold text-gray-900 dark:text-claude-text text-sm border-0 border-b-2 border-gray-200 dark:border-claude-border first:rounded-tl-xl last:rounded-tr-xl transition-all duration-200 hover:bg-gray-100 dark:hover:bg-claude-panel-2"
                     >
                         {item}
                     </th>

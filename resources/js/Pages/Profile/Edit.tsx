@@ -57,30 +57,30 @@ const Edit = ({ auth, data }: PageProps<{ data: any }>) => {
                     <Avatar />
 
                     <div className="mt-4">
-                        <h3 className="mb-1.5 text-2xl font-semibold text-black dark:text-white">
+                        <h3 className="mb-1.5 text-2xl font-semibold text-black dark:text-claude-text">
                             Barangay {data.name}
                         </h3>
                         <p className="font-medium">{data.email}</p>
                         <div className="mx-auto mt-4.5 mb-5.5 grid max-w-1/2 grid-cols-3 rounded-md border border-stroke py-2.5 shadow-1 dark:border-strokedark dark:bg-[#37404F]">
                             <div className="flex flex-col items-center justify-center gap-1 border-r border-stroke px-4 dark:border-strokedark xsm:flex-row">
-                                <span className="font-semibold text-black dark:text-white w-full">
+                                <span className="font-semibold text-black dark:text-claude-text w-full">
                                     City / Municipality : {city}
                                 </span>
                             </div>
                             <div className="flex flex-col items-center justify-center gap-1 border-r border-stroke px-4 dark:border-strokedark xsm:flex-row">
-                                <span className="font-semibold text-black dark:text-white">
+                                <span className="font-semibold text-black dark:text-claude-text">
                                     Province : {province}
                                 </span>
                             </div>
                             <div className="flex flex-col items-center justify-center gap-1 px-4 xsm:flex-row">
-                                <span className="font-semibold text-black dark:text-white">
+                                <span className="font-semibold text-black dark:text-claude-text">
                                     Region : {region}
                                 </span>
                             </div>
                         </div>
 
                         <div className="mx-auto max-w-180">
-                            <h4 className="font-semibold text-black dark:text-white">
+                            <h4 className="font-semibold text-black dark:text-claude-text">
                                 About Barangay {data.name}
                             </h4>
                             <p className="mt-4.5">
@@ -89,7 +89,7 @@ const Edit = ({ auth, data }: PageProps<{ data: any }>) => {
                         </div>
 
                         <div className="mt-6.5">
-                            <h4 className="mb-3.5 font-medium text-black dark:text-white">
+                            <h4 className="mb-3.5 font-medium text-black dark:text-claude-text">
                                 Social Media Pages
                             </h4>
                             <div className="flex items-center justify-center gap-3.5">

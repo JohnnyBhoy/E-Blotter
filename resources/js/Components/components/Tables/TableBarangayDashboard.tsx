@@ -52,37 +52,37 @@ const TableBarangayDashboard = () => {
         <div
           className="grid grid-cols-6 sm:grid-cols-6 border-b border-stroke dark:border-strokedark">
           <div className="flex items-center justify-center p-2.5 xl:p-3 border border-1 border-solid border-slate-700">
-            <p className="text-black dark:text-white">
+            <p className="text-black dark:text-claude-text">
               {blotter < 1000 ? blotter : `${(blotter / 1000)?.toFixed(1)}K`}
             </p>
           </div>
 
           <div className="flex items-center justify-center p-2.5 xl:p-3 border border-1 border-solid border-slate-700">
-            <p className="text-black dark:text-white">
+            <p className="text-black dark:text-claude-text">
               {settled < 1000 ? settled : `${(settled / 1000)?.toFixed(1)}K`}
             </p>
           </div>
 
           <div className="flex items-center justify-center p-2.5 xl:p-3 border border-1 border-solid border-slate-700">
-            <p className="text-black dark:text-white">
+            <p className="text-black dark:text-claude-text">
               {pending < 1000 ? pending : `${(pending / 1000)?.toFixed(1)}K`}
             </p>
           </div>
 
           <div className="flex items-center justify-center p-2.5 xl:p-3 border border-1 border-solid border-slate-700">
-            <p className="text-black dark:text-white">
+            <p className="text-black dark:text-claude-text">
               {hearing < 1000 ? hearing : `${(hearing / 1000)?.toFixed(1)}K`}
             </p>
           </div>
 
           <div className="hidden items-center justify-center p-2.5 sm:flex xl:p-3 border border-1 border-solid border-slate-700">
-            <p className="text-black dark:text-white">
+            <p className="text-black dark:text-claude-text">
               {referred < 1000 ? referred : `${(referred / 1000)?.toFixed(1)}K`}
             </p>
           </div>
 
           <div className="hidden items-center justify-center p-2.5 sm:flex xl:p-3 border border-1 border-solid border-slate-700">
-            <p className="text-black dark:text-white">
+            <p className="text-black dark:text-claude-text">
               {others < 1000 ? others : `${(others / 1000)?.toFixed(1)}K`}
             </p>
           </div>

@@ -9,16 +9,18 @@ import {
     Eye,
     Search,
     Funnel,
+    CheckCircleFill,
+    XCircleFill,
+    FileTextFill,
+    ClockFill,
+    GeoAltFill,
 } from "react-bootstrap-icons";
-
-// Import existing data for display
+import { ArrowUpDown, TrendingUp, AlertCircle, Building2, Users } from "lucide-react";
 import provinces from "@/utils/data/provinces";
 import cities from "@/utils/data/cities";
-import barangays from "@/utils/data/barangays";
 import getCity from "@/utils/functions/getCity";
 import getProvince from "@/utils/functions/getProvince";
 import { PageProps } from "@/Pages/types";
-import { ArrowUpDown } from "lucide-react";
 
 interface Barangay {
     id: number;
@@ -26,311 +28,371 @@ interface Barangay {
     brgy_code: string;
     city_code: string;
     province_code: string;
-    blotter_count?: number;
-    created_at?: string;
-    updated_at?: string;
+    email?: string;
+    user_id?: number;
+    blotter_count: number;
+    pending_count: number;
+    hearing_count: number;
+    settled_count: number;
+    referred_count: number;
+    last_blotter_at?: string | null;
+}
+
+interface Summary {
+    total: number;
+    active: number;
+    inactive: number;
+    blotters: number;
 }
 
 interface BarangayIndexProps {
     auth: PageProps;
     barangays: Barangay[];
-    filters?: {
-        search?: string;
-        province?: string;
-        city?: string;
-    };
+    summary: Summary;
+    filters?: { search?: string; province?: string; city?: string };
 }
 
-export default function BarangayIndex({ barangays, auth, filters }: BarangayIndexProps) {
-    const [searchTerm, setSearchTerm] = useState(filters?.search || '');
-    const [sortBy, setSortBy] = useState<'name' | 'city' | 'province' | 'blotters'>('name');
-    const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('asc');
-    const [selectedProvince, setSelectedProvince] = useState(filters?.province || '');
-    const [selectedCity, setSelectedCity] = useState(filters?.city || '');
-    
-    // Get unique provinces and cities for filters
-    const uniqueProvinces = useMemo(() => {
-        return provinces
-            .map(province => ({
-                code: province.province_code,
-                name: province.province_name
-            }))
-            .sort((a, b) => a.name.localeCompare(b.name));
-    }, []);
+function DispositionBar({ pending, hearing, settled, referred, total }: {
+    pending: number; hearing: number; settled: number; referred: number; total: number;
+}) {
+    if (total === 0) return <span className="text-xs text-gray-400 dark:text-claude-text-muted">—</span>;
+    const pct = (v: number) => Math.round((v / total) * 100);
+    return (
+        <div className="flex flex-col gap-1">
+            <div className="flex h-1.5 w-24 rounded-full overflow-hidden bg-gray-200 dark:bg-claude-panel-2">
+                <div style={{ width: `${pct(hearing)}%` }}  className="bg-amber-500" title={`Hearing: ${hearing}`} />
+                <div style={{ width: `${pct(pending)}%` }}  className="bg-yellow-400" title={`Pending: ${pending}`} />
+                <div style={{ width: `${pct(settled)}%` }}  className="bg-emerald-500" title={`Settled: ${settled}`} />
+                <div style={{ width: `${pct(referred)}%` }} className="bg-claude-accent" title={`Referred: ${referred}`} />
+            </div>
+            <div className="flex gap-1.5 flex-wrap">
+                {hearing  > 0 && <span className="text-[10px] text-amber-600 dark:text-amber-400">{hearing} hrg</span>}
+                {pending  > 0 && <span className="text-[10px] text-yellow-600 dark:text-yellow-400">{pending} pnd</span>}
+                {settled  > 0 && <span className="text-[10px] text-emerald-600 dark:text-emerald-400">{settled} stl</span>}
+                {referred > 0 && <span className="text-[10px] text-claude-accent">{referred} ref</span>}
+            </div>
+        </div>
+    );
+}
+
+export default function BarangayIndex({ barangays, auth, filters, summary }: BarangayIndexProps) {
+    const [searchTerm, setSearchTerm]         = useState(filters?.search || "");
+    const [selectedProvince, setSelectedProvince] = useState(filters?.province || "");
+    const [selectedCity, setSelectedCity]     = useState(filters?.city || "");
+    const [sortBy, setSortBy]                 = useState<"name" | "city" | "province" | "blotters" | "pending" | "last_active">("blotters");
+    const [sortOrder, setSortOrder]           = useState<"asc" | "desc">("desc");
+    const [activeFilter, setActiveFilter]     = useState<"all" | "active" | "inactive" | "no_blotters">("all");
+
+    const uniqueProvinces = useMemo(() =>
+        provinces.map(p => ({ code: p.province_code, name: p.province_name }))
+                 .sort((a, b) => a.name.localeCompare(b.name)),
+    []);
 
     const uniqueCities = useMemo(() => {
         if (!selectedProvince) return [];
-        return cities
-            .filter(city => city.province_code === selectedProvince)
-            .map(city => ({
-                code: city.city_code,
-                name: city.city_name
-            }))
-            .sort((a, b) => a.name.localeCompare(b.name));
+        return cities.filter(c => c.province_code === selectedProvince)
+                     .map(c => ({ code: c.city_code, name: c.city_name }))
+                     .sort((a, b) => a.name.localeCompare(b.name));
     }, [selectedProvince]);
 
-    // Filter and sort barangays
-    const filteredAndSortedBarangays = useMemo(() => {
-        let filtered = barangays || [];
+    const filteredAndSorted = useMemo(() => {
+        let list = [...(barangays || [])];
 
-        // Apply sorting only (filtering is handled by backend)
-        return filtered.sort((a, b) => {
-            let aValue: string | number;
-            let bValue: string | number;
+        // Quick filter
+        if (activeFilter === "active")      list = list.filter(b => !!b.email);
+        if (activeFilter === "inactive")    list = list.filter(b => !b.email);
+        if (activeFilter === "no_blotters") list = list.filter(b => b.blotter_count === 0);
 
+        // Sort
+        list.sort((a, b) => {
+            let av: string | number, bv: string | number;
             switch (sortBy) {
-                case 'name':
-                    aValue = a.brgy_name;
-                    bValue = b.brgy_name;
-                    break;
-                case 'city':
-                    aValue = getCity(a.city_code) || '';
-                    bValue = getCity(b.city_code) || '';
-                    break;
-                case 'province':
-                    aValue = getProvince(a.province_code) || '';
-                    bValue = getProvince(b.province_code) || '';
-                    break;
-                case 'blotters':
-                    aValue = a.blotter_count || 0;
-                    bValue = b.blotter_count || 0;
-                    break;
-                default:
-                    aValue = a.brgy_name;
-                    bValue = b.brgy_name;
+                case "name":        av = a.brgy_name; bv = b.brgy_name; break;
+                case "city":        av = getCity(a.city_code) || ""; bv = getCity(b.city_code) || ""; break;
+                case "province":    av = getProvince(a.province_code) || ""; bv = getProvince(b.province_code) || ""; break;
+                case "blotters":    av = a.blotter_count; bv = b.blotter_count; break;
+                case "pending":     av = a.pending_count; bv = b.pending_count; break;
+                case "last_active": av = a.last_blotter_at || ""; bv = b.last_blotter_at || ""; break;
+                default:            av = a.blotter_count; bv = b.blotter_count;
             }
-
-            if (typeof aValue === 'number' && typeof bValue === 'number') {
-                return sortOrder === 'asc' ? aValue - bValue : bValue - aValue;
-            }
-
-            const comparison = String(aValue).localeCompare(String(bValue));
-            return sortOrder === 'asc' ? comparison : -comparison;
+            if (typeof av === "number") return sortOrder === "asc" ? av - (bv as number) : (bv as number) - av;
+            return sortOrder === "asc" ? String(av).localeCompare(String(bv)) : String(bv).localeCompare(String(av));
         });
-    }, [barangays, searchTerm, selectedProvince, selectedCity, sortBy, sortOrder]);
 
-    // Handle search with debouncing
+        return list;
+    }, [barangays, activeFilter, sortBy, sortOrder]);
+
     useEffect(() => {
-        const timeoutId = setTimeout(() => {
-            if (searchTerm !== filters?.search) {
-                router.get(
-                    route('admin.barangay'),
-                    { search: searchTerm, province: selectedProvince, city: selectedCity },
-                    { preserveState: true, preserveScroll: true }
-                );
+        const t = setTimeout(() => {
+            if (searchTerm !== filters?.search || selectedProvince !== filters?.province || selectedCity !== filters?.city) {
+                router.get(route("admin.barangay"), { search: searchTerm, province: selectedProvince, city: selectedCity }, { preserveState: true, preserveScroll: true });
             }
         }, 500);
-
-        return () => clearTimeout(timeoutId);
+        return () => clearTimeout(t);
     }, [searchTerm, selectedProvince, selectedCity]);
 
     const handleSort = (field: typeof sortBy) => {
-        if (sortBy === field) {
-            setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc');
-        } else {
-            setSortBy(field);
-            setSortOrder('asc');
-        }
+        if (sortBy === field) setSortOrder(o => o === "asc" ? "desc" : "asc");
+        else { setSortBy(field); setSortOrder("desc"); }
     };
 
     const clearFilters = () => {
-        setSearchTerm('');
-        setSelectedProvince('');
-        setSelectedCity('');
-        router.get(route('admin.barangay'), {}, { preserveState: true, preserveScroll: true });
+        setSearchTerm(""); setSelectedProvince(""); setSelectedCity(""); setActiveFilter("all");
+        router.get(route("admin.barangay"), {}, { preserveState: true, preserveScroll: true });
     };
+
+    const formatDate = (d: string | null | undefined) => {
+        if (!d) return null;
+        return new Date(d).toLocaleDateString("en-PH", { month: "short", day: "numeric", year: "numeric" });
+    };
+
+    const SortBtn = ({ field, label }: { field: typeof sortBy; label: string }) => (
+        <button onClick={() => handleSort(field)}
+            className={`flex items-center gap-1 text-xs font-semibold transition-colors ${sortBy === field ? "text-claude-accent" : "text-gray-600 dark:text-claude-text-muted hover:text-claude-accent"}`}>
+            {label}
+            <ArrowUpDown className={`w-3 h-3 ${sortBy === field ? "text-claude-accent" : ""}`} />
+        </button>
+    );
+
+    const quickFilters = [
+        { key: "all",         label: `All (${summary.total})` },
+        { key: "active",      label: `Active (${summary.active})` },
+        { key: "inactive",    label: `Inactive (${summary.inactive})` },
+        { key: "no_blotters", label: `No Reports (${barangays.filter(b => b.blotter_count === 0).length})` },
+    ] as const;
 
     return (
         <AuthenticatedLayout user={auth.user}>
-            <Head title="Admin - Barangays" />
+            <Head title="Admin — Barangay Management" />
 
-            <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-slate-100 dark:from-gray-900 dark:via-blue-900 dark:to-gray-800">
-                <div className="relative z-10 p-6">
-                    {/* Header */}
-                    <div className="mb-8">
-                        <div className="flex items-center justify-between mb-6">
-                            <div>
-                                <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
-                                    Barangays Management
+            <div className="min-h-screen bg-gray-50 dark:bg-claude-bg">
+                <div className="p-6 space-y-6">
+
+                    {/* ── Page Header ── */}
+                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                        <div>
+                            <div className="flex items-center gap-2 mb-1">
+                                <div className="p-2 bg-claude-accent rounded-lg">
+                                    <Building2 className="w-5 h-5 text-white" />
+                                </div>
+                                <h1 className="text-2xl font-bold text-gray-900 dark:text-claude-text">
+                                    Barangay Management
                                 </h1>
-                                <p className="text-gray-600 dark:text-gray-400">
-                                    Manage and monitor all barangays in the system
-                                </p>
                             </div>
-                            <Link
-                                href={route("admin.barangay.create")}
-                                className="px-6 py-3 bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-xl hover:from-blue-700 hover:to-blue-800 transition-all duration-200 flex items-center gap-2 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
-                            >
-                                <Plus className="w-5 h-5" />
-                                Add Barangay
-                            </Link>
+                            <p className="text-sm text-gray-500 dark:text-claude-text-muted ml-11">
+                                Monitor, manage, and track all registered barangays and their blotter activity
+                            </p>
                         </div>
+                        <Link href={route("admin.barangay.create")}
+                            className="inline-flex items-center gap-2 px-5 py-2.5 bg-claude-accent text-white rounded-xl hover:bg-claude-accent-light transition-all duration-200 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 text-sm font-medium whitespace-nowrap">
+                            <Plus className="w-4 h-4" />
+                            Add Barangay
+                        </Link>
+                    </div>
 
-                        {/* Filters Section */}
-                        <div className="bg-white/70 dark:bg-white/10 backdrop-blur-md rounded-2xl p-6 shadow-sm border border-white/20">
-                            <div className="flex items-center gap-2 mb-4">
-                                <Funnel className="w-4 h-4 text-blue-600" />
-                                <span className="text-sm font-medium text-gray-700 dark:text-gray-300">Filters</span>
-                                {(searchTerm || selectedProvince || selectedCity) && (
-                                    <button
-                                        onClick={clearFilters}
-                                        className="ml-auto text-xs text-blue-600 hover:text-blue-800 font-medium"
-                                    >
-                                        Clear All
-                                    </button>
-                                )}
+                    {/* ── Summary KPI Cards ── */}
+                    <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+                        <div className="bg-white dark:bg-claude-panel rounded-xl border border-gray-100 dark:border-claude-border p-4 flex items-center gap-3">
+                            <div className="p-2.5 bg-claude-accent/10 dark:bg-claude-accent/20 rounded-lg">
+                                <Building2 className="w-5 h-5 text-claude-accent" />
                             </div>
-                            
-                            <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-                                {/* Search */}
-                                <div className="md:col-span-2">
-                                    <div className="relative">
-                                        <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
-                                        <input
-                                            type="text"
-                                            placeholder="Search barangay name, city, or province..."
-                                            value={searchTerm}
-                                            onChange={(e) => setSearchTerm(e.target.value)}
-                                            className="w-full pl-10 pr-4 py-2.5 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 text-sm"
-                                        />
-                                    </div>
-                                </div>
-                                
-                                {/* Province Filter */}
-                                <div>
-                                    <select
-                                        value={selectedProvince}
-                                        onChange={(e) => {
-                                            setSelectedProvince(e.target.value);
-                                            setSelectedCity('');
-                                        }}
-                                        className="w-full px-4 py-2.5 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 text-sm"
-                                    >
-                                        <option value="">All Provinces</option>
-                                        {uniqueProvinces.map(province => (
-                                            <option key={province.code} value={province.code}>
-                                                {province.name}
-                                            </option>
-                                        ))}
-                                    </select>
-                                </div>
-
-                                {/* City Filter */}
-                                <div>
-                                    <select
-                                        value={selectedCity}
-                                        onChange={(e) => setSelectedCity(e.target.value)}
-                                        disabled={!selectedProvince}
-                                        className="w-full px-4 py-2.5 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 text-sm disabled:opacity-50 disabled:cursor-not-allowed"
-                                    >
-                                        <option value="">All Cities</option>
-                                        {uniqueCities.map(city => (
-                                            <option key={city.code} value={city.code}>
-                                                {city.name}
-                                            </option>
-                                        ))}
-                                    </select>
-                                </div>
+                            <div>
+                                <p className="text-2xl font-bold text-gray-900 dark:text-claude-text">{summary.total}</p>
+                                <p className="text-xs text-gray-500 dark:text-claude-text-muted">Total Barangays</p>
+                            </div>
+                        </div>
+                        <div className="bg-white dark:bg-claude-panel rounded-xl border border-gray-100 dark:border-claude-border p-4 flex items-center gap-3">
+                            <div className="p-2.5 bg-emerald-100 dark:bg-emerald-500/20 rounded-lg">
+                                <CheckCircleFill className="w-5 h-5 text-emerald-600 dark:text-emerald-400" />
+                            </div>
+                            <div>
+                                <p className="text-2xl font-bold text-gray-900 dark:text-claude-text">{summary.active}</p>
+                                <p className="text-xs text-gray-500 dark:text-claude-text-muted">Active Accounts</p>
+                            </div>
+                        </div>
+                        <div className="bg-white dark:bg-claude-panel rounded-xl border border-gray-100 dark:border-claude-border p-4 flex items-center gap-3">
+                            <div className="p-2.5 bg-orange-100 dark:bg-claude-accent/20 rounded-lg">
+                                <FileTextFill className="w-5 h-5 text-claude-accent" />
+                            </div>
+                            <div>
+                                <p className="text-2xl font-bold text-gray-900 dark:text-claude-text">{summary.blotters}</p>
+                                <p className="text-xs text-gray-500 dark:text-claude-text-muted">Total Blotters</p>
+                            </div>
+                        </div>
+                        <div className="bg-white dark:bg-claude-panel rounded-xl border border-gray-100 dark:border-claude-border p-4 flex items-center gap-3">
+                            <div className="p-2.5 bg-red-100 dark:bg-red-500/20 rounded-lg">
+                                <XCircleFill className="w-5 h-5 text-red-500 dark:text-red-400" />
+                            </div>
+                            <div>
+                                <p className="text-2xl font-bold text-gray-900 dark:text-claude-text">{summary.inactive}</p>
+                                <p className="text-xs text-gray-500 dark:text-claude-text-muted">No Account</p>
                             </div>
                         </div>
                     </div>
 
-                    {/* Results Summary */}
-                    <div className="mb-4 flex items-center justify-between">
-                        <p className="text-sm text-gray-600 dark:text-gray-400">
-                            Showing <span className="font-medium text-gray-900 dark:text-white">{filteredAndSortedBarangays.length}</span> barangays
-                        </p>
+                    {/* ── Filters ── */}
+                    <div className="bg-white dark:bg-claude-panel rounded-xl border border-gray-100 dark:border-claude-border p-4 space-y-3">
+                        <div className="flex items-center gap-2">
+                            <Funnel className="w-4 h-4 text-claude-accent" />
+                            <span className="text-sm font-medium text-gray-700 dark:text-claude-text-muted">Filters</span>
+                            {(searchTerm || selectedProvince || selectedCity || activeFilter !== "all") && (
+                                <button onClick={clearFilters} className="ml-auto text-xs text-claude-accent hover:text-claude-accent-light font-medium">
+                                    Clear All
+                                </button>
+                            )}
+                        </div>
+
+                        {/* Quick filters */}
+                        <div className="flex flex-wrap gap-2">
+                            {quickFilters.map(f => (
+                                <button key={f.key} onClick={() => setActiveFilter(f.key)}
+                                    className={`px-3 py-1 rounded-lg text-xs font-medium transition-colors ${activeFilter === f.key ? "bg-claude-accent text-white" : "bg-gray-100 dark:bg-claude-panel-2 text-gray-600 dark:text-claude-text-muted hover:bg-gray-200 dark:hover:bg-claude-border"}`}>
+                                    {f.label}
+                                </button>
+                            ))}
+                        </div>
+
+                        <div className="grid grid-cols-1 md:grid-cols-4 gap-3">
+                            <div className="md:col-span-2 relative">
+                                <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 w-4 h-4" />
+                                <input type="text" placeholder="Search barangay name, city, province..."
+                                    value={searchTerm} onChange={e => setSearchTerm(e.target.value)}
+                                    className="w-full pl-9 pr-4 py-2.5 bg-gray-50 dark:bg-claude-panel-2 border border-gray-200 dark:border-claude-border rounded-lg text-sm text-gray-900 dark:text-claude-text focus:ring-2 focus:ring-claude-accent/50 focus:border-claude-accent/50 transition-all" />
+                            </div>
+                            <select value={selectedProvince} onChange={e => { setSelectedProvince(e.target.value); setSelectedCity(""); }}
+                                className="px-3 py-2.5 bg-gray-50 dark:bg-claude-panel-2 border border-gray-200 dark:border-claude-border rounded-lg text-sm text-gray-900 dark:text-claude-text focus:ring-2 focus:ring-claude-accent/50 transition-all">
+                                <option value="">All Provinces</option>
+                                {uniqueProvinces.map(p => <option key={p.code} value={p.code}>{p.name}</option>)}
+                            </select>
+                            <select value={selectedCity} onChange={e => setSelectedCity(e.target.value)}
+                                disabled={!selectedProvince}
+                                className="px-3 py-2.5 bg-gray-50 dark:bg-claude-panel-2 border border-gray-200 dark:border-claude-border rounded-lg text-sm text-gray-900 dark:text-claude-text focus:ring-2 focus:ring-claude-accent/50 transition-all disabled:opacity-50 disabled:cursor-not-allowed">
+                                <option value="">All Cities</option>
+                                {uniqueCities.map(c => <option key={c.code} value={c.code}>{c.name}</option>)}
+                            </select>
+                        </div>
                     </div>
 
-                    {/* Barangays Table */}
-                    <div className="bg-white/70 dark:bg-white/10 backdrop-blur-md rounded-2xl shadow-sm border border-white/20 overflow-hidden">
+                    {/* ── Disposition Legend ── */}
+                    <div className="flex flex-wrap items-center gap-4 text-xs text-gray-500 dark:text-claude-text-muted">
+                        <span className="font-medium">Disposition bar:</span>
+                        <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-sm bg-amber-500 inline-block" /> Hearing</span>
+                        <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-sm bg-yellow-400 inline-block" /> Pending</span>
+                        <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-sm bg-emerald-500 inline-block" /> Settled</span>
+                        <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-sm bg-claude-accent inline-block" /> Referred</span>
+                    </div>
+
+                    {/* ── Results count ── */}
+                    <p className="text-sm text-gray-500 dark:text-claude-text-muted -mt-2">
+                        Showing <span className="font-semibold text-gray-900 dark:text-claude-text">{filteredAndSorted.length}</span> of {summary.total} barangays
+                    </p>
+
+                    {/* ── Table ── */}
+                    <div className="bg-white dark:bg-claude-panel rounded-xl border border-gray-100 dark:border-claude-border overflow-hidden">
                         <div className="overflow-x-auto">
-                            <table className="w-full">
+                            <table className="w-full text-sm">
                                 <thead>
-                                    <tr className="border-b border-gray-200 dark:border-gray-700">
-                                        <th className="px-6 py-4 text-left">
-                                            <button
-                                                onClick={() => handleSort('name')}
-                                                className="flex items-center gap-2 text-xs font-semibold text-gray-700 dark:text-gray-300 hover:text-blue-600 transition-colors"
-                                            >
-                                                Barangay
-                                                <ArrowUpDown className="w-3 h-3" />
-                                            </button>
-                                        </th>
-                                        <th className="px-6 py-4 text-left">
-                                            <button
-                                                onClick={() => handleSort('city')}
-                                                className="flex items-center gap-2 text-xs font-semibold text-gray-700 dark:text-gray-300 hover:text-blue-600 transition-colors"
-                                            >
-                                                City
-                                                <ArrowUpDown className="w-3 h-3" />
-                                            </button>
-                                        </th>
-                                        <th className="px-6 py-4 text-left">
-                                            <button
-                                                onClick={() => handleSort('province')}
-                                                className="flex items-center gap-2 text-xs font-semibold text-gray-700 dark:text-gray-300 hover:text-blue-600 transition-colors"
-                                            >
-                                                Province
-                                                <ArrowUpDown className="w-3 h-3" />
-                                            </button>
-                                        </th>
-                                        <th className="px-6 py-4 text-left">
-                                            <button
-                                                onClick={() => handleSort('blotters')}
-                                                className="flex items-center gap-2 text-xs font-semibold text-gray-700 dark:text-gray-300 hover:text-blue-600 transition-colors"
-                                            >
-                                                Total Blotters
-                                                <ArrowUpDown className="w-3 h-3" />
-                                            </button>
-                                        </th>
-                                        <th className="px-6 py-4 text-center text-xs font-semibold text-gray-700 dark:text-gray-300">
-                                            Actions
-                                        </th>
+                                    <tr className="border-b border-gray-100 dark:border-claude-border bg-gray-50/70 dark:bg-claude-panel-2/50">
+                                        <th className="px-5 py-3 text-left"><SortBtn field="name" label="Barangay" /></th>
+                                        <th className="px-5 py-3 text-left"><SortBtn field="city" label="City / Municipality" /></th>
+                                        <th className="px-5 py-3 text-left"><SortBtn field="province" label="Province" /></th>
+                                        <th className="px-5 py-3 text-left text-xs font-semibold text-gray-600 dark:text-claude-text-muted">Account</th>
+                                        <th className="px-5 py-3 text-left"><SortBtn field="blotters" label="Blotters" /></th>
+                                        <th className="px-5 py-3 text-left"><SortBtn field="pending" label="Pending" /></th>
+                                        <th className="px-5 py-3 text-left text-xs font-semibold text-gray-600 dark:text-claude-text-muted">Disposition</th>
+                                        <th className="px-5 py-3 text-left"><SortBtn field="last_active" label="Last Report" /></th>
+                                        <th className="px-5 py-3 text-center text-xs font-semibold text-gray-600 dark:text-claude-text-muted">Actions</th>
                                     </tr>
                                 </thead>
-                                <tbody>
-                                    {filteredAndSortedBarangays.map((barangay, index) => (
-                                        <tr
-                                            key={barangay.id}
-                                            className={`border-b border-gray-100 dark:border-gray-800 hover:bg-gray-50/50 dark:hover:bg-gray-700/50 transition-colors ${
-                                                index === 0 ? 'border-t-0' : ''
-                                            }`}
-                                        >
-                                            <td className="px-6 py-4">
-                                                <div className="font-medium text-gray-900 dark:text-white">
-                                                    {barangay.brgy_name}
+                                <tbody className="divide-y divide-gray-50 dark:divide-claude-border">
+                                    {filteredAndSorted.map((brgy) => (
+                                        <tr key={brgy.id} className="hover:bg-gray-50/60 dark:hover:bg-claude-panel-2/40 transition-colors group">
+                                            {/* Barangay Name */}
+                                            <td className="px-5 py-3.5">
+                                                <div className="flex items-center gap-2">
+                                                    <div className="w-7 h-7 rounded-lg bg-claude-accent/10 dark:bg-claude-accent/20 flex items-center justify-center flex-shrink-0">
+                                                        <GeoAltFill className="w-3.5 h-3.5 text-claude-accent" />
+                                                    </div>
+                                                    <span className="font-medium text-gray-900 dark:text-claude-text">{brgy.brgy_name}</span>
                                                 </div>
                                             </td>
-                                            <td className="px-6 py-4 text-gray-700 dark:text-gray-300">
-                                                {getCity(barangay.city_code)}
+                                            {/* City */}
+                                            <td className="px-5 py-3.5 text-gray-600 dark:text-claude-text-muted">
+                                                {getCity(brgy.city_code) || "—"}
                                             </td>
-                                            <td className="px-6 py-4 text-gray-700 dark:text-gray-300">
-                                                {getProvince(barangay.province_code)}
+                                            {/* Province */}
+                                            <td className="px-5 py-3.5 text-gray-600 dark:text-claude-text-muted">
+                                                {getProvince(brgy.province_code) || "—"}
                                             </td>
-                                            <td className="px-6 py-4">
-                                                <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-300">
-                                                    {barangay.blotter_count || 0}
+                                            {/* Account status */}
+                                            <td className="px-5 py-3.5">
+                                                {brgy.email ? (
+                                                    <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs bg-emerald-100 dark:bg-emerald-500/20 text-emerald-700 dark:text-emerald-400">
+                                                        <CheckCircleFill className="w-2.5 h-2.5" /> Active
+                                                    </span>
+                                                ) : (
+                                                    <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs bg-red-100 dark:bg-red-500/20 text-red-600 dark:text-red-400">
+                                                        <XCircleFill className="w-2.5 h-2.5" /> No Account
+                                                    </span>
+                                                )}
+                                            </td>
+                                            {/* Total blotters */}
+                                            <td className="px-5 py-3.5">
+                                                <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold ${brgy.blotter_count > 0 ? "bg-claude-accent/10 dark:bg-claude-accent/20 text-claude-accent" : "bg-gray-100 dark:bg-claude-panel-2 text-gray-500 dark:text-claude-text-muted"}`}>
+                                                    {brgy.blotter_count}
                                                 </span>
                                             </td>
-                                            <td className="px-6 py-4">
-                                                <div className="flex items-center justify-center gap-2">
-                                                    <Link
-                                                        href={route("admin.barangay.edit", barangay.id)}
-                                                        className="p-2 text-blue-600 hover:text-blue-800 hover:bg-blue-50 dark:hover:bg-blue-900/20 rounded-lg transition-colors"
-                                                        title="Edit barangay"
-                                                    >
+                                            {/* Pending */}
+                                            <td className="px-5 py-3.5">
+                                                {brgy.pending_count > 0 ? (
+                                                    <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs bg-yellow-100 dark:bg-yellow-500/20 text-yellow-700 dark:text-yellow-400 font-medium">
+                                                        <ClockFill className="w-2.5 h-2.5" /> {brgy.pending_count}
+                                                    </span>
+                                                ) : (
+                                                    <span className="text-xs text-gray-400 dark:text-claude-text-muted">—</span>
+                                                )}
+                                            </td>
+                                            {/* Disposition bar */}
+                                            <td className="px-5 py-3.5">
+                                                <DispositionBar
+                                                    pending={brgy.pending_count}
+                                                    hearing={brgy.hearing_count}
+                                                    settled={brgy.settled_count}
+                                                    referred={brgy.referred_count}
+                                                    total={brgy.blotter_count}
+                                                />
+                                            </td>
+                                            {/* Last report */}
+                                            <td className="px-5 py-3.5">
+                                                {brgy.last_blotter_at ? (
+                                                    <span className="text-xs text-gray-600 dark:text-claude-text-muted">
+                                                        {formatDate(brgy.last_blotter_at)}
+                                                    </span>
+                                                ) : (
+                                                    <span className="text-xs text-gray-400 dark:text-claude-text-muted">No reports yet</span>
+                                                )}
+                                            </td>
+                                            {/* Actions */}
+                                            <td className="px-5 py-3.5">
+                                                <div className="flex items-center justify-center gap-1">
+                                                    <Link href={route("admin.barangay.show", brgy.id)}
+                                                        className="p-1.5 text-gray-500 dark:text-claude-text-muted hover:text-claude-accent hover:bg-orange-50 dark:hover:bg-claude-accent/10 rounded-lg transition-colors"
+                                                        title="View blotter details">
+                                                        <Eye className="w-4 h-4" />
+                                                    </Link>
+                                                    <Link href={route("admin.barangay.edit", brgy.id)}
+                                                        className="p-1.5 text-gray-500 dark:text-claude-text-muted hover:text-claude-accent hover:bg-orange-50 dark:hover:bg-claude-accent/10 rounded-lg transition-colors"
+                                                        title="Edit barangay">
                                                         <PencilSquare className="w-4 h-4" />
                                                     </Link>
                                                     <button
                                                         onClick={() => {
-                                                            if (confirm(`Are you sure you want to delete ${barangay.brgy_name}?`)) {
-                                                                router.delete(route("admin.barangay.destroy", barangay.id));
+                                                            if (confirm(`Delete "${brgy.brgy_name}"? This cannot be undone.`)) {
+                                                                router.delete(route("admin.barangay.destroy", brgy.id));
                                                             }
                                                         }}
-                                                        className="p-2 text-red-600 hover:text-red-800 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition-colors"
-                                                        title="Delete barangay"
-                                                    >
+                                                        className="p-1.5 text-gray-500 dark:text-claude-text-muted hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition-colors"
+                                                        title="Delete barangay">
                                                         <Trash className="w-4 h-4" />
                                                     </button>
                                                 </div>
@@ -341,27 +403,23 @@ export default function BarangayIndex({ barangays, auth, filters }: BarangayInde
                             </table>
                         </div>
 
-                        {filteredAndSortedBarangays.length === 0 && (
+                        {filteredAndSorted.length === 0 && (
                             <div className="text-center py-16">
-                                <BuildingFillGear className="w-16 h-16 text-gray-300 mx-auto mb-4" />
-                                <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-2">
-                                    No barangays found
-                                </h3>
-                                <p className="text-gray-600 dark:text-gray-400 mb-6">
+                                <BuildingFillGear className="w-12 h-12 text-gray-300 dark:text-claude-border mx-auto mb-3" />
+                                <h3 className="text-base font-semibold text-gray-900 dark:text-claude-text mb-1">No barangays found</h3>
+                                <p className="text-sm text-gray-500 dark:text-claude-text-muted mb-5">
                                     {searchTerm || selectedProvince || selectedCity
-                                        ? 'Try adjusting your filters or search terms'
-                                        : 'Get started by creating your first barangay'}
+                                        ? "Try adjusting your search or filters"
+                                        : "Get started by adding the first barangay"}
                                 </p>
-                                <Link
-                                    href={route("admin.barangay.create")}
-                                    className="inline-flex items-center px-6 py-3 bg-blue-600 text-white rounded-xl hover:bg-blue-700 transition-colors"
-                                >
-                                    <Plus className="w-4 h-4 mr-2" />
-                                    Create Barangay
+                                <Link href={route("admin.barangay.create")}
+                                    className="inline-flex items-center gap-2 px-5 py-2.5 bg-claude-accent text-white rounded-xl hover:bg-claude-accent-light transition-colors text-sm">
+                                    <Plus className="w-4 h-4" /> Create Barangay
                                 </Link>
                             </div>
                         )}
                     </div>
+
                 </div>
             </div>
         </AuthenticatedLayout>

@@ -86,12 +86,12 @@ class BlotterService
 
 
     /**
-     * Method to get all blotter data based on
+     * Method to get all blotter data (simple, non-paginated) for a single barangay user
      * @param int $userId ID of the barangay
      *
-     * @return LengthAwarePaginator
+     * @return \Illuminate\Database\Eloquent\Collection
      */
-    public function getAll(Int $userId)
+    public function getAllSimple(Int $userId)
     {
         // Get all blotters by user_id joined with complainant and respondent in Query builder
         return Blotter::where('blotters.user_id', $userId)
@@ -112,6 +112,22 @@ class BlotterService
             ->where('complainants.complainant_family_name', '!=', null)
             ->distinct()
             ->get();
+    }
+
+    /**
+     * Method to get all blotter data with pagination, filtering, and role-based scoping
+     * @param int $perPage Records per page
+     * @param int $page Current page
+     * @param string $keyword Search keyword
+     * @param int $userId ID of the requesting user
+     * @param int $remark Case disposition filter (0 = all)
+     * @param int $incidentType Incident type filter (0 = all)
+     *
+     * @return LengthAwarePaginator
+     */
+    public function getAll(Int $perPage, Int $page, String $keyword, Int $userId, Int $remark, Int $incidentType)
+    {
+        return $this->blotter->getAll($perPage, $page, $keyword, $userId, $remark, $incidentType);
     }
 
     /**

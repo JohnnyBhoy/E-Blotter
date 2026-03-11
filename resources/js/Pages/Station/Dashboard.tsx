@@ -155,14 +155,14 @@ export default function StationDashboard({ auth }: { auth: any }) {
             user={auth.user}
             header={
                 <div className="flex items-center space-x-4">
-                    <div className="p-2 bg-blue-600 rounded-lg">
+                    <div className="p-2 bg-claude-accent rounded-lg">
                         <Shield className="w-6 h-6 text-white" />
                     </div>
                     <div>
-                        <h2 className="font-bold text-xl text-black dark:text-white leading-tight">
+                        <h2 className="font-bold text-xl text-black dark:text-claude-text leading-tight">
                             Police Station Dashboard
                         </h2>
-                        <p className="text-sm text-blue-600 dark:text-blue-200">
+                        <p className="text-sm text-claude-accent dark:text-claude-text-muted">
                             {auth.user.name} • {auth.user.email}
                         </p>
                     </div>
@@ -171,7 +171,7 @@ export default function StationDashboard({ auth }: { auth: any }) {
         >
             <Head title="Police Station Dashboard - E-Blotter" />
 
-            <div className="min-h-screen bg-white dark:bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900 transition-colors duration-300">
+            <div className="min-h-screen bg-white dark:bg-claude-bg transition-colors duration-300">
                 {/* Background Pattern */}
                 <div className="absolute inset-0 bg-black/5 dark:bg-black/20">
                     <div className="absolute inset-0 dark:hidden" style={{
@@ -183,23 +183,23 @@ export default function StationDashboard({ auth }: { auth: any }) {
                 <div className="relative z-10 p-6">
                     {/* Station Stats Cards */}
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-                        <div className="bg-white dark:bg-white/10 dark:shadow-lg rounded-xl p-6 border border-blue-200 dark:border-white/20 backdrop-blur-none dark:backdrop-blur-lg shadow-sm">
+                        <div className="bg-white dark:bg-claude-panel rounded-xl p-6 border border-gray-200 dark:border-claude-border shadow-sm">
                             <div className="flex items-center justify-between">
                                 <div>
-                                    <p className="text-blue-600 dark:text-blue-200 text-sm">Total Cases</p>
-                                    <p className="text-2xl font-bold text-black dark:text-white mt-1">{stationStats.total_cases}</p>
+                                    <p className="text-claude-accent dark:text-claude-text-muted text-sm">Total Cases</p>
+                                    <p className="text-2xl font-bold text-black dark:text-claude-text mt-1">{stationStats.total_cases}</p>
                                 </div>
-                                <div className="p-3 bg-blue-100 dark:bg-blue-500/20 rounded-lg">
-                                    <FileText className="w-6 h-6 text-blue-600 dark:text-blue-400" />
+                                <div className="p-3 bg-orange-100 dark:bg-claude-accent/20 rounded-lg">
+                                    <FileText className="w-6 h-6 text-claude-accent" />
                                 </div>
                             </div>
                         </div>
 
-                        <div className="bg-white dark:bg-white/10 dark:shadow-lg rounded-xl p-6 border border-blue-200 dark:border-white/20 backdrop-blur-none dark:backdrop-blur-lg shadow-sm">
+                        <div className="bg-white dark:bg-claude-panel rounded-xl p-6 border border-gray-200 dark:border-claude-border shadow-sm">
                             <div className="flex items-center justify-between">
                                 <div>
-                                    <p className="text-blue-600 dark:text-blue-200 text-sm">Pending</p>
-                                    <p className="text-2xl font-bold text-black dark:text-white mt-1">{stationStats.pending}</p>
+                                    <p className="text-claude-accent dark:text-claude-text-muted text-sm">Pending</p>
+                                    <p className="text-2xl font-bold text-black dark:text-claude-text mt-1">{stationStats.pending}</p>
                                 </div>
                                 <div className="p-3 bg-yellow-100 dark:bg-yellow-500/20 rounded-lg">
                                     <Clock className="w-6 h-6 text-yellow-600 dark:text-yellow-400" />
@@ -207,11 +207,11 @@ export default function StationDashboard({ auth }: { auth: any }) {
                             </div>
                         </div>
 
-                        <div className="bg-white dark:bg-white/10 dark:shadow-lg rounded-xl p-6 border border-blue-200 dark:border-white/20 backdrop-blur-none dark:backdrop-blur-lg shadow-sm">
+                        <div className="bg-white dark:bg-claude-panel rounded-xl p-6 border border-gray-200 dark:border-claude-border shadow-sm">
                             <div className="flex items-center justify-between">
                                 <div>
-                                    <p className="text-blue-600 dark:text-blue-200 text-sm">Resolved</p>
-                                    <p className="text-2xl font-bold text-black dark:text-white mt-1">{stationStats.resolved}</p>
+                                    <p className="text-claude-accent dark:text-claude-text-muted text-sm">Resolved</p>
+                                    <p className="text-2xl font-bold text-black dark:text-claude-text mt-1">{stationStats.resolved}</p>
                                 </div>
                                 <div className="p-3 bg-green-100 dark:bg-green-500/20 rounded-lg">
                                     <CheckCircle className="w-6 h-6 text-green-600 dark:text-green-400" />
@@ -219,11 +219,11 @@ export default function StationDashboard({ auth }: { auth: any }) {
                             </div>
                         </div>
 
-                        <div className="bg-white dark:bg-white/10 dark:shadow-lg rounded-xl p-6 border border-blue-200 dark:border-white/20 backdrop-blur-none dark:backdrop-blur-lg shadow-sm">
+                        <div className="bg-white dark:bg-claude-panel rounded-xl p-6 border border-gray-200 dark:border-claude-border shadow-sm">
                             <div className="flex items-center justify-between">
                                 <div>
-                                    <p className="text-blue-600 dark:text-blue-200 text-sm">Barangays Covered</p>
-                                    <p className="text-2xl font-bold text-black dark:text-white mt-1">{stationStats.barangays_covered}</p>
+                                    <p className="text-claude-accent dark:text-claude-text-muted text-sm">Barangays Covered</p>
+                                    <p className="text-2xl font-bold text-black dark:text-claude-text mt-1">{stationStats.barangays_covered}</p>
                                 </div>
                                 <div className="p-3 bg-purple-100 dark:bg-purple-500/20 rounded-lg">
                                     <Building className="w-6 h-6 text-purple-600 dark:text-purple-400" />
@@ -233,7 +233,7 @@ export default function StationDashboard({ auth }: { auth: any }) {
                     </div>
 
                     {/* Navigation Tabs */}
-                    <div className="bg-white dark:bg-white/10 dark:shadow-lg rounded-xl border border-blue-200 dark:border-white/20 backdrop-blur-none dark:backdrop-blur-lg mb-6 shadow-sm">
+                    <div className="bg-white dark:bg-claude-panel rounded-xl border border-gray-200 dark:border-claude-border mb-6 shadow-sm">
                         <div className="flex flex-wrap sm:flex-nowrap gap-1 p-1">
                             {[
                                 { id: 'overview', label: 'Overview', icon: <Eye className="w-4 h-4" /> },
@@ -246,8 +246,8 @@ export default function StationDashboard({ auth }: { auth: any }) {
                                     onClick={() => setActiveTab(tab.id as any)}
                                     className={`px-4 py-2 rounded-lg font-medium transition-all duration-200 ${
                                         activeTab === tab.id
-                                            ? 'bg-blue-600 text-white'
-                                            : 'text-blue-600 dark:text-blue-200 hover:bg-blue-50 dark:hover:bg-white/10 hover:text-blue-800 dark:hover:text-white'
+                                            ? 'bg-claude-accent text-white'
+                                            : 'text-claude-accent dark:text-claude-text-muted hover:bg-orange-50 dark:hover:bg-claude-accent/10 hover:text-claude-accent dark:hover:text-claude-accent'
                                     }`}
                                 >
                                     <span className="flex items-center space-x-2">
@@ -260,37 +260,37 @@ export default function StationDashboard({ auth }: { auth: any }) {
                     </div>
 
                     {/* Tab Content */}
-                    <div className="bg-white dark:bg-white/10 dark:shadow-lg rounded-xl border border-blue-200 dark:border-white/20 backdrop-blur-none dark:backdrop-blur-lg p-6 shadow-sm">
+                    <div className="bg-white dark:bg-claude-panel rounded-xl border border-gray-200 dark:border-claude-border p-6 shadow-sm">
                         {activeTab === 'overview' && (
                             <div>
-                                <h3 className="text-xl font-bold text-black dark:text-white mb-6">Station Overview</h3>
+                                <h3 className="text-xl font-bold text-black dark:text-claude-text mb-6">Station Overview</h3>
                                 
                                 {/* Top Crime Types */}
                                 <div className="mb-8">
-                                    <h4 className="text-lg font-semibold text-black dark:text-white mb-4">Top Crime Types</h4>
+                                    <h4 className="text-lg font-semibold text-black dark:text-claude-text mb-4">Top Crime Types</h4>
                                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                                         {Object.entries(stationStats.top_crime_types).map(([type, count]) => (
-                                            <div key={type} className="flex items-center justify-between p-3 bg-blue-50 dark:bg-white/5 rounded-lg">
-                                                <span className="text-sm font-medium text-black dark:text-white">{type}</span>
-                                                <span className="px-2 py-1 bg-blue-600 text-white text-xs rounded-full">{count}</span>
+                                            <div key={type} className="flex items-center justify-between p-3 bg-gray-50 dark:bg-claude-panel-2 rounded-lg">
+                                                <span className="text-sm font-medium text-black dark:text-claude-text">{type}</span>
+                                                <span className="px-2 py-1 bg-claude-accent text-white text-xs rounded-full">{count}</span>
                                             </div>
                                         ))}
                                     </div>
                                 </div>
 
                                 {/* Recent Activity */}
-                                <div className="bg-blue-50 dark:bg-white/5 rounded-lg p-4 border border-blue-200 dark:border-none">
-                                    <h4 className="font-semibold text-black dark:text-white mb-3">Recent Activity</h4>
+                                <div className="bg-gray-50 dark:bg-claude-panel-2 rounded-lg p-4 border border-gray-200 dark:border-claude-border">
+                                    <h4 className="font-semibold text-black dark:text-claude-text mb-3">Recent Activity</h4>
                                     <div className="space-y-2">
                                         {blotters.slice(0, 5).map(blotter => (
-                                            <div key={blotter.id} className="flex items-center justify-between p-2 bg-white dark:bg-white/10 rounded border border-blue-100 dark:border-none">
+                                            <div key={blotter.id} className="flex items-center justify-between p-2 bg-white dark:bg-claude-panel-2 rounded border border-gray-100 dark:border-claude-border">
                                                 <div className="flex items-center space-x-2">
-                                                    <MapPin className="w-4 h-4 text-blue-600 dark:text-blue-400" />
-                                                    <span className="text-sm text-black dark:text-white">
+                                                    <MapPin className="w-4 h-4 text-claude-accent" />
+                                                    <span className="text-sm text-black dark:text-claude-text">
                                                         {blotter.incident_type} - {blotter.barangay_name}
                                                     </span>
                                                 </div>
-                                                <span className="text-xs text-gray-500 dark:text-gray-400">
+                                                <span className="text-xs text-gray-500 dark:text-claude-text-muted">
                                                     {new Date(blotter.created_at).toLocaleDateString()}
                                                 </span>
                                             </div>
@@ -302,19 +302,19 @@ export default function StationDashboard({ auth }: { auth: any }) {
 
                         {activeTab === 'incidents' && (
                             <div>
-                                <h3 className="text-xl font-bold text-black dark:text-white mb-6">All Incidents</h3>
+                                <h3 className="text-xl font-bold text-black dark:text-claude-text mb-6">All Incidents</h3>
                                 
                                 {/* Filters */}
                                 <div className="flex flex-col md:flex-row gap-4 mb-6">
                                     <div className="flex-1">
                                         <div className="relative">
-                                            <Search className="w-4 h-4 text-blue-600 dark:text-blue-300 absolute left-3 top-1/2 transform -translate-y-1/2" />
+                                            <Search className="w-4 h-4 text-claude-accent absolute left-3 top-1/2 transform -translate-y-1/2" />
                                             <input
                                                 type="text"
                                                 placeholder="Search incidents..."
                                                 value={searchTerm}
                                                 onChange={(e) => setSearchTerm(e.target.value)}
-                                                className="w-full pl-10 pr-4 py-2 bg-white dark:bg-white/10 border border-blue-300 dark:border-white/20 rounded-lg text-black dark:text-white placeholder-blue-400 dark:placeholder-blue-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                                className="w-full pl-10 pr-4 py-2 bg-white dark:bg-claude-panel-2 border border-gray-300 dark:border-claude-border rounded-lg text-black dark:text-claude-text placeholder-gray-400 dark:placeholder-claude-text-muted focus:outline-none focus:ring-2 focus:ring-claude-accent/50"
                                             />
                                         </div>
                                     </div>
@@ -322,7 +322,7 @@ export default function StationDashboard({ auth }: { auth: any }) {
                                         <select
                                             value={selectedBarangay}
                                             onChange={(e) => setSelectedBarangay(e.target.value)}
-                                            className="w-full px-4 py-2 bg-white dark:bg-white/10 border border-blue-300 dark:border-white/20 rounded-lg text-black dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                            className="w-full px-4 py-2 bg-white dark:bg-claude-panel-2 border border-gray-300 dark:border-claude-border rounded-lg text-black dark:text-claude-text focus:outline-none focus:ring-2 focus:ring-claude-accent/50"
                                         >
                                             <option value="">All Barangays</option>
                                             {barangays.map(barangay => (
@@ -335,29 +335,29 @@ export default function StationDashboard({ auth }: { auth: any }) {
                                 {/* Incidents Table */}
                                 {isLoading ? (
                                     <div className="flex justify-center items-center py-12">
-                                        <Loader className="w-8 h-8 animate-spin text-blue-600" />
+                                        <Loader className="w-8 h-8 animate-spin text-claude-accent" />
                                     </div>
                                 ) : (
                                     <div className="overflow-x-auto">
-                                        <table className="w-full text-black dark:text-white">
+                                        <table className="w-full text-black dark:text-claude-text">
                                             <thead>
-                                                <tr className="border-b border-blue-200 dark:border-white/20">
-                                                    <th className="text-left p-3 font-semibold text-blue-800 dark:text-white">Entry #</th>
-                                                    <th className="text-left p-3 font-semibold text-blue-800 dark:text-white">Barangay</th>
-                                                    <th className="text-left p-3 font-semibold text-blue-800 dark:text-white">Incident Type</th>
-                                                    <th className="text-left p-3 font-semibold text-blue-800 dark:text-white">Date Reported</th>
-                                                    <th className="text-left p-3 font-semibold text-blue-800 dark:text-white">Status</th>
-                                                    <th className="text-left p-3 font-semibold text-blue-800 dark:text-white">Actions</th>
+                                                <tr className="border-b border-gray-200 dark:border-claude-border">
+                                                    <th className="text-left p-3 font-semibold text-gray-800 dark:text-claude-text">Entry #</th>
+                                                    <th className="text-left p-3 font-semibold text-gray-800 dark:text-claude-text">Barangay</th>
+                                                    <th className="text-left p-3 font-semibold text-gray-800 dark:text-claude-text">Incident Type</th>
+                                                    <th className="text-left p-3 font-semibold text-gray-800 dark:text-claude-text">Date Reported</th>
+                                                    <th className="text-left p-3 font-semibold text-gray-800 dark:text-claude-text">Status</th>
+                                                    <th className="text-left p-3 font-semibold text-gray-800 dark:text-claude-text">Actions</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
                                                 {filteredBlotters.length > 0 ? (
                                                     filteredBlotters.map(blotter => (
-                                                        <tr key={blotter.id} className="border-b border-blue-100 dark:border-white/10 hover:bg-blue-50 dark:hover:bg-white/5">
+                                                        <tr key={blotter.id} className="border-b border-gray-100 dark:border-claude-border hover:bg-gray-50 dark:hover:bg-claude-panel-2">
                                                             <td className="p-3">{blotter.entry_number}</td>
                                                             <td className="p-3">{blotter.barangay_name}</td>
                                                             <td className="p-3">
-                                                                <span className="px-2 py-1 bg-blue-100 dark:bg-blue-500/20 rounded text-xs text-blue-800 dark:text-blue-400">
+                                                                <span className="px-2 py-1 bg-orange-100 dark:bg-claude-accent/20 rounded text-xs text-gray-800 dark:text-claude-accent">
                                                                     {blotter.incident_type}
                                                                 </span>
                                                             </td>
@@ -366,10 +366,10 @@ export default function StationDashboard({ auth }: { auth: any }) {
                                                                 <span className={`px-2 py-1 rounded text-xs ${
                                                                     blotter.remarks?.toLowerCase().includes('resolved') ? 'bg-green-100 text-green-800 dark:bg-green-500/20 dark:text-green-400' :
                                                                     blotter.remarks?.toLowerCase().includes('pending') ? 'bg-yellow-100 text-yellow-800 dark:bg-yellow-500/20 dark:text-yellow-400' :
-                                                                    blotter.remarks?.toLowerCase().includes('closed') ? 'bg-gray-100 text-gray-800 dark:bg-gray-500/20 dark:text-gray-400' :
-                                                                    blotter.remarks?.toLowerCase().includes('investigation') ? 'bg-blue-100 text-blue-800 dark:bg-blue-500/20 dark:text-blue-400' :
+                                                                    blotter.remarks?.toLowerCase().includes('closed') ? 'bg-gray-100 text-gray-800 dark:bg-gray-500/20 dark:text-claude-text-muted' :
+                                                                    blotter.remarks?.toLowerCase().includes('investigation') ? 'bg-orange-100 text-gray-800 dark:bg-claude-accent/20 dark:text-claude-accent' :
                                                                     blotter.remarks?.toLowerCase().includes('court') ? 'bg-purple-100 text-purple-800 dark:bg-purple-500/20 dark:text-purple-400' :
-                                                                    'bg-gray-100 text-gray-800 dark:bg-gray-500/20 dark:text-gray-400'
+                                                                    'bg-gray-100 text-gray-800 dark:bg-gray-500/20 dark:text-claude-text-muted'
                                                                 }`}>
                                                                     {blotter.remarks || 'No Status'}
                                                                 </span>
@@ -377,7 +377,7 @@ export default function StationDashboard({ auth }: { auth: any }) {
                                                             <td className="p-3">
                                                                 <div className="flex gap-2 justify-center">
                                                                     <button
-                                                                        className="flex-1 min-w-fit p-1 bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors flex items-center justify-center"
+                                                                        className="flex-1 min-w-fit p-1 bg-claude-accent text-white rounded hover:bg-claude-accent-light transition-colors flex items-center justify-center"
                                                                         title="View Details"
                                                                     >
                                                                         <Eye className="w-3 h-3" />
@@ -395,7 +395,7 @@ export default function StationDashboard({ auth }: { auth: any }) {
                                                     ))
                                                 ) : (
                                                     <tr>
-                                                        <td colSpan={6} className="text-center py-8 text-gray-500 dark:text-gray-400">
+                                                        <td colSpan={6} className="text-center py-8 text-gray-500 dark:text-claude-text-muted">
                                                             No incidents found
                                                         </td>
                                                     </tr>
@@ -409,31 +409,31 @@ export default function StationDashboard({ auth }: { auth: any }) {
 
                         {activeTab === 'barangays' && (
                             <div>
-                                <h3 className="text-xl font-bold text-black dark:text-white mb-6">Barangay Statistics</h3>
+                                <h3 className="text-xl font-bold text-black dark:text-claude-text mb-6">Barangay Statistics</h3>
                                 
                                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                                     {barangayStats.map((barangay, index) => (
-                                        <div key={index} className="bg-white dark:bg-white/10 rounded-xl p-6 border border-blue-200 dark:border-white/20">
+                                        <div key={index} className="bg-white dark:bg-claude-panel rounded-xl p-6 border border-gray-200 dark:border-claude-border">
                                             <div className="flex items-center justify-between mb-4">
-                                                <h4 className="font-semibold text-black dark:text-white">{barangay.barangay_name}</h4>
-                                                <Building className="w-5 h-5 text-blue-600 dark:text-blue-400" />
+                                                <h4 className="font-semibold text-black dark:text-claude-text">{barangay.barangay_name}</h4>
+                                                <Building className="w-5 h-5 text-claude-accent" />
                                             </div>
                                             <div className="space-y-3">
                                                 <div className="flex justify-between">
-                                                    <span className="text-sm text-gray-600 dark:text-gray-400">Total Cases</span>
-                                                    <span className="font-medium text-black dark:text-white">{barangay.total_cases}</span>
+                                                    <span className="text-sm text-gray-600 dark:text-claude-text-muted">Total Cases</span>
+                                                    <span className="font-medium text-black dark:text-claude-text">{barangay.total_cases}</span>
                                                 </div>
                                                 <div className="flex justify-between">
-                                                    <span className="text-sm text-gray-600 dark:text-gray-400">Pending</span>
+                                                    <span className="text-sm text-gray-600 dark:text-claude-text-muted">Pending</span>
                                                     <span className="font-medium text-yellow-600 dark:text-yellow-400">{barangay.pending}</span>
                                                 </div>
                                                 <div className="flex justify-between">
-                                                    <span className="text-sm text-gray-600 dark:text-gray-400">Resolved</span>
+                                                    <span className="text-sm text-gray-600 dark:text-claude-text-muted">Resolved</span>
                                                     <span className="font-medium text-green-600 dark:text-green-400">{barangay.resolved}</span>
                                                 </div>
                                                 <div className="flex justify-between">
-                                                    <span className="text-sm text-gray-600 dark:text-gray-400">This Month</span>
-                                                    <span className="font-medium text-blue-600 dark:text-blue-400">{barangay.this_month}</span>
+                                                    <span className="text-sm text-gray-600 dark:text-claude-text-muted">This Month</span>
+                                                    <span className="font-medium text-claude-accent">{barangay.this_month}</span>
                                                 </div>
                                             </div>
                                         </div>
@@ -444,14 +444,14 @@ export default function StationDashboard({ auth }: { auth: any }) {
 
                         {activeTab === 'reports' && (
                             <div>
-                                <h3 className="text-xl font-bold text-black dark:text-white mb-6">Reports & Analytics</h3>
+                                <h3 className="text-xl font-bold text-black dark:text-claude-text mb-6">Reports & Analytics</h3>
                                 
                                 {/* Report Period Selector */}
-                                <div className="bg-blue-50 dark:bg-white/5 rounded-lg p-4 border border-blue-200 dark:border-none mb-6">
+                                <div className="bg-gray-50 dark:bg-claude-panel-2 rounded-lg p-4 border border-gray-200 dark:border-claude-border mb-6">
                                     <div className="flex flex-wrap items-center justify-between gap-4">
                                         <div className="flex items-center space-x-4">
-                                            <label className="text-sm font-medium text-black dark:text-white">Report Period:</label>
-                                            <select className="px-4 py-2 bg-white dark:bg-white/10 border border-blue-300 dark:border-white/20 rounded-lg text-black dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                            <label className="text-sm font-medium text-black dark:text-claude-text">Report Period:</label>
+                                            <select className="px-4 py-2 bg-white dark:bg-claude-panel-2 border border-gray-300 dark:border-claude-border rounded-lg text-black dark:text-claude-text focus:outline-none focus:ring-2 focus:ring-claude-accent/50">
                                                 <option value="this-month">This Month</option>
                                                 <option value="last-month">Last Month</option>
                                                 <option value="this-quarter">This Quarter</option>
@@ -462,7 +462,7 @@ export default function StationDashboard({ auth }: { auth: any }) {
                                             </select>
                                         </div>
                                         <div className="flex flex-wrap gap-2 justify-center">
-                                            <button className="flex-1 min-w-fit px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors flex items-center justify-center space-x-2">
+                                            <button className="flex-1 min-w-fit px-4 py-2 bg-claude-accent text-white rounded-lg hover:bg-claude-accent-light transition-colors flex items-center justify-center space-x-2">
                                                 <Download className="w-4 h-4" />
                                                 <span>Export PDF</span>
                                             </button>
@@ -476,23 +476,23 @@ export default function StationDashboard({ auth }: { auth: any }) {
 
                                 {/* Key Metrics Cards */}
                                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-                                    <div className="bg-white dark:bg-white/10 rounded-xl p-6 border border-blue-200 dark:border-white/20">
+                                    <div className="bg-white dark:bg-claude-panel rounded-xl p-6 border border-gray-200 dark:border-claude-border">
                                         <div className="flex items-center justify-between">
                                             <div>
-                                                <p className="text-sm text-gray-600 dark:text-gray-400">Total Cases</p>
-                                                <p className="text-2xl font-bold text-black dark:text-white">{stationStats.total_cases}</p>
+                                                <p className="text-sm text-gray-600 dark:text-claude-text-muted">Total Cases</p>
+                                                <p className="text-2xl font-bold text-black dark:text-claude-text">{stationStats.total_cases}</p>
                                                 <p className="text-xs text-green-600 dark:text-green-400">+12% from last month</p>
                                             </div>
-                                            <div className="p-3 bg-blue-100 dark:bg-blue-500/20 rounded-lg">
-                                                <FileText className="w-6 h-6 text-blue-600 dark:text-blue-400" />
+                                            <div className="p-3 bg-orange-100 dark:bg-claude-accent/20 rounded-lg">
+                                                <FileText className="w-6 h-6 text-claude-accent" />
                                             </div>
                                         </div>
                                     </div>
-                                    <div className="bg-white dark:bg-white/10 rounded-xl p-6 border border-blue-200 dark:border-white/20">
+                                    <div className="bg-white dark:bg-claude-panel rounded-xl p-6 border border-gray-200 dark:border-claude-border">
                                         <div className="flex items-center justify-between">
                                             <div>
-                                                <p className="text-sm text-gray-600 dark:text-gray-400">Resolution Rate</p>
-                                                <p className="text-2xl font-bold text-black dark:text-white">
+                                                <p className="text-sm text-gray-600 dark:text-claude-text-muted">Resolution Rate</p>
+                                                <p className="text-2xl font-bold text-black dark:text-claude-text">
                                                     {stationStats.total_cases > 0 ? Math.round((stationStats.resolved / stationStats.total_cases) * 100) : 0}%
                                                 </p>
                                                 <p className="text-xs text-green-600 dark:text-green-400">+5% from last month</p>
@@ -502,11 +502,11 @@ export default function StationDashboard({ auth }: { auth: any }) {
                                             </div>
                                         </div>
                                     </div>
-                                    <div className="bg-white dark:bg-white/10 rounded-xl p-6 border border-blue-200 dark:border-white/20">
+                                    <div className="bg-white dark:bg-claude-panel rounded-xl p-6 border border-gray-200 dark:border-claude-border">
                                         <div className="flex items-center justify-between">
                                             <div>
-                                                <p className="text-sm text-gray-600 dark:text-gray-400">Avg. Response Time</p>
-                                                <p className="text-2xl font-bold text-black dark:text-white">2.4 hrs</p>
+                                                <p className="text-sm text-gray-600 dark:text-claude-text-muted">Avg. Response Time</p>
+                                                <p className="text-2xl font-bold text-black dark:text-claude-text">2.4 hrs</p>
                                                 <p className="text-xs text-green-600 dark:text-green-400">-30 min from last month</p>
                                             </div>
                                             <div className="p-3 bg-purple-100 dark:bg-purple-500/20 rounded-lg">
@@ -514,11 +514,11 @@ export default function StationDashboard({ auth }: { auth: any }) {
                                             </div>
                                         </div>
                                     </div>
-                                    <div className="bg-white dark:bg-white/10 rounded-xl p-6 border border-blue-200 dark:border-white/20">
+                                    <div className="bg-white dark:bg-claude-panel rounded-xl p-6 border border-gray-200 dark:border-claude-border">
                                         <div className="flex items-center justify-between">
                                             <div>
-                                                <p className="text-sm text-gray-600 dark:text-gray-400">Active Cases</p>
-                                                <p className="text-2xl font-bold text-black dark:text-white">{stationStats.pending}</p>
+                                                <p className="text-sm text-gray-600 dark:text-claude-text-muted">Active Cases</p>
+                                                <p className="text-2xl font-bold text-black dark:text-claude-text">{stationStats.pending}</p>
                                                 <p className="text-xs text-yellow-600 dark:text-yellow-400">-8% from last month</p>
                                             </div>
                                             <div className="p-3 bg-yellow-100 dark:bg-yellow-500/20 rounded-lg">
@@ -531,35 +531,35 @@ export default function StationDashboard({ auth }: { auth: any }) {
                                 {/* Charts Section */}
                                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
                                     {/* Incident Trends Chart */}
-                                    <div className="bg-white dark:bg-white/10 rounded-xl p-6 border border-blue-200 dark:border-white/20">
-                                        <h4 className="text-lg font-semibold text-black dark:text-white mb-4">Incident Trends</h4>
-                                        <div className="h-64 flex items-center justify-center bg-gray-50 dark:bg-gray-800 rounded-lg">
+                                    <div className="bg-white dark:bg-claude-panel rounded-xl p-6 border border-gray-200 dark:border-claude-border">
+                                        <h4 className="text-lg font-semibold text-black dark:text-claude-text mb-4">Incident Trends</h4>
+                                        <div className="h-64 flex items-center justify-center bg-gray-50 dark:bg-claude-panel rounded-lg">
                                             <div className="text-center">
                                                 <TrendingUp className="w-12 h-12 text-gray-400 mx-auto mb-2" />
-                                                <p className="text-gray-500 dark:text-gray-400">Chart visualization coming soon</p>
-                                                <p className="text-xs text-gray-400 dark:text-gray-500">Monthly incident trends</p>
+                                                <p className="text-gray-500 dark:text-claude-text-muted">Chart visualization coming soon</p>
+                                                <p className="text-xs text-gray-400 dark:text-claude-text-muted">Monthly incident trends</p>
                                             </div>
                                         </div>
                                     </div>
 
                                     {/* Crime Type Distribution */}
-                                    <div className="bg-white dark:bg-white/10 rounded-xl p-6 border border-blue-200 dark:border-white/20">
-                                        <h4 className="text-lg font-semibold text-black dark:text-white mb-4">Crime Type Distribution</h4>
+                                    <div className="bg-white dark:bg-claude-panel rounded-xl p-6 border border-gray-200 dark:border-claude-border">
+                                        <h4 className="text-lg font-semibold text-black dark:text-claude-text mb-4">Crime Type Distribution</h4>
                                         <div className="space-y-3">
                                             {Object.entries(stationStats.top_crime_types).slice(0, 5).map(([type, count], index) => (
                                                 <div key={type} className="flex items-center justify-between">
                                                     <div className="flex items-center space-x-3">
-                                                        <div className="w-3 h-3 rounded-full bg-blue-600"></div>
-                                                        <span className="text-sm text-black dark:text-white">{type}</span>
+                                                        <div className="w-3 h-3 rounded-full bg-claude-accent"></div>
+                                                        <span className="text-sm text-black dark:text-claude-text">{type}</span>
                                                     </div>
                                                     <div className="flex items-center space-x-2">
-                                                        <div className="w-24 bg-gray-200 dark:bg-gray-700 rounded-full h-2">
+                                                        <div className="w-24 bg-gray-200 dark:bg-claude-panel-2 rounded-full h-2">
                                                             <div 
-                                                                className="bg-blue-600 h-2 rounded-full" 
+                                                                className="bg-claude-accent h-2 rounded-full" 
                                                                 style={{ width: `${Math.min((count / Math.max(...Object.values(stationStats.top_crime_types))) * 100, 100)}%` }}
                                                             ></div>
                                                         </div>
-                                                        <span className="text-sm text-gray-600 dark:text-gray-400 w-8 text-right">{count}</span>
+                                                        <span className="text-sm text-gray-600 dark:text-claude-text-muted w-8 text-right">{count}</span>
                                                     </div>
                                                 </div>
                                             ))}
@@ -568,16 +568,16 @@ export default function StationDashboard({ auth }: { auth: any }) {
                                 </div>
 
                                 {/* Detailed Statistics Table */}
-                                <div className="bg-white dark:bg-white/10 rounded-xl p-6 border border-blue-200 dark:border-white/20">
-                                    <h4 className="text-lg font-semibold text-black dark:text-white mb-4">Detailed Statistics</h4>
+                                <div className="bg-white dark:bg-claude-panel rounded-xl p-6 border border-gray-200 dark:border-claude-border">
+                                    <h4 className="text-lg font-semibold text-black dark:text-claude-text mb-4">Detailed Statistics</h4>
                                     <div className="overflow-x-auto">
-                                        <table className="w-full text-sm text-black dark:text-white">
+                                        <table className="w-full text-sm text-black dark:text-claude-text">
                                             <thead>
-                                                <tr className="border-b border-blue-200 dark:border-white/20">
-                                                    <th className="text-left p-2 font-medium text-blue-800 dark:text-white">Metric</th>
-                                                    <th className="text-center p-2 font-medium text-blue-800 dark:text-white">Current Period</th>
-                                                    <th className="text-center p-2 font-medium text-blue-800 dark:text-white">Previous Period</th>
-                                                    <th className="text-center p-2 font-medium text-blue-800 dark:text-white">Change</th>
+                                                <tr className="border-b border-gray-200 dark:border-claude-border">
+                                                    <th className="text-left p-2 font-medium text-gray-800 dark:text-claude-text">Metric</th>
+                                                    <th className="text-center p-2 font-medium text-gray-800 dark:text-claude-text">Current Period</th>
+                                                    <th className="text-center p-2 font-medium text-gray-800 dark:text-claude-text">Previous Period</th>
+                                                    <th className="text-center p-2 font-medium text-gray-800 dark:text-claude-text">Change</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -627,23 +627,23 @@ export default function StationDashboard({ auth }: { auth: any }) {
                                 </div>
 
                                 {/* Export Options */}
-                                <div className="bg-blue-50 dark:bg-white/5 rounded-lg p-4 border border-blue-200 dark:border-none">
-                                    <h4 className="text-lg font-semibold text-black dark:text-white mb-4">Export Options</h4>
+                                <div className="bg-gray-50 dark:bg-claude-panel-2 rounded-lg p-4 border border-gray-200 dark:border-claude-border">
+                                    <h4 className="text-lg font-semibold text-black dark:text-claude-text mb-4">Export Options</h4>
                                     <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                                        <button className="p-4 bg-white dark:bg-white/10 rounded-lg border border-blue-200 dark:border-white/20 hover:bg-blue-50 dark:hover:bg-white/20 transition-colors">
-                                            <FileText className="w-8 h-8 text-blue-600 dark:text-blue-400 mx-auto mb-2" />
-                                            <h5 className="font-medium text-black dark:text-white">Monthly Report</h5>
-                                            <p className="text-xs text-gray-600 dark:text-gray-400">Comprehensive monthly statistics</p>
+                                        <button className="p-4 bg-white dark:bg-claude-panel rounded-lg border border-gray-200 dark:border-claude-border hover:bg-gray-50 dark:hover:bg-claude-panel-2 transition-colors">
+                                            <FileText className="w-8 h-8 text-claude-accent mx-auto mb-2" />
+                                            <h5 className="font-medium text-black dark:text-claude-text">Monthly Report</h5>
+                                            <p className="text-xs text-gray-600 dark:text-claude-text-muted">Comprehensive monthly statistics</p>
                                         </button>
-                                        <button className="p-4 bg-white dark:bg-white/10 rounded-lg border border-blue-200 dark:border-white/20 hover:bg-blue-50 dark:hover:bg-white/20 transition-colors">
+                                        <button className="p-4 bg-white dark:bg-claude-panel rounded-lg border border-gray-200 dark:border-claude-border hover:bg-gray-50 dark:hover:bg-claude-panel-2 transition-colors">
                                             <Activity className="w-8 h-8 text-green-600 dark:text-green-400 mx-auto mb-2" />
-                                            <h5 className="font-medium text-black dark:text-white">Analytics Report</h5>
-                                            <p className="text-xs text-gray-600 dark:text-gray-400">Trends and patterns analysis</p>
+                                            <h5 className="font-medium text-black dark:text-claude-text">Analytics Report</h5>
+                                            <p className="text-xs text-gray-600 dark:text-claude-text-muted">Trends and patterns analysis</p>
                                         </button>
-                                        <button className="p-4 bg-white dark:bg-white/10 rounded-lg border border-blue-200 dark:border-white/20 hover:bg-blue-50 dark:hover:bg-white/20 transition-colors">
+                                        <button className="p-4 bg-white dark:bg-claude-panel rounded-lg border border-gray-200 dark:border-claude-border hover:bg-gray-50 dark:hover:bg-claude-panel-2 transition-colors">
                                             <Building className="w-8 h-8 text-purple-600 dark:text-purple-400 mx-auto mb-2" />
-                                            <h5 className="font-medium text-black dark:text-white">Barangay Report</h5>
-                                            <p className="text-xs text-gray-600 dark:text-gray-400">Per-barangay breakdown</p>
+                                            <h5 className="font-medium text-black dark:text-claude-text">Barangay Report</h5>
+                                            <p className="text-xs text-gray-600 dark:text-claude-text-muted">Per-barangay breakdown</p>
                                         </button>
                                     </div>
                                 </div>

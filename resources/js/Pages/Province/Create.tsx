@@ -108,18 +108,18 @@ export default function ProvinceCreate({ auth }: PageProps) {
                 <div className="flex items-center space-x-4">
                     <Link
                         href={route("admin.province")}
-                        className="p-2 bg-gray-200 dark:bg-gray-700 rounded-lg hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors"
+                        className="p-2 bg-gray-200 dark:bg-claude-panel-2 rounded-lg hover:bg-gray-300 dark:hover:bg-claude-panel-2 transition-colors"
                     >
-                        <ArrowLeft className="w-5 h-5 text-gray-600 dark:text-gray-400" />
+                        <ArrowLeft className="w-5 h-5 text-gray-600 dark:text-claude-text-muted" />
                     </Link>
                     <div className="p-3 bg-gradient-to-r from-blue-600 to-purple-600 rounded-xl shadow-lg">
                         <Shield className="w-6 h-6 text-white" />
                     </div>
                     <div>
-                        <h2 className="font-bold text-2xl text-gray-900 dark:text-white leading-tight">
+                        <h2 className="font-bold text-2xl text-gray-900 dark:text-claude-text leading-tight">
                             Create Province
                         </h2>
-                        <p className="text-gray-600 dark:text-gray-400 text-sm">
+                        <p className="text-gray-600 dark:text-claude-text-muted text-sm">
                             Add a new province to the system using existing data
                         </p>
                     </div>
@@ -162,21 +162,21 @@ export default function ProvinceCreate({ auth }: PageProps) {
                             {/* Form Body */}
                             <form onSubmit={handleSubmit} className="p-6 space-y-6">
                                 {/* User Information Section */}
-                                <div className="border-b border-gray-200 dark:border-gray-700 pb-6">
-                                    <h4 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
+                                <div className="border-b border-gray-200 dark:border-claude-border pb-6">
+                                    <h4 className="text-lg font-semibold text-gray-900 dark:text-claude-text mb-4">
                                         User Information
                                     </h4>
                                     
                                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                         {/* Province Name */}
                                         <div>
-                                            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                                            <label className="block text-sm font-medium text-gray-700 dark:text-claude-text-muted mb-2">
                                                 Province Name
                                             </label>
                                             <select
                                                 value={selectedProvinceName}
                                                 onChange={(e) => handleProvinceNameChange(e.target.value)}
-                                                className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-800 dark:text-white"
+                                                className="w-full px-4 py-2 border border-gray-300 dark:border-claude-border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-claude-panel dark:text-claude-text"
                                                 required
                                             >
                                                 <option value="">Select Province</option>
@@ -195,7 +195,7 @@ export default function ProvinceCreate({ auth }: PageProps) {
 
                                         {/* Email */}
                                         <div>
-                                            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                                            <label className="block text-sm font-medium text-gray-700 dark:text-claude-text-muted mb-2">
                                                 Email Address
                                             </label>
                                             <input
@@ -205,7 +205,7 @@ export default function ProvinceCreate({ auth }: PageProps) {
                                                     setData("email", e.target.value)
                                                 }
                                                 placeholder="province@example.com"
-                                                className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-800 dark:text-white"
+                                                className="w-full px-4 py-2 border border-gray-300 dark:border-claude-border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-claude-panel dark:text-claude-text"
                                             />
                                             {errors.email && (
                                                 <p className="mt-1 text-sm text-red-600">
@@ -216,7 +216,7 @@ export default function ProvinceCreate({ auth }: PageProps) {
 
                                         {/* Password */}
                                         <div>
-                                            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                                            <label className="block text-sm font-medium text-gray-700 dark:text-claude-text-muted mb-2">
                                                 Password
                                             </label>
                                             <input
@@ -226,7 +226,7 @@ export default function ProvinceCreate({ auth }: PageProps) {
                                                     setData("password", e.target.value)
                                                 }
                                                 placeholder="Enter password"
-                                                className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-800 dark:text-white"
+                                                className="w-full px-4 py-2 border border-gray-300 dark:border-claude-border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-claude-panel dark:text-claude-text"
                                             />
                                             {errors.password && (
                                                 <p className="mt-1 text-sm text-red-600">
@@ -237,7 +237,7 @@ export default function ProvinceCreate({ auth }: PageProps) {
 
                                         {/* Language */}
                                         <div>
-                                            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                                            <label className="block text-sm font-medium text-gray-700 dark:text-claude-text-muted mb-2">
                                                 Language
                                             </label>
                                             <select
@@ -245,7 +245,7 @@ export default function ProvinceCreate({ auth }: PageProps) {
                                                 onChange={(e) =>
                                                     setData("lang", e.target.value)
                                                 }
-                                                className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-800 dark:text-white"
+                                                className="w-full px-4 py-2 border border-gray-300 dark:border-claude-border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-claude-panel dark:text-claude-text"
                                             >
                                                 <option value="">Select Language</option>
                                                 <option value="en">English</option>
@@ -260,7 +260,7 @@ export default function ProvinceCreate({ auth }: PageProps) {
 
                                         {/* Latitude */}
                                         <div>
-                                            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                                            <label className="block text-sm font-medium text-gray-700 dark:text-claude-text-muted mb-2">
                                                 Latitude
                                             </label>
                                             <input
@@ -270,7 +270,7 @@ export default function ProvinceCreate({ auth }: PageProps) {
                                                     setData("lat", e.target.value)
                                                 }
                                                 placeholder="e.g., 10.1234"
-                                                className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-800 dark:text-white"
+                                                className="w-full px-4 py-2 border border-gray-300 dark:border-claude-border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-claude-panel dark:text-claude-text"
                                             />
                                             {errors.lat && (
                                                 <p className="mt-1 text-sm text-red-600">
@@ -281,7 +281,7 @@ export default function ProvinceCreate({ auth }: PageProps) {
 
                                         {/* Longitude */}
                                         <div>
-                                            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                                            <label className="block text-sm font-medium text-gray-700 dark:text-claude-text-muted mb-2">
                                                 Longitude
                                             </label>
                                             <input
@@ -291,7 +291,7 @@ export default function ProvinceCreate({ auth }: PageProps) {
                                                     setData("long", e.target.value)
                                                 }
                                                 placeholder="e.g., 122.1234"
-                                                className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-800 dark:text-white"
+                                                className="w-full px-4 py-2 border border-gray-300 dark:border-claude-border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-claude-panel dark:text-claude-text"
                                             />
                                             {errors.long && (
                                                 <p className="mt-1 text-sm text-red-600">
@@ -304,20 +304,20 @@ export default function ProvinceCreate({ auth }: PageProps) {
 
                                 {/* Address Information Section */}
                                 <div>
-                                    <h4 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
+                                    <h4 className="text-lg font-semibold text-gray-900 dark:text-claude-text mb-4">
                                         Address Information
                                     </h4>
                                     
                                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                         {/* Region */}
                                         <div>
-                                            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                                            <label className="block text-sm font-medium text-gray-700 dark:text-claude-text-muted mb-2">
                                                 Region
                                             </label>
                                             <select
                                                 value={selectedRegion}
                                                 onChange={(e) => handleRegionChange(e.target.value)}
-                                                className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-800 dark:text-white"
+                                                className="w-full px-4 py-2 border border-gray-300 dark:border-claude-border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-claude-panel dark:text-claude-text"
                                                 required
                                             >
                                                 <option value="">Select Region</option>
@@ -336,7 +336,7 @@ export default function ProvinceCreate({ auth }: PageProps) {
 
                                         {/* Province Code */}
                                         <div>
-                                            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                                            <label className="block text-sm font-medium text-gray-700 dark:text-claude-text-muted mb-2">
                                                 Province Code
                                             </label>
                                             <input
@@ -346,7 +346,7 @@ export default function ProvinceCreate({ auth }: PageProps) {
                                                     setData("province_code", e.target.value)
                                                 }
                                                 placeholder="e.g., 0606"
-                                                className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-800 dark:text-white"
+                                                className="w-full px-4 py-2 border border-gray-300 dark:border-claude-border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-claude-panel dark:text-claude-text"
                                                 required
                                             />
                                             {errors.province_code && (
@@ -359,10 +359,10 @@ export default function ProvinceCreate({ auth }: PageProps) {
                                 </div>
 
                                 {/* Form Actions */}
-                                <div className="flex justify-end space-x-4 pt-6 border-t border-gray-200 dark:border-gray-700">
+                                <div className="flex justify-end space-x-4 pt-6 border-t border-gray-200 dark:border-claude-border">
                                     <Link
                                         href={route("admin.province")}
-                                        className="px-6 py-2 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors"
+                                        className="px-6 py-2 border border-gray-300 dark:border-claude-border text-gray-700 dark:text-claude-text-muted rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors"
                                     >
                                         Cancel
                                     </Link>

@@ -54,7 +54,7 @@ const brandData: BRAND[] = [
 const TableOne = () => {
   return (
     <div className="rounded-sm border border-stroke bg-white px-5 pt-6 pb-2.5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1">
-      <h4 className="mb-6 text-xl font-semibold text-black dark:text-white">
+      <h4 className="mb-6 text-xl font-semibold text-black dark:text-claude-text">
         Top Purok Blotter
       </h4>
 
@@ -99,13 +99,13 @@ const TableOne = () => {
               <div className="flex-shrink-0">
                 <img src={brand.logo} alt="Brand" />
               </div>
-              <p className="hidden text-black dark:text-white sm:block">
+              <p className="hidden text-black dark:text-claude-text sm:block">
                 {brand.name}
               </p>
             </div>
 
             <div className="flex items-center justify-center p-2.5 xl:p-5">
-              <p className="text-black dark:text-white">{brand.visitors}K</p>
+              <p className="text-black dark:text-claude-text">{brand.visitors}K</p>
             </div>
 
             <div className="flex items-center justify-center p-2.5 xl:p-5">
@@ -113,7 +113,7 @@ const TableOne = () => {
             </div>
 
             <div className="hidden items-center justify-center p-2.5 sm:flex xl:p-5">
-              <p className="text-black dark:text-white">{brand.sales}</p>
+              <p className="text-black dark:text-claude-text">{brand.sales}</p>
             </div>
 
             <div className="hidden items-center justify-center p-2.5 sm:flex xl:p-5">

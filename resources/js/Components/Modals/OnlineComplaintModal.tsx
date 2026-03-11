@@ -275,7 +275,7 @@ const OnlineComplaintModal = () => {
                             </div>
 
                             <div className="mt-2">
-                                <label className="block text-black dark:text-white">
+                                <label className="block text-black dark:text-claude-text">
                                     Select City/Municipality
                                 </label>
                                 <div className="relative">
@@ -309,7 +309,7 @@ const OnlineComplaintModal = () => {
                             </div>
 
                             <div className="mb-2 mt-2">
-                                <label className="block text-black dark:text-white">
+                                <label className="block text-black dark:text-claude-text">
                                     Select Barangay
                                 </label>
                                 <div className="relative">

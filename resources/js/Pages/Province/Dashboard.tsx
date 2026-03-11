@@ -175,13 +175,13 @@ export default function Dashboard({ auth, provinces, cities, barangays, totalBlo
     const getStatCard = (title: string, value: string | number, icon: React.ReactNode, trend: 'up' | 'down' | 'neutral', color: string, subtitle?: string) => (
         <div className="group bg-white dark:bg-boxdark rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 p-6 relative overflow-hidden">
             {/* Background decoration */}
-            <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-bl from-blue-50 to-transparent dark:from-blue-900/20 rounded-full -mr-16 -mt-16 opacity-50 group-hover:opacity-70 transition-opacity"></div>
+            <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-bl from-orange-50 to-transparent dark:from-claude-accent/10 rounded-full -mr-16 -mt-16 opacity-50 group-hover:opacity-70 transition-opacity"></div>
             
             <div className="relative z-10">
                 <div className="flex items-center justify-between mb-4">
                     <div className="flex-1">
                         <p className="text-sm font-semibold text-gray-600 dark:text-bodydark uppercase tracking-wider">{title}</p>
-                        <p className="text-3xl font-bold text-gray-900 dark:text-white mt-1">{value}</p>
+                        <p className="text-3xl font-bold text-gray-900 dark:text-claude-text mt-1">{value}</p>
                         {subtitle && (
                             <p className="text-xs text-gray-500 dark:text-bodydark1 mt-1">{subtitle}</p>
                         )}
@@ -217,14 +217,14 @@ export default function Dashboard({ auth, provinces, cities, barangays, totalBlo
             header={
                 <div className="flex items-center justify-between">
                     <div className="flex items-center space-x-4">
-                        <div className="p-3 bg-blue-600 rounded-xl shadow-lg">
+                        <div className="p-3 bg-claude-accent rounded-xl shadow-lg">
                             <Shield className="w-6 h-6 text-white" />
                         </div>
                         <div>
-                            <h2 className="text-3xl font-bold text-gray-900 dark:text-white">
+                            <h2 className="text-3xl font-bold text-gray-900 dark:text-claude-text">
                                 Province Dashboard
                             </h2>
-                            <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
+                            <p className="text-sm text-gray-600 dark:text-claude-text-muted mt-1">
                                 Antique Province - Real-time Crime Monitoring
                             </p>
                         </div>
@@ -237,7 +237,7 @@ export default function Dashboard({ auth, provinces, cities, barangays, totalBlo
                         <select
                             value={selectedPeriod}
                             onChange={(e) => setSelectedPeriod(e.target.value)}
-                            className="px-4 py-2 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent shadow-md hover:shadow-lg transition-shadow"
+                            className="px-4 py-2 rounded-lg bg-white dark:bg-claude-panel-2 text-gray-900 dark:text-claude-text focus:ring-2 focus:ring-claude-accent/50 focus:border-claude-accent/50 shadow-md hover:shadow-lg transition-shadow"
                         >
                             <option value="this-month">This Month</option>
                             <option value="last-month">Last Month</option>
@@ -247,20 +247,20 @@ export default function Dashboard({ auth, provinces, cities, barangays, totalBlo
                         <div className="relative">
                             <button
                                 onClick={() => setShowExportMenu(!showExportMenu)}
-                                className="flex items-center px-4 py-2 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white rounded-lg transition-all duration-300 shadow-lg hover:shadow-2xl transform hover:scale-105"
+                                className="flex items-center px-4 py-2 bg-claude-accent hover:bg-claude-accent-light text-white rounded-lg transition-all duration-300 shadow-lg hover:shadow-2xl transform hover:scale-105"
                             >
                                 <Download className="w-4 h-4 mr-2" />
                                 Export Report
                             </button>
                             {showExportMenu && (
-                                <div className="absolute right-0 mt-2 w-48 bg-white dark:bg-gray-800 rounded-xl shadow-2xl z-10 overflow-hidden">
-                                    <button className="block w-full text-left px-4 py-3 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
+                                <div className="absolute right-0 mt-2 w-48 bg-white dark:bg-claude-panel rounded-xl shadow-2xl z-10 overflow-hidden">
+                                    <button className="block w-full text-left px-4 py-3 hover:bg-gray-50 dark:hover:bg-claude-panel-2 transition-colors">
                                         <div className="flex items-center">
                                             <FileText className="w-4 h-4 mr-2 text-gray-500" />
                                             <span>Export as PDF</span>
                                         </div>
                                     </button>
-                                    <button className="block w-full text-left px-4 py-3 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
+                                    <button className="block w-full text-left px-4 py-3 hover:bg-gray-50 dark:hover:bg-claude-panel-2 transition-colors">
                                         <div className="flex items-center">
                                             <BarChart3 className="w-4 h-4 mr-2 text-gray-500" />
                                             <span>Export as Excel</span>
@@ -282,9 +282,9 @@ export default function Dashboard({ auth, provinces, cities, barangays, totalBlo
                         {getStatCard(
                             'Total Cases',
                             stats.total_cases,
-                            <FileText className="w-6 h-6 text-blue-600" />,
+                            <FileText className="w-6 h-6 text-claude-accent" />,
                             'up',
-                            'bg-blue-100 dark:bg-blue-900',
+                            'bg-orange-100 dark:bg-claude-accent/20',
                             `${stats.weekly_change > 0 ? '+' : ''}${stats.weekly_change}% this week`
                         )}
                         {getStatCard(
@@ -319,11 +319,11 @@ export default function Dashboard({ auth, provinces, cities, barangays, totalBlo
                         <div className="bg-white dark:bg-boxdark rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 p-6">
                             <div className="flex items-center justify-between mb-6">
                                 <div>
-                                    <h3 className="text-xl font-bold text-gray-900 dark:text-white">Monthly Incident Trends</h3>
+                                    <h3 className="text-xl font-bold text-gray-900 dark:text-claude-text">Monthly Incident Trends</h3>
                                     <p className="text-sm text-gray-600 dark:text-bodydark mt-1">6-month overview</p>
                                 </div>
-                                <div className="p-2 bg-blue-100 dark:bg-blue-900 rounded-lg shadow-md">
-                                    <BarChart3 className="w-5 h-5 text-blue-600" />
+                                <div className="p-2 bg-orange-100 dark:bg-claude-accent/20 rounded-lg shadow-md">
+                                    <BarChart3 className="w-5 h-5 text-claude-accent" />
                                 </div>
                             </div>
                             
@@ -348,7 +348,7 @@ export default function Dashboard({ auth, provinces, cities, barangays, totalBlo
                                                     <div key={index} className="flex flex-col items-center flex-1 mx-1">
                                                         <div className="w-full flex flex-col items-center">
                                                             <div 
-                                                                className="w-8 bg-gradient-to-t from-blue-600 to-blue-400 rounded-t-lg transition-all duration-500 hover:from-blue-700 hover:to-blue-500 shadow-md hover:shadow-lg"
+                                                                className="w-8 bg-claude-accent rounded-t-lg transition-all duration-500 hover:bg-claude-accent-light shadow-md hover:shadow-lg"
                                                                 style={{ height: `${barHeight}%`, minHeight: '20px' }}
                                                                 title={`${data.month}: ${data.cases} cases`}
                                                             ></div>
@@ -358,7 +358,7 @@ export default function Dashboard({ auth, provinces, cities, barangays, totalBlo
                                                                 title={`${data.month}: ${data.resolved} resolved`}
                                                             ></div>
                                                             {/* Show counts above bars */}
-                                                            <div className="text-xs font-bold text-gray-700 dark:text-white mt-1">
+                                                            <div className="text-xs font-bold text-gray-700 dark:text-claude-text mt-1">
                                                                 {data.cases}
                                                             </div>
                                                             <div className="text-xs font-bold text-green-600 dark:text-green-400 mt-1">
@@ -377,7 +377,7 @@ export default function Dashboard({ auth, provinces, cities, barangays, totalBlo
                                     </div>
                                     <div className="flex justify-center space-x-6 mt-4">
                                         <div className="flex items-center">
-                                            <div className="w-3 h-3 bg-blue-600 rounded mr-2 shadow-sm"></div>
+                                            <div className="w-3 h-3 bg-claude-accent rounded mr-2 shadow-sm"></div>
                                             <span className="text-xs text-gray-600 dark:text-bodydark">Cases</span>
                                         </div>
                                         <div className="flex items-center">
@@ -393,7 +393,7 @@ export default function Dashboard({ auth, provinces, cities, barangays, totalBlo
                         <div className="bg-white dark:bg-boxdark rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 p-6">
                             <div className="flex items-center justify-between mb-6">
                                 <div>
-                                    <h3 className="text-xl font-bold text-gray-900 dark:text-white">Municipal/Station Breakdown</h3>
+                                    <h3 className="text-xl font-bold text-gray-900 dark:text-claude-text">Municipal/Station Breakdown</h3>
                                     <p className="text-sm text-gray-600 dark:text-bodydark mt-1">Records by jurisdiction</p>
                                 </div>
                                 <div className="p-2 bg-orange-100 dark:bg-orange-900 rounded-lg shadow-md">
@@ -424,13 +424,13 @@ export default function Dashboard({ auth, provinces, cities, barangays, totalBlo
                                                                 className={`w-6 bg-gradient-to-t rounded-t-lg transition-all duration-500 hover:shadow-lg ${
                                                                     station.role === 'Municipal' 
                                                                         ? 'from-purple-600 to-purple-400 hover:from-purple-700 hover:to-purple-500' 
-                                                                        : 'from-indigo-600 to-indigo-400 hover:from-indigo-700 hover:to-indigo-500'
+                                                                        : 'from-claude-accent to-claude-accent-light hover:from-claude-accent-light hover:to-claude-accent-light'
                                                                 } shadow-md`}
                                                                 style={{ height: `${barHeight}%`, minHeight: '15px' }}
                                                                 title={`${station.name}: ${station.blotter_count} cases`}
                                                             ></div>
                                                             {/* Show case count above bar for debugging */}
-                                                            <div className="text-xs font-bold text-gray-700 dark:text-white mt-1">
+                                                            <div className="text-xs font-bold text-gray-700 dark:text-claude-text mt-1">
                                                                 {station.blotter_count}
                                                             </div>
                                                         </div>
@@ -438,7 +438,7 @@ export default function Dashboard({ auth, provinces, cities, barangays, totalBlo
                                                             {station.name.split(' ').slice(0, 2).join(' ')}
                                                         </span>
                                                         <span className={`text-xs px-1 rounded ${
-                                                            station.role === 'Municipal' ? 'bg-purple-100 text-purple-700 dark:bg-purple-900 dark:text-purple-300' : 'bg-indigo-100 text-indigo-700 dark:bg-indigo-900 dark:text-indigo-300'
+                                                            station.role === 'Municipal' ? 'bg-purple-100 text-purple-700 dark:bg-purple-900 dark:text-purple-300' : 'bg-orange-100 text-orange-700 dark:bg-claude-accent/20 dark:text-claude-accent'
                                                         }`}>
                                                             {station.role === 'Municipal' ? 'Mun' : 'Stn'}
                                                         </span>
@@ -457,7 +457,7 @@ export default function Dashboard({ auth, provinces, cities, barangays, totalBlo
                                             <span className="text-xs text-gray-600 dark:text-bodydark">Municipal</span>
                                         </div>
                                         <div className="flex items-center">
-                                            <div className="w-3 h-3 bg-indigo-600 rounded mr-2 shadow-sm"></div>
+                                            <div className="w-3 h-3 bg-claude-accent rounded mr-2 shadow-sm"></div>
                                             <span className="text-xs text-gray-600 dark:text-bodydark">Station</span>
                                         </div>
                                     </div>
@@ -472,7 +472,7 @@ export default function Dashboard({ auth, provinces, cities, barangays, totalBlo
                         <div className="bg-white dark:bg-boxdark rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 p-6">
                             <div className="flex items-center justify-between mb-6">
                                 <div>
-                                    <h3 className="text-xl font-bold text-gray-900 dark:text-white">High Priority Cases</h3>
+                                    <h3 className="text-xl font-bold text-gray-900 dark:text-claude-text">High Priority Cases</h3>
                                     <p className="text-sm text-gray-600 dark:text-bodydark mt-1">Pending cases requiring attention</p>
                                 </div>
                                 <div className="p-2 bg-red-100 dark:bg-red-900 rounded-lg shadow-md">
@@ -488,7 +488,7 @@ export default function Dashboard({ auth, provinces, cities, barangays, totalBlo
                                             </div>
                                             <div className="flex-1">
                                                 <div className="flex items-center justify-between">
-                                                    <p className="text-sm font-semibold text-gray-900 dark:text-white">
+                                                    <p className="text-sm font-semibold text-gray-900 dark:text-claude-text">
                                                         Case #{case_item.entry_number}
                                                     </p>
                                                     <span className="text-xs text-red-600 font-medium">
@@ -518,11 +518,11 @@ export default function Dashboard({ auth, provinces, cities, barangays, totalBlo
                         <div className="bg-white dark:bg-boxdark rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 p-6">
                             <div className="flex items-center justify-between mb-6">
                                 <div>
-                                    <h3 className="text-xl font-bold text-gray-900 dark:text-white">Recent Blotter Records</h3>
+                                    <h3 className="text-xl font-bold text-gray-900 dark:text-claude-text">Recent Blotter Records</h3>
                                     <p className="text-sm text-gray-600 dark:text-bodydark mt-1">Latest incident reports</p>
                                 </div>
-                                <div className="p-2 bg-blue-100 dark:bg-blue-900 rounded-lg shadow-md">
-                                    <FileText className="w-5 h-5 text-blue-600" />
+                                <div className="p-2 bg-orange-100 dark:bg-claude-accent/20 rounded-lg shadow-md">
+                                    <FileText className="w-5 h-5 text-claude-accent" />
                                 </div>
                             </div>
                             <div className="space-y-3 max-h-80 overflow-y-auto">
@@ -531,29 +531,29 @@ export default function Dashboard({ auth, provinces, cities, barangays, totalBlo
                                         <div className={`p-2 rounded-lg mr-3 shadow-sm ${
                                             blotter.status === 'Amicably Settled' ? 'bg-green-100 dark:bg-green-900' :
                                             blotter.status === 'Pending' ? 'bg-yellow-100 dark:bg-yellow-900' :
-                                            blotter.status === 'For Hearing' ? 'bg-blue-100 dark:bg-blue-900' :
-                                            'bg-gray-100 dark:bg-gray-900'
+                                            blotter.status === 'For Hearing' ? 'bg-orange-100 dark:bg-claude-accent/20' :
+                                            'bg-gray-100 dark:bg-claude-bg'
                                         }`}>
                                             {blotter.status === 'Amicably Settled' ? (
                                                 <CheckCircle className="w-5 h-5 text-green-600" />
                                             ) : blotter.status === 'Pending' ? (
                                                 <Clock className="w-5 h-5 text-yellow-600" />
                                             ) : blotter.status === 'For Hearing' ? (
-                                                <Eye className="w-5 h-5 text-blue-600" />
+                                                <Eye className="w-5 h-5 text-claude-accent" />
                                             ) : (
                                                 <FileWarning className="w-5 h-5 text-gray-600" />
                                             )}
                                         </div>
                                         <div className="flex-1">
                                             <div className="flex items-center justify-between">
-                                                <p className="text-sm font-semibold text-gray-900 dark:text-white">
+                                                <p className="text-sm font-semibold text-gray-900 dark:text-claude-text">
                                                     #{blotter.entry_number}
                                                 </p>
                                                 <span className={`text-xs px-2 py-1 rounded-full font-medium ${
                                                     blotter.status === 'Amicably Settled' ? 'bg-green-100 text-green-700 dark:bg-green-900 dark:text-green-300' :
                                                     blotter.status === 'Pending' ? 'bg-yellow-100 text-yellow-700 dark:bg-yellow-900 dark:text-yellow-300' :
-                                                    blotter.status === 'For Hearing' ? 'bg-blue-100 text-blue-700 dark:bg-blue-900 dark:text-blue-300' :
-                                                    'bg-gray-100 text-gray-700 dark:bg-gray-900 dark:text-gray-300'
+                                                    blotter.status === 'For Hearing' ? 'bg-orange-100 text-orange-700 dark:bg-claude-accent/20 dark:text-claude-accent' :
+                                                    'bg-gray-100 text-gray-700 dark:bg-claude-bg dark:text-claude-text-muted'
                                                 }`}>
                                                     {blotter.status}
                                                 </span>

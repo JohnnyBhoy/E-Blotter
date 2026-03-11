@@ -3,8 +3,8 @@ import React from 'react'
 const Evidence = () => {
     return (
         <div className="items-center gap-8 lg:grid lg:grid-cols-2 xl:gap-16">
-            <div className="text-gray-500 sm:text-lg dark:text-gray-400">
-                <h2 className="mb-4 text-3xl font-extrabold tracking-tight text-gray-900 dark:text-white">
+            <div className="text-gray-500 sm:text-lg dark:text-claude-text-muted">
+                <h2 className="mb-4 text-3xl font-extrabold tracking-tight text-gray-900 dark:text-claude-text">
                     7. Evidence-Based Policy Making
                 </h2>
                 <p className="mb-8 font-light lg:text-xl">
@@ -12,7 +12,7 @@ const Evidence = () => {
                 </p>
                 {/** List **/}
                 <ul
-                    className="pt-8 space-y-5 border-t border-gray-200 my-7 dark:border-gray-700"
+                    className="pt-8 space-y-5 border-t border-gray-200 my-7 dark:border-claude-border"
                 >
                     <li className="flex space-x-3">
                         {/** Icon **/}
@@ -28,7 +28,7 @@ const Evidence = () => {
                                 clipRule="evenodd"
                             ></path>
                         </svg>
-                        <span className="text-base font-medium leading-tight text-gray-900 dark:text-white">
+                        <span className="text-base font-medium leading-tight text-gray-900 dark:text-claude-text">
                             Effective
                         </span>
                     </li>
@@ -46,7 +46,7 @@ const Evidence = () => {
                                 clipRule="evenodd"
                             ></path>
                         </svg>
-                        <span className="text-base font-medium leading-tight text-gray-900 dark:text-white">
+                        <span className="text-base font-medium leading-tight text-gray-900 dark:text-claude-text">
                             Relevant
                         </span>
                     </li>
@@ -64,7 +64,7 @@ const Evidence = () => {
                                 clipRule="evenodd"
                             ></path>
                         </svg>
-                        <span className="text-base font-medium leading-tight text-gray-900 dark:text-white">
+                        <span className="text-base font-medium leading-tight text-gray-900 dark:text-claude-text">
                             Responsive to the actual needs of the community
                         </span>
                     </li>

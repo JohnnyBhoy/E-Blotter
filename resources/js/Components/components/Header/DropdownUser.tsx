@@ -75,14 +75,14 @@ const DropdownUser = () => {
         type="button"
       >
 
-        <span className="h-12 w-12 rounded-full">
-            <div className="h-12 w-12 rounded-full bg-gradient-to-r from-blue-500 to-purple-600 flex items-center justify-center">
-              <UserCircle className="w-6 h-6 text-white" />
+        <span className="h-9 w-9 rounded-lg">
+            <div className="h-9 w-9 rounded-lg bg-claude-accent flex items-center justify-center">
+              <UserCircle className="w-5 h-5 text-white" />
             </div>
         </span>
 
         <svg
-          className="hidden fill-current sm:block text-blue-600 dark:text-white"
+          className="hidden fill-current sm:block text-gray-400 dark:text-claude-text-muted"
           width="12"
           height="8"
           viewBox="0 0 12 8"
@@ -103,17 +103,17 @@ const DropdownUser = () => {
         ref={dropdown}
         onFocus={() => setDropdownOpen(true)}
         onBlur={() => setDropdownOpen(false)}
-        className={`absolute right-0 mt-4 flex w-62.5 flex-col rounded-sm border border-blue-300 dark:border-white/20 bg-white dark:bg-blue-900 shadow-lg ${dropdownOpen === true ? 'block' : 'hidden'
+        className={`absolute right-0 mt-2 flex w-56 flex-col rounded-xl border border-gray-200 dark:border-claude-border bg-white dark:bg-claude-panel shadow-xl ${dropdownOpen === true ? 'block' : 'hidden'
           }`}
       >
-        <ul className="flex flex-col gap-5 border-b border-blue-200 dark:border-white/20 px-6 py-5">
+        <ul className="flex flex-col gap-1 border-b border-gray-100 dark:border-claude-border px-2 py-2">
           <li>
             <Link
               href="/settings"
-              className="flex items-center gap-3.5 text-sm font-medium duration-300 ease-in-out hover:text-blue-600 dark:hover:text-blue-300 lg:text-base text-black dark:text-white"
+              className="flex items-center gap-3 px-3 py-2.5 text-sm font-medium rounded-lg duration-200 ease-in-out hover:bg-gray-100 dark:hover:bg-claude-panel-2 text-gray-700 dark:text-claude-text-muted hover:text-gray-900 dark:hover:text-claude-text"
             >
               <svg
-                className="fill-current text-blue-600 dark:text-blue-300"
+                className="fill-current text-claude-accent"
                 width="22"
                 height="22"
                 viewBox="0 0 22 22"
@@ -136,10 +136,10 @@ const DropdownUser = () => {
         <button
           onClick={() => setShowLogout(true)}
           type="button"
-          className="flex items-center gap-3.5 px-6 py-4 text-sm font-medium duration-300 ease-in-out hover:text-blue-600 dark:hover:text-blue-300 lg:text-base text-black dark:text-white"
+          className="flex items-center gap-3 px-3 py-2.5 m-2 text-sm font-medium rounded-lg duration-200 ease-in-out hover:bg-red-50 dark:hover:bg-red-900/20 text-gray-700 dark:text-claude-text-muted hover:text-red-600 dark:hover:text-red-400 w-[calc(100%-1rem)]"
         >
           <svg
-            className="fill-current text-blue-600 dark:text-blue-300"
+            className="fill-current text-red-500"
             width="22"
             height="22"
             viewBox="0 0 22 22"
@@ -162,15 +162,16 @@ const DropdownUser = () => {
           show={showLogout}
           maxWidth='md'
           onClose={() => setShowLogout(false)}>
-          <div className="p-10 bg-white dark:bg-blue-900 rounded-lg border border-gray-200 dark:border-white/20">
-            <h1 className="font-bold text-xl text-black dark:text-white">
+          <div className="p-8 bg-white dark:bg-claude-panel rounded-xl border border-gray-200 dark:border-claude-border">
+            <h1 className="font-semibold text-lg text-gray-900 dark:text-claude-text">
               Are you sure you want to sign out?
             </h1>
-            <div className="flex justify-between gap-10 pt-10">
+            <p className="text-sm text-gray-500 dark:text-claude-text-muted mt-1">You will be returned to the login page.</p>
+            <div className="flex justify-between gap-3 pt-6">
               <button
                 type='button'
                 onClick={() => setShowLogout(false)}
-                className="inline-flex items-center justify-center rounded-md bg-blue-100 dark:bg-gray-700 py-4 px-10 text-center font-medium text-blue-600 dark:text-gray-300 hover:bg-blue-200 dark:hover:bg-gray-600 lg:px-8 xl:px-10 w-full border border-blue-300 dark:border-gray-600"
+                className="inline-flex items-center justify-center rounded-lg bg-gray-100 dark:bg-claude-panel-2 py-2.5 px-6 text-center font-medium text-gray-700 dark:text-claude-text hover:bg-gray-200 dark:hover:bg-claude-border w-full border border-gray-200 dark:border-claude-border"
               >
                 Cancel
               </button>
@@ -179,7 +180,7 @@ const DropdownUser = () => {
                 onClick={handleLogout}
                 method='post'
                 as="button"
-                className="inline-flex items-center justify-center rounded-md bg-blue-600 py-4 px-10 text-center font-medium text-white hover:bg-blue-700 lg:px-8 xl:px-10 w-full"
+                className="inline-flex items-center justify-center rounded-lg bg-red-500 py-2.5 px-6 text-center font-medium text-white hover:bg-red-600 w-full"
               >
                 {!isLoading
                   ? 'Confirm'
