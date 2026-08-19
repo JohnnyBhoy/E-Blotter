@@ -11,7 +11,7 @@ fire, accident, and general incident reports without an account.
 - Laravel 11.9 / PHP 8.2, MySQL (XAMPP locally)
 - Inertia.js v1 + React 18.2 + TypeScript, Vite 5
 - Tailwind CSS 3.2 (TailAdmin-derived component set under `Components/components/`)
-- Laravel Breeze for auth scaffolding, Filament 3 as a secondary admin panel
+- Laravel Breeze for auth scaffolding
 - ApexCharts, Leaflet / Google Maps, SweetAlert2, XLSX, Zustand
 
 ```bash
@@ -191,18 +191,6 @@ Coded columns (see `resources/js/utils/data/` and `utils/functions/getRemark.ts`
 
 PSGC codes (`barangay_code`, `city_code`, `province_code`, `region_code`) are
 stored as integers, so leading zeros are lost. Compare them as integers.
-
-## Filament panel (`/admin`)
-
-A second, separate admin surface (user + incident-report CRUD), unrelated to the
-Inertia `/admin-dashboard`. Access is gated **only** by
-`User::canAccessPanel()` — the `FilamentUser` contract. Filament never calls an
-`authorize()` on the panel provider, and a `canAccessPanel()` on a *Resource* is
-also never called; both look protective and do nothing. Per-resource gating goes
-in `canViewAny()` / `canCreate()` / `canEdit()`.
-
-`discoverPages()` already registers everything under `app/Filament/Pages`. Also
-naming a page in `->pages([...])` registers it twice on the same slug.
 
 ## Public / unauthenticated surface
 

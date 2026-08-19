@@ -216,8 +216,8 @@ class AntiqueProvinceSeeder extends Seeder
 
         $user = User::updateOrCreate(['email' => $email], $attributes);
 
-        // Neither column is mass assignable — the Filament gate reads is_admin,
-        // and parent_id is structural.
+        // Neither column is mass assignable — is_admin is a plain flag and
+        // parent_id is structural.
         $user->is_admin = false;
         $user->parent_id = $parent?->id;
         $user->save();

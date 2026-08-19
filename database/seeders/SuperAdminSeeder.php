@@ -54,7 +54,7 @@ class SuperAdminSeeder extends Seeder
             'role' => User::ROLE_SUPER_ADMIN,
         ]);
 
-        // `is_admin` is not in $fillable, and the Filament panel gate reads it.
+        // `is_admin` is not in $fillable — set it directly.
         $user->is_admin = true;
         $user->email_verified_at = now();
         $user->save();

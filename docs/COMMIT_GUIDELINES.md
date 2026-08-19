@@ -50,7 +50,6 @@ Use the area of the app the change lives in:
 | `dashboard` | `ConsoleController`, `Pages/Console.tsx`, charts and rollups |
 | `auth` | Breeze controllers, `routes/auth.php`, registration, session |
 | `roles` | `Is*` middleware, role redirects, sidebar `roleMenus` |
-| `filament` | anything under `app/Filament` and the `/admin` panel |
 | `map` | `MapController`, Leaflet / Google Maps pages |
 | `report` | `ReportController`, exports, XLSX |
 | `officials` | `OfficialController`, settings pages |
