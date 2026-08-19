@@ -9,36 +9,29 @@
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">
-    <link rel="icon" href="/images/logs.ico" />
+    <link rel="icon" href="/images/logo/e-blotter.ico" />
     <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
-    <link rel="canonical" href="https://https://demo.themesberg.com/landwind/" />
-    <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
     <!-- Meta SEO -->
-    <meta name="title" content=" Online E-911">
-    <meta name="description" content="E-911,  Online 911, Realtime 911, Submit 911 online,  to PNP realtime 911, Submit 911 online, 911 online database,  Database,  transactions,  Records .">
-    <meta name="keywords" content=" E-911,  Online 911, Realtime 911, Submit 911 online,  to PNP realtime 911, Submit 911 online, 911 online database,  Database,  transactions,  Records, Online  911 transactions,">
+    <meta name="title" content="Barangay e-Blotter System">
+    <meta name="description" content="A web and mobile browser-based application that harmonizes barangay crime records with those of the local PNP — a joint initiative of NAPOLCOM Region VI and the PNP Antique Provincial Office.">
+    <meta name="keywords" content="Barangay e-Blotter, barangay blotter, blotter system, NAPOLCOM Region VI, PNP Antique, crime incident reporting, Antique, barangay incident report">
     <meta name="robots" content="index, follow">
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <meta name="language" content="English">
-    <meta name="author" content="Themesberg">
 
     <!-- Social media share -->
-    <meta property="og:title" content="e911@gmail.com">
-    <meta property="og:site_name" content=" E-911">
-    <meta property="og:url" content="https://e-911.com">
-    <meta property="og:description" content="E-911,  Online 911, Realtime 911, Submit 911 online,  to PNP realtime 911, Submit 911 online, 911 online database,  Database,  transactions,  Records .">
+    <meta property="og:title" content="Barangay e-Blotter System">
+    <meta property="og:site_name" content="Barangay e-Blotter">
+    <meta property="og:type" content="website">
+    <meta property="og:description" content="Harmonizing barangay crime records with those of the local PNP — for accurate crime data, timely intervention, and evidence-based policy making.">
 
     <!-- Favicon -->
-    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-    <link rel="manifest" href="/site.webmanifest">
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
     <meta name="msapplication-TileColor" content="#da532c">
     <meta name="theme-color" content="#ffffff">
-    <link href="./output.css" rel="stylesheet">
-    <script async defer src="https://buttons.github.io/buttons.js"></script>
     <!-- Hotjar Tracking Code for Site 5054461 (name missing) 
     <script>
         (function(h, o, t, j, a, r) {

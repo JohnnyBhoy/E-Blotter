@@ -19,9 +19,26 @@ class UserRepository
      */
     public function get(int $id)
     {
+        // Named columns rather than *: the join otherwise carries the password
+        // hash and remember token into the profile payload sent to the browser.
         return DB::table('users as u')
             ->leftJoin('user_addresses as a', 'u.id', '=', 'a.user_id')
             ->where('u.id', $id)
+            ->select(
+                'u.id',
+                'u.name',
+                'u.email',
+                'u.role',
+                'u.avatar',
+                'u.banner',
+                'u.lang',
+                'u.lat',
+                'u.created_at',
+                'a.barangay_code',
+                'a.city_code',
+                'a.province_code',
+                'a.region_code',
+            )
             ->first();
     }
 

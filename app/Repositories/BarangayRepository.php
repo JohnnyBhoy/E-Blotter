@@ -17,14 +17,35 @@ class BarangayRepository
      */
     public function get(Int $cityCode)
     {
+        return $this->aggregateByArea($cityCode > 0 ? 'city_code' : null, $cityCode);
+    }
+
+    /**
+     * Same aggregation as get(), scoped to a province instead of a city.
+     * @param int $provinceCode PSGC code of the province
+     * @return array arrays of barangay within the province
+     */
+    public function getByProvince(Int $provinceCode)
+    {
+        return $this->aggregateByArea($provinceCode > 0 ? 'province_code' : null, $provinceCode);
+    }
+
+    /**
+     * Blotter counts per barangay, bucketed by disposition remark.
+     * @param string|null $column user_addresses column to filter on, null for no filter
+     * @param int $value value for $column
+     * @return array
+     */
+    private function aggregateByArea(?string $column, Int $value)
+    {
         $remarks = [1, 2, 3, 4, 5];
 
         $query =  DB::table('user_addresses')
             ->leftJoin('blotters', 'user_addresses.user_id', '=', 'blotters.user_id')
             ->select('user_addresses.user_id', 'user_addresses.barangay_code', 'user_addresses.city_code', 'blotters.remarks', DB::raw('count(blotters.id) as count'));
 
-        if ($cityCode > 0) {
-            $query  = $query->where('user_addresses.city_code', $cityCode);
+        if ($column !== null) {
+            $query  = $query->where("user_addresses.{$column}", $value);
         }
 
         return $query->groupBy('user_addresses.user_id', 'user_addresses.barangay_code', 'user_addresses.city_code', 'blotters.remarks')
@@ -38,8 +59,16 @@ class BarangayRepository
                 $additionalCount = 0;
 
                 foreach ($barangayGroup as $item) {
-                    if ($item->remarks <= 5) {
-                        $remarkCounts[$item->remarks] = $item->count;
+                    // A barangay with no blotters yet comes back from the LEFT
+                    // JOIN with a null remark — it belongs in no bucket.
+                    if ($item->remarks === null) {
+                        continue;
+                    }
+
+                    $remark = intval($item->remarks);
+
+                    if ($remark >= 1 && $remark <= 5) {
+                        $remarkCounts[$remark] = $item->count;
                     } else {
                         $additionalCount += $item->count;
                     }

@@ -3,11 +3,26 @@ import { PageProps } from '@/Pages/types';
 import { useLoginRegisterStore } from '@/utils/store/loginRegisterStore';
 import { Link, usePage } from '@inertiajs/react';
 import React, { useEffect, useRef, useState } from 'react';
-import { Hypnotize } from 'react-bootstrap-icons';
+import { Hypnotize, PersonCircle } from 'react-bootstrap-icons';
 
-const DropdownUser = () => {
+/** Roughly how tall the open menu is, used to decide whether it fits above. */
+const MENU_HEIGHT = 260;
+
+/**
+ * `onProfile` and `onSettings` let a host that has its own surfaces for them --
+ * the barangay console, which never leaves /dashboard -- open those instead of
+ * routing to the standalone pages. Every other layout keeps the links.
+ */
+const DropdownUser = ({
+  onProfile,
+  onSettings,
+}: { onProfile?: () => void; onSettings?: () => void } = {}) => {
   const user = usePage<PageProps>().props.auth.user;
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  // The menu opens upward. Inside the console header, which is sticky at the
+  // top of the viewport, there is no room above it -- so it flips back down
+  // rather than rendering off-screen where nothing is clickable.
+  const [dropUp, setDropUp] = useState(true);
 
   const trigger = useRef<any>(null);
   const dropdown = useRef<any>(null);
@@ -69,7 +84,12 @@ const DropdownUser = () => {
     <div className="relative">
       <button
         ref={trigger}
-        onClick={() => setDropdownOpen(!dropdownOpen)}
+        onClick={() => {
+          const room = trigger.current?.getBoundingClientRect().top ?? 0;
+
+          setDropUp(room >= MENU_HEIGHT);
+          setDropdownOpen(!dropdownOpen);
+        }}
         className="flex items-center gap-4"
         type="button"
       >
@@ -100,13 +120,39 @@ const DropdownUser = () => {
         ref={dropdown}
         onFocus={() => setDropdownOpen(true)}
         onBlur={() => setDropdownOpen(false)}
-        className={`absolute right-0 mt-4 flex w-62.5 flex-col rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark ${dropdownOpen === true ? 'block' : 'hidden'
+        className={`absolute right-0 flex w-62.5 flex-col rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark ${dropUp ? 'bottom-full mb-4' : 'mt-4'
+          } ${dropdownOpen === true ? 'block' : 'hidden'
           }`}
       >
         <ul className="flex flex-col gap-5 border-b border-stroke px-6 py-5 dark:border-strokedark">
           <li>
             <Link
+              href="/profile"
+              as={onProfile ? "button" : "a"}
+              onClick={(event: React.MouseEvent) => {
+                if (!onProfile) return;
+
+                event.preventDefault();
+                setDropdownOpen(false);
+                onProfile();
+              }}
+              className="flex items-center gap-3.5 text-sm font-medium duration-300 ease-in-out hover:text-primary lg:text-base"
+            >
+              <PersonCircle size={22} />
+              Profile
+            </Link>
+          </li>
+          <li>
+            <Link
               href="/settings"
+              as={onSettings ? "button" : "a"}
+              onClick={(event: React.MouseEvent) => {
+                if (!onSettings) return;
+
+                event.preventDefault();
+                setDropdownOpen(false);
+                onSettings();
+              }}
               className="flex items-center gap-3.5 text-sm font-medium duration-300 ease-in-out hover:text-primary lg:text-base"
             >
               <svg

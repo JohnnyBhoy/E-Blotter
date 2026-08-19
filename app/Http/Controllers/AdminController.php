@@ -3,48 +3,28 @@
 namespace App\Http\Controllers;
 
 use App\Services\BarangayService;
-use App\Services\BlotterService;
 use App\Services\CityService;
-use App\Services\ProvinceService;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
 
+/**
+ * Super admin lookups. The super admin dashboard is now ConsoleController — the
+ * same console every other level uses, unscoped — so only the nationwide city
+ * and barangay drill-downs remain here.
+ */
 class AdminController extends Controller
 {
-    protected $provinceService;
     protected $cityService;
     protected $barangayService;
-    protected $blotterService;
 
     /** Constructor */
     public function __construct(
-        ProvinceService $provinceService,
         CityService $cityService,
         BarangayService $barangayService,
-        BlotterService $blotterService,
     ) {
-        $this->provinceService = $provinceService;
         $this->cityService = $cityService;
         $this->barangayService = $barangayService;
-        $this->blotterService = $blotterService;
-    }
-
-    /** Dashboard */
-    public function dashboard()
-    {
-        $cityCode = 0;
-        $provinces = $this->provinceService->get();
-        $cities = $this->cityService->get();
-        $barangays = $this->barangayService->get($cityCode);
-        $blotters = $this->blotterService->getCount();
-
-        return Inertia::render('Admin/Dashboard', [
-            'provinces' => $provinces,
-            'cities' => $cities,
-            'barangays' => $barangays,
-            'blotters' => $blotters,
-        ]);
     }
 
     /**
@@ -54,15 +34,11 @@ class AdminController extends Controller
      */
     public function getCities(Request $request)
     {
-        $provinceId = $request->get('province_id');
+        $request->validate(['province_id' => 'required|integer']);
 
-        try {
-            $citiesOfProvince = $this->cityService->getCities($provinceId);
+        $citiesOfProvince = $this->cityService->getCities(intval($request->get('province_id')));
 
-            return Inertia::render('Cities', ['cities' => $citiesOfProvince]);
-        } catch (\Throwable $th) {
-            throw $th;
-        }
+        return Inertia::render('Cities', ['cities' => $citiesOfProvince]);
     }
 
     /**
@@ -72,14 +48,10 @@ class AdminController extends Controller
      */
     public function getBarangays(Request $request)
     {
-        $cityId = $request->get('city_id');
+        $request->validate(['city_id' => 'required|integer']);
 
-        try {
-            $barangaysOfCity = $this->barangayService->getBarangays($cityId);
+        $barangaysOfCity = $this->barangayService->getBarangays(intval($request->get('city_id')));
 
-            return Inertia::render('Barangays', ['barangays' => $barangaysOfCity]);
-        } catch (\Throwable $th) {
-            throw $th;
-        }
+        return Inertia::render('Barangays', ['barangays' => $barangaysOfCity]);
     }
 }

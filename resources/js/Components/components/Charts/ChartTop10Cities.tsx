@@ -26,7 +26,9 @@ const ChartTop10Cities = ({ cities }: { cities: any }) => {
     options: {
       chart: {
         height: 350,
-        type: 'bar',
+        // `as const` so ApexCharts narrows this to its chart-type union rather
+        // than widening it to `string`.
+        type: 'bar' as const,
         events: {
           click: function (chart: any, w: any, e: any) {
             console.log(chart, w, e.target)

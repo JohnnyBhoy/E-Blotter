@@ -24,6 +24,16 @@ class BarangayService
     }
 
     /**
+     * Get all Barangays within a province
+     * @param int $provinceCode PSGC code of the province
+     * @return array Arrays of the barangay and their blotters count
+     */
+    public function getByProvince(Int $provinceCode)
+    {
+        return $this->barangayRepository->getByProvince($provinceCode);
+    }
+
+    /**
      * Get Barangays by
      * @param int $cityId ID of the City
      * @return array Collection of barangays within the given city

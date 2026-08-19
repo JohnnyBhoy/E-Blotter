@@ -2,82 +2,30 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Blotter;
 use App\Models\UserAddress;
 use App\Services\BarangayService;
-use App\Services\BlotterService;
 use App\Services\CityService;
-use App\Services\ProvinceService;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
 
+/**
+ * Provincial lookups. The provincial dashboard itself is now ConsoleController,
+ * which serves every level from one page; what is left here are the city and
+ * barangay drill-down pages, both scoped to the caller's own province.
+ */
 class ProvinceController extends Controller
 {
-    protected $provinceService;
     protected $cityService;
     protected $barangayService;
-    protected $blotterService;
 
     /** Constructor */
     public function __construct(
-        ProvinceService $provinceService,
         CityService $cityService,
         BarangayService $barangayService,
-        BlotterService $blotterService,
     ) {
-        $this->provinceService = $provinceService;
         $this->cityService = $cityService;
         $this->barangayService = $barangayService;
-        $this->blotterService = $blotterService;
-    }
-
-    /** Dashboard */
-    public function dashboard()
-    {
-        $id = auth()->user()->id;
-        $cityCode = 0;
-        $provinces = $this->provinceService->get();
-        $barangays = $this->barangayService->get($cityCode);
-        $blotters = $this->blotterService->getCount();
-
-        $provinceCode = UserAddress::where('user_id', $id)->first();
-
-        $citiesId = UserAddress::where('province_code', $provinceCode->province_code)->pluck('user_id')->toArray();
-
-        $cities = $this->cityService->getCities($provinceCode->province_code);
-
-        $provinceTotalBlotterCount = Blotter::whereIn('user_id', $citiesId)->count();
-
-        $forHearingCount = Blotter::whereIn('user_id', $citiesId)
-            ->where('remarks', 1)
-            ->count();
-
-        $amicablySettledCount = Blotter::whereIn('user_id', $citiesId)
-            ->where('remarks', 2)
-            ->count();
-
-        $pendingCount = Blotter::whereIn('user_id', $citiesId)
-            ->where('remarks', 3)
-            ->count();
-
-        $referredToPnpCount = Blotter::whereIn('user_id', $citiesId)
-            ->where('remarks', 4)
-            ->count();
-
-        return Inertia::render('Province/Dashboard', [
-            'provinces' => $provinces,
-            'cities' => $cities,
-            'barangays' => $barangays,
-            'blotters' => $blotters,
-            'totalBlotters' => $provinceTotalBlotterCount,
-            'counts' =>  [
-                'for_hearing' => $forHearingCount,
-                'amicably_settled' => $amicablySettledCount,
-                'pending' => $pendingCount,
-                'referred_to_pnp' => $referredToPnpCount,
-            ],
-        ]);
     }
 
     /**
@@ -87,15 +35,17 @@ class ProvinceController extends Controller
      */
     public function getCities(Request $request)
     {
-        $provinceId = $request->get('province_id');
+        // A provincial account may only browse its own province, whatever
+        // province_id the client asks for.
+        $address = UserAddress::where('user_id', auth()->user()->id)->first();
 
-        try {
-            $citiesOfProvince = $this->cityService->getCities($provinceId);
-
-            return Inertia::render('Cities', ['cities' => $citiesOfProvince]);
-        } catch (\Throwable $th) {
-            throw $th;
+        if (!$address) {
+            return Inertia::render('Cities', ['cities' => []]);
         }
+
+        $citiesOfProvince = $this->cityService->getCities(intval($address->province_code));
+
+        return Inertia::render('Cities', ['cities' => $citiesOfProvince]);
     }
 
     /**
@@ -105,14 +55,22 @@ class ProvinceController extends Controller
      */
     public function getBarangays(Request $request)
     {
-        $cityId = $request->get('city_id');
+        $request->validate(['city_id' => 'required|integer']);
 
-        try {
-            $barangaysOfCity = $this->barangayService->getBarangays($cityId);
+        $cityId = intval($request->get('city_id'));
+        $address = UserAddress::where('user_id', auth()->user()->id)->first();
 
-            return Inertia::render('Barangays', ['barangays' => $barangaysOfCity]);
-        } catch (\Throwable $th) {
-            throw $th;
+        // Reject cities outside the caller's province.
+        $cityInProvince = $address && UserAddress::where('city_code', $cityId)
+            ->where('province_code', $address->province_code)
+            ->exists();
+
+        if (!$cityInProvince) {
+            abort(403, 'That city is outside your province.');
         }
+
+        $barangaysOfCity = $this->barangayService->getBarangays($cityId);
+
+        return Inertia::render('Barangays', ['barangays' => $barangaysOfCity]);
     }
 }

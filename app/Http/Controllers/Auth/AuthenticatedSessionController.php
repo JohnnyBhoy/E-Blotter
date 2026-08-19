@@ -53,6 +53,10 @@ class AuthenticatedSessionController extends Controller
             $route = redirect()->intended(route('province.dashboard', absolute: false))->with(['status' => 'ok']);
         }
 
+        if ($role == 5) {
+            $route = redirect()->intended(route('region.dashboard', absolute: false))->with(['status' => 'ok']);
+        }
+
         return $route;
     }
 

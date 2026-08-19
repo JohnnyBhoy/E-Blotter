@@ -8,7 +8,7 @@ const BlotterPerCategory = ({ barangays, selectedCity, limitBarangay }
     const options = {
         chart: {
             width: 380,
-            type: 'pie',
+            type: 'pie' as const,
         },
         labels: ['For Hearing', 'Amicably Settled', 'Pending', 'Referred to PNP', 'Others'],
         responsive: [{

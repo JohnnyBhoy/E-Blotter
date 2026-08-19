@@ -11,12 +11,14 @@ const Pagination = ({ links, setData, handleChangePage }: { links: any, setData:
         }
     }
 
+    // Reading only the last character meant every page from 10 onwards was
+    // parsed as its final digit (page=10 -> 0), so paging past 9 jumped back.
     const getPage = (url: string) => {
-        const page = parseInt(url?.charAt(url?.length - 1));
+        if (!url) return 1;
 
-        if (page == null || isNaN(page)) return 1;
+        const page = parseInt(new URLSearchParams(url.split('?')[1] ?? '').get('page') ?? '');
 
-        return page;
+        return isNaN(page) ? 1 : page;
     }
 
     return (
@@ -37,8 +39,8 @@ const Pagination = ({ links, setData, handleChangePage }: { links: any, setData:
                                 </form>
                             ) :
                             link.label === 'Next &raquo;' ?
-                                <form onSubmit={handleChangePage}>
-                                    <button key={i}
+                                <form onSubmit={handleChangePage} key={i}>
+                                    <button
                                         className="mr-1 mb-1 px-3 flex gap-2 py-1 text-sm leading-4  text-success  bg-opacity-10  rounded hover:primaryCyanHOver hover:text-white"
                                         onClick={() => setData('page', getPage(link?.url))}
                                     >
@@ -47,14 +49,18 @@ const Pagination = ({ links, setData, handleChangePage }: { links: any, setData:
                                 </form>
                                 :
                                 (
-                                    <form onSubmit={handleChangePage} key={i}>
-                                        <button
-                                            className={getClassName(link.active)}
-                                            key={i}
-                                            onClick={() => setData('page', i)}
-                                        >{link?.label}
-                                        </button>
-                                    </form>
+                                    link?.url == null ? (
+                                        // Laravel's "..." separator has no url and is not clickable.
+                                        <span key={i} className="mx-1 text-sm text-slate-400">{link?.label}</span>
+                                    ) : (
+                                        <form onSubmit={handleChangePage} key={i}>
+                                            <button
+                                                className={getClassName(link.active)}
+                                                onClick={() => setData('page', getPage(link?.url))}
+                                            >{link?.label}
+                                            </button>
+                                        </form>
+                                    )
                                 )
                     ))}
                 </div>

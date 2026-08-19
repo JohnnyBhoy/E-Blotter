@@ -2,49 +2,26 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Blotter;
-use App\Models\Complainant;
 use App\Models\ContactUs;
-use App\Models\Incident;
-use App\Models\IncidentReport;
 use App\Models\User;
-use App\Services\BlotterService;
-use App\Services\IncidentService;
 use App\Services\UserService;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
 use Inertia\Response;
 
 class UserController extends Controller
 {
     protected $userService;
-    protected $blotterService;
-    protected $incidentService;
     protected $edit = 'Profile/Edit';
 
-    /** Constructor */
-    public function __construct(UserService $userService, BlotterService $blotterService, IncidentService $incidentService)
+    /**
+     * The blotter console moved to ConsoleController, which serves every role
+     * from one page. What is left here is the account itself: profile and the
+     * public contact form.
+     */
+    public function __construct(UserService $userService)
     {
         $this->userService = $userService;
-        $this->blotterService = $blotterService;
-        $this->incidentService = $incidentService;
-    }
-
-    /** Dashboard */
-    public function dashboard()
-    {
-        // Get the monthly incident type and count
-        return Inertia::render('Dashboard', [
-            'incidentCounts' =>  [
-                IncidentReport::where('status', 1)->count(),
-                IncidentReport::where('status', 2)->count(),
-                IncidentReport::where('status', 3)->count(),
-                IncidentReport::where('status', 4)->count(),
-            ],
-            'incidents' => IncidentReport::all(),
-        ]);
     }
 
     /**
@@ -58,12 +35,29 @@ class UserController extends Controller
         try {
             $user = $this->userService->get($userId);
 
+            // The barangay console opens the profile in a modal, so the same
+            // action answers XHR with JSON instead of a page of its own.
+            if ($this->wantsJson($request)) {
+                return response()->json(['data' => $user]);
+            }
+
             return Inertia::render($this->edit, [
                 'data' => $user
             ]);
         } catch (\Throwable $th) {
-            return response()->json(['error' => $th], 500);
+            report($th);
+
+            return response()->json(['message' => 'The profile could not be loaded.'], 500);
         }
+    }
+
+    /**
+     * Whether the caller is the console panel asking over XHR rather than a
+     * browser visit or an Inertia navigation.
+     */
+    private function wantsJson(Request $request): bool
+    {
+        return $request->wantsJson() && !$request->header('X-Inertia');
     }
 
     /**
@@ -73,45 +67,39 @@ class UserController extends Controller
     public function update(Request $request)
     {
         $userId = auth()->user()->id;
-        $user = $this->userService->get($userId);
+
+        $request->validate([
+            'banner' => 'nullable|image|mimes:jpg,jpeg,png|max:10240',
+            'avatar' => 'nullable|image|mimes:jpg,jpeg,png|max:10240',
+        ]);
+
+        $status = 'failed';
 
         try {
-            if ($request->hasFile('banner')) {
-                $image = $request->file('banner');
-
-                // Get the MIME type of the uploaded file
-                $mime = $image->getMimeType();
-
-                if ($mime === 'image/jpeg' || $mime === 'image/png') {
-                    // Process the image since it's either JPEG or PNG
-                    $imageName = time() . '.' . $image->getClientOriginalExtension();
-
-                    // Move the headshot to manufacturer image folder
-                    $image->move(public_path('images/barangay_banner'), $imageName);
+            // Previously the column was written even when the MIME check failed,
+            // storing an undefined variable (null) over the existing image.
+            foreach (['banner' => 'barangay_banner', 'avatar' => 'barangay_avatar'] as $field => $folder) {
+                if (!$request->hasFile($field)) {
+                    continue;
                 }
 
-                User::where('id', $userId)->update(['banner' => $imageName]);
+                $image = $request->file($field);
+
+                // Extension from the detected MIME type, plus a unique prefix so
+                // two uploads in the same second don't overwrite one another.
+                $imageName = uniqid("{$field}_", true) . '.' . $image->extension();
+
+                $image->move(public_path("images/{$folder}"), $imageName);
+
+                User::where('id', $userId)->update([$field => $imageName]);
 
                 $status = 'success';
-            } elseif ($request->hasFile('avatar')) {
-                $image = $request->file('avatar');
+            }
 
-                // Get the MIME type of the uploaded file
-                $mime = $image->getMimeType();
+            $user = $this->userService->get($userId);
 
-                if ($mime === 'image/jpeg' || $mime === 'image/png') {
-                    // Process the image since it's either JPEG or PNG
-                    $imageName = time() . '.' . $image->getClientOriginalExtension();
-
-                    // Move the headshot to manufacturer image folder
-                    $image->move(public_path('images/barangay_avatar'), $imageName);
-                }
-
-                User::where('id', $userId)->update(['avatar' => $imageName]);
-
-                $status = 'success';
-            } else {
-                $status = 'failed';
+            if ($this->wantsJson($request)) {
+                return response()->json(['status' => $status, 'data' => $user]);
             }
 
             return Inertia::render($this->edit, [
@@ -119,9 +107,15 @@ class UserController extends Controller
                 'data' => $user,
             ]);
         } catch (\Throwable $th) {
+            report($th);
+
+            if ($this->wantsJson($request)) {
+                return response()->json(['message' => 'The image could not be saved.'], 500);
+            }
+
             return Inertia::render($this->edit, [
                 'status' => 'failed',
-                'data' => $user,
+                'data' => $this->userService->get($userId),
             ]);
         }
     }
@@ -134,14 +128,17 @@ class UserController extends Controller
      */
     public function sendMessageFromContactUs(Request $request)
     {
-        $data = $request->get('data');
+        // Public route — validate the nested payload instead of mass-assigning it.
+        $validated = $request->validate([
+            'data' => 'required|array',
+            'data.full_name' => 'required|string|max:255',
+            'data.email_address' => 'required|email|max:255',
+            'data.subject' => 'required|string|max:255',
+            'data.message' => 'required|string|max:5000',
+        ]);
 
-        try {
-            ContactUs::create($data);
+        ContactUs::create($validated['data']);
 
-            return Inertia::render('/contact-us');
-        } catch (\Throwable $th) {
-            throw $th;
-        }
+        return back()->with('success', 'Your message has been sent.');
     }
 }

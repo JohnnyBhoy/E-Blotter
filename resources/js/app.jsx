@@ -1,5 +1,8 @@
 import "./bootstrap";
 import "../css/app.css";
+// Leaflet ships its own layout CSS; without it the map panes stack on top of
+// each other and tiles render at the wrong offset.
+import "leaflet/dist/leaflet.css";
 
 import { createRoot } from "react-dom/client";
 import { createInertiaApp } from "@inertiajs/react";
