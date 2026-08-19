@@ -66,7 +66,7 @@ const DailyBlotters = ({ year, month, dailyBlotters }: { year: number; month: nu
                         <TableHead />
                         <TableBody
                             blotters={newBlotters}
-                            setData={setData} handleDelete={() => { }}
+                            setData={setData}
                         />
                     </table>
                 </div>

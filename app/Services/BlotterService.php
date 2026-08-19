@@ -2,8 +2,9 @@
 
 namespace App\Services;
 
-use Illuminate\Support\Collection;
 use App\Repositories\BlotterRepository;
+use App\Support\Jurisdiction;
+use Illuminate\Support\Collection;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Http\Request;
 
@@ -73,6 +74,29 @@ class BlotterService
     }
 
     /**
+     * Method to get one blotter with its complainant and respondent cards
+     * @param int $id unique ID of the blotters
+     * @return array|null
+     */
+    public function getWithPeople(Int $id)
+    {
+        return $this->blotter->getWithPeople($id);
+    }
+
+    /**
+     * Method to update a blotter together with its person cards
+     * @param int $id unique ID of the blotters
+     * @param array $blotterData Values for the blotter row
+     * @param array|null $complainants One associative array per complainant card, null to leave them alone
+     * @param array|null $respondents One associative array per respondent card, null to leave them alone
+     * @return Model
+     */
+    public function updateWithPeople(Int $id, array $blotterData, ?array $complainants, ?array $respondents)
+    {
+        return $this->blotter->updateWithPeople($id, $blotterData, $complainants, $respondents);
+    }
+
+    /**
      * Method to remove blotter data based on
      * @param int $id unique ID of the blotters
      * @return boolean | null  Success or fail
@@ -91,12 +115,14 @@ class BlotterService
      * @param string $keyword  Filter
      * @param int $remark case disposition / action
      * @param int $incidentType case blotter type
+     * @param string $sort Whitelisted sort key, see BlotterRepository::getAll()
+     * @param string $direction asc|desc
      *
      * @return LengthAwarePaginator
      */
-    public function getAll(Int $perPage, Int $page, String $keyword, Int $userId, Int $remark, Int $incidentType)
+    public function getAll(Int $perPage, Int $page, String $keyword, Int $userId, Int $remark, Int $incidentType, String $sort = 'id', String $direction = 'desc')
     {
-        return $this->blotter->getAll($perPage,  $page,  $keyword, $userId, $remark, $incidentType);
+        return $this->blotter->getAll($perPage,  $page,  $keyword, $userId, $remark, $incidentType, $sort, $direction);
     }
 
     /**
@@ -120,14 +146,14 @@ class BlotterService
     }
 
     /**
-     * Method to get blotter count and group into month
-     * @param int $userId unique ID of the user
+     * Monthly blotter counts of one jurisdiction for a single year.
+     * @param \App\Support\Jurisdiction $scope Jurisdiction of the viewing account
      * @param int $year year to fetch
      * @return array
      */
-    public function getYearlyBlotterByMonth(Int $userId, Int $year)
+    public function getYearlyBlotterByMonth(Jurisdiction $scope, Int $year)
     {
-        return  $this->blotter->getYearlyBlotterByMonth($userId, $year);
+        return  $this->blotter->getYearlyBlotterByMonth($scope, $year);
     }
 
     /**
@@ -142,15 +168,15 @@ class BlotterService
     }
 
     /**
-     * Method to get monthly blotter
-     * @param int $userId unique ID of the user
+     * Every blotter entry of one jurisdiction inside a single month.
+     * @param \App\Support\Jurisdiction $scope Jurisdiction of the viewing account
      * @param int $year year to fetch
      * @param int $month month to fetch
      * @return array
      */
-    public function getDailyBlotterByMonth(Int $userId, Int $year, Int $month)
+    public function getDailyBlotterByMonth(Jurisdiction $scope, Int $year, Int $month)
     {
-        return  $this->blotter->getDailyBlotterByMonth($userId, $year, $month);
+        return  $this->blotter->getDailyBlotterByMonth($scope, $year, $month);
     }
 
     /**
@@ -188,6 +214,84 @@ class BlotterService
         return $this->blotter->getBlotterByRemarks($perPage,  $page,  $keyword, $userId, $remark);
     }
 
+
+    /**
+     * Blotter counts grouped by disposition (`remarks`) within one jurisdiction.
+     * @param \App\Support\Jurisdiction $scope Jurisdiction of the viewing account
+     * @param string|null $from Inclusive start date, Y-m-d
+     * @param string|null $to Inclusive end date, Y-m-d
+     * @return array<int,int>
+     */
+    public function getCountsByRemark(Jurisdiction $scope, ?string $from = null, ?string $to = null)
+    {
+        return $this->blotter->getCountsByRemark($scope, $from, $to);
+    }
+
+    /**
+     * Blotter counts grouped by incident type within one jurisdiction.
+     * @param \App\Support\Jurisdiction $scope Jurisdiction of the viewing account
+     * @param string|null $from Inclusive start date, Y-m-d
+     * @param string|null $to Inclusive end date, Y-m-d
+     * @return array<int,array{id:int,count:int}>
+     */
+    public function getCountsByIncidentType(Jurisdiction $scope, ?string $from = null, ?string $to = null)
+    {
+        return $this->blotter->getCountsByIncidentType($scope, $from, $to);
+    }
+
+    /**
+     * Plain blotter count of one jurisdiction inside a window.
+     * @param \App\Support\Jurisdiction $scope Jurisdiction of the viewing account
+     * @param string|null $from Inclusive start date, Y-m-d
+     * @param string|null $to Inclusive end date, Y-m-d
+     * @return int
+     */
+    public function getCountInRange(Jurisdiction $scope, ?string $from = null, ?string $to = null)
+    {
+        return $this->blotter->getCountInRange($scope, $from, $to);
+    }
+
+    /**
+     * Recent blotter entries of one jurisdiction for the console table.
+     * @param \App\Support\Jurisdiction $scope Jurisdiction of the viewing account
+     * @param int $perPage Rows per page
+     * @param int $page Page number
+     * @param string $keyword Matches entry number, complainant, respondent or location
+     * @param string|null $from Inclusive start date, Y-m-d
+     * @param string|null $to Inclusive end date, Y-m-d
+     * @param int|null $areaCode Narrow to one unit below this jurisdiction
+     * @return LengthAwarePaginator
+     */
+    public function getRecentForDashboard(
+        Jurisdiction $scope,
+        Int $perPage,
+        Int $page,
+        String $keyword = '',
+        ?string $from = null,
+        ?string $to = null,
+        ?int $remark = null,
+        ?int $incidentType = null,
+        ?string $purok = null,
+        String $sort = 'id',
+        String $direction = 'desc',
+        ?int $areaCode = null
+    ) {
+        return $this->blotter->getRecentForDashboard(
+            $scope,
+            $perPage,
+            $page,
+            $keyword,
+            $from,
+            $to,
+            $remark,
+            $incidentType,
+            $purok,
+            $sort,
+            $direction,
+            $areaCode
+        );
+    }
+
     /**
      * Method to get top 10 barangay with most blotters
      * @param int $userId ID of the municipal
@@ -196,5 +300,100 @@ class BlotterService
     public function getBarangayWithMostBlotter(Int $userId)
     {
         return $this->blotter->getBarangayWithMostBlotter($userId);
+    }
+
+    /**
+     * Incident types this barangay has recorded, with entry counts.
+     * @param int $userId Barangay user ID
+     * @return array
+     */
+    public function getIncidentTypeBreakdown(Int $userId)
+    {
+        return $this->blotter->getIncidentTypeBreakdown($userId);
+    }
+
+    /**
+     * Puroks/villages recorded inside one jurisdiction, with entry counts.
+     * @param \App\Support\Jurisdiction $scope Jurisdiction of the viewing account
+     * @param string|null $from Inclusive start date, Y-m-d
+     * @param string|null $to Inclusive end date, Y-m-d
+     * @return array
+     */
+    public function getPurokBreakdown(Jurisdiction $scope, ?string $from = null, ?string $to = null)
+    {
+        return $this->blotter->getPurokBreakdown($scope, $from, $to);
+    }
+
+    /**
+     * Entry counts per unit one level below the viewer -- barangays for a
+     * station, cities for a province, provinces for a region, regions for the
+     * super admin.
+     * @param \App\Support\Jurisdiction $scope Jurisdiction of the viewing account
+     * @param string|null $from Inclusive start date, Y-m-d
+     * @param string|null $to Inclusive end date, Y-m-d
+     * @return array
+     */
+    public function getAreaBreakdown(Jurisdiction $scope, ?string $from = null, ?string $to = null)
+    {
+        return $this->blotter->getAreaBreakdown($scope, $from, $to);
+    }
+
+    /**
+     * Complainant and total person counts behind one jurisdiction's entries.
+     * @param \App\Support\Jurisdiction $scope Jurisdiction of the viewing account
+     * @param string|null $from Inclusive start date, Y-m-d
+     * @param string|null $to Inclusive end date, Y-m-d
+     * @return array{complainants: int, personsInvolved: int}
+     */
+    public function getPeopleCounts(Jurisdiction $scope, ?string $from = null, ?string $to = null)
+    {
+        return $this->blotter->getPeopleCounts($scope, $from, $to);
+    }
+
+    /**
+     * Paginated barangay entries narrowed by incident type or purok.
+     * @param int $userId Barangay user ID
+     * @param int $perPage Rows per page
+     * @param int $page Page number
+     * @param string $keyword Free-text search
+     * @param int|null $incidentType Narrow to one incident type
+     * @param string|null $village Narrow to one purok
+     * @param int|null $remark Narrow to one disposition
+     * @param string $sort Sort key
+     * @param string $direction asc|desc
+     * @return LengthAwarePaginator
+     */
+    public function getBarangayEntries(
+        Int $userId,
+        Int $perPage,
+        Int $page,
+        String $keyword = '',
+        ?int $incidentType = null,
+        ?string $village = null,
+        ?int $remark = null,
+        String $sort = 'id',
+        String $direction = 'desc'
+    ) {
+        return $this->blotter->getBarangayEntries(
+            $userId,
+            $perPage,
+            $page,
+            $keyword,
+            $incidentType,
+            $village,
+            $remark,
+            $sort,
+            $direction
+        );
+    }
+
+    /**
+     * Entry counts per disposition for one barangay.
+     * @param int $userId Barangay user ID
+     * @return array<int, int>
+     */
+    public function getRemarkBreakdown(Int $userId)
+    {
+        return $this->blotter->getRemarkBreakdown($userId);
     }
 }

@@ -1,59 +1,69 @@
 import disposition from '@/utils/data/disposition';
 import React from 'react';
+import { ClipboardCheckFill } from 'react-bootstrap-icons';
 import Swal from 'sweetalert2';
+import FormSection from './ui/FormSection';
+import { SelectField } from './ui/Field';
 
-type Data = {
-    id: number;
+type Reference = {
+    id: number | string;
     value: string;
-}
+};
 
-const CaseDisposition = ({ data, setData }: { data: any; setData: CallableFunction }) => {
+type CaseDispositionProps = {
+    data: any;
+    setData: CallableFunction;
+    errors?: Record<string, string>;
+};
+
+const CaseDisposition = ({ data, setData, errors = {} }: CaseDispositionProps) => {
     const handleAddDisposition = async () => {
         const { value: caseValue } = await Swal.fire({
-            title: "Enter New Case Disposition",
-            input: "text",
-            inputLabel: "Type of case disposition",
-            inputPlaceholder: "Enter new disposition"
+            title: 'Add a case disposition',
+            input: 'text',
+            inputLabel: 'Action taken on the complaint',
+            inputPlaceholder: 'e.g. Referred to the Lupong Tagapamayapa',
+            showCancelButton: true,
+            confirmButtonText: 'Add',
         });
+
         if (caseValue) {
             disposition.push({ id: caseValue, value: caseValue });
             setData('remarks', caseValue);
-            Swal.fire("Saved!", "", "success");;
         }
-    }
+    };
 
     return (
-        <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark mt-4 w-full">
-            <div className="border-b border-stroke py-2  px-6.5 dark:border-strokedark bg-white flex justify-between">
-                <h3 className="font-medium dark:text-white text-center">
-                    Case Disposition
-                </h3>
-                <button onClick={handleAddDisposition} className="text-xs bg-blue-500 hover:bg-blue-700 text-white px-2 py-1 rounded-3xl dark:bg-transparent text-end">
-                    Other (Specify)
+        <FormSection
+            title="Case Disposition"
+            description="What action was taken on the complaint."
+            icon={<ClipboardCheckFill size={16} />}
+            action={
+                <button
+                    type="button"
+                    onClick={handleAddDisposition}
+                    className="rounded-full border border-stroke px-3 py-1.5 text-xs font-medium text-primary transition hover:bg-primary/5 dark:border-strokedark"
+                >
+                    Other (specify)
                 </button>
-            </div>
-            <div className="lg:flex lg:gap-5.5 p-2 w-full space-y-6 lg:space-y-0">
-                <div className="w-full">
-                    <label className="text-xs dark:bg-transparent bg-white absolute ml-3 mt-[-.4rem]">
-                        Remarks/Action of the Case Complaint
-                    </label>
-                    <select
-                        name="remarks"
-                        value={data.remarks}
-                        onChange={(e) => setData('remarks', e.target.value)}
-                        className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent py-2 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary text-sm"
-                    >
-                        <option value="" key={0}>Select Disposition</option>
-                        {disposition?.map((item: any) => (
-                            <option value={item.id}>{item.value}</option>
-                        ))}
-                    </select>
-                </div>
-                {/** End work address */}
-            </div>
-            {/** End complainant Address */}
-        </div >
-    )
-}
+            }
+        >
+            <SelectField
+                label="Remarks / Action on the Complaint"
+                name="remarks"
+                value={data?.remarks}
+                onChange={(e) => setData('remarks', e.target.value)}
+                error={errors.remarks}
+            >
+                <option value="">Select a disposition</option>
+                {disposition?.map((item: Reference) => (
+                    <option value={item.id} key={item.id}>
+                        {item.value}
+                    </option>
+                ))}
+            </SelectField>
+        </FormSection>
+    );
+};
 
-export default CaseDisposition
+export default CaseDisposition;

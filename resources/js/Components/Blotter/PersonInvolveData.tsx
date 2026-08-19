@@ -1,793 +1,538 @@
 import barangays from '@/utils/data/barangays';
 import cities from '@/utils/data/cities';
-import citizenships from "@/utils/data/citizenships";
-import civilStatus from "@/utils/data/civilStatus";
+import citizenships from '@/utils/data/citizenships';
+import civilStatus from '@/utils/data/civilStatus';
 import educations from '@/utils/data/educations';
-import genders from "@/utils/data/genders";
+import genders from '@/utils/data/genders';
 import occupations from '@/utils/data/occupations';
 import provinces from '@/utils/data/provinces';
 import regions from '@/utils/data/regions';
-import React, { useState } from 'react';
-import { Globe } from 'react-bootstrap-icons';
-import FormInput from '../FormInput';
-import Swal from 'sweetalert2';
+import React, { useMemo } from 'react';
+import {
+    GeoAltFill,
+    PersonBadgeFill,
+    PersonPlusFill,
+    Trash3,
+} from 'react-bootstrap-icons';
+import FormSection from './ui/FormSection';
+import { SearchSelect, SelectField, TextField } from './ui/Field';
+import { SelectOption } from './ui/selectStyles';
 
-type Data = {
+type Reference = {
     id: number;
     value: string;
-}
+};
 
-const PersonInvolveData = ({ data, setData, person }: { data: any; setData: CallableFunction; person: string }) => {
+type PersonInvolveDataProps = {
+    data: any;
+    setData: CallableFunction;
+    person: string;
+    errors?: Record<string, string>;
+};
 
-    const complainant_info = {
-        complainant_family_name: "",
-        complainant_first_name: "",
-        complainant_middle_name: "",
-        complainant_birth_date: "",
-        complainant_place_of_birth: "",
-        complainant_citizenship: 1,
-        complainant_gender: 1,
-        complainant_civil_status: 1,
-        complainant_occupation: 1,
-        complainant_education: 1,
-        complainant_email_address: "",
-        complainant_street: "",
-        complainant_village: "",
-        complainant_barangay: 0,
-        complainant_city: 0,
-        complainant_province: 0,
-        complainant_region: 0,
-        complainant_work_street: "",
-        complainant_work_village: "",
-        complainant_work_barangay: 0,
-        complainant_work_city: 0,
-        complainant_work_province: 0,
-        complainant_work_region: 0,
-    };
+/** Address block prefix: the home/incident block, or the work block. */
+type Scope = '' | 'work_';
 
-    const respondent_info = {
-        respondent_family_name: "",
-        respondent_first_name: "",
-        respondent_middle_name: "",
-        respondent_birth_date: "",
-        respondent_place_of_birth: "",
-        respondent_citizenship: 1,
-        respondent_gender: 1,
-        respondent_civil_status: 1,
-        respondent_occupation: 1,
-        respondent_education: 1,
-        respondent_email_address: "",
-        respondent_street: "",
-        respondent_village: "",
-        respondent_barangay: 0,
-        respondent_city: 0,
-        respondent_province: 0,
-        respondent_region: 0,
-        respondent_work_street: "",
-        respondent_work_village: "",
-        respondent_work_barangay: 0,
-        respondent_work_city: 0,
-        respondent_work_province: 0,
-        respondent_work_region: 0,
-    };
+type OptionGroups = Record<string, SelectOption[]>;
 
-    const handleAddOccupation = async () => {
-        const { value: occupation } = await Swal.fire({
-            title: "Enter New Occupation",
-            input: "text",
-            inputLabel: "Type of Job/Occupation",
-            inputPlaceholder: "Enter new occupation"
+const groupBy = (rows: any[], key: string, code: string, name: string) => {
+    const groups: OptionGroups = {};
+
+    rows.forEach((row: any) => {
+        const parent = String(parseInt(row[key]));
+
+        (groups[parent] ??= []).push({
+            value: parseInt(row[code]),
+            label: row[name],
         });
-        if (occupation) {
-            occupations.push({ id: occupation, value: occupation });
-            setData('occupation', occupation);
-            Swal.fire("Saved!", "", "success");
+    });
+
+    return groups;
+};
+
+/**
+ * The PSGC lists run to tens of thousands of rows, so they are indexed once per
+ * page load and shared by every person card instead of being re-filtered.
+ */
+const lazy = <T,>(build: () => T) => {
+    let cached: T | undefined;
+
+    return () => (cached ??= build());
+};
+
+const getRegionOptions = lazy<SelectOption[]>(() =>
+    regions.map((region: any) => ({
+        value: parseInt(region.region_code),
+        label: region.region_name,
+    })),
+);
+
+const getProvincesByRegion = lazy(() =>
+    groupBy(provinces, 'region_code', 'province_code', 'province_name'),
+);
+
+const getCitiesByProvince = lazy(() =>
+    groupBy(cities, 'province_code', 'city_code', 'city_name'),
+);
+
+const getBarangaysByCity = lazy(() =>
+    groupBy(barangays, 'city_code', 'brgy_code', 'brgy_name'),
+);
+
+const PersonInvolveData = ({
+    data,
+    setData,
+    person,
+    errors = {},
+}: PersonInvolveDataProps) => {
+    const isComplainant = person === 'Complainant';
+    const prefix = isComplainant ? 'complainant' : 'respondent';
+    const listKey = isComplainant ? 'complainant_data' : 'respondent_data';
+    const people: any[] = data[listKey] ?? [];
+
+    const field = (suffix: string) => `${prefix}_${suffix}`;
+    const valueOf = (index: number, suffix: string) => people[index]?.[field(suffix)];
+    const errorOf = (index: number, suffix: string) => errors[`${index}.${field(suffix)}`];
+    // Ids must stay unique once a second person card is added.
+    const idOf = (index: number, suffix: string) => `${field(suffix)}_${index}`;
+
+    const today = new Date().toISOString().substring(0, 10);
+
+    const regionOptions = getRegionOptions();
+    const provincesByRegion = getProvincesByRegion();
+    const citiesByProvince = getCitiesByProvince();
+    const barangaysByCity = getBarangaysByCity();
+
+    const occupationOptions = useMemo<SelectOption[]>(
+        () =>
+            occupations.map((occupation: Reference) => ({
+                value: occupation.id,
+                label: occupation.value,
+            })),
+        [],
+    );
+
+    const blankPerson = () => ({
+        [field('family_name')]: '',
+        [field('first_name')]: '',
+        [field('middle_name')]: '',
+        [field('birth_date')]: '',
+        [field('place_of_birth')]: '',
+        [field('citizenship')]: 1,
+        [field('gender')]: 1,
+        [field('civil_status')]: 1,
+        [field('occupation')]: 1,
+        [field('education')]: 1,
+        [field('email_address')]: '',
+        [field('street')]: '',
+        [field('village')]: '',
+        [field('barangay')]: 0,
+        [field('city')]: 0,
+        [field('province')]: 0,
+        [field('region')]: 0,
+        [field('work_street')]: '',
+        [field('work_village')]: '',
+        [field('work_barangay')]: 0,
+        [field('work_city')]: 0,
+        [field('work_province')]: 0,
+        [field('work_region')]: 0,
+    });
+
+    /** Writes one or more keys of a single person back into the form state. */
+    const patchPerson = (index: number, changes: Record<string, any>) =>
+        setData(
+            listKey,
+            people.map((item: any, i: number) =>
+                i === index ? { ...item, ...changes } : item,
+            ),
+        );
+
+    const handleChange = (
+        event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
+        index: number,
+    ) => patchPerson(index, { [event.target.name]: event.target.value });
+
+    /**
+     * Clears the narrower parts of an address when a wider one changes, so a
+     * stale city can never stay attached to a freshly picked province.
+     */
+    const handleLocationChange = (
+        index: number,
+        scope: Scope,
+        level: 'region' | 'province' | 'city' | 'barangay',
+        value: string | number,
+    ) => {
+        const dependents: Record<string, string[]> = {
+            region: ['province', 'city', 'barangay'],
+            province: ['city', 'barangay'],
+            city: ['barangay'],
+            barangay: [],
+        };
+
+        const changes: Record<string, any> = {
+            [field(`${scope}${level}`)]: value === '' ? 0 : value,
+        };
+
+        dependents[level].forEach((dependent) => {
+            changes[field(`${scope}${dependent}`)] = 0;
+        });
+
+        patchPerson(index, changes);
+    };
+
+    const copyFirstAddress = (index: number) =>
+        patchPerson(index, {
+            [field('work_street')]: valueOf(index, 'street'),
+            [field('work_village')]: valueOf(index, 'village'),
+            [field('work_region')]: valueOf(index, 'region'),
+            [field('work_province')]: valueOf(index, 'province'),
+            [field('work_city')]: valueOf(index, 'city'),
+            [field('work_barangay')]: valueOf(index, 'barangay'),
+        });
+
+    const addPerson = () => setData(listKey, [...people, blankPerson()]);
+
+    const removePerson = (index: number) =>
+        setData(
+            listKey,
+            people.filter((_item: any, i: number) => i !== index),
+        );
+
+    const ageFrom = (birthDate: string) => {
+        if (!birthDate) return undefined;
+
+        const birth = new Date(birthDate);
+        if (Number.isNaN(birth.getTime())) return undefined;
+
+        const now = new Date();
+        let age = now.getFullYear() - birth.getFullYear();
+        const monthDiff = now.getMonth() - birth.getMonth();
+
+        if (monthDiff < 0 || (monthDiff === 0 && now.getDate() < birth.getDate())) {
+            age -= 1;
         }
-    }
 
-    const handleSetData = (e: any, index: number) => {
-        const newData = person === 'Complainant'
-            ? { ...data.complainant_data[index], [e.target.name]: e.target.value }
-            : { ...data.respondent_data[index], [e.target.name]: e.target.value };
+        return age >= 0 && age < 130 ? `${age} years old` : undefined;
+    };
 
-        setData(person === 'Complainant'
-            ? 'complainant_data'
-            : 'respondent_data',
-            person === 'Complainant'
-                ? data.complainant_data.map((item: any, i: number) =>
-                    i == index ? item = newData : item
-                )
-                : data.respondent_data?.map((item: any, i: number) =>
-                    i == index ? item = newData : item
-                )
-        )
-    }
+    const optionsFor = (
+        groups: Record<string, SelectOption[]>,
+        parentValue: any,
+    ): SelectOption[] => groups[String(parseInt(parentValue) || 0)] ?? [];
 
-    const handleSameHomeAddress = (i: number) => {
-        const workStreet = person === 'Complainant'
-            ? {
-                ...data.complainant_data[i],
-                'complainant_work_street': data.complainant_data[i].complainant_street,
-                'complainant_work_village': data.complainant_data[i].complainant_village,
-                'complainant_work_barangay': data.complainant_data[i].complainant_barangay,
-                'complainant_work_city': data.complainant_data[i].complainant_city,
-                'complainant_work_province': data.complainant_data[i].complainant_province,
-                'complainant_work_region': data.complainant_data[i].complainant_region,
-            }
-            : {
-                ...data.respondent_data[i],
-                'respondent_work_street': data.respondent_data[i].respondent_street,
-                'respondent_work_village': data.respondent_data[i].respondent_village,
-                'respondent_work_barangay': data.respondent_data[i].respondent_barangay,
-                'respondent_work_city': data.respondent_data[i].respondent_city,
-                'respondent_work_province': data.respondent_data[i].respondent_province,
-                'respondent_work_region': data.respondent_data[i].respondent_region,
-            }
+    const addressBlock = (index: number, scope: Scope, title: string) => {
+        const region = valueOf(index, `${scope}region`);
+        const province = valueOf(index, `${scope}province`);
+        const city = valueOf(index, `${scope}city`);
 
-        return setData(person === 'Complainant'
-            ? 'complainant_data'
-            : 'respondent_data',
-            person === 'Complainant'
-                ? data.complainant_data?.map((item: any, index: number) =>
-                    index == i ? item = workStreet : item
-                )
-                : data.respondent_data?.map((item: any, index: number) =>
-                    index == i ? item = workStreet : item
-                )
-        )
-    }
+        return (
+            <div className="rounded-lg border border-stroke p-4 dark:border-strokedark">
+                <div className="mb-4 flex flex-wrap items-center justify-between gap-2">
+                    <h4 className="flex items-center gap-2 text-xs font-semibold tracking-wide text-black uppercase dark:text-white">
+                        <GeoAltFill size={14} className="text-primary" />
+                        {title}
+                    </h4>
 
-    const [complainants, setComplainants] = useState<number[]>([1]);
+                    {scope === 'work_' ? (
+                        <button
+                            type="button"
+                            onClick={() => copyFirstAddress(index)}
+                            className="rounded-full border border-stroke px-3 py-1 text-xs font-medium text-primary transition hover:bg-primary/5 dark:border-strokedark"
+                        >
+                            Copy address above
+                        </button>
+                    ) : null}
+                </div>
+
+                <div className="grid grid-cols-1 gap-x-5 gap-y-4 sm:grid-cols-2 lg:grid-cols-3">
+                    <TextField
+                        label="House No. / Street"
+                        name={field(`${scope}street`)}
+                        id={idOf(index, `${scope}street`)}
+                        value={valueOf(index, `${scope}street`)}
+                        onChange={(e) => handleChange(e, index)}
+                        error={errorOf(index, `${scope}street`)}
+                        placeholder="e.g. 123 Rizal St."
+                    />
+
+                    <TextField
+                        label="Village / Sitio / Purok"
+                        name={field(`${scope}village`)}
+                        id={idOf(index, `${scope}village`)}
+                        value={valueOf(index, `${scope}village`)}
+                        onChange={(e) => handleChange(e, index)}
+                        error={errorOf(index, `${scope}village`)}
+                        placeholder="e.g. Purok 5"
+                    />
+
+                    <SearchSelect
+                        label="Region"
+                        name={field(`${scope}region`)}
+                        id={idOf(index, `${scope}region`)}
+                        required
+                        value={region}
+                        options={regionOptions}
+                        onSelect={(_n, value) =>
+                            handleLocationChange(index, scope, 'region', value)
+                        }
+                        error={errorOf(index, `${scope}region`)}
+                        placeholder="Select region"
+                    />
+
+                    <SearchSelect
+                        label="Province"
+                        name={field(`${scope}province`)}
+                        id={idOf(index, `${scope}province`)}
+                        required
+                        value={province}
+                        options={optionsFor(provincesByRegion, region)}
+                        disabled={!parseInt(region)}
+                        onSelect={(_n, value) =>
+                            handleLocationChange(index, scope, 'province', value)
+                        }
+                        error={errorOf(index, `${scope}province`)}
+                        placeholder="Select province"
+                        emptyMessage="Select a region first"
+                    />
+
+                    <SearchSelect
+                        label="Municipality / City"
+                        name={field(`${scope}city`)}
+                        id={idOf(index, `${scope}city`)}
+                        required
+                        value={city}
+                        options={optionsFor(citiesByProvince, province)}
+                        disabled={!parseInt(province)}
+                        onSelect={(_n, value) =>
+                            handleLocationChange(index, scope, 'city', value)
+                        }
+                        error={errorOf(index, `${scope}city`)}
+                        placeholder="Select city"
+                        emptyMessage="Select a province first"
+                    />
+
+                    <SearchSelect
+                        label="Barangay"
+                        name={field(`${scope}barangay`)}
+                        id={idOf(index, `${scope}barangay`)}
+                        required
+                        value={valueOf(index, `${scope}barangay`)}
+                        options={optionsFor(barangaysByCity, city)}
+                        disabled={!parseInt(city)}
+                        onSelect={(_n, value) =>
+                            handleLocationChange(index, scope, 'barangay', value)
+                        }
+                        error={errorOf(index, `${scope}barangay`)}
+                        placeholder="Select barangay"
+                        emptyMessage="Select a city first"
+                    />
+                </div>
+            </div>
+        );
+    };
 
     return (
-        <div className="rounded-lg dark:border-strokedark dark:bg-boxdark mt-4 ">
+        <div className="flex flex-col gap-6">
+            {people.map((_item: any, index: number) => (
+                <FormSection
+                    key={index}
+                    icon={<PersonBadgeFill size={16} />}
+                    title={
+                        isComplainant
+                            ? `A - Reporting Person / Victim No. ${index + 1}`
+                            : `B - Person Complained of / Suspect No. ${index + 1}`
+                    }
+                    description={
+                        isComplainant
+                            ? 'Personal details of the person filing the report.'
+                            : 'Personal details of the person being complained of.'
+                    }
+                    action={
+                        people.length > 1 ? (
+                            <button
+                                type="button"
+                                onClick={() => removePerson(index)}
+                                className="flex items-center gap-1.5 rounded-full border border-danger/40 px-3 py-1.5 text-xs font-medium text-danger transition hover:bg-danger/10"
+                            >
+                                <Trash3 size={12} />
+                                Remove
+                            </button>
+                        ) : null
+                    }
+                >
+                    <div className="grid grid-cols-1 gap-x-5 gap-y-4 sm:grid-cols-2 lg:grid-cols-3">
+                        <TextField
+                            label="Family Name"
+                            name={field('family_name')}
+                            id={idOf(index, 'family_name')}
+                            required
+                            value={valueOf(index, 'family_name')}
+                            onChange={(e) => handleChange(e, index)}
+                            error={errorOf(index, 'family_name')}
+                            placeholder="Dela Cruz"
+                        />
 
-            {complainants?.map((count, i) => (
-                <>
-                    <div className="mt-2 px-6.5 py-2 dark:border-strokedark bg-white dark:bg-boxdark  flex justify-between"
-                        key={i}>
-                        <h3 className="font-medium dark:text-white">
-                            {person === 'Complainant'
-                                ? `A - Reporting Person (Victim's Data No. ${count})`
-                                : `B - Person Complain of/ Suspect Data No. ${count}`
+                        <TextField
+                            label="First Name"
+                            name={field('first_name')}
+                            id={idOf(index, 'first_name')}
+                            required
+                            value={valueOf(index, 'first_name')}
+                            onChange={(e) => handleChange(e, index)}
+                            error={errorOf(index, 'first_name')}
+                            placeholder="Juan"
+                        />
+
+                        <TextField
+                            label="Middle Name"
+                            name={field('middle_name')}
+                            id={idOf(index, 'middle_name')}
+                            required
+                            value={valueOf(index, 'middle_name')}
+                            onChange={(e) => handleChange(e, index)}
+                            error={errorOf(index, 'middle_name')}
+                            placeholder="Santos"
+                        />
+
+                        <TextField
+                            label="Birth Date"
+                            name={field('birth_date')}
+                            id={idOf(index, 'birth_date')}
+                            type="date"
+                            required
+                            max={today}
+                            value={valueOf(index, 'birth_date')}
+                            onChange={(e) => handleChange(e, index)}
+                            error={errorOf(index, 'birth_date')}
+                            hint={ageFrom(valueOf(index, 'birth_date'))}
+                        />
+
+                        <TextField
+                            label="Place of Birth"
+                            name={field('place_of_birth')}
+                            id={idOf(index, 'place_of_birth')}
+                            required
+                            value={valueOf(index, 'place_of_birth')}
+                            onChange={(e) => handleChange(e, index)}
+                            error={errorOf(index, 'place_of_birth')}
+                            placeholder="City / Municipality"
+                        />
+
+                        <TextField
+                            label="Email Address"
+                            name={field('email_address')}
+                            id={idOf(index, 'email_address')}
+                            type="email"
+                            value={valueOf(index, 'email_address')}
+                            onChange={(e) => handleChange(e, index)}
+                            error={errorOf(index, 'email_address')}
+                            placeholder="name@example.com"
+                        />
+
+                        <SelectField
+                            label="Citizenship"
+                            name={field('citizenship')}
+                            id={idOf(index, 'citizenship')}
+                            required
+                            value={valueOf(index, 'citizenship')}
+                            onChange={(e) => handleChange(e, index)}
+                            error={errorOf(index, 'citizenship')}
+                        >
+                            {citizenships?.map((citizenship: Reference) => (
+                                <option value={citizenship.id} key={citizenship.id}>
+                                    {citizenship.value}
+                                </option>
+                            ))}
+                        </SelectField>
+
+                        <SelectField
+                            label="Sex / Gender"
+                            name={field('gender')}
+                            id={idOf(index, 'gender')}
+                            required
+                            value={valueOf(index, 'gender')}
+                            onChange={(e) => handleChange(e, index)}
+                            error={errorOf(index, 'gender')}
+                        >
+                            {genders?.map((gender: Reference) => (
+                                <option value={gender.id} key={gender.id}>
+                                    {gender.value}
+                                </option>
+                            ))}
+                        </SelectField>
+
+                        <SelectField
+                            label="Civil Status"
+                            name={field('civil_status')}
+                            id={idOf(index, 'civil_status')}
+                            required
+                            value={valueOf(index, 'civil_status')}
+                            onChange={(e) => handleChange(e, index)}
+                            error={errorOf(index, 'civil_status')}
+                        >
+                            {civilStatus?.map((status: Reference) => (
+                                <option value={status.id} key={status.id}>
+                                    {status.value}
+                                </option>
+                            ))}
+                        </SelectField>
+
+                        <SearchSelect
+                            label="Occupation"
+                            name={field('occupation')}
+                            id={idOf(index, 'occupation')}
+                            required
+                            value={valueOf(index, 'occupation')}
+                            options={occupationOptions}
+                            onSelect={(name, value) =>
+                                patchPerson(index, { [name]: value })
                             }
-                        </h3>
+                            error={errorOf(index, 'occupation')}
+                            placeholder="Search occupation"
+                        />
 
-                        <div className="flex gap-3">
-                            {count === complainants?.length
-                                ? <>
-                                    <button
-                                        className="font-medium text-black dark:text-white bg-white dark:bg-boxdark border hover:bg-slate-300 text-xs rounded-3xl px-3 text-blue-700"
-                                        onClick={() => {
-                                            setComplainants([...complainants, count + 1]);
-                                            setData(person === 'Complainant' ? 'complainant_data' : 'respondent_data',
-                                                person === 'Complainant'
-                                                    ? [...data.complainant_data, complainant_info]
-                                                    : [...data.respondent_data, respondent_info]
-                                            )
-                                        }}>
-                                        + Add {person}
-                                    </button>
-
-                                    {count != 1
-                                        ? <button
-                                            className="font-medium text-black dark:text-white bg-white  hover:bg-slate-300 text-xs rounded-3xl px-3 text-red-700"
-                                            onClick={() => {
-                                                setComplainants(complainants?.slice(0, -1));
-                                                setData('complainant_data', data.complainant_data?.slice(0, -1));
-                                            }}>
-                                            - Remove
-                                        </button>
-                                        : null
-                                    }
-                                </>
-                                : ''}
-                        </div>
-
+                        <SelectField
+                            label="Highest Educational Attainment"
+                            name={field('education')}
+                            id={idOf(index, 'education')}
+                            required
+                            value={valueOf(index, 'education')}
+                            onChange={(e) => handleChange(e, index)}
+                            error={errorOf(index, 'education')}
+                        >
+                            {educations?.map((education: Reference) => (
+                                <option value={education.id} key={education.id}>
+                                    {education.value}
+                                </option>
+                            ))}
+                        </SelectField>
                     </div>
 
-                    <div className="bg-white pt-[1rem] pb-[.5rem] shadow">
-                        <div className="lg:flex lg:gap-5.5 p-2 w-full space-y-6 lg:space-y-0">
-                            <div className="lg:w-1/2 w-full">
-                                <FormInput
-                                    label="Family Name *"
-                                    type="text"
-                                    name={person === 'Complainant'
-                                        ? "complainant_family_name"
-                                        : "respondent_family_name"}
-                                    value={person === 'Complainant'
-                                        ? data.complainant_data[i]?.complainant_family_name
-                                        : data.respondent_data[i]?.respondent_family_name}
-                                    onChange={(e) => handleSetData(e, i)}
-                                />
-                            </div>
-
-                            <div className="lg:w-1/2 w-full">
-                                <FormInput
-                                    label="First Name *"
-                                    type="text"
-                                    name={person === 'Complainant'
-                                        ? "complainant_first_name"
-                                        : "respondent_first_name"}
-                                    value={person === 'Complainant'
-                                        ? data.complainant_data[i]?.complainant_first_name
-                                        : data.respondent_data[i]?.respondent_first_name}
-                                    onChange={(e) => handleSetData(e, i)}
-                                />
-                            </div>
-
-                            <div className="lg:w-1/2 w-full">
-                                <FormInput
-                                    label="Middle Name *"
-                                    type="text"
-                                    name={person === 'Complainant'
-                                        ? "complainant_middle_name"
-                                        : "respondent_middle_name"}
-                                    value={person === 'Complainant'
-                                        ? data.complainant_data[i]?.complainant_middle_name
-                                        : data.respondent_data[i]?.respondent_middle_name}
-                                    onChange={(e) => handleSetData(e, i)}
-                                />
-                            </div>
-
-                            <div className="lg:w-1/2 w-full">
-                                <FormInput
-                                    label="Birth Date *"
-                                    type="date"
-                                    name={person === 'Complainant'
-                                        ? "complainant_birth_date"
-                                        : "respondent_birth_date"}
-                                    value={person === 'Complainant'
-                                        ? data.complainant_data[i]?.complainant_birth_date
-                                        : data.respondent_data[i]?.respondent_birth_date}
-                                    onChange={(e) => handleSetData(e, i)}
-                                />
-                            </div>
-
-                            <div className="w-full">
-                                <FormInput
-                                    label="Place of Birth *"
-                                    type="text"
-                                    name={person === 'Complainant'
-                                        ? "complainant_place_of_birth"
-                                        : "respondent_place_of_birth"}
-                                    value={person === 'Complainant'
-                                        ? data.complainant_data[i]?.complainant_place_of_birth
-                                        : data.respondent_data[i]?.respondent_place_of_birth}
-                                    onChange={(e) => handleSetData(e, i)}
-                                />
-                            </div>
-                        </div>
-
-                        <div className="lg:flex lg:gap-5.5 p-2 mb-6 w-full space-y-6 lg:space-y-0">
-                            <div className="lg:w-1/2 w-full">
-                                <label className="text-xs bg-white dark:bg-transparent  absolute ml-3 mt-[-.4rem]">
-                                    Citizenship *
-                                </label>
-                                <select
-                                    name={person === 'Complainant'
-                                        ? "complainant_citizenship"
-                                        : "respondent_citizenship"}
-                                    value={person === 'Complainant'
-                                        ? data.complainant_data[i]?.complainant_citizenship
-                                        : data.respondent_data[i]?.respondent_citizenship}
-                                    onChange={(e) => handleSetData(e, i)}
-                                    className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent py-2 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary text-sm"
-                                >
-                                    {citizenships?.map((citizenship: Data) => (
-                                        <option
-                                            value={citizenship.id} className="text-body dark:text-bodydark"
-                                            key={citizenship.id}
-                                        >
-                                            {citizenship.value}
-                                        </option>
-                                    ))}
-                                </select>
-                            </div>
-
-                            <div className="lg:w-1/2 w-full">
-                                <label className="text-xs dark:bg-transparent  bg-white absolute ml-3 mt-[-.4rem]">
-                                    Sex / Gender *
-                                </label>
-                                <select
-                                    name={person === 'Complainant'
-                                        ? "complainant_gender"
-                                        : "respondent_gender"}
-                                    value={person === 'Complainant'
-                                        ? data.complainant_data[i]?.complainant_gender
-                                        : data.respondent_data[i]?.respondent_gender}
-                                    onChange={(e) => handleSetData(e, i)}
-                                    className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent py-2 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary text-sm"
-                                >
-                                    {genders?.map((gender: Data) => (
-                                        <option
-                                            value={gender.id} className="text-body dark:text-bodydark"
-                                            key={gender.id}
-                                        >
-                                            {gender.value}
-                                        </option>
-                                    ))}
-                                </select>
-                            </div>
-
-                            <div className="lg:w-1/2 w-full">
-                                <label className="text-xs dark:bg-transparent  bg-white absolute ml-3 mt-[-.4rem]">
-                                    Civil Status *
-                                </label>
-                                <select
-                                    name={person === 'Complainant'
-                                        ? "complainant_civil_status"
-                                        : "respondent_civil_status"}
-                                    value={person === 'Complainant'
-                                        ? data.complainant_data[i]?.complainant_civil_status
-                                        : data.respondent_data[i]?.respondent_civil_status}
-                                    onChange={(e) => handleSetData(e, i)}
-                                    className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent py-2 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary text-sm"
-                                >
-                                    {civilStatus?.map((status: Data) => (
-                                        <option
-                                            value={status.id} className="text-body dark:text-bodydark"
-                                            key={status.id}
-                                        >
-                                            {status.value}
-                                        </option>
-                                    ))}
-                                </select>
-                            </div>
-
-                            <div className="w-full">
-                                <div className="flex justify-between w-full ">
-
-                                    <label className="text-xs dark:bg-transparent bg-white absolute ml-3 mt-[-.4rem]">
-                                        Occupation *
-                                    </label>
-                                    <button onClick={handleAddOccupation} className="text-xs border bg-blue-500 hover:bg-blue-700 text-white px-2 py-1 rounded-3xl dark:bg-boxdark  absolute text-end mt-[-.8rem] ml-[8rem] z-50">
-                                        Other (Specify)
-                                    </button>
-                                </div>
-                                <select
-                                    name={person === 'Complainant'
-                                        ? "complainant_occupation"
-                                        : "respondent_occupation"}
-                                    value={person === 'Complainant'
-                                        ? data.complainant_data[i]?.complainant_occupation
-                                        : data.respondent_data[i]?.respondent_occupation}
-                                    onChange={(e) => handleSetData(e, i)}
-                                    className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent py-2 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary text-sm"
-                                >
-                                    <option value="" key={0}>Select Occupation</option>
-                                    {occupations?.map((occupation: Data) => (
-                                        <option
-                                            value={occupation.id} className="text-body dark:text-bodydark"
-                                            key={occupation.id}
-                                        >
-                                            {occupation.value}
-                                        </option>
-                                    ))}
-                                </select>
-                            </div>
-
-                            <div className="w-full">
-                                <label className="text-xs dark:bg-transparent  bg-white absolute ml-3 mt-[-.4rem]">
-                                    Highest Educational Attainment *
-                                </label>
-                                <select
-                                    name={person === 'Complainant'
-                                        ? "complainant_education"
-                                        : "respondent_education"}
-                                    value={person === 'Complainant'
-                                        ? data.complainant_data[i]?.complainant_education
-                                        : data.respondent_data[i]?.respondent_education}
-                                    onChange={(e) => handleSetData(e, i)}
-                                    className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent py-2 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary text-sm"
-                                >
-                                    <option value="" key={0}>Select Attainment</option>
-                                    {educations?.map((education: Data) => (
-                                        <option
-                                            value={education.id} className="text-body dark:text-bodydark"
-                                            key={education.id}
-                                        >
-                                            {education.value}
-                                        </option>
-                                    ))}
-                                </select>
-                            </div>
-
-                            <div className="w-full">
-                                <FormInput
-                                    label="Email Address"
-                                    type="email"
-                                    name={person === 'Complainant'
-                                        ? "complainant_email_address"
-                                        : "respondent_email_address"}
-                                    value={person === 'Complainant'
-                                        ? data.complainant_data[i]?.complainant_email_address
-                                        : data.respondent_data[i]?.respondent_email_address}
-                                    onChange={(e) => handleSetData(e, i)}
-                                />
-                            </div>
-                        </div>
+                    <div className="mt-6 flex flex-col gap-4">
+                        {addressBlock(
+                            index,
+                            '',
+                            isComplainant ? 'Place of Incident' : 'Home Address',
+                        )}
+                        {addressBlock(
+                            index,
+                            'work_',
+                            isComplainant ? 'Home Address' : 'Work Address',
+                        )}
                     </div>
-
-                    {/* <!-- Complainant Address --> */}
-                    <div className="grid grid-cols-1 gap-6 mt-6">
-                        <div className="border border-slate-200 bg-white dark:bg-boxdark shadow-sm">
-                            {/** Home Address */}
-                            <div className="border-b border-stroke py-2 px-6.5 dark:border-strokedark  dark:bg-boxdark ">
-                                <h3 className="font-medium dark:text-white">
-                                    {person === 'Complainant' ? "Place of Incident" : "Home Address"}
-                                </h3>
-                            </div>
-                            <div className="grid lg:grid-cols-3 grid-cols-1 gap-6 p-3">
-                                <div className="w-full mt-[.5rem]">
-                                    <FormInput
-                                        label="House no/Street"
-                                        type="text"
-                                        name={person === 'Complainant' ? "complainant_street" : "respondent_street"}
-                                        value={person === 'Complainant'
-                                            ? data.complainant_data[i]?.complainant_street
-                                            : data.respondent_data[i]?.respondent_street}
-                                        onChange={(e) => handleSetData(e, i)}
-                                    />
-                                </div>
-
-                                <div className="w-full mt-[.5rem]">
-                                    <FormInput
-                                        label="Village/Sitio *"
-                                        type="text"
-                                        name={person === 'Complainant' ? "complainant_village" : "respondent_village"}
-                                        value={person === 'Complainant'
-                                            ? data.complainant_data[i]?.complainant_village
-                                            : data.respondent_data[i]?.respondent_village}
-                                        onChange={(e) => handleSetData(e, i)}
-                                    />
-                                </div>
-
-                                <div className="w-full mt-[.5rem]">
-                                    <div className="relative z-20 bg-white dark:bg-form-input">
-                                        <label className="z-40 text-xs dark:bg-transparent bg-white absolute ml-3 mt-[-.4rem]">
-                                            Region *
-                                        </label>
-                                        <span className="absolute top-1/2 left-4 z-30 -translate-y-1/2">
-                                            <Globe className='text-slate-600' />
-                                        </span>
-
-                                        <select
-                                            name={person === 'Complainant'
-                                                ? "complainant_region"
-                                                : "respondent_region"}
-                                            value={person === 'Complainant'
-                                                ? data.complainant_data[i]?.complainant_region
-                                                : data.respondent_data[i]?.respondent_region}
-                                            onChange={(e) => handleSetData(e, i)}
-                                            className="relative z-20 w-full appearance-none rounded border border-stroke bg-transparent py-2 px-12 outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input text-sm"
-                                        >
-                                            <option value="" className="text-body dark:text-bodydark" key={0}>
-                                                Select Region
-                                            </option>
-                                            {Object.entries(regions)?.map((region) => region[1])?.map((region: any) => (
-                                                <option value={parseInt(region?.region_code)} className="text-body dark:text-bodydark" key={region.id}>
-                                                    {region?.region_name}
-                                                </option>
-                                            ))}
-                                        </select>
-                                    </div>
-                                </div>
-
-                                <div className="w-full mt-[.5rem]">
-                                    <div className="relative">
-                                        <label className="z-40 text-xs  dark:bg-transparent bg-white absolute ml-3 mt-[-.4rem]">
-                                            Province *
-                                        </label>
-                                        <div className="relative z-20 bg-white dark:bg-form-input">
-                                            <span className="absolute top-1/2 left-4 z-30 -translate-y-1/2">
-                                                <Globe className='text-slate-600' />
-                                            </span>
-
-                                            <select
-                                                name={person === 'Complainant'
-                                                    ? "complainant_province"
-                                                    : "respondent_province"}
-                                                value={person === 'Complainant'
-                                                    ? data.complainant_data[i]?.complainant_province
-                                                    : data.respondent_data[i]?.respondent_province}
-                                                onChange={(e) => handleSetData(e, i)}
-                                                className="relative z-20 w-full appearance-none rounded border border-stroke bg-transparent py-2 px-12 outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input text-sm"
-                                            >
-                                                <option value="" className="text-body dark:text-bodydark" key={0}>
-                                                    Select Province
-                                                </option>
-                                                {Object.entries(provinces)?.map((province) => province[1])
-                                                    ?.filter((province) => parseInt(province.region_code) == (person === 'Complainant'
-                                                        ? data.complainant_data[i]?.complainant_region
-                                                        : data.respondent_data[i]?.respondent_region))
-                                                    ?.map((province: any) => (
-                                                        <option
-                                                            value={parseInt(province?.province_code)}
-                                                            className="text-body dark:text-bodydark"
-                                                            key={province.id}>
-                                                            {province?.province_name}
-                                                        </option>
-                                                    ))}
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div className="w-full mt-[.5rem]">
-                                    <div className="relative z-20  bg-white dark:bg-form-input">
-                                        <label className="z-40 text-xs bg-white  dark:bg-transparent absolute ml-3 mt-[-.4rem]">
-                                            Municipality / City *
-                                        </label>
-                                        <span className="absolute top-1/2 left-4 z-30 -translate-y-1/2">
-                                            <Globe className='text-slate-600' />
-                                        </span>
-                                        <select
-                                            name={person === 'Complainant'
-                                                ? "complainant_city"
-                                                : "respondent_city"}
-                                            value={person === 'Complainant'
-                                                ? data.complainant_data[i]?.complainant_city
-                                                : data.respondent_data[i]?.respondent_city}
-                                            onChange={(e) => handleSetData(e, i)}
-                                            className="relative z-20 w-full appearance-none rounded border border-stroke bg-transparent py-2 px-12 outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input text-sm"
-                                        >
-                                            <option value="" className="text-body dark:text-bodydark" key={0}>
-                                                Select City
-                                            </option>
-                                            {Object.entries(cities)
-                                                ?.map((city) => city[1])
-                                                ?.filter((city) => parseInt(city.province_code) == (person === 'Complainant'
-                                                    ? data.complainant_data[i]?.complainant_province
-                                                    : data.respondent_data[i]?.respondent_province))
-                                                ?.map((city: any) => (
-                                                    <option
-                                                        value={parseInt(city?.city_code)}
-                                                        className="text-body dark:text-bodydark"
-                                                        key={city.id}>
-                                                        {city?.city_name}
-                                                    </option>
-                                                ))}
-                                        </select>
-                                    </div>
-                                </div>
-
-                                <div className="w-full mt-[.5rem]">
-                                    <div className="relative">
-                                        <label className="z-40 text-xs  dark:bg-transparent bg-white absolute ml-3 mt-[-.4rem]">
-                                            Barangay *
-                                        </label>
-                                        <span className="absolute top-1/2 left-4 z-30 -translate-y-1/2">
-                                            <Globe className='text-slate-600' />
-                                        </span>
-                                        <select
-                                            name={person === 'Complainant'
-                                                ? "complainant_barangay"
-                                                : "respondent_barangay"}
-                                            value={person === 'Complainant'
-                                                ? data.complainant_data[i]?.complainant_barangay
-                                                : data.respondent_data[i]?.respondent_barangay}
-                                            onChange={(e) => handleSetData(e, i)}
-                                            className="relative z-20 w-full appearance-none rounded border border-stroke bg-transparent py-2 px-12 outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input text-sm"
-                                        >
-                                            <option value="" className="text-body dark:text-bodydark" key={0}>
-                                                Select Barangay
-                                            </option>
-                                            {Object.entries(barangays)
-                                                ?.map((barangay) => barangay[1])
-                                                ?.filter((barangay) => parseInt(barangay.city_code) == (person === 'Complainant'
-                                                    ? data.complainant_data[i]?.complainant_city
-                                                    : data.respondent_data[i]?.respondent_city))
-                                                ?.map((barangay: any) => (
-                                                    <option
-                                                        value={parseInt(barangay?.brgy_code)}
-                                                        className="text-body dark:text-bodydark"
-                                                        key={barangay.id}>
-                                                        {barangay?.brgy_name}
-                                                    </option>
-                                                ))}
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        {/** End Home Address */}
-
-                        {/**Work Address */}
-                        <div className="">
-                            <div className="border-b border-stroke py-2 px-6.5 dark:border-strokedark bg-white dark:bg-boxdark shadow-sm">
-                                <div className="flex">
-                                    <h3 className="font-medium text-center dark:text-white">
-                                        {person === 'Complainant' ? "Home Address" : "Work Address"}
-                                    </h3>
-                                </div>
-                            </div>
-                            <div className="grid lg:grid-cols-3 grid-cols-1 gap-6 p-3 border border-slate-200 bg-white dark:bg-boxdark">
-                                <div className="w-full mt-[.5rem]">
-                                    <FormInput
-                                        label="House no./Street"
-                                        type="text"
-                                        name={person === 'Complainant' ? "complainant_work_street" : "respondent_work_street"}
-                                        value={person === 'Complainant'
-                                            ? data.complainant_data[i]?.complainant_work_street
-                                            : data.respondent_data[i]?.respondent_work_street}
-                                        onChange={(e) => handleSetData(e, i)}
-                                    />
-                                </div>
-
-                                <div className="w-full mt-[.5rem]">
-                                    <FormInput
-                                        label="Village/Sitio *"
-                                        type="text"
-                                        name={person === 'Complainant' ? "complainant_work_village" : "respondent_work_village"}
-                                        value={person === 'Complainant'
-                                            ? data.complainant_data[i]?.complainant_work_village
-                                            : data.respondent_data[i]?.respondent_work_village}
-                                        onChange={(e) => handleSetData(e, i)}
-                                    />
-                                </div>
-
-                                <div className="w-full mt-[.5rem]">
-                                    <div className="relative z-20 bg-white dark:bg-form-input">
-                                        <label className="z-40 text-xs dark:bg-transparent bg-white absolute ml-3 mt-[-.4rem]">
-                                            Region *
-                                        </label>
-                                        <span className="absolute top-1/2 left-4 z-30 -translate-y-1/2">
-                                            <Globe className='text-slate-600' />
-                                        </span>
-
-                                        <select
-                                            name={person === 'Complainant'
-                                                ? "complainant_work_region"
-                                                : "respondent_work_region"}
-                                            value={person === 'Complainant'
-                                                ? data.complainant_data[i]?.complainant_work_region
-                                                : data.respondent_data[i]?.respondent_work_region}
-                                            onChange={(e) => handleSetData(e, i)}
-                                            className="relative z-20 w-full appearance-none rounded border border-stroke bg-transparent py-2 px-12 outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input text-sm"
-                                        >
-                                            <option value="" className="text-body dark:text-bodydark" key={0}>
-                                                Select Region
-                                            </option>
-                                            {Object.entries(regions)?.map((region) => region[1])?.map((region: any) => (
-                                                <option value={parseInt(region?.region_code)} className="text-body dark:text-bodydark" key={region.id}>
-                                                    {region?.region_name}
-                                                </option>
-                                            ))}
-                                        </select>
-                                    </div>
-                                </div>
-
-                                <div className="w-full mt-[.5rem]">
-                                    <div className="relative">
-                                        <label className="z-40 text-xs dark:bg-transparent bg-white absolute ml-3 mt-[-.4rem]">
-                                            Province *
-                                        </label>
-                                        <div className="relative z-20 bg-white dark:bg-form-input">
-                                            <span className="absolute top-1/2 left-4 z-30 -translate-y-1/2">
-                                                <Globe className='text-slate-600' />
-                                            </span>
-
-                                            <select
-                                                name={person === 'Complainant'
-                                                    ? "complainant_work_province"
-                                                    : "respondent_work_province"}
-                                                value={person === 'Complainant'
-                                                    ? data.complainant_data[i]?.complainant_work_province
-                                                    : data.respondent_data[i]?.respondent_work_province}
-                                                onChange={(e) => handleSetData(e, i)}
-                                                className="relative z-20 w-full appearance-none rounded border border-stroke bg-transparent py-2 px-12 outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input text-sm"
-                                            >
-                                                <option value="" className="text-body dark:text-bodydark" key={1}>
-                                                    Select Province
-                                                </option>
-                                                {Object.entries(provinces)?.map((province) => province[1])
-                                                    ?.filter((province) => parseInt(province.region_code) == (person === 'Complainant'
-                                                        ? data.complainant_data[i]?.complainant_work_region
-                                                        : data.respondent_data[i]?.respondent_work_region))
-                                                    ?.map((province: any) => (
-                                                        <option
-                                                            value={parseInt(province?.province_code)}
-                                                            className="text-body dark:text-bodydark"
-                                                            key={province.id}>
-                                                            {province?.province_name}
-                                                        </option>
-                                                    ))}
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div className="w-full mt-[.5rem]">
-                                    <div className="relative z-20 bg-white dark:bg-form-input">
-                                        <label className="z-40 text-xs dark:bg-transparent bg-white absolute ml-3 mt-[-.4rem]">
-                                            Municipality / City *
-                                        </label>
-                                        <span className="absolute top-1/2 left-4 z-30 -translate-y-1/2">
-                                            <Globe className='text-slate-600' />
-                                        </span>
-                                        <select
-                                            name={person === 'Complainant'
-                                                ? "complainant_work_city"
-                                                : "respondent_work_city"}
-                                            value={person === 'Complainant'
-                                                ? data.complainant_data[i]?.complainant_work_city
-                                                : data.respondent_data[i]?.respondent_work_city}
-                                            onChange={(e) => handleSetData(e, i)}
-                                            className="relative z-20 w-full appearance-none rounded border border-stroke bg-transparent py-2 px-12 outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input text-sm"
-                                        >
-                                            <option value="" className="text-body dark:text-bodydark" key={1}>
-                                                Select City
-                                            </option>
-                                            {Object.entries(cities)
-                                                ?.map((city) => city[1])
-                                                ?.filter((city) => parseInt(city.province_code) == (person === 'Complainant'
-                                                    ? data.complainant_data[i]?.complainant_work_province
-                                                    : data.respondent_data[i]?.respondent_work_province))
-                                                ?.map((city: any) => (
-                                                    <option
-                                                        value={parseInt(city?.city_code)}
-                                                        className="text-body dark:text-bodydark"
-                                                        key={city.id}>
-                                                        {city?.city_name}
-                                                    </option>
-                                                ))}
-                                        </select>
-                                    </div>
-                                </div>
-
-                                <div className="w-full mt-[.5rem]">
-                                    <div className="relative">
-                                        <label className="z-40 text-xs bg-white  dark:bg-transparent absolute ml-3 mt-[-.4rem]">
-                                            Barangay *
-                                        </label>
-                                        <span className="absolute top-1/2 left-4 z-30 -translate-y-1/2">
-                                            <Globe className='text-slate-600' />
-                                        </span>
-                                        <select
-                                            name={person === 'Complainant'
-                                                ? "complainant_work_barangay"
-                                                : "respondent_work_barangay"}
-                                            value={person === 'Complainant'
-                                                ? data.complainant_data[i]?.complainant_work_barangay
-                                                : data.respondent_data[i]?.respondent_work_barangay}
-                                            onChange={(e) => handleSetData(e, i)}
-                                            className="relative z-20 w-full appearance-none rounded border border-stroke bg-transparent py-2 px-12 outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input text-sm"
-                                        >
-                                            <option value="" className="text-body dark:text-bodydark" key={1}>
-                                                Select Barangay
-                                            </option>
-                                            {Object.entries(barangays)
-                                                ?.map((barangay) => barangay[1])
-                                                ?.filter((barangay) => parseInt(barangay.city_code) == (person === 'Complainant'
-                                                    ? data.complainant_data[i]?.complainant_work_city
-                                                    : data.respondent_data[i]?.respondent_work_city))
-                                                ?.map((barangay: any) => (
-                                                    <option
-                                                        value={parseInt(barangay?.brgy_code)}
-                                                        className="text-body dark:text-bodydark"
-                                                        key={barangay.id}>
-                                                        {barangay?.brgy_name}
-                                                    </option>
-                                                ))}
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        {/** End work address */}
-
-                    </div>
-                    <div className="rounded-lg bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
-
-
-
-                    </div >
-                </>
+                </FormSection>
             ))}
-            {/** End complainant Address */}
-        </div >
-    )
-}
 
-export default PersonInvolveData
+            <button
+                type="button"
+                onClick={addPerson}
+                className="flex items-center justify-center gap-2 rounded-xl border border-dashed border-stroke bg-white py-3 text-sm font-medium text-primary transition hover:border-primary hover:bg-primary/5 dark:border-strokedark dark:bg-boxdark"
+            >
+                <PersonPlusFill size={16} />
+                Add another {isComplainant ? 'reporting person' : 'suspect'}
+            </button>
+        </div>
+    );
+};
+
+export default PersonInvolveData;

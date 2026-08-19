@@ -1,286 +1,443 @@
 import { PageProps } from "@/Pages/types";
-import { Head, useForm, usePage } from "@inertiajs/react";
-import React, { FormEvent, ReactElement, useState } from "react";
-import { ArrowLeft, ArrowRight, CircleHalf, CloudUpload } from "react-bootstrap-icons";
-import Swal, { SweetAlertOptions } from 'sweetalert2';
+import { Head, Link, useForm, usePage } from "@inertiajs/react";
+import React, { FormEvent, useEffect, useMemo, useState } from "react";
+import {
+    ArrowLeft,
+    ArrowRight,
+    CircleHalf,
+    CloudUpload,
+    ExclamationTriangleFill,
+} from "react-bootstrap-icons";
+import Swal from "sweetalert2";
 
 import Authentication from "@/Components/Blotter/Authentication";
 import BrfForm from "@/Components/Blotter/BrfForm";
 import CaseDisposition from "@/Components/Blotter/CaseDisposition";
+import FormStepper, { Step } from "@/Components/Blotter/FormStepper";
 import Narrative from "@/Components/Blotter/Narrative";
 import PersonInvolveData from "@/Components/Blotter/PersonInvolveData";
-import Breadcrumb from "@/Components/components/Breadcrumbs/Breadcrumb";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
-import SweetAlert from "@/utils/functions/Sweetalert";
 
-export declare type SweetAlert2Props = {
-    show?: boolean;
-    showLoading?: boolean;
-    onConfirm?: Function;
-    onResolve?: Function;
-    onError?: Function;
-    children?: ReactElement;
-    title: string,
-    text: string,
-    icon: string,
-} & SweetAlertOptions;
+const STEPS: Step[] = [
+    {
+        title: "Incident & Reporting Person",
+        description: "Entry details, victim and narrative",
+    },
+    {
+        title: "Suspect & Disposition",
+        description: "Person complained of and action taken",
+    },
+];
 
-type Data = {
-    user_id: number,
-    entry_number: number,
-    barangay: string,
-    date_reported: string,
-    time_of_report: string,
-    incident_type: 0,
+const pad = (value: number) => String(value).padStart(2, "0");
 
-    complainant_data: Object[],
+const emptyComplainant = {
+    complainant_family_name: "",
+    complainant_first_name: "",
+    complainant_middle_name: "",
+    complainant_birth_date: "",
+    complainant_place_of_birth: "",
+    complainant_citizenship: 1,
+    complainant_gender: 1,
+    complainant_civil_status: 1,
+    complainant_occupation: 1,
+    complainant_education: 1,
+    complainant_email_address: "",
+    complainant_street: "",
+    complainant_village: "",
+    complainant_barangay: 0,
+    complainant_city: 0,
+    complainant_province: 0,
+    complainant_region: 0,
+    complainant_work_street: "",
+    complainant_work_village: "",
+    complainant_work_barangay: 0,
+    complainant_work_city: 0,
+    complainant_work_province: 0,
+    complainant_work_region: 0,
+};
 
-    respondent_data: Object[],
-
-    narrative: string,
-    remarks: string,
-    complainant_signature: string,
-    recorded_by: string,
-    recorded_by_signature: string,
-}
+const emptyRespondent = {
+    respondent_family_name: "",
+    respondent_first_name: "",
+    respondent_middle_name: "",
+    respondent_birth_date: "",
+    respondent_place_of_birth: "",
+    respondent_citizenship: 1,
+    respondent_gender: 1,
+    respondent_civil_status: 1,
+    respondent_occupation: 1,
+    respondent_education: 1,
+    respondent_email_address: "",
+    respondent_street: "",
+    respondent_village: "",
+    respondent_barangay: 0,
+    respondent_city: 0,
+    respondent_province: 0,
+    respondent_region: 0,
+    respondent_work_street: "",
+    respondent_work_village: "",
+    respondent_work_barangay: 0,
+    respondent_work_city: 0,
+    respondent_work_province: 0,
+    respondent_work_region: 0,
+};
 
 export default function New({ auth, latestID }: PageProps<{ latestID: number }>) {
-    // Local states
-    const [person, setPerson] = useState<string>("Complainant");
     const user = usePage<PageProps>().props.auth.user;
 
-    // Dates
-    const date = new Date();
-    const todayYear = date.getFullYear();
-    const todayMonth = (date.getMonth() + 1) < 10 ? `0${date.getMonth() + 1}` : date.getMonth() + 1;
-    const todayDay = date.getDate() < 10 ? `0${date.getDate()}` : date.getDate();
-    const h = date.getHours() < 10 ? `0${date.getHours()}` : date.getHours();
-    const m = date.getMinutes() < 10 ? `0${date.getMinutes()}` : date.getMinutes();
+    const [step, setStep] = useState<number>(0);
+    const [issues, setIssues] = useState<Record<string, string>>({});
 
-    // Form data
-    const { data, setData, post, processing, errors, reset } = useForm({
+    const now = new Date();
+    const today = `${now.getFullYear()}-${pad(now.getMonth() + 1)}-${pad(now.getDate())}`;
+    const timeNow = `${pad(now.getHours())}:${pad(now.getMinutes())}`;
+
+    const {
+        data,
+        setData,
+        post,
+        processing,
+        errors: serverErrors,
+        isDirty,
+    } = useForm({
         user_id: user?.id,
         entry_number: latestID ?? 0,
         barangay: user?.name,
-        date_reported: `${todayYear}-${todayMonth}-${todayDay}`,
-        time_of_report: `${h}:${m}`,
+        date_reported: today,
+        time_of_report: timeNow,
         date_of_incident: "",
         time_of_incident: "",
         incident_type: "",
 
-        complainant_data: [{
-            complainant_family_name: "",
-            complainant_first_name: "",
-            complainant_middle_name: "",
-            complainant_birth_date: "",
-            complainant_place_of_birth: "",
-            complainant_citizenship: 1,
-            complainant_gender: 1,
-            complainant_civil_status: 1,
-            complainant_occupation: 1,
-            complainant_education: 1,
-            complainant_email_address: "",
-            complainant_street: "",
-            complainant_village: "",
-            complainant_barangay: 0,
-            complainant_city: 0,
-            complainant_province: 0,
-            complainant_region: 0,
-            complainant_work_street: "",
-            complainant_work_village: "",
-            complainant_work_barangay: 0,
-            complainant_work_city: 0,
-            complainant_work_province: 0,
-            complainant_work_region: 0,
-        }],
+        complainant_data: [{ ...emptyComplainant }],
+        respondent_data: [{ ...emptyRespondent }],
 
-        respondent_data: [{
-            respondent_family_name: "",
-            respondent_first_name: "",
-            respondent_middle_name: "",
-            respondent_birth_date: "",
-            respondent_place_of_birth: "",
-            respondent_citizenship: 1,
-            respondent_gender: 1,
-            respondent_civil_status: 1,
-            respondent_occupation: 1,
-            respondent_education: 1,
-            respondent_email_address: "",
-            respondent_street: "",
-            respondent_village: "",
-            respondent_barangay: 0,
-            respondent_city: 0,
-            respondent_province: 0,
-            respondent_region: 0,
-            respondent_work_street: "",
-            respondent_work_village: "",
-            respondent_work_barangay: 0,
-            respondent_work_city: 0,
-            respondent_work_province: 0,
-            respondent_work_region: 0,
-        }],
-
-        narrative: "(Detail the narrative of the incident or event, answering the WHO, WHAT, WHERE, WHY and HOW of reporting either in English or common dialect)",
-        uploaded_file: "",
+        narrative: "",
+        uploaded_file: "" as string | File,
         remarks: "",
         complainant_signature: "",
         recorded_by: "",
         recorded_by_signature: "",
     });
 
+    // Warn before losing a half-filled entry to an accidental refresh or close.
+    useEffect(() => {
+        const warn = (event: BeforeUnloadEvent) => {
+            if (!isDirty || processing) return;
 
-    // Move to respondent handler
-    const handleNext = () => {
-        if (data.entry_number == 0 || data.entry_number == latestID - 1)
-            return SweetAlert(`Entry number  is required!`, 'Unable to proceed, please answer entry number.', 'error', 2500);
+            event.preventDefault();
+            event.returnValue = "";
+        };
 
-        if (data.barangay == "")
-            return SweetAlert(`Barangay name is required!`, 'Unable to proceed, please provide barangay name.', 'error', 2500);
+        window.addEventListener("beforeunload", warn);
 
-        if (data.incident_type == "")
-            return SweetAlert(`Incident type is required!`, 'Unable to proceed, please provide incident type.', 'error', 2500);
+        return () => window.removeEventListener("beforeunload", warn);
+    }, [isDirty, processing]);
 
-        if ([data.complainant_data[0].complainant_family_name, data.complainant_data[0].complainant_first_name, data.complainant_data[0].complainant_middle_name].indexOf("") != -1)
-            return SweetAlert(`Complainant name is required!`, 'Unable to proceed, please provide Complainant name.', 'error', 2500);
+    // Server-side validation messages sit alongside the client-side ones.
+    const errors = useMemo(
+        () => ({ ...issues, ...(serverErrors as Record<string, string>) }),
+        [issues, serverErrors],
+    );
 
-        if (data.complainant_data[0].complainant_birth_date == "")
-            return SweetAlert(`Complainant birth date is required!`, 'Unable to proceed, please provide birth date.', 'error', 2500);
+    const plainNarrative = String(data.narrative ?? "")
+        .replace(/<[^>]*>/g, "")
+        .replace(/&nbsp;/g, " ")
+        .trim();
 
-        if (data.complainant_data[0].complainant_place_of_birth == "")
-            return SweetAlert(`complainant place of birth is required!`, 'Unable to proceed, please provide place of birth .', 'error', 2500);
+    /** Moves focus to the first field that failed validation. */
+    const focusFirstIssue = (found: Record<string, string>) => {
+        const [firstKey] = Object.keys(found);
+        if (!firstKey) return;
 
-        if ([data.complainant_data[0].complainant_region, data.complainant_data[0].complainant_province, data.complainant_data[0].complainant_city, data.complainant_data[0].complainant_barangay].indexOf(0) != -1)
-            return SweetAlert(`Complainant address is required!`, 'Unable to proceed, please provide Complainant address.', 'error', 2500);
+        const [index, fieldName] = firstKey.split(".");
+        const elementId = fieldName ? `${fieldName}_${index}` : firstKey;
 
-        if (data.narrative == "")
-            return SweetAlert(`Narrative report is required!`, 'Unable to proceed, please provide narrative report .', 'error', 2500);
+        window.requestAnimationFrame(() => {
+            const element = document.getElementById(elementId);
 
-        return person != 'Complainant' ? setPerson('Complainant') : setPerson('Suspect/s');
-    }
+            element?.scrollIntoView({ behavior: "smooth", block: "center" });
+            element?.focus({ preventScroll: true });
+        });
+    };
 
+    const reportIssues = (found: Record<string, string>) => {
+        setIssues(found);
 
-    // Upload blotter handler
-    const Submit = (e: FormEvent) => {
+        const count = Object.keys(found).length;
+
+        Swal.fire({
+            position: "top-end",
+            icon: "error",
+            title: count === 1 ? "1 field needs attention" : `${count} fields need attention`,
+            text: "The highlighted fields below are required.",
+            timer: 2800,
+            showConfirmButton: false,
+        });
+
+        focusFirstIssue(found);
+    };
+
+    /** Everything the barangay must supply before moving on to the suspects. */
+    const validateDetails = () => {
+        const found: Record<string, string> = {};
+
+        if (!data.entry_number || Number(data.entry_number) < 1) {
+            found.entry_number = "Enter the blotter entry number.";
+        }
+
+        if (!String(data.barangay ?? "").trim()) {
+            found.barangay = "Barangay name is required.";
+        }
+
+        if (!data.incident_type) {
+            found.incident_type = "Select the type of offense or incident.";
+        }
+
+        if (!data.date_reported) {
+            found.date_reported = "Select the date this was reported.";
+        }
+
+        if (!data.time_of_report) {
+            found.time_of_report = "Select the time this was reported.";
+        }
+
+        if (!data.date_of_incident) {
+            found.date_of_incident = "Select the date the incident happened.";
+        }
+
+        data.complainant_data.forEach((complainant: any, index: number) => {
+            const require = (suffix: string, message: string) => {
+                const key = `complainant_${suffix}`;
+                const value = complainant[key];
+
+                if (value === "" || value === 0 || value === undefined || value === null) {
+                    found[`${index}.${key}`] = message;
+                }
+            };
+
+            require("family_name", "Family name is required.");
+            require("first_name", "First name is required.");
+            require("middle_name", "Middle name is required.");
+            require("birth_date", "Birth date is required.");
+            require("place_of_birth", "Place of birth is required.");
+            require("region", "Select a region.");
+            require("province", "Select a province.");
+            require("city", "Select a city or municipality.");
+            require("barangay", "Select a barangay.");
+        });
+
+        if (!plainNarrative) {
+            found.narrative = "Describe what happened.";
+        }
+
+        return found;
+    };
+
+    const goToSuspects = () => {
+        const found = validateDetails();
+
+        if (Object.keys(found).length) return reportIssues(found);
+
+        setIssues({});
+        setStep(1);
+        window.scrollTo({ top: 0, behavior: "smooth" });
+    };
+
+    const goBack = () => {
+        setStep(0);
+        window.scrollTo({ top: 0, behavior: "smooth" });
+    };
+
+    const handleSubmit = (e: FormEvent) => {
         e.preventDefault();
 
-        post(route("blotter"));
+        const found = validateDetails();
 
-        setTimeout(() => {
-            Swal.fire({
-                title: "Blotter Added",
-                text: "Entry saved to your database!",
-                icon: "success",
-                timer: 2500,
-            });
-        }, 2000);
-    }
+        if (!String(data.recorded_by ?? "").trim()) {
+            found.recorded_by = "Enter the name of the person recording this entry.";
+        }
+
+        if (Object.keys(found).length) {
+            // A missing detail from step one has to be fixed where it lives.
+            if (Object.keys(found).some((key) => key !== "recorded_by")) {
+                setStep(0);
+            }
+
+            return reportIssues(found);
+        }
+
+        setIssues({});
+
+        post(route("blotter"), {
+            preserveScroll: true,
+            onSuccess: () =>
+                Swal.fire({
+                    title: "Blotter entry saved",
+                    text: `Entry number ${data.entry_number} has been added to your records.`,
+                    icon: "success",
+                    timer: 2500,
+                    showConfirmButton: false,
+                }),
+            onError: () =>
+                Swal.fire({
+                    title: "Entry not saved",
+                    text: "Please review the highlighted fields and try again.",
+                    icon: "error",
+                    timer: 3000,
+                    showConfirmButton: false,
+                }),
+        });
+    };
+
+    const issueCount = Object.keys(errors).length;
 
     return (
         <AuthenticatedLayout
             user={auth.user}
             header={
-                <h2 className="font-semibold text-xl text-gray-800 leading-tight">
+                <h2 className="text-xl font-semibold leading-tight text-gray-800">
                     Blotter
                 </h2>
             }
         >
-            <Head title="Barangay Blotter" />
-            <Breadcrumb pageName={person} />
+            <Head title="New Blotter Entry" />
 
-            <div className="grid grid-cols-1 gap-9 sm:grid-cols-1">
+            <form onSubmit={handleSubmit} noValidate>
+                <div className="mb-6 flex flex-col gap-4">
+                    <div className="flex flex-wrap items-end justify-between gap-3">
+                        <div>
+                            <h1 className="text-title-sm font-semibold text-black dark:text-white">
+                                New Blotter Entry
+                            </h1>
+                            <p className="mt-1 text-sm text-body dark:text-bodydark">
+                                Entry No. {data.entry_number} &middot; Fields marked
+                                <span className="mx-1 text-danger">*</span>
+                                are required.
+                            </p>
+                        </div>
 
-                <div className="flex flex-col lg:gap-0 gap-4">
+                        <Link
+                            href={route("blotter.blotters")}
+                            className="text-sm font-medium text-primary hover:underline"
+                        >
+                            Back to blotter records
+                        </Link>
+                    </div>
 
-                    {/** */}
-
-                    {/* <!- BRF FORM --> */}
-                    {person === 'Complainant'
-                        ? <BrfForm
-                            data={data}
-                            setData={setData}
-                        />
-                        : null}
-                    {/** End BRF FORM */}
-
-
-                    {/* <!- Person's involved Data --> */}
-                    <PersonInvolveData
-                        data={data}
-                        setData={setData}
-                        person={person}
+                    <FormStepper
+                        steps={STEPS}
+                        current={step}
+                        onSelect={(index) => setStep(index)}
                     />
-                    {/** End Person's involved  */}
 
-                    {/* <!- Narrative Report --> */}
-                    {person === 'Complainant'
-                        ? <Narrative
-                            data={data}
-                            setData={setData}
-                        />
-                        : null}
-                    {/** End Narrative Report */}
-
-
-                    <div className="flex lg:flex-row flex-col justify-between lg:gap-12">
-                        {/* <!- Case Disposition --> */}
-                        {person === 'Suspect/s'
-                            ? <CaseDisposition
-                                data={data}
-                                setData={setData}
+                    {issueCount ? (
+                        <div className="flex items-start gap-3 rounded-xl border border-danger/40 bg-danger/5 px-4 py-3">
+                            <ExclamationTriangleFill
+                                size={16}
+                                className="mt-0.5 shrink-0 text-danger"
                             />
-                            : null}
-                        {/** End Case Disposition */}
-
-                        {/* <!- Authentication --> */}
-                        {person === 'Suspect/s'
-                            ? <Authentication
-                                data={data}
-                                setData={setData}
-                            />
-                            : null}
-                        {/** End Authentication */}
-                    </div>
-
-
-
-                    {/* Next to respondent */}
-                    <div className="flex justify-end gap-4 mt-4">
-                        <button
-                            className="bg-blue-500  hover:bg-blue-700 text-white px-3 py-1 rounded-3xl flex gap-1"
-                            onClick={handleNext}>
-
-                            {person === 'Complainant'
-                                ? <>
-                                    Next to Person Complain of/Suspects
-                                    <ArrowRight className="my-1 hover:font-bold" />
-                                </>
-                                : <>
-                                    <ArrowLeft className="my-1 hover:font-bold" />
-                                    Back
-                                </>}
-                        </button>
-                        {person === 'Suspect/s' ? (
-                            <form onSubmit={Submit}>
-                                <button
-                                    className="bg-blue-500  hover:bg-blue-700 text-white px-5 py-1 rounded-3xl flex gap-1"
-                                    onClick={() => { }}>
-
-                                    {!processing
-                                        ? <> Submit <CloudUpload className="m-1 hover:font-bold" /></>
-                                        : <> Submitting... <CircleHalf className="m-1 hover:font-bold animate-spin" /></>
-                                    }
-                                </button>
-                            </form>
-
-                        ) : (
-                            null
-                        )}
-
-                    </div>
-                    {/* End Next to respondent */}
+                            <p className="text-sm text-danger">
+                                {issueCount === 1
+                                    ? "1 field still needs your attention."
+                                    : `${issueCount} fields still need your attention.`}{" "}
+                                They are highlighted in red below.
+                            </p>
+                        </div>
+                    ) : null}
                 </div>
-            </div>
-        </AuthenticatedLayout >
-    );
 
+                <div className="flex flex-col gap-6 pb-28">
+                    {step === 0 ? (
+                        <>
+                            <BrfForm data={data} setData={setData} errors={errors} />
+
+                            <PersonInvolveData
+                                data={data}
+                                setData={setData}
+                                person="Complainant"
+                                errors={errors}
+                            />
+
+                            <Narrative data={data} setData={setData} errors={errors} />
+                        </>
+                    ) : (
+                        <>
+                            <PersonInvolveData
+                                data={data}
+                                setData={setData}
+                                person="Suspect/s"
+                                errors={errors}
+                            />
+
+                            <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
+                                <CaseDisposition
+                                    data={data}
+                                    setData={setData}
+                                    errors={errors}
+                                />
+                                <Authentication
+                                    data={data}
+                                    setData={setData}
+                                    errors={errors}
+                                />
+                            </div>
+                        </>
+                    )}
+                </div>
+
+                {/* Sticky action bar so the controls stay reachable in a long form */}
+                <div className="sticky bottom-0 -mx-4 mt-2 border-t border-stroke bg-white/95 px-4 py-3 backdrop-blur dark:border-strokedark dark:bg-boxdark/95 md:-mx-6 md:px-6 2xl:-mx-10 2xl:px-10">
+                    <div className="flex flex-wrap items-center justify-between gap-3">
+                        <span className="text-xs font-medium text-body dark:text-bodydark">
+                            Step {step + 1} of {STEPS.length} &middot; {STEPS[step].title}
+                        </span>
+
+                        <div className="flex flex-wrap items-center gap-3">
+                            {step > 0 ? (
+                                <button
+                                    type="button"
+                                    onClick={goBack}
+                                    className="flex h-11 items-center gap-2 rounded-lg border border-stroke px-5 text-sm font-medium text-black transition hover:bg-whiten dark:border-strokedark dark:text-white dark:hover:bg-meta-4"
+                                >
+                                    <ArrowLeft size={14} />
+                                    Back
+                                </button>
+                            ) : null}
+
+                            {step === 0 ? (
+                                <button
+                                    type="button"
+                                    onClick={goToSuspects}
+                                    className="flex h-11 items-center gap-2 rounded-lg bg-primary px-5 text-sm font-medium text-white transition hover:bg-opacity-90"
+                                >
+                                    Next: Suspect details
+                                    <ArrowRight size={14} />
+                                </button>
+                            ) : (
+                                <button
+                                    type="submit"
+                                    disabled={processing}
+                                    className="flex h-11 items-center gap-2 rounded-lg bg-primary px-6 text-sm font-medium text-white transition hover:bg-opacity-90 disabled:cursor-not-allowed disabled:opacity-60"
+                                >
+                                    {processing ? (
+                                        <>
+                                            Submitting...
+                                            <CircleHalf size={14} className="animate-spin" />
+                                        </>
+                                    ) : (
+                                        <>
+                                            Submit blotter entry
+                                            <CloudUpload size={14} />
+                                        </>
+                                    )}
+                                </button>
+                            )}
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </AuthenticatedLayout>
+    );
 }
