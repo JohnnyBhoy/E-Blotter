@@ -97,8 +97,14 @@ class UserResource extends Resource
         ];
     }
 
-    public static function canAccessPanel(\Filament\Panel $panel): bool
+    /**
+     * Panel access is gated by User::canAccessPanel(). A canAccessPanel() on a
+     * Resource is never called by Filament, and the hasRole() it used needs the
+     * Spatie HasRoles trait, which App\Models\User does not use — so it would
+     * have thrown had anything invoked it.
+     */
+    public static function canViewAny(): bool
     {
-        return auth()->user()?->hasRole('admin');
+        return auth()->user()?->role === \App\Models\User::ROLE_SUPER_ADMIN;
     }
 }
