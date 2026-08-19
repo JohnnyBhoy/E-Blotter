@@ -17,6 +17,9 @@ use Inertia\Response;
 
 class RegisteredUserController extends Controller
 {
+    /** Role assigned to every self-registered account. */
+    private const BARANGAY_ROLE = 2;
+
     protected $userService;
 
     public function __construct(UserService $userService)
@@ -39,28 +42,26 @@ class RegisteredUserController extends Controller
     public function store(Request $request): RedirectResponse
     {
 
-        try {
-            $request->validate([
-                'name' => 'required|string|max:255',
-                'email' => 'required|string|lowercase|email|max:255|unique:' . User::class,
-                'password' => ['required', 'confirmed', Rules\Password::defaults()],
-                'role' => 'required|integer',
-            ]);
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|lowercase|email|max:255|unique:' . User::class,
+            'password' => ['required', 'confirmed', Rules\Password::defaults()],
+        ]);
 
-            $user = User::create([
-                'name' => $request->name,
-                'email' => $request->email,
-                'password' => Hash::make($request->password),
-                'role' => $request->role,
-            ]);
+        // Self-registration always creates a barangay account. Elevated roles
+        // (station, province, region, super admin) are provisioned out of band
+        // so that a crafted request cannot mint an admin.
+        $user = User::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+            'role' => self::BARANGAY_ROLE,
+        ]);
 
-            event(new Registered($user));
+        event(new Registered($user));
 
-            Auth::login($user);
+        Auth::login($user);
 
-            return redirect(route('dashboard', absolute: false));
-        } catch (\Throwable $th) {
-            throw $th;
-        }
+        return redirect(route('dashboard', absolute: false));
     }
 }
