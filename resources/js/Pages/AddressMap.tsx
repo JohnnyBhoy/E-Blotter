@@ -1,22 +1,38 @@
 // LocationSelectorMap.tsx
-import React, { useState } from 'react';
-import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
+import React, { useEffect, useState } from 'react';
+import { MapContainer, TileLayer, Marker, Popup, useMap, useMapEvents } from 'react-leaflet';
 import L from 'leaflet';
+
+// Philippines bounding box
+const philippinesBounds: L.LatLngBoundsLiteral = [
+    [4.6, 116.9], // Southwest corner
+    [21.3, 126.6] // Northeast corner
+];
+
+/**
+ * react-leaflet v4 dropped MapContainer's `whenCreated` prop, so the click
+ * handler and the max bounds were silently never attached. Both now hook into
+ * the map instance from inside the container.
+ */
+const MapBehaviour = ({ onSelect }: { onSelect: (coords: [number, number]) => void }) => {
+    const map = useMap();
+
+    useEffect(() => {
+        map.setMaxBounds(philippinesBounds);
+    }, [map]);
+
+    useMapEvents({
+        click(event) {
+            const { lat, lng } = event.latlng;
+            onSelect([lat, lng]);
+        },
+    });
+
+    return null;
+};
 
 const LocationSelectorMap: React.FC = () => {
     const [selectedCoords, setSelectedCoords] = useState<[number, number] | null>(null);
-
-    // Philippines bounding box
-    const philippinesBounds: L.LatLngBoundsLiteral = [
-        [4.6, 116.9], // Southwest corner
-        [21.3, 126.6] // Northeast corner
-    ];
-
-    const handleMapClick = (event: L.LeafletEvent) => {
-        const { lat, lng } = event.latlng;
-        setSelectedCoords([lat, lng]);
-        console.log('Selected coordinates:', lat, lng); // Log coordinates to the console
-    };
 
     return (
         <div>
@@ -26,14 +42,9 @@ const LocationSelectorMap: React.FC = () => {
                 center={[12.8797, 121.7740]} // Center the map on the Philippines
                 zoom={6}
                 style={{ width: '100%', height: '400px' }}
-                whenCreated={(map) => {
-                    // Attach the click event listener after map is created
-                    map.on('click', handleMapClick);
-
-                    // Restrict map movement to the bounds of the Philippines
-                    map.setMaxBounds(philippinesBounds);
-                }}
             >
+                <MapBehaviour onSelect={setSelectedCoords} />
+
                 <TileLayer
                     url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                     attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
