@@ -20,6 +20,7 @@ class Incident extends Model
      */
     protected $fillable = [
         'incident_type',
+        'report_category',
         'date_reported',
         'time_reported',
         'date_of_incident',
@@ -44,5 +45,11 @@ class Incident extends Model
         'number_of_people_involved',
         'perpetrator_details',
         'victim_details',
+        'agency_assigned',
+        'severity_level',
+        'status',
+        'additional_data',
+        'is_emergency',
+        'responded_at',
     ];
 }
