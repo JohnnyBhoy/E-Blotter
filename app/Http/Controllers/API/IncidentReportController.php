@@ -15,26 +15,24 @@ class IncidentReportController extends Controller
 
     public function store(Request $request)
     {
-        $request->validate([
-            'coordinates' => 'required|string',
-            'location' => 'required|string',
+        // Only the validated keys are persisted — `$request->all()` would let a
+        // caller set `incident_responder` or any other column on this open route.
+        $data = $request->validate([
+            'coordinates' => 'required|string|max:255',
+            'location' => 'required|string|max:500',
             'incidentTypes' => 'required|integer',
-            'description' => 'required|string',
+            'description' => 'required|string|max:2000',
             'status' => 'required|integer',
             'file' => 'nullable|file|mimes:jpg,jpeg,png,pdf,docx|max:2048'
         ]);
 
-        $data = $request->all();
-
         if ($request->hasFile('file')) {
             $data['file'] = $request->file('file')->store('incident_files', 'public');
+        } else {
+            unset($data['file']);
         }
 
-        try {
-            $report = IncidentReport::create($data);
-        } catch (\Throwable $th) {
-            throw $th;
-        }
+        $report = IncidentReport::create($data);
 
         return response()->json($report, 201);
     }
