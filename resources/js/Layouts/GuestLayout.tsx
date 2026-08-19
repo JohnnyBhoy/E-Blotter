@@ -5,8 +5,8 @@ import ReportingOptions from "@/Pages/Guest/ReportingOptions";
 import { useHeaderStore } from "@/utils/store/headerStore";
 import { useLoginRegisterStore } from "@/utils/store/loginRegisterStore";
 import { Link } from "@inertiajs/react";
-import React, { useState } from "react";
-import { TelephoneOutboundFill } from "react-bootstrap-icons";
+import React, { useState, useEffect } from "react";
+import { TelephoneOutboundFill, X, List } from "react-bootstrap-icons";
 
 export default function Guest({ children }: { children: any }) {
     const tabs = ["Overview", "About", "Contact Us", "Help"];
@@ -15,101 +15,201 @@ export default function Guest({ children }: { children: any }) {
     const { activeTab, setActiveTab } = useHeaderStore();
     const { showLogin, showRegister, setShowLogin, setShowRegister } = useLoginRegisterStore();
 
-    //Local state
+    // Local state
     const [showReportingOptions, setShowReportingOptions] = useState(false);
+    const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+    const [isScrolled, setIsScrolled] = useState(false);
+
+    // Handle scroll effect
+    useEffect(() => {
+        const handleScroll = () => {
+            setIsScrolled(window.scrollY > 10);
+        };
+        window.addEventListener('scroll', handleScroll);
+        return () => window.removeEventListener('scroll', handleScroll);
+    }, []);
+
+    // Close mobile menu when clicking outside
+    useEffect(() => {
+        const handleClickOutside = (event: MouseEvent) => {
+            const target = event.target as HTMLElement;
+            if (!target.closest('.mobile-menu-container') && !target.closest('.mobile-menu-button')) {
+                setIsMobileMenuOpen(false);
+            }
+        };
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => document.removeEventListener('mousedown', handleClickOutside);
+    }, []);
 
     return (
-        < div className="" >
-            <header className="fixed w-full shadow">
-                <nav className="bg-white border-gray-200 py-2.5 dark:bg-gray-900">
-                    <div className="flex flex-wrap items-center justify-between max-w-screen-xl px-4 mx-auto">
-                        <Link href="/" className="flex items-center">
-                            <img src="/images/logs.ico" className="h-6 mr-3 sm:h-9" alt="Landwind Logo" />
-                            <span className="self-center text-xl font-semibold whitespace-nowrap dark:text-white text-blue-500">E-911</span>
-                        </Link>
-                        <div className="flex items-center lg:order-2 hidden">
-                            <div className="lg:inline hidden">
-                                <button
-                                    className="text-slate-500 bg-slate-200 hover:bg-slate-300 focus:ring-4 focus:ring-purple-300 font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 sm:mr-2 lg:mr-0 dark:bg-purple-600 dark:hover:bg-purple-500 focus:outline-none dark:focus:ring-purple-800"
-                                    onClick={() => setShowLogin(true)}
-                                >
-                                    Sign in
-                                </button>
-
-                                <button className="text-white bg-blue-400 hover:bg-blue-500 focus:ring-4 focus:ring-purple-300 font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 sm:mr-2 lg:mr-0 dark:bg-purple-600 dark:hover:bg-purple-700 focus:outline-none dark:focus:ring-purple-800 ml-6"
-                                    onClick={() => setShowRegister(true)}
-                                >
-                                    Create account
-                                </button>
-                            </div>
-
-                            <button data-collapse-toggle="mobile-menu-2" type="button" className="inline-flex items-center p-2 ml-1 text-sm text-gray-500 rounded-lg lg:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600" aria-controls="mobile-menu-2" aria-expanded="false">
-                                <span className="sr-only">Open main menu</span>
-                                <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clipRule="evenodd"></path></svg>
-                                <svg className="hidden w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clipRule="evenodd"></path></svg>
-                            </button>
-                        </div>
-                        <div className="items-center justify-between w-full lg:flex lg:w-auto lg:order-1 hidden" id="mobile-menu-2">
-
-                            <button
-                                className="bg-red-500 text-white animate-pulse py-2 px-3 rounded-lg flex place-items-center gap-2"
-                                onClick={() => setShowReportingOptions(!showReportingOptions)}
-                            >
-                                <TelephoneOutboundFill
-                                    className="animate-bounce"
+        <div className="min-h-screen bg-gray-50">
+            <header className={`fixed w-full top-0 left-0 right-0 z-50 transition-all duration-300 ${isScrolled ? 'bg-white/95 backdrop-blur-md shadow-lg' : 'bg-white shadow-sm'}`}>
+                <nav className="border-gray-200">
+                    <div className="max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-8">
+                        <div className="flex items-center justify-between h-16">
+                            {/* Logo */}
+                            <Link href="/" className="flex items-center space-x-3 group">
+                                <img 
+                                    src="/images/logo/e-blotter.png" 
+                                    className="h-8 w-auto transition-transform duration-300 group-hover:scale-105" 
+                                    alt="E-Blotter Logo" 
                                 />
-                                Report Incident
-                            </button>
+                                <span className="text-xl font-bold bg-gradient-to-r from-blue-600 to-blue-500 bg-clip-text text-transparent">
+                                    E-Blotter
+                                </span>
+                            </Link>
 
+                            {/* Desktop Navigation */}
+                            <div className="hidden lg:flex items-center space-x-8">
+                                {/* Report Incident Button */}
+                                <button
+                                    className="bg-gradient-to-r from-red-500 to-red-600 text-white px-4 py-2 rounded-lg flex items-center gap-2 hover:from-red-600 hover:to-red-700 transition-all duration-300 transform hover:scale-105 shadow-md"
+                                    onClick={() => setShowReportingOptions(true)}
+                                >
+                                    <TelephoneOutboundFill className="w-4 h-4" />
+                                    <span className="font-medium">Report Incident</span>
+                                </button>
 
-                            <ul className="flex flex-col mt-4 font-medium lg:flex-row lg:space-x-8 lg:mt-0 hidden">
-                                <li>
+                                {/* Navigation Links */}
+                                <div className="hidden lg:flex items-center space-x-6">
                                     <Link
                                         href="/"
-                                        className="block py-2 pl-3 pr-4 text-white bg-purple-700 rounded lg:bg-transparent lg:text-purple-700 lg:p-0 dark:text-white" aria-current="page">
+                                        className="text-gray-700 hover:text-blue-600 font-medium transition-colors duration-200"
+                                    >
                                         Overview
                                     </Link>
-                                </li>
-                                <li>
                                     <Link
                                         href="/faq"
-                                        className="block py-2 pl-3 pr-4 text-gray-700 border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 lg:hover:text-purple-700 lg:p-0 dark:text-gray-400 lg:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent dark:border-gray-700">
+                                        className="text-gray-700 hover:text-blue-600 font-medium transition-colors duration-200"
+                                    >
                                         FAQ
                                     </Link>
-                                </li>
-                                <li>
                                     <Link
                                         href="/contact-us"
-                                        className="block py-2 pl-3 pr-4 text-gray-700 border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 lg:hover:text-purple-700 lg:p-0 dark:text-gray-400 lg:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent dark:border-gray-700">
+                                        className="text-gray-700 hover:text-blue-600 font-medium transition-colors duration-200"
+                                    >
                                         Contact Us
                                     </Link>
-                                </li>
-                            </ul>
+                                </div>
+
+                                {/* Auth Buttons */}
+                                <div className="flex items-center space-x-3">
+                                    <button
+                                        className="px-4 py-2 text-gray-700 bg-gray-100 hover:bg-gray-200 rounded-lg font-medium transition-all duration-200 transform hover:scale-105"
+                                        onClick={() => setShowLogin(true)}
+                                    >
+                                        Sign In
+                                    </button>
+                                    <button
+                                        className="px-4 py-2 text-white bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 rounded-lg font-medium transition-all duration-200 transform hover:scale-105 shadow-md"
+                                        onClick={() => setShowRegister(true)}
+                                    >
+                                        Create Account
+                                    </button>
+                                </div>
+                            </div>
+
+                            {/* Mobile Menu Button */}
+                            <button
+                                className="mobile-menu-button lg:hidden p-2 rounded-lg text-gray-700 hover:bg-gray-100 transition-colors duration-200"
+                                onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+                            >
+                                {isMobileMenuOpen ? (
+                                    <X className="w-6 h-6" />
+                                ) : (
+                                    <List className="w-6 h-6" />
+                                )}
+                            </button>
+                        </div>
+
+                        {/* Mobile Menu */}
+                        <div className={`mobile-menu-container lg:hidden transition-all duration-300 ease-in-out ${isMobileMenuOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0 overflow-hidden'}`}>
+                            <div className="py-4 space-y-4">
+                                {/* Report Incident Button - Mobile */}
+                                <button
+                                    className="w-full bg-gradient-to-r from-red-500 to-red-600 text-white px-4 py-3 rounded-lg flex items-center justify-center gap-2 hover:from-red-600 hover:to-red-700 transition-all duration-300 shadow-md"
+                                    onClick={() => {
+                                        setShowReportingOptions(true);
+                                        setIsMobileMenuOpen(false);
+                                    }}
+                                >
+                                    <TelephoneOutboundFill className="w-4 h-4" />
+                                    <span className="font-medium">Report Incident</span>
+                                </button>
+
+                                {/* Navigation Links - Mobile */}
+                                <div className="space-y-2">
+                                    <Link
+                                        href="/"
+                                        className="block px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-lg font-medium transition-colors duration-200"
+                                        onClick={() => setIsMobileMenuOpen(false)}
+                                    >
+                                        Overview
+                                    </Link>
+                                    <Link
+                                        href="/faq"
+                                        className="block px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-lg font-medium transition-colors duration-200"
+                                        onClick={() => setIsMobileMenuOpen(false)}
+                                    >
+                                        FAQ
+                                    </Link>
+                                    <Link
+                                        href="/contact-us"
+                                        className="block px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-lg font-medium transition-colors duration-200"
+                                        onClick={() => setIsMobileMenuOpen(false)}
+                                    >
+                                        Contact Us
+                                    </Link>
+                                </div>
+
+                                {/* Auth Buttons - Mobile */}
+                                <div className="space-y-2 pt-4 border-t border-gray-200">
+                                    <button
+                                        className="w-full px-4 py-3 text-gray-700 bg-gray-100 hover:bg-gray-200 rounded-lg font-medium transition-all duration-200"
+                                        onClick={() => {
+                                            setShowLogin(true);
+                                            setIsMobileMenuOpen(false);
+                                        }}
+                                    >
+                                        Sign In
+                                    </button>
+                                    <button
+                                        className="w-full px-4 py-3 text-white bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 rounded-lg font-medium transition-all duration-200 shadow-md"
+                                        onClick={() => {
+                                            setShowRegister(true);
+                                            setIsMobileMenuOpen(false);
+                                        }}
+                                    >
+                                        Create Account
+                                    </button>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </nav>
             </header>
-            <div className="z-20 overflow-auto w-full">
+
+            {/* Main Content */}
+            <main className="pt-16">
                 {children}
-            </div>
+            </main>
+
+            {/* Modals */}
             <Modal show={showLogin} maxWidth="4xl" onClose={() => setShowLogin(false)}>
                 <Login />
             </Modal>
-            {/** Login Modal */}
 
-            < Modal show={showRegister} maxWidth="5xl" onClose={() => setShowRegister(false)}>
+            <Modal show={showRegister} maxWidth="5xl" onClose={() => setShowRegister(false)}>
                 <Register />
-            </Modal >
-            {/** Register Modal */}
+            </Modal>
 
-            {/**Reporting options */}
             <Modal
                 show={showReportingOptions}
                 maxWidth="2xl"
-                onClose={() => setShowReportingOptions(false)}>
+                onClose={() => setShowReportingOptions(false)}
+            >
                 <ReportingOptions />
             </Modal>
-
-        </div >
+        </div>
     );
 }
