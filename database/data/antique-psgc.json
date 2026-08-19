@@ -1,0 +1,3090 @@
+{
+  "source": "PSGC — resources/js/utils/data/{provinces,cities,barangays}.ts",
+  "region": {
+    "code": 6,
+    "name": "Region VI (Western Visayas)"
+  },
+  "province": {
+    "code": 606,
+    "name": "Antique",
+    "slug": "antique"
+  },
+  "municipalities": [
+    {
+      "code": 60601,
+      "name": "Anini-y",
+      "slug": "anini-y",
+      "barangays": [
+        {
+          "code": 60601001,
+          "name": "Bayo Grande",
+          "slug": "bayo-grande"
+        },
+        {
+          "code": 60601002,
+          "name": "Bayo Pequeño",
+          "slug": "bayo-pequeno"
+        },
+        {
+          "code": 60601004,
+          "name": "Butuan",
+          "slug": "butuan"
+        },
+        {
+          "code": 60601005,
+          "name": "Casay",
+          "slug": "casay"
+        },
+        {
+          "code": 60601006,
+          "name": "Casay Viejo",
+          "slug": "casay-viejo"
+        },
+        {
+          "code": 60601007,
+          "name": "Iba",
+          "slug": "iba"
+        },
+        {
+          "code": 60601008,
+          "name": "Igbarabatuan",
+          "slug": "igbarabatuan"
+        },
+        {
+          "code": 60601009,
+          "name": "Igpalge",
+          "slug": "igpalge"
+        },
+        {
+          "code": 60601010,
+          "name": "Igtumarom",
+          "slug": "igtumarom"
+        },
+        {
+          "code": 60601011,
+          "name": "Lisub A",
+          "slug": "lisub-a"
+        },
+        {
+          "code": 60601012,
+          "name": "Lisub B",
+          "slug": "lisub-b"
+        },
+        {
+          "code": 60601013,
+          "name": "Mabuyong",
+          "slug": "mabuyong"
+        },
+        {
+          "code": 60601014,
+          "name": "Magdalena",
+          "slug": "magdalena"
+        },
+        {
+          "code": 60601015,
+          "name": "Nasuli C",
+          "slug": "nasuli-c"
+        },
+        {
+          "code": 60601016,
+          "name": "Nato",
+          "slug": "nato"
+        },
+        {
+          "code": 60601017,
+          "name": "Poblacion",
+          "slug": "poblacion"
+        },
+        {
+          "code": 60601018,
+          "name": "Sagua",
+          "slug": "sagua"
+        },
+        {
+          "code": 60601019,
+          "name": "Salvacion",
+          "slug": "salvacion"
+        },
+        {
+          "code": 60601020,
+          "name": "San Francisco",
+          "slug": "san-francisco"
+        },
+        {
+          "code": 60601021,
+          "name": "San Ramon",
+          "slug": "san-ramon"
+        },
+        {
+          "code": 60601022,
+          "name": "San Roque",
+          "slug": "san-roque"
+        },
+        {
+          "code": 60601023,
+          "name": "Tagaytay",
+          "slug": "tagaytay"
+        },
+        {
+          "code": 60601024,
+          "name": "Talisayan",
+          "slug": "talisayan"
+        }
+      ]
+    },
+    {
+      "code": 60602,
+      "name": "Barbaza",
+      "slug": "barbaza",
+      "barangays": [
+        {
+          "code": 60602002,
+          "name": "Baghari",
+          "slug": "baghari"
+        },
+        {
+          "code": 60602003,
+          "name": "Bahuyan",
+          "slug": "bahuyan"
+        },
+        {
+          "code": 60602004,
+          "name": "Beri",
+          "slug": "beri"
+        },
+        {
+          "code": 60602005,
+          "name": "Biga-a",
+          "slug": "biga-a"
+        },
+        {
+          "code": 60602006,
+          "name": "Binangbang",
+          "slug": "binangbang"
+        },
+        {
+          "code": 60602007,
+          "name": "Binangbang Centro",
+          "slug": "binangbang-centro"
+        },
+        {
+          "code": 60602008,
+          "name": "Binanu-an",
+          "slug": "binanu-an"
+        },
+        {
+          "code": 60602009,
+          "name": "Cadiao",
+          "slug": "cadiao"
+        },
+        {
+          "code": 60602010,
+          "name": "Calapadan",
+          "slug": "calapadan"
+        },
+        {
+          "code": 60602011,
+          "name": "Capoyuan",
+          "slug": "capoyuan"
+        },
+        {
+          "code": 60602012,
+          "name": "Cubay",
+          "slug": "cubay"
+        },
+        {
+          "code": 60602013,
+          "name": "Esparar",
+          "slug": "esparar"
+        },
+        {
+          "code": 60602014,
+          "name": "Gua",
+          "slug": "gua"
+        },
+        {
+          "code": 60602015,
+          "name": "Idao",
+          "slug": "idao"
+        },
+        {
+          "code": 60602016,
+          "name": "Igpalge",
+          "slug": "igpalge"
+        },
+        {
+          "code": 60602017,
+          "name": "Igtunarum",
+          "slug": "igtunarum"
+        },
+        {
+          "code": 60602018,
+          "name": "Embrangga-an",
+          "slug": "embrangga-an"
+        },
+        {
+          "code": 60602019,
+          "name": "Integasan",
+          "slug": "integasan"
+        },
+        {
+          "code": 60602020,
+          "name": "Ipil",
+          "slug": "ipil"
+        },
+        {
+          "code": 60602021,
+          "name": "Jinalinan",
+          "slug": "jinalinan"
+        },
+        {
+          "code": 60602022,
+          "name": "Lanas",
+          "slug": "lanas"
+        },
+        {
+          "code": 60602023,
+          "name": "Langcaon (Evelio Javier)",
+          "slug": "langcaon"
+        },
+        {
+          "code": 60602024,
+          "name": "Lisub",
+          "slug": "lisub"
+        },
+        {
+          "code": 60602025,
+          "name": "Lombuyan",
+          "slug": "lombuyan"
+        },
+        {
+          "code": 60602026,
+          "name": "Mablad",
+          "slug": "mablad"
+        },
+        {
+          "code": 60602027,
+          "name": "Magtulis",
+          "slug": "magtulis"
+        },
+        {
+          "code": 60602028,
+          "name": "Marigne",
+          "slug": "marigne"
+        },
+        {
+          "code": 60602029,
+          "name": "Mayabay",
+          "slug": "mayabay"
+        },
+        {
+          "code": 60602030,
+          "name": "Mayos",
+          "slug": "mayos"
+        },
+        {
+          "code": 60602031,
+          "name": "Nalusdan",
+          "slug": "nalusdan"
+        },
+        {
+          "code": 60602032,
+          "name": "Narirong",
+          "slug": "narirong"
+        },
+        {
+          "code": 60602033,
+          "name": "Palma",
+          "slug": "palma"
+        },
+        {
+          "code": 60602034,
+          "name": "Poblacion",
+          "slug": "poblacion"
+        },
+        {
+          "code": 60602035,
+          "name": "San Antonio",
+          "slug": "san-antonio"
+        },
+        {
+          "code": 60602036,
+          "name": "San Ramon",
+          "slug": "san-ramon"
+        },
+        {
+          "code": 60602037,
+          "name": "Soligao",
+          "slug": "soligao"
+        },
+        {
+          "code": 60602038,
+          "name": "Tabongtabong",
+          "slug": "tabongtabong"
+        },
+        {
+          "code": 60602039,
+          "name": "Tig-Alaran",
+          "slug": "tig-alaran"
+        },
+        {
+          "code": 60602040,
+          "name": "Yapo",
+          "slug": "yapo"
+        }
+      ]
+    },
+    {
+      "code": 60603,
+      "name": "Belison",
+      "slug": "belison",
+      "barangays": [
+        {
+          "code": 60603001,
+          "name": "Borocboroc",
+          "slug": "borocboroc"
+        },
+        {
+          "code": 60603002,
+          "name": "Buenavista",
+          "slug": "buenavista"
+        },
+        {
+          "code": 60603003,
+          "name": "Concepcion",
+          "slug": "concepcion"
+        },
+        {
+          "code": 60603004,
+          "name": "Delima",
+          "slug": "delima"
+        },
+        {
+          "code": 60603005,
+          "name": "Ipil",
+          "slug": "ipil"
+        },
+        {
+          "code": 60603006,
+          "name": "Maradiona",
+          "slug": "maradiona"
+        },
+        {
+          "code": 60603007,
+          "name": "Mojon",
+          "slug": "mojon"
+        },
+        {
+          "code": 60603008,
+          "name": "Poblacion",
+          "slug": "poblacion"
+        },
+        {
+          "code": 60603009,
+          "name": "Rombang",
+          "slug": "rombang"
+        },
+        {
+          "code": 60603010,
+          "name": "Salvacion",
+          "slug": "salvacion"
+        },
+        {
+          "code": 60603011,
+          "name": "Sinaja",
+          "slug": "sinaja"
+        }
+      ]
+    },
+    {
+      "code": 60604,
+      "name": "Bugasong",
+      "slug": "bugasong",
+      "barangays": [
+        {
+          "code": 60604001,
+          "name": "Anilawan",
+          "slug": "anilawan"
+        },
+        {
+          "code": 60604002,
+          "name": "Arangote",
+          "slug": "arangote"
+        },
+        {
+          "code": 60604003,
+          "name": "Bagtason",
+          "slug": "bagtason"
+        },
+        {
+          "code": 60604004,
+          "name": "Camangahan",
+          "slug": "camangahan"
+        },
+        {
+          "code": 60604005,
+          "name": "Cubay North",
+          "slug": "cubay-north"
+        },
+        {
+          "code": 60604006,
+          "name": "Cubay South",
+          "slug": "cubay-south"
+        },
+        {
+          "code": 60604009,
+          "name": "Guija",
+          "slug": "guija"
+        },
+        {
+          "code": 60604010,
+          "name": "Igbalangao",
+          "slug": "igbalangao"
+        },
+        {
+          "code": 60604011,
+          "name": "Igsoro",
+          "slug": "igsoro"
+        },
+        {
+          "code": 60604012,
+          "name": "Ilaures",
+          "slug": "ilaures"
+        },
+        {
+          "code": 60604013,
+          "name": "Jinalinan",
+          "slug": "jinalinan"
+        },
+        {
+          "code": 60604014,
+          "name": "Lacayon",
+          "slug": "lacayon"
+        },
+        {
+          "code": 60604015,
+          "name": "Maray",
+          "slug": "maray"
+        },
+        {
+          "code": 60604016,
+          "name": "Paliwan",
+          "slug": "paliwan"
+        },
+        {
+          "code": 60604017,
+          "name": "Pangalcagan",
+          "slug": "pangalcagan"
+        },
+        {
+          "code": 60604018,
+          "name": "Centro Ilawod (Pob.)",
+          "slug": "centro-ilawod"
+        },
+        {
+          "code": 60604019,
+          "name": "Centro Ilaya (Pob.)",
+          "slug": "centro-ilaya"
+        },
+        {
+          "code": 60604020,
+          "name": "Centro Pojo (Pob.)",
+          "slug": "centro-pojo"
+        },
+        {
+          "code": 60604021,
+          "name": "Sabang East",
+          "slug": "sabang-east"
+        },
+        {
+          "code": 60604022,
+          "name": "Sabang West",
+          "slug": "sabang-west"
+        },
+        {
+          "code": 60604023,
+          "name": "Tagudtud North",
+          "slug": "tagudtud-north"
+        },
+        {
+          "code": 60604024,
+          "name": "Tagudtud South",
+          "slug": "tagudtud-south"
+        },
+        {
+          "code": 60604025,
+          "name": "Talisay",
+          "slug": "talisay"
+        },
+        {
+          "code": 60604026,
+          "name": "Tica",
+          "slug": "tica"
+        },
+        {
+          "code": 60604027,
+          "name": "Tono-an",
+          "slug": "tono-an"
+        },
+        {
+          "code": 60604028,
+          "name": "Yapu",
+          "slug": "yapu"
+        },
+        {
+          "code": 60604029,
+          "name": "Zaragoza",
+          "slug": "zaragoza"
+        }
+      ]
+    },
+    {
+      "code": 60605,
+      "name": "Caluya",
+      "slug": "caluya",
+      "barangays": [
+        {
+          "code": 60605001,
+          "name": "Alegria",
+          "slug": "alegria"
+        },
+        {
+          "code": 60605002,
+          "name": "Bacong",
+          "slug": "bacong"
+        },
+        {
+          "code": 60605003,
+          "name": "Banago",
+          "slug": "banago"
+        },
+        {
+          "code": 60605004,
+          "name": "Bonbon",
+          "slug": "bonbon"
+        },
+        {
+          "code": 60605005,
+          "name": "Dawis",
+          "slug": "dawis"
+        },
+        {
+          "code": 60605006,
+          "name": "Dionela",
+          "slug": "dionela"
+        },
+        {
+          "code": 60605007,
+          "name": "Harigue",
+          "slug": "harigue"
+        },
+        {
+          "code": 60605008,
+          "name": "Hininga-an",
+          "slug": "hininga-an"
+        },
+        {
+          "code": 60605009,
+          "name": "Imba",
+          "slug": "imba"
+        },
+        {
+          "code": 60605010,
+          "name": "Masanag",
+          "slug": "masanag"
+        },
+        {
+          "code": 60605011,
+          "name": "Poblacion",
+          "slug": "poblacion"
+        },
+        {
+          "code": 60605012,
+          "name": "Sabang",
+          "slug": "sabang"
+        },
+        {
+          "code": 60605013,
+          "name": "Salamento",
+          "slug": "salamento"
+        },
+        {
+          "code": 60605014,
+          "name": "Semirara",
+          "slug": "semirara"
+        },
+        {
+          "code": 60605015,
+          "name": "Sibato",
+          "slug": "sibato"
+        },
+        {
+          "code": 60605016,
+          "name": "Sibay",
+          "slug": "sibay"
+        },
+        {
+          "code": 60605017,
+          "name": "Sibolo",
+          "slug": "sibolo"
+        },
+        {
+          "code": 60605018,
+          "name": "Tinogboc",
+          "slug": "tinogboc"
+        }
+      ]
+    },
+    {
+      "code": 60606,
+      "name": "Culasi",
+      "slug": "culasi",
+      "barangays": [
+        {
+          "code": 60606001,
+          "name": "Alojipan",
+          "slug": "alojipan"
+        },
+        {
+          "code": 60606002,
+          "name": "Bagacay",
+          "slug": "bagacay"
+        },
+        {
+          "code": 60606003,
+          "name": "Balac-balac",
+          "slug": "balac-balac"
+        },
+        {
+          "code": 60606004,
+          "name": "Magsaysay (Balua)",
+          "slug": "magsaysay"
+        },
+        {
+          "code": 60606005,
+          "name": "Batbatan Island",
+          "slug": "batbatan-island"
+        },
+        {
+          "code": 60606007,
+          "name": "Batonan Norte",
+          "slug": "batonan-norte"
+        },
+        {
+          "code": 60606008,
+          "name": "Batonan Sur",
+          "slug": "batonan-sur"
+        },
+        {
+          "code": 60606009,
+          "name": "Bita",
+          "slug": "bita"
+        },
+        {
+          "code": 60606010,
+          "name": "Bitadton Norte",
+          "slug": "bitadton-norte"
+        },
+        {
+          "code": 60606011,
+          "name": "Bitadton Sur",
+          "slug": "bitadton-sur"
+        },
+        {
+          "code": 60606012,
+          "name": "Buenavista",
+          "slug": "buenavista"
+        },
+        {
+          "code": 60606013,
+          "name": "Buhi",
+          "slug": "buhi"
+        },
+        {
+          "code": 60606014,
+          "name": "Camancijan",
+          "slug": "camancijan"
+        },
+        {
+          "code": 60606015,
+          "name": "Caridad",
+          "slug": "caridad"
+        },
+        {
+          "code": 60606016,
+          "name": "Carit-an",
+          "slug": "carit-an"
+        },
+        {
+          "code": 60606017,
+          "name": "Condes",
+          "slug": "condes"
+        },
+        {
+          "code": 60606018,
+          "name": "Esperanza",
+          "slug": "esperanza"
+        },
+        {
+          "code": 60606019,
+          "name": "Fe",
+          "slug": "fe"
+        },
+        {
+          "code": 60606020,
+          "name": "Flores",
+          "slug": "flores"
+        },
+        {
+          "code": 60606021,
+          "name": "Jalandoni",
+          "slug": "jalandoni"
+        },
+        {
+          "code": 60606022,
+          "name": "Janlagasi",
+          "slug": "janlagasi"
+        },
+        {
+          "code": 60606023,
+          "name": "Lamputong",
+          "slug": "lamputong"
+        },
+        {
+          "code": 60606024,
+          "name": "Lipata",
+          "slug": "lipata"
+        },
+        {
+          "code": 60606025,
+          "name": "Malacañang",
+          "slug": "malacanang"
+        },
+        {
+          "code": 60606026,
+          "name": "Malalison Island",
+          "slug": "malalison-island"
+        },
+        {
+          "code": 60606027,
+          "name": "Maniguin",
+          "slug": "maniguin"
+        },
+        {
+          "code": 60606028,
+          "name": "Naba",
+          "slug": "naba"
+        },
+        {
+          "code": 60606029,
+          "name": "Osorio",
+          "slug": "osorio"
+        },
+        {
+          "code": 60606030,
+          "name": "Paningayan",
+          "slug": "paningayan"
+        },
+        {
+          "code": 60606031,
+          "name": "Centro Poblacion",
+          "slug": "centro-poblacion"
+        },
+        {
+          "code": 60606032,
+          "name": "Centro Norte (Pob.)",
+          "slug": "centro-norte"
+        },
+        {
+          "code": 60606033,
+          "name": "Centro Sur (Pob.)",
+          "slug": "centro-sur"
+        },
+        {
+          "code": 60606034,
+          "name": "Salde",
+          "slug": "salde"
+        },
+        {
+          "code": 60606036,
+          "name": "San Antonio",
+          "slug": "san-antonio"
+        },
+        {
+          "code": 60606037,
+          "name": "San Gregorio",
+          "slug": "san-gregorio"
+        },
+        {
+          "code": 60606038,
+          "name": "San Juan",
+          "slug": "san-juan"
+        },
+        {
+          "code": 60606039,
+          "name": "San Luis",
+          "slug": "san-luis"
+        },
+        {
+          "code": 60606040,
+          "name": "San Pascual",
+          "slug": "san-pascual"
+        },
+        {
+          "code": 60606041,
+          "name": "San Vicente",
+          "slug": "san-vicente"
+        },
+        {
+          "code": 60606042,
+          "name": "Simbola",
+          "slug": "simbola"
+        },
+        {
+          "code": 60606043,
+          "name": "Tigbobolo",
+          "slug": "tigbobolo"
+        },
+        {
+          "code": 60606044,
+          "name": "Tinabusan",
+          "slug": "tinabusan"
+        },
+        {
+          "code": 60606045,
+          "name": "Tomao",
+          "slug": "tomao"
+        },
+        {
+          "code": 60606046,
+          "name": "Valderama",
+          "slug": "valderama"
+        }
+      ]
+    },
+    {
+      "code": 60607,
+      "name": "Tobias Fornier (Dao)",
+      "slug": "tobias-fornier",
+      "barangays": [
+        {
+          "code": 60607001,
+          "name": "Abaca",
+          "slug": "abaca"
+        },
+        {
+          "code": 60607002,
+          "name": "Aras-Asan",
+          "slug": "aras-asan"
+        },
+        {
+          "code": 60607003,
+          "name": "Arobo",
+          "slug": "arobo"
+        },
+        {
+          "code": 60607004,
+          "name": "Atabay",
+          "slug": "atabay"
+        },
+        {
+          "code": 60607005,
+          "name": "Atiotes",
+          "slug": "atiotes"
+        },
+        {
+          "code": 60607006,
+          "name": "Bagumbayan",
+          "slug": "bagumbayan"
+        },
+        {
+          "code": 60607007,
+          "name": "Balloscas",
+          "slug": "balloscas"
+        },
+        {
+          "code": 60607008,
+          "name": "Balud",
+          "slug": "balud"
+        },
+        {
+          "code": 60607009,
+          "name": "Barasanan A",
+          "slug": "barasanan-a"
+        },
+        {
+          "code": 60607010,
+          "name": "Barasanan B",
+          "slug": "barasanan-b"
+        },
+        {
+          "code": 60607011,
+          "name": "Barasanan C",
+          "slug": "barasanan-c"
+        },
+        {
+          "code": 60607012,
+          "name": "Bariri",
+          "slug": "bariri"
+        },
+        {
+          "code": 60607013,
+          "name": "Camandagan",
+          "slug": "camandagan"
+        },
+        {
+          "code": 60607014,
+          "name": "Cato-ogan",
+          "slug": "cato-ogan"
+        },
+        {
+          "code": 60607015,
+          "name": "Danawan",
+          "slug": "danawan"
+        },
+        {
+          "code": 60607016,
+          "name": "Diclum",
+          "slug": "diclum"
+        },
+        {
+          "code": 60607017,
+          "name": "Fatima",
+          "slug": "fatima"
+        },
+        {
+          "code": 60607018,
+          "name": "Gamad (Igdamacio)",
+          "slug": "gamad"
+        },
+        {
+          "code": 60607019,
+          "name": "Igbalogo",
+          "slug": "igbalogo"
+        },
+        {
+          "code": 60607020,
+          "name": "Igbangcal-A",
+          "slug": "igbangcal-a"
+        },
+        {
+          "code": 60607021,
+          "name": "Igbangcal-B",
+          "slug": "igbangcal-b"
+        },
+        {
+          "code": 60607022,
+          "name": "Igbangcal-C",
+          "slug": "igbangcal-c"
+        },
+        {
+          "code": 60607023,
+          "name": "Igcabuad",
+          "slug": "igcabuad"
+        },
+        {
+          "code": 60607024,
+          "name": "Igcado",
+          "slug": "igcado"
+        },
+        {
+          "code": 60607025,
+          "name": "Igcalawagan",
+          "slug": "igcalawagan"
+        },
+        {
+          "code": 60607026,
+          "name": "Igcapuyas",
+          "slug": "igcapuyas"
+        },
+        {
+          "code": 60607027,
+          "name": "Igcasicad (San Pedro)",
+          "slug": "igcasicad"
+        },
+        {
+          "code": 60607028,
+          "name": "Igdalaguit",
+          "slug": "igdalaguit"
+        },
+        {
+          "code": 60607029,
+          "name": "Igdanlog",
+          "slug": "igdanlog"
+        },
+        {
+          "code": 60607030,
+          "name": "Igdurarog",
+          "slug": "igdurarog"
+        },
+        {
+          "code": 60607031,
+          "name": "Igtugas",
+          "slug": "igtugas"
+        },
+        {
+          "code": 60607032,
+          "name": "Lawigan",
+          "slug": "lawigan"
+        },
+        {
+          "code": 60607033,
+          "name": "Manaling (Cata-an)",
+          "slug": "manaling"
+        },
+        {
+          "code": 60607034,
+          "name": "Masayo",
+          "slug": "masayo"
+        },
+        {
+          "code": 60607035,
+          "name": "Nagsubuan",
+          "slug": "nagsubuan"
+        },
+        {
+          "code": 60607036,
+          "name": "Paciencia",
+          "slug": "paciencia"
+        },
+        {
+          "code": 60607037,
+          "name": "Poblacion Norte",
+          "slug": "poblacion-norte"
+        },
+        {
+          "code": 60607038,
+          "name": "Poblacion Sur",
+          "slug": "poblacion-sur"
+        },
+        {
+          "code": 60607039,
+          "name": "Portillo",
+          "slug": "portillo"
+        },
+        {
+          "code": 60607040,
+          "name": "Quezon",
+          "slug": "quezon"
+        },
+        {
+          "code": 60607041,
+          "name": "Opsan (San Jose)",
+          "slug": "opsan"
+        },
+        {
+          "code": 60607042,
+          "name": "Nasuli-A (San Ramon)",
+          "slug": "nasuli-a"
+        },
+        {
+          "code": 60607043,
+          "name": "Salamague (Santa Maria)",
+          "slug": "salamague"
+        },
+        {
+          "code": 60607044,
+          "name": "Santo Tomas",
+          "slug": "santo-tomas"
+        },
+        {
+          "code": 60607045,
+          "name": "Tacbuyan",
+          "slug": "tacbuyan"
+        },
+        {
+          "code": 60607046,
+          "name": "Tene",
+          "slug": "tene"
+        },
+        {
+          "code": 60607047,
+          "name": "Villaflor",
+          "slug": "villaflor"
+        },
+        {
+          "code": 60607048,
+          "name": "Ysulat",
+          "slug": "ysulat"
+        },
+        {
+          "code": 60607049,
+          "name": "Igcadac",
+          "slug": "igcadac"
+        },
+        {
+          "code": 60607050,
+          "name": "Lindero",
+          "slug": "lindero"
+        }
+      ]
+    },
+    {
+      "code": 60608,
+      "name": "Hamtic",
+      "slug": "hamtic",
+      "barangays": [
+        {
+          "code": 60608001,
+          "name": "Apdo",
+          "slug": "apdo"
+        },
+        {
+          "code": 60608002,
+          "name": "Asluman",
+          "slug": "asluman"
+        },
+        {
+          "code": 60608003,
+          "name": "Banawon",
+          "slug": "banawon"
+        },
+        {
+          "code": 60608005,
+          "name": "Bia-an",
+          "slug": "bia-an"
+        },
+        {
+          "code": 60608006,
+          "name": "Bongbongan I-II",
+          "slug": "bongbongan-i-ii"
+        },
+        {
+          "code": 60608008,
+          "name": "Bongbongan III",
+          "slug": "bongbongan-iii"
+        },
+        {
+          "code": 60608009,
+          "name": "Botbot",
+          "slug": "botbot"
+        },
+        {
+          "code": 60608010,
+          "name": "Budbudan",
+          "slug": "budbudan"
+        },
+        {
+          "code": 60608011,
+          "name": "Buhang",
+          "slug": "buhang"
+        },
+        {
+          "code": 60608012,
+          "name": "Calacja I",
+          "slug": "calacja-i"
+        },
+        {
+          "code": 60608013,
+          "name": "Calacja II",
+          "slug": "calacja-ii"
+        },
+        {
+          "code": 60608014,
+          "name": "Calala",
+          "slug": "calala"
+        },
+        {
+          "code": 60608015,
+          "name": "Cantulan",
+          "slug": "cantulan"
+        },
+        {
+          "code": 60608016,
+          "name": "Caridad",
+          "slug": "caridad"
+        },
+        {
+          "code": 60608017,
+          "name": "Caromangay",
+          "slug": "caromangay"
+        },
+        {
+          "code": 60608018,
+          "name": "Casalngan",
+          "slug": "casalngan"
+        },
+        {
+          "code": 60608019,
+          "name": "Dangcalan",
+          "slug": "dangcalan"
+        },
+        {
+          "code": 60608020,
+          "name": "Del Pilar",
+          "slug": "del-pilar"
+        },
+        {
+          "code": 60608021,
+          "name": "Fabrica",
+          "slug": "fabrica"
+        },
+        {
+          "code": 60608022,
+          "name": "Funda",
+          "slug": "funda"
+        },
+        {
+          "code": 60608023,
+          "name": "General Fullon (Tina)",
+          "slug": "general-fullon"
+        },
+        {
+          "code": 60608024,
+          "name": "Guintas",
+          "slug": "guintas"
+        },
+        {
+          "code": 60608025,
+          "name": "Igbical",
+          "slug": "igbical"
+        },
+        {
+          "code": 60608026,
+          "name": "Igbucagay",
+          "slug": "igbucagay"
+        },
+        {
+          "code": 60608027,
+          "name": "Inabasan",
+          "slug": "inabasan"
+        },
+        {
+          "code": 60608028,
+          "name": "Ingwan-Batangan",
+          "slug": "ingwan-batangan"
+        },
+        {
+          "code": 60608029,
+          "name": "La Paz",
+          "slug": "la-paz"
+        },
+        {
+          "code": 60608030,
+          "name": "Gov. Evelio B. Javier (Lanag)",
+          "slug": "gov-evelio-b-javier"
+        },
+        {
+          "code": 60608031,
+          "name": "Linaban",
+          "slug": "linaban"
+        },
+        {
+          "code": 60608033,
+          "name": "Malandog",
+          "slug": "malandog"
+        },
+        {
+          "code": 60608034,
+          "name": "Mapatag",
+          "slug": "mapatag"
+        },
+        {
+          "code": 60608035,
+          "name": "Masanag",
+          "slug": "masanag"
+        },
+        {
+          "code": 60608036,
+          "name": "Nalihawan",
+          "slug": "nalihawan"
+        },
+        {
+          "code": 60608037,
+          "name": "Pamandayan (Botbot)",
+          "slug": "pamandayan"
+        },
+        {
+          "code": 60608038,
+          "name": "Pasu-Jungao",
+          "slug": "pasu-jungao"
+        },
+        {
+          "code": 60608039,
+          "name": "Piape I",
+          "slug": "piape-i"
+        },
+        {
+          "code": 60608040,
+          "name": "Piape II",
+          "slug": "piape-ii"
+        },
+        {
+          "code": 60608041,
+          "name": "Piape III",
+          "slug": "piape-iii"
+        },
+        {
+          "code": 60608042,
+          "name": "Pili 1, 2, 3",
+          "slug": "pili-1-2-3"
+        },
+        {
+          "code": 60608045,
+          "name": "Poblacion 1",
+          "slug": "poblacion-1"
+        },
+        {
+          "code": 60608046,
+          "name": "Poblacion 2",
+          "slug": "poblacion-2"
+        },
+        {
+          "code": 60608047,
+          "name": "Poblacion 3",
+          "slug": "poblacion-3"
+        },
+        {
+          "code": 60608048,
+          "name": "Poblacion 4",
+          "slug": "poblacion-4"
+        },
+        {
+          "code": 60608049,
+          "name": "Poblacion 5",
+          "slug": "poblacion-5"
+        },
+        {
+          "code": 60608050,
+          "name": "Pu-ao",
+          "slug": "pu-ao"
+        },
+        {
+          "code": 60608051,
+          "name": "Suloc",
+          "slug": "suloc"
+        },
+        {
+          "code": 60608053,
+          "name": "Villavert-Jimenez",
+          "slug": "villavert-jimenez"
+        }
+      ]
+    },
+    {
+      "code": 60609,
+      "name": "Laua-an",
+      "slug": "laua-an",
+      "barangays": [
+        {
+          "code": 60609002,
+          "name": "Banban",
+          "slug": "banban"
+        },
+        {
+          "code": 60609003,
+          "name": "Bongbongan",
+          "slug": "bongbongan"
+        },
+        {
+          "code": 60609004,
+          "name": "Cabariwan",
+          "slug": "cabariwan"
+        },
+        {
+          "code": 60609005,
+          "name": "Cadajug",
+          "slug": "cadajug"
+        },
+        {
+          "code": 60609006,
+          "name": "Canituan",
+          "slug": "canituan"
+        },
+        {
+          "code": 60609007,
+          "name": "Capnayan",
+          "slug": "capnayan"
+        },
+        {
+          "code": 60609008,
+          "name": "Casit-an",
+          "slug": "casit-an"
+        },
+        {
+          "code": 60609009,
+          "name": "Guinbanga-an",
+          "slug": "guinbanga-an"
+        },
+        {
+          "code": 60609010,
+          "name": "Guiamon",
+          "slug": "guiamon"
+        },
+        {
+          "code": 60609011,
+          "name": "Guisijan",
+          "slug": "guisijan"
+        },
+        {
+          "code": 60609012,
+          "name": "Igtadiao",
+          "slug": "igtadiao"
+        },
+        {
+          "code": 60609013,
+          "name": "Intao",
+          "slug": "intao"
+        },
+        {
+          "code": 60609014,
+          "name": "Jaguikican",
+          "slug": "jaguikican"
+        },
+        {
+          "code": 60609015,
+          "name": "Jinalinan",
+          "slug": "jinalinan"
+        },
+        {
+          "code": 60609016,
+          "name": "Lactudan",
+          "slug": "lactudan"
+        },
+        {
+          "code": 60609017,
+          "name": "Latazon",
+          "slug": "latazon"
+        },
+        {
+          "code": 60609018,
+          "name": "Laua-an",
+          "slug": "laua-an"
+        },
+        {
+          "code": 60609019,
+          "name": "Loon",
+          "slug": "loon"
+        },
+        {
+          "code": 60609020,
+          "name": "Liberato",
+          "slug": "liberato"
+        },
+        {
+          "code": 60609021,
+          "name": "Lindero",
+          "slug": "lindero"
+        },
+        {
+          "code": 60609022,
+          "name": "Liya-liya",
+          "slug": "liya-liya"
+        },
+        {
+          "code": 60609023,
+          "name": "Lugta",
+          "slug": "lugta"
+        },
+        {
+          "code": 60609024,
+          "name": "Lupa-an",
+          "slug": "lupa-an"
+        },
+        {
+          "code": 60609025,
+          "name": "Magyapo",
+          "slug": "magyapo"
+        },
+        {
+          "code": 60609026,
+          "name": "Maria",
+          "slug": "maria"
+        },
+        {
+          "code": 60609027,
+          "name": "Mauno",
+          "slug": "mauno"
+        },
+        {
+          "code": 60609028,
+          "name": "Maybunga",
+          "slug": "maybunga"
+        },
+        {
+          "code": 60609029,
+          "name": "Necesito (Paniatan)",
+          "slug": "necesito"
+        },
+        {
+          "code": 60609030,
+          "name": "Oloc",
+          "slug": "oloc"
+        },
+        {
+          "code": 60609031,
+          "name": "Omlot",
+          "slug": "omlot"
+        },
+        {
+          "code": 60609032,
+          "name": "Pandanan",
+          "slug": "pandanan"
+        },
+        {
+          "code": 60609034,
+          "name": "Paningayan",
+          "slug": "paningayan"
+        },
+        {
+          "code": 60609035,
+          "name": "Pascuala",
+          "slug": "pascuala"
+        },
+        {
+          "code": 60609036,
+          "name": "Poblacion (Centro)",
+          "slug": "poblacion"
+        },
+        {
+          "code": 60609038,
+          "name": "San Ramon",
+          "slug": "san-ramon"
+        },
+        {
+          "code": 60609039,
+          "name": "Santiago",
+          "slug": "santiago"
+        },
+        {
+          "code": 60609040,
+          "name": "Tibacan",
+          "slug": "tibacan"
+        },
+        {
+          "code": 60609041,
+          "name": "Tigunhao",
+          "slug": "tigunhao"
+        },
+        {
+          "code": 60609042,
+          "name": "Virginia",
+          "slug": "virginia"
+        },
+        {
+          "code": 60609043,
+          "name": "Bagongbayan",
+          "slug": "bagongbayan"
+        }
+      ]
+    },
+    {
+      "code": 60610,
+      "name": "Libertad",
+      "slug": "libertad",
+      "barangays": [
+        {
+          "code": 60610001,
+          "name": "Barusbus",
+          "slug": "barusbus"
+        },
+        {
+          "code": 60610002,
+          "name": "Bulanao",
+          "slug": "bulanao"
+        },
+        {
+          "code": 60610003,
+          "name": "Cubay",
+          "slug": "cubay"
+        },
+        {
+          "code": 60610004,
+          "name": "Codiong",
+          "slug": "codiong"
+        },
+        {
+          "code": 60610005,
+          "name": "Igcagay",
+          "slug": "igcagay"
+        },
+        {
+          "code": 60610006,
+          "name": "Inyawan",
+          "slug": "inyawan"
+        },
+        {
+          "code": 60610007,
+          "name": "Lindero",
+          "slug": "lindero"
+        },
+        {
+          "code": 60610008,
+          "name": "Maramig",
+          "slug": "maramig"
+        },
+        {
+          "code": 60610009,
+          "name": "Pucio",
+          "slug": "pucio"
+        },
+        {
+          "code": 60610010,
+          "name": "Pajo",
+          "slug": "pajo"
+        },
+        {
+          "code": 60610011,
+          "name": "Panangkilon",
+          "slug": "panangkilon"
+        },
+        {
+          "code": 60610012,
+          "name": "Paz",
+          "slug": "paz"
+        },
+        {
+          "code": 60610013,
+          "name": "Centro Este (Pob.)",
+          "slug": "centro-este"
+        },
+        {
+          "code": 60610014,
+          "name": "Centro Weste (Pob.)",
+          "slug": "centro-weste"
+        },
+        {
+          "code": 60610015,
+          "name": "San Roque",
+          "slug": "san-roque"
+        },
+        {
+          "code": 60610016,
+          "name": "Tinigbas",
+          "slug": "tinigbas"
+        },
+        {
+          "code": 60610017,
+          "name": "Tinindugan",
+          "slug": "tinindugan"
+        },
+        {
+          "code": 60610018,
+          "name": "Taboc",
+          "slug": "taboc"
+        },
+        {
+          "code": 60610019,
+          "name": "Union",
+          "slug": "union"
+        }
+      ]
+    },
+    {
+      "code": 60611,
+      "name": "Pandan",
+      "slug": "pandan",
+      "barangays": [
+        {
+          "code": 60611001,
+          "name": "Aracay",
+          "slug": "aracay"
+        },
+        {
+          "code": 60611002,
+          "name": "Badiangan",
+          "slug": "badiangan"
+        },
+        {
+          "code": 60611003,
+          "name": "Bagumbayan",
+          "slug": "bagumbayan"
+        },
+        {
+          "code": 60611004,
+          "name": "Baybay",
+          "slug": "baybay"
+        },
+        {
+          "code": 60611005,
+          "name": "Botbot",
+          "slug": "botbot"
+        },
+        {
+          "code": 60611007,
+          "name": "Buang",
+          "slug": "buang"
+        },
+        {
+          "code": 60611008,
+          "name": "Cabugao",
+          "slug": "cabugao"
+        },
+        {
+          "code": 60611009,
+          "name": "Candari",
+          "slug": "candari"
+        },
+        {
+          "code": 60611010,
+          "name": "Carmen",
+          "slug": "carmen"
+        },
+        {
+          "code": 60611011,
+          "name": "Centro Sur (Pob.)",
+          "slug": "centro-sur"
+        },
+        {
+          "code": 60611012,
+          "name": "Dionela",
+          "slug": "dionela"
+        },
+        {
+          "code": 60611013,
+          "name": "Dumrog",
+          "slug": "dumrog"
+        },
+        {
+          "code": 60611014,
+          "name": "Duyong",
+          "slug": "duyong"
+        },
+        {
+          "code": 60611015,
+          "name": "Fragante",
+          "slug": "fragante"
+        },
+        {
+          "code": 60611016,
+          "name": "Guia",
+          "slug": "guia"
+        },
+        {
+          "code": 60611017,
+          "name": "Idiacacan",
+          "slug": "idiacacan"
+        },
+        {
+          "code": 60611018,
+          "name": "Jinalinan",
+          "slug": "jinalinan"
+        },
+        {
+          "code": 60611019,
+          "name": "Luhod-Bayang",
+          "slug": "luhod-bayang"
+        },
+        {
+          "code": 60611020,
+          "name": "Maadios",
+          "slug": "maadios"
+        },
+        {
+          "code": 60611021,
+          "name": "Mag-aba",
+          "slug": "mag-aba"
+        },
+        {
+          "code": 60611022,
+          "name": "Napuid",
+          "slug": "napuid"
+        },
+        {
+          "code": 60611023,
+          "name": "Nauring",
+          "slug": "nauring"
+        },
+        {
+          "code": 60611024,
+          "name": "Patria",
+          "slug": "patria"
+        },
+        {
+          "code": 60611025,
+          "name": "Perfecta",
+          "slug": "perfecta"
+        },
+        {
+          "code": 60611026,
+          "name": "Centro Norte (Pob.)",
+          "slug": "centro-norte"
+        },
+        {
+          "code": 60611027,
+          "name": "San Andres",
+          "slug": "san-andres"
+        },
+        {
+          "code": 60611028,
+          "name": "San Joaquin",
+          "slug": "san-joaquin"
+        },
+        {
+          "code": 60611029,
+          "name": "Santa Ana",
+          "slug": "santa-ana"
+        },
+        {
+          "code": 60611030,
+          "name": "Santa Cruz",
+          "slug": "santa-cruz"
+        },
+        {
+          "code": 60611031,
+          "name": "Santa Fe",
+          "slug": "santa-fe"
+        },
+        {
+          "code": 60611032,
+          "name": "Santo Rosario",
+          "slug": "santo-rosario"
+        },
+        {
+          "code": 60611033,
+          "name": "Talisay",
+          "slug": "talisay"
+        },
+        {
+          "code": 60611034,
+          "name": "Tingib",
+          "slug": "tingib"
+        },
+        {
+          "code": 60611035,
+          "name": "Zaldivar",
+          "slug": "zaldivar"
+        }
+      ]
+    },
+    {
+      "code": 60612,
+      "name": "Patnongon",
+      "slug": "patnongon",
+      "barangays": [
+        {
+          "code": 60612001,
+          "name": "Alvañiz",
+          "slug": "alvaniz"
+        },
+        {
+          "code": 60612002,
+          "name": "Amparo",
+          "slug": "amparo"
+        },
+        {
+          "code": 60612003,
+          "name": "Apgahan",
+          "slug": "apgahan"
+        },
+        {
+          "code": 60612004,
+          "name": "Aureliana",
+          "slug": "aureliana"
+        },
+        {
+          "code": 60612005,
+          "name": "Badiangan",
+          "slug": "badiangan"
+        },
+        {
+          "code": 60612006,
+          "name": "Bernaldo A. Julagting (Bitas)",
+          "slug": "bernaldo-a-julagting"
+        },
+        {
+          "code": 60612007,
+          "name": "Carit-an",
+          "slug": "carit-an"
+        },
+        {
+          "code": 60612008,
+          "name": "Cuyapiao",
+          "slug": "cuyapiao"
+        },
+        {
+          "code": 60612009,
+          "name": "Villa Elio",
+          "slug": "villa-elio"
+        },
+        {
+          "code": 60612010,
+          "name": "Gella",
+          "slug": "gella"
+        },
+        {
+          "code": 60612011,
+          "name": "Igbarawan",
+          "slug": "igbarawan"
+        },
+        {
+          "code": 60612012,
+          "name": "Igbobon",
+          "slug": "igbobon"
+        },
+        {
+          "code": 60612013,
+          "name": "Igburi",
+          "slug": "igburi"
+        },
+        {
+          "code": 60612014,
+          "name": "La Rioja",
+          "slug": "la-rioja"
+        },
+        {
+          "code": 60612015,
+          "name": "Mabasa",
+          "slug": "mabasa"
+        },
+        {
+          "code": 60612016,
+          "name": "Macarina",
+          "slug": "macarina"
+        },
+        {
+          "code": 60612017,
+          "name": "Magarang",
+          "slug": "magarang"
+        },
+        {
+          "code": 60612018,
+          "name": "Magsaysay",
+          "slug": "magsaysay"
+        },
+        {
+          "code": 60612019,
+          "name": "Padang",
+          "slug": "padang"
+        },
+        {
+          "code": 60612020,
+          "name": "Pandanan",
+          "slug": "pandanan"
+        },
+        {
+          "code": 60612021,
+          "name": "Patlabawon",
+          "slug": "patlabawon"
+        },
+        {
+          "code": 60612022,
+          "name": "Poblacion",
+          "slug": "poblacion"
+        },
+        {
+          "code": 60612023,
+          "name": "Quezon",
+          "slug": "quezon"
+        },
+        {
+          "code": 60612024,
+          "name": "Salaguiawan",
+          "slug": "salaguiawan"
+        },
+        {
+          "code": 60612025,
+          "name": "Samalague",
+          "slug": "samalague"
+        },
+        {
+          "code": 60612026,
+          "name": "San Rafael",
+          "slug": "san-rafael"
+        },
+        {
+          "code": 60612027,
+          "name": "Tobias Fornier",
+          "slug": "tobias-fornier"
+        },
+        {
+          "code": 60612028,
+          "name": "Tamayoc",
+          "slug": "tamayoc"
+        },
+        {
+          "code": 60612029,
+          "name": "Tigbalogo",
+          "slug": "tigbalogo"
+        },
+        {
+          "code": 60612030,
+          "name": "Villa Crespo",
+          "slug": "villa-crespo"
+        },
+        {
+          "code": 60612031,
+          "name": "Villa Cruz",
+          "slug": "villa-cruz"
+        },
+        {
+          "code": 60612032,
+          "name": "Villa Flores",
+          "slug": "villa-flores"
+        },
+        {
+          "code": 60612033,
+          "name": "Villa Laua-an",
+          "slug": "villa-laua-an"
+        },
+        {
+          "code": 60612034,
+          "name": "Villa Sal",
+          "slug": "villa-sal"
+        },
+        {
+          "code": 60612035,
+          "name": "Villa Salomon",
+          "slug": "villa-salomon"
+        },
+        {
+          "code": 60612036,
+          "name": "Vista Alegre",
+          "slug": "vista-alegre"
+        }
+      ]
+    },
+    {
+      "code": 60613,
+      "name": "San Jose (Capital)",
+      "slug": "san-jose",
+      "barangays": [
+        {
+          "code": 60613001,
+          "name": "Atabay",
+          "slug": "atabay"
+        },
+        {
+          "code": 60613002,
+          "name": "Badiang",
+          "slug": "badiang"
+        },
+        {
+          "code": 60613003,
+          "name": "Barangay 1 (Pob.)",
+          "slug": "barangay-1"
+        },
+        {
+          "code": 60613004,
+          "name": "Barangay 2 (Pob.)",
+          "slug": "barangay-2"
+        },
+        {
+          "code": 60613005,
+          "name": "Barangay 3 (Pob.)",
+          "slug": "barangay-3"
+        },
+        {
+          "code": 60613006,
+          "name": "Barangay 4 (Pob.)",
+          "slug": "barangay-4"
+        },
+        {
+          "code": 60613007,
+          "name": "Barangay 5 (Pob.)",
+          "slug": "barangay-5"
+        },
+        {
+          "code": 60613008,
+          "name": "Barangay 6 (Pob.)",
+          "slug": "barangay-6"
+        },
+        {
+          "code": 60613009,
+          "name": "Barangay 7 (Pob.)",
+          "slug": "barangay-7"
+        },
+        {
+          "code": 60613010,
+          "name": "Barangay 8 (Pob.)",
+          "slug": "barangay-8"
+        },
+        {
+          "code": 60613011,
+          "name": "Bariri",
+          "slug": "bariri"
+        },
+        {
+          "code": 60613014,
+          "name": "Bugarot (Catungan-Bugarot)",
+          "slug": "bugarot"
+        },
+        {
+          "code": 60613015,
+          "name": "Cansadan (Cansadan-Tubudan)",
+          "slug": "cansadan"
+        },
+        {
+          "code": 60613016,
+          "name": "Durog",
+          "slug": "durog"
+        },
+        {
+          "code": 60613017,
+          "name": "Funda-Dalipe",
+          "slug": "funda-dalipe"
+        },
+        {
+          "code": 60613018,
+          "name": "Igbonglo",
+          "slug": "igbonglo"
+        },
+        {
+          "code": 60613019,
+          "name": "Inabasan",
+          "slug": "inabasan"
+        },
+        {
+          "code": 60613020,
+          "name": "Madrangca",
+          "slug": "madrangca"
+        },
+        {
+          "code": 60613021,
+          "name": "Magcalon",
+          "slug": "magcalon"
+        },
+        {
+          "code": 60613022,
+          "name": "Malaiba",
+          "slug": "malaiba"
+        },
+        {
+          "code": 60613023,
+          "name": "Maybato Norte",
+          "slug": "maybato-norte"
+        },
+        {
+          "code": 60613024,
+          "name": "Maybato Sur",
+          "slug": "maybato-sur"
+        },
+        {
+          "code": 60613025,
+          "name": "Mojon",
+          "slug": "mojon"
+        },
+        {
+          "code": 60613026,
+          "name": "Pantao",
+          "slug": "pantao"
+        },
+        {
+          "code": 60613027,
+          "name": "San Angel",
+          "slug": "san-angel"
+        },
+        {
+          "code": 60613028,
+          "name": "San Fernando",
+          "slug": "san-fernando"
+        },
+        {
+          "code": 60613029,
+          "name": "San Pedro",
+          "slug": "san-pedro"
+        },
+        {
+          "code": 60613030,
+          "name": "Supa",
+          "slug": "supa"
+        }
+      ]
+    },
+    {
+      "code": 60614,
+      "name": "San Remigio",
+      "slug": "san-remigio",
+      "barangays": [
+        {
+          "code": 60614001,
+          "name": "Agricula",
+          "slug": "agricula"
+        },
+        {
+          "code": 60614002,
+          "name": "Alegria",
+          "slug": "alegria"
+        },
+        {
+          "code": 60614003,
+          "name": "Aningalan",
+          "slug": "aningalan"
+        },
+        {
+          "code": 60614004,
+          "name": "Atabay",
+          "slug": "atabay"
+        },
+        {
+          "code": 60614005,
+          "name": "Bagumbayan",
+          "slug": "bagumbayan"
+        },
+        {
+          "code": 60614006,
+          "name": "Baladjay",
+          "slug": "baladjay"
+        },
+        {
+          "code": 60614007,
+          "name": "Banbanan",
+          "slug": "banbanan"
+        },
+        {
+          "code": 60614008,
+          "name": "Barangbang",
+          "slug": "barangbang"
+        },
+        {
+          "code": 60614009,
+          "name": "Bawang",
+          "slug": "bawang"
+        },
+        {
+          "code": 60614010,
+          "name": "Bugo",
+          "slug": "bugo"
+        },
+        {
+          "code": 60614011,
+          "name": "Bulan-bulan",
+          "slug": "bulan-bulan"
+        },
+        {
+          "code": 60614012,
+          "name": "Cabiawan",
+          "slug": "cabiawan"
+        },
+        {
+          "code": 60614013,
+          "name": "Cabunga-an",
+          "slug": "cabunga-an"
+        },
+        {
+          "code": 60614014,
+          "name": "Cadolonan",
+          "slug": "cadolonan"
+        },
+        {
+          "code": 60614015,
+          "name": "Poblacion (Calag-itan)",
+          "slug": "poblacion"
+        },
+        {
+          "code": 60614016,
+          "name": "Carawisan I",
+          "slug": "carawisan-i"
+        },
+        {
+          "code": 60614017,
+          "name": "Carawisan II",
+          "slug": "carawisan-ii"
+        },
+        {
+          "code": 60614018,
+          "name": "Carmelo I",
+          "slug": "carmelo-i"
+        },
+        {
+          "code": 60614019,
+          "name": "Carmelo II",
+          "slug": "carmelo-ii"
+        },
+        {
+          "code": 60614020,
+          "name": "General Fullon",
+          "slug": "general-fullon"
+        },
+        {
+          "code": 60614021,
+          "name": "General Luna",
+          "slug": "general-luna"
+        },
+        {
+          "code": 60614022,
+          "name": "Orquia (Igcatumbal)",
+          "slug": "orquia"
+        },
+        {
+          "code": 60614023,
+          "name": "Iguirindon",
+          "slug": "iguirindon"
+        },
+        {
+          "code": 60614024,
+          "name": "Insubuan",
+          "slug": "insubuan"
+        },
+        {
+          "code": 60614025,
+          "name": "La Union",
+          "slug": "la-union"
+        },
+        {
+          "code": 60614026,
+          "name": "Lapak",
+          "slug": "lapak"
+        },
+        {
+          "code": 60614027,
+          "name": "Lumpatan",
+          "slug": "lumpatan"
+        },
+        {
+          "code": 60614028,
+          "name": "Magdalena",
+          "slug": "magdalena"
+        },
+        {
+          "code": 60614029,
+          "name": "Maragubdub",
+          "slug": "maragubdub"
+        },
+        {
+          "code": 60614030,
+          "name": "Nagbangi I (Amatong)",
+          "slug": "nagbangi-i"
+        },
+        {
+          "code": 60614031,
+          "name": "Nagbangi II",
+          "slug": "nagbangi-ii"
+        },
+        {
+          "code": 60614033,
+          "name": "Nasuli",
+          "slug": "nasuli"
+        },
+        {
+          "code": 60614034,
+          "name": "Osorio I",
+          "slug": "osorio-i"
+        },
+        {
+          "code": 60614035,
+          "name": "Osorio II",
+          "slug": "osorio-ii"
+        },
+        {
+          "code": 60614036,
+          "name": "Panpanan I",
+          "slug": "panpanan-i"
+        },
+        {
+          "code": 60614037,
+          "name": "Panpanan II",
+          "slug": "panpanan-ii"
+        },
+        {
+          "code": 60614039,
+          "name": "Ramon Magsaysay",
+          "slug": "ramon-magsaysay"
+        },
+        {
+          "code": 60614040,
+          "name": "Rizal",
+          "slug": "rizal"
+        },
+        {
+          "code": 60614041,
+          "name": "San Rafael",
+          "slug": "san-rafael"
+        },
+        {
+          "code": 60614042,
+          "name": "Sinundolan",
+          "slug": "sinundolan"
+        },
+        {
+          "code": 60614043,
+          "name": "Sumaray",
+          "slug": "sumaray"
+        },
+        {
+          "code": 60614044,
+          "name": "Trinidad",
+          "slug": "trinidad"
+        },
+        {
+          "code": 60614045,
+          "name": "Tubudan",
+          "slug": "tubudan"
+        },
+        {
+          "code": 60614046,
+          "name": "Vilvar",
+          "slug": "vilvar"
+        },
+        {
+          "code": 60614047,
+          "name": "Walker",
+          "slug": "walker"
+        }
+      ]
+    },
+    {
+      "code": 60615,
+      "name": "Sebaste",
+      "slug": "sebaste",
+      "barangays": [
+        {
+          "code": 60615001,
+          "name": "Abiera",
+          "slug": "abiera"
+        },
+        {
+          "code": 60615002,
+          "name": "Aguila",
+          "slug": "aguila"
+        },
+        {
+          "code": 60615003,
+          "name": "Alegre",
+          "slug": "alegre"
+        },
+        {
+          "code": 60615004,
+          "name": "Aras-Asan",
+          "slug": "aras-asan"
+        },
+        {
+          "code": 60615005,
+          "name": "Bacalan",
+          "slug": "bacalan"
+        },
+        {
+          "code": 60615006,
+          "name": "Callan",
+          "slug": "callan"
+        },
+        {
+          "code": 60615007,
+          "name": "Nauhon",
+          "slug": "nauhon"
+        },
+        {
+          "code": 60615008,
+          "name": "P. Javier",
+          "slug": "p-javier"
+        },
+        {
+          "code": 60615009,
+          "name": "Poblacion",
+          "slug": "poblacion"
+        },
+        {
+          "code": 60615010,
+          "name": "Idio",
+          "slug": "idio"
+        }
+      ]
+    },
+    {
+      "code": 60616,
+      "name": "Sibalom",
+      "slug": "sibalom",
+      "barangays": [
+        {
+          "code": 60616002,
+          "name": "Alangan",
+          "slug": "alangan"
+        },
+        {
+          "code": 60616003,
+          "name": "Valentin Grasparil (Bad-as)",
+          "slug": "valentin-grasparil"
+        },
+        {
+          "code": 60616004,
+          "name": "Bari",
+          "slug": "bari"
+        },
+        {
+          "code": 60616005,
+          "name": "Biga-a",
+          "slug": "biga-a"
+        },
+        {
+          "code": 60616006,
+          "name": "Bongbongan I",
+          "slug": "bongbongan-i"
+        },
+        {
+          "code": 60616007,
+          "name": "Bongbongan II",
+          "slug": "bongbongan-ii"
+        },
+        {
+          "code": 60616008,
+          "name": "Bongsod",
+          "slug": "bongsod"
+        },
+        {
+          "code": 60616009,
+          "name": "Bontol",
+          "slug": "bontol"
+        },
+        {
+          "code": 60616010,
+          "name": "Bugnay",
+          "slug": "bugnay"
+        },
+        {
+          "code": 60616011,
+          "name": "Bulalacao",
+          "slug": "bulalacao"
+        },
+        {
+          "code": 60616012,
+          "name": "Cabanbanan",
+          "slug": "cabanbanan"
+        },
+        {
+          "code": 60616013,
+          "name": "Cabariuan",
+          "slug": "cabariuan"
+        },
+        {
+          "code": 60616014,
+          "name": "Cabladan",
+          "slug": "cabladan"
+        },
+        {
+          "code": 60616015,
+          "name": "Cadoldolan",
+          "slug": "cadoldolan"
+        },
+        {
+          "code": 60616016,
+          "name": "Calo-oy",
+          "slug": "calo-oy"
+        },
+        {
+          "code": 60616017,
+          "name": "Calog",
+          "slug": "calog"
+        },
+        {
+          "code": 60616018,
+          "name": "Catmon",
+          "slug": "catmon"
+        },
+        {
+          "code": 60616019,
+          "name": "Catungan I",
+          "slug": "catungan-i"
+        },
+        {
+          "code": 60616020,
+          "name": "Catungan II",
+          "slug": "catungan-ii"
+        },
+        {
+          "code": 60616021,
+          "name": "Catungan III",
+          "slug": "catungan-iii"
+        },
+        {
+          "code": 60616022,
+          "name": "Catungan IV",
+          "slug": "catungan-iv"
+        },
+        {
+          "code": 60616023,
+          "name": "Cubay-Sermon",
+          "slug": "cubay-sermon"
+        },
+        {
+          "code": 60616024,
+          "name": "Egaña",
+          "slug": "egana"
+        },
+        {
+          "code": 60616025,
+          "name": "Esperanza I",
+          "slug": "esperanza-i"
+        },
+        {
+          "code": 60616026,
+          "name": "Esperanza II",
+          "slug": "esperanza-ii"
+        },
+        {
+          "code": 60616027,
+          "name": "Esperanza III",
+          "slug": "esperanza-iii"
+        },
+        {
+          "code": 60616028,
+          "name": "Igcococ",
+          "slug": "igcococ"
+        },
+        {
+          "code": 60616029,
+          "name": "Igdalaquit",
+          "slug": "igdalaquit"
+        },
+        {
+          "code": 60616030,
+          "name": "Igdagmay",
+          "slug": "igdagmay"
+        },
+        {
+          "code": 60616031,
+          "name": "Iglanot",
+          "slug": "iglanot"
+        },
+        {
+          "code": 60616032,
+          "name": "Igpanolong",
+          "slug": "igpanolong"
+        },
+        {
+          "code": 60616033,
+          "name": "Igparas",
+          "slug": "igparas"
+        },
+        {
+          "code": 60616034,
+          "name": "Igsuming",
+          "slug": "igsuming"
+        },
+        {
+          "code": 60616035,
+          "name": "Ilabas",
+          "slug": "ilabas"
+        },
+        {
+          "code": 60616036,
+          "name": "Imparayan",
+          "slug": "imparayan"
+        },
+        {
+          "code": 60616037,
+          "name": "Inabasan",
+          "slug": "inabasan"
+        },
+        {
+          "code": 60616038,
+          "name": "Indag-an",
+          "slug": "indag-an"
+        },
+        {
+          "code": 60616039,
+          "name": "Initan",
+          "slug": "initan"
+        },
+        {
+          "code": 60616040,
+          "name": "Insarayan",
+          "slug": "insarayan"
+        },
+        {
+          "code": 60616041,
+          "name": "Lacaron",
+          "slug": "lacaron"
+        },
+        {
+          "code": 60616042,
+          "name": "Lagdo",
+          "slug": "lagdo"
+        },
+        {
+          "code": 60616043,
+          "name": "Lambayagan",
+          "slug": "lambayagan"
+        },
+        {
+          "code": 60616044,
+          "name": "Luna",
+          "slug": "luna"
+        },
+        {
+          "code": 60616045,
+          "name": "Luyang",
+          "slug": "luyang"
+        },
+        {
+          "code": 60616046,
+          "name": "Maasin",
+          "slug": "maasin"
+        },
+        {
+          "code": 60616047,
+          "name": "Mabini",
+          "slug": "mabini"
+        },
+        {
+          "code": 60616048,
+          "name": "Millamena",
+          "slug": "millamena"
+        },
+        {
+          "code": 60616049,
+          "name": "Mojon",
+          "slug": "mojon"
+        },
+        {
+          "code": 60616050,
+          "name": "Nagdayao",
+          "slug": "nagdayao"
+        },
+        {
+          "code": 60616051,
+          "name": "Cubay-Napultan",
+          "slug": "cubay-napultan"
+        },
+        {
+          "code": 60616053,
+          "name": "Nazareth",
+          "slug": "nazareth"
+        },
+        {
+          "code": 60616054,
+          "name": "Odiong",
+          "slug": "odiong"
+        },
+        {
+          "code": 60616055,
+          "name": "Olaga",
+          "slug": "olaga"
+        },
+        {
+          "code": 60616056,
+          "name": "Pangpang",
+          "slug": "pangpang"
+        },
+        {
+          "code": 60616057,
+          "name": "Panlagangan",
+          "slug": "panlagangan"
+        },
+        {
+          "code": 60616058,
+          "name": "Pantao",
+          "slug": "pantao"
+        },
+        {
+          "code": 60616059,
+          "name": "Pasong",
+          "slug": "pasong"
+        },
+        {
+          "code": 60616060,
+          "name": "Pis-Anan",
+          "slug": "pis-anan"
+        },
+        {
+          "code": 60616061,
+          "name": "District I (Pob.)",
+          "slug": "district-i"
+        },
+        {
+          "code": 60616062,
+          "name": "District II (Pob.)",
+          "slug": "district-ii"
+        },
+        {
+          "code": 60616063,
+          "name": "District III (Pob.)",
+          "slug": "district-iii"
+        },
+        {
+          "code": 60616064,
+          "name": "District IV (Pob.)",
+          "slug": "district-iv"
+        },
+        {
+          "code": 60616065,
+          "name": "Rombang",
+          "slug": "rombang"
+        },
+        {
+          "code": 60616066,
+          "name": "Salvacion",
+          "slug": "salvacion"
+        },
+        {
+          "code": 60616067,
+          "name": "San Juan",
+          "slug": "san-juan"
+        },
+        {
+          "code": 60616068,
+          "name": "Sido",
+          "slug": "sido"
+        },
+        {
+          "code": 60616069,
+          "name": "Solong",
+          "slug": "solong"
+        },
+        {
+          "code": 60616070,
+          "name": "Tabongtabong",
+          "slug": "tabongtabong"
+        },
+        {
+          "code": 60616071,
+          "name": "Tig-Ohot",
+          "slug": "tig-ohot"
+        },
+        {
+          "code": 60616073,
+          "name": "Tigbalua I",
+          "slug": "tigbalua-i"
+        },
+        {
+          "code": 60616074,
+          "name": "Tordesillas",
+          "slug": "tordesillas"
+        },
+        {
+          "code": 60616075,
+          "name": "Tulatula",
+          "slug": "tulatula"
+        },
+        {
+          "code": 60616076,
+          "name": "Villafont",
+          "slug": "villafont"
+        },
+        {
+          "code": 60616077,
+          "name": "Villahermosa",
+          "slug": "villahermosa"
+        },
+        {
+          "code": 60616078,
+          "name": "Villar",
+          "slug": "villar"
+        },
+        {
+          "code": 60616079,
+          "name": "Tigbalua II",
+          "slug": "tigbalua-ii"
+        }
+      ]
+    },
+    {
+      "code": 60617,
+      "name": "Tibiao",
+      "slug": "tibiao",
+      "barangays": [
+        {
+          "code": 60617001,
+          "name": "Alegre",
+          "slug": "alegre"
+        },
+        {
+          "code": 60617002,
+          "name": "Amar",
+          "slug": "amar"
+        },
+        {
+          "code": 60617003,
+          "name": "Bandoja (Lupa-an)",
+          "slug": "bandoja"
+        },
+        {
+          "code": 60617004,
+          "name": "Castillo",
+          "slug": "castillo"
+        },
+        {
+          "code": 60617005,
+          "name": "Esparagoza",
+          "slug": "esparagoza"
+        },
+        {
+          "code": 60617006,
+          "name": "Importante",
+          "slug": "importante"
+        },
+        {
+          "code": 60617007,
+          "name": "La Paz",
+          "slug": "la-paz"
+        },
+        {
+          "code": 60617008,
+          "name": "Malabor",
+          "slug": "malabor"
+        },
+        {
+          "code": 60617009,
+          "name": "Martinez",
+          "slug": "martinez"
+        },
+        {
+          "code": 60617010,
+          "name": "Natividad",
+          "slug": "natividad"
+        },
+        {
+          "code": 60617011,
+          "name": "Pitac",
+          "slug": "pitac"
+        },
+        {
+          "code": 60617012,
+          "name": "Poblacion",
+          "slug": "poblacion"
+        },
+        {
+          "code": 60617013,
+          "name": "Salazar",
+          "slug": "salazar"
+        },
+        {
+          "code": 60617014,
+          "name": "San Francisco Norte",
+          "slug": "san-francisco-norte"
+        },
+        {
+          "code": 60617015,
+          "name": "San Francisco Sur",
+          "slug": "san-francisco-sur"
+        },
+        {
+          "code": 60617016,
+          "name": "San Isidro",
+          "slug": "san-isidro"
+        },
+        {
+          "code": 60617017,
+          "name": "Santa Ana",
+          "slug": "santa-ana"
+        },
+        {
+          "code": 60617018,
+          "name": "Santa Justa",
+          "slug": "santa-justa"
+        },
+        {
+          "code": 60617019,
+          "name": "Santo Rosario",
+          "slug": "santo-rosario"
+        },
+        {
+          "code": 60617020,
+          "name": "Tigbaboy",
+          "slug": "tigbaboy"
+        },
+        {
+          "code": 60617021,
+          "name": "Tuno",
+          "slug": "tuno"
+        }
+      ]
+    },
+    {
+      "code": 60618,
+      "name": "Valderrama",
+      "slug": "valderrama",
+      "barangays": [
+        {
+          "code": 60618001,
+          "name": "Bakiang",
+          "slug": "bakiang"
+        },
+        {
+          "code": 60618002,
+          "name": "Binanogan",
+          "slug": "binanogan"
+        },
+        {
+          "code": 60618003,
+          "name": "Borocboroc",
+          "slug": "borocboroc"
+        },
+        {
+          "code": 60618004,
+          "name": "Bugnay",
+          "slug": "bugnay"
+        },
+        {
+          "code": 60618005,
+          "name": "Buluangan I",
+          "slug": "buluangan-i"
+        },
+        {
+          "code": 60618006,
+          "name": "Buluangan II",
+          "slug": "buluangan-ii"
+        },
+        {
+          "code": 60618007,
+          "name": "Bunsod",
+          "slug": "bunsod"
+        },
+        {
+          "code": 60618008,
+          "name": "Busog",
+          "slug": "busog"
+        },
+        {
+          "code": 60618009,
+          "name": "Cananghan",
+          "slug": "cananghan"
+        },
+        {
+          "code": 60618010,
+          "name": "Canipayan",
+          "slug": "canipayan"
+        },
+        {
+          "code": 60618011,
+          "name": "Cansilayan",
+          "slug": "cansilayan"
+        },
+        {
+          "code": 60618012,
+          "name": "Culyat",
+          "slug": "culyat"
+        },
+        {
+          "code": 60618013,
+          "name": "Iglinab",
+          "slug": "iglinab"
+        },
+        {
+          "code": 60618014,
+          "name": "Igmasandig",
+          "slug": "igmasandig"
+        },
+        {
+          "code": 60618015,
+          "name": "Lublub",
+          "slug": "lublub"
+        },
+        {
+          "code": 60618016,
+          "name": "Manlacbo",
+          "slug": "manlacbo"
+        },
+        {
+          "code": 60618017,
+          "name": "Pandanan",
+          "slug": "pandanan"
+        },
+        {
+          "code": 60618018,
+          "name": "San Agustin",
+          "slug": "san-agustin"
+        },
+        {
+          "code": 60618019,
+          "name": "Takas (Pob.)",
+          "slug": "takas"
+        },
+        {
+          "code": 60618020,
+          "name": "Tigmamale",
+          "slug": "tigmamale"
+        },
+        {
+          "code": 60618021,
+          "name": "Ubos (Pob.)",
+          "slug": "ubos"
+        },
+        {
+          "code": 60618022,
+          "name": "Alon",
+          "slug": "alon"
+        }
+      ]
+    }
+  ]
+}

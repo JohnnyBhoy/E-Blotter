@@ -11,10 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
+        // Some environments already had these columns added by hand before the
+        // migration existed, so each one is added only when it is missing.
         Schema::table('blotters', function (Blueprint $table) {
-            $table->string('date_of_incident')->nullable();
-            $table->string('time_of_incident')->nullable();
-            $table->string('uploaded_file')->nullable();
+            foreach (['date_of_incident', 'time_of_incident', 'uploaded_file'] as $column) {
+                if (! Schema::hasColumn('blotters', $column)) {
+                    $table->string($column)->nullable();
+                }
+            }
         });
     }
 
@@ -24,9 +28,7 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('blotters', function (Blueprint $table) {
-            $table->dropColumn('date_of_incident');
-            $table->dropColumn('time_of_incident');
-            $table->dropColumn('uploaded_file');
+            $table->dropColumn(['date_of_incident', 'time_of_incident', 'uploaded_file']);
         });
     }
 };
