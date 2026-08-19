@@ -20,6 +20,8 @@ class IsRegion
             return $next($request);
         }
 
-        return redirect('home')->with('error', 'You have not region admin access');
+        // 'home' is a route name, not a path — redirect('home') resolves to the
+        // non-existent /home and 404s. Every other Is* guard sends the user to /.
+        return redirect('/')->with('error', 'You have not region admin access');
     }
 }
