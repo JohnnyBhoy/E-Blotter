@@ -21,3 +21,5 @@ yarn-error.log
 /public/images
 /manifest
 .DS_Store
+
+/private
